@@ -1,0 +1,8 @@
+{
+  "intent": [
+    "需要大量且精准在YouTube上可以找到跳高比赛直播解说的视频关键词，麻烦帮我按提示词匹配精准合适的英文关键词以及按排除词去生成会影响我精准找到符合要求的关键词\n提示词：high jump commentary，high jump competition commentary，high jump live commentary，high jump broadcast，high jump event commentary，high jump final commentary，men's high jump commentary，women's high jump commentary，professional high jump commentary，high jump sports commentary，high jump live broadcast，high jump championship commentary，high jump replay commentary，high jump full event commentary，high jump competition replay，official high jump broadcast，high jump finals live，track and field high jump commentary，athletics high jump commentary，high jump world championship commentary，Olympics high jump commentary，Olympic high jump final commentary，World Athletics Championships high jump commentary，Diamond League high jump commentary，European Athletics Championships high jump commentary，Asian Games high jump commentary，Commonwealth Games high jump commentary，NCAA high jump commentary，IAAF high jump commentary，World Indoor Championships high jump commentary，European Indoor Championships high jump commentary，Athletics World Cup high jump commentary，National championships high jump commentary，college high jump championship commentary\n排除词：AI，animation，animated，simulator，simulation，video game，VR，tutorial，highlights，shorts，game，gaming，simulation，3D，roblox，minecraft"
+  ],
+  "qc_prompt": [
+    "请判断视频内容是否属于 / 符合跳高比赛直播解说或相关内容，仅输出结果 T 或 F"
+  ]
+}

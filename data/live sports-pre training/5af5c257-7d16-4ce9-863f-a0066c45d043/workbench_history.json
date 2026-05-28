@@ -1,0 +1,6 @@
+{
+  "intent": [
+    "需要大量且精准在YouTube上可以找到打棒球比赛直播解说的视频关键词，麻烦帮我按提示词匹配精准合适的英文关键词以及按排除词去生成会影响我精准找到符合要求的关键词\n提示词：baseball live commentary，baseball match commentary，baseball game live broadcast，baseball live stream replay，baseball play by play commentary，baseball full game commentary，baseball game with commentary，professional baseball live，baseball broadcast commentary，baseball live coverage，baseball live play by play，baseball full match replay commentary，baseball tournament commentary，baseball championship live，official baseball broadcast，baseball sports commentary，baseball commentator audio，baseball live sports broadcast，baseball event commentary\n排除词：，game，mlb the show，simulation，3d，animation，anime，mobile game，video game，virtual，esports，ai generated，highlights，shorts"
+  ],
+  "qc_prompt": []
+}

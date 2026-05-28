@@ -1,0 +1,6 @@
+{
+  "intent": [
+    "需要大量且精准在YouTube上可以找到掷标枪比赛直播解说的视频关键词，麻烦帮我按提示词匹配精准合适的英文关键词以及按排除词去生成会影响我精准找到符合要求的关键词\n提示词：men's javelin final commentary，javelin throw final live commentary，official javelin competition broadcast，javelin throw world championship commentary，javelin final full replay，professional javelin commentary，javelin competition with commentary，javelin final broadcast，javelin throw live coverage，javelin event full commentary，World Athletics javelin final，World Championships men's javelin commentary，Olympic javelin final replay，Diamond League javelin broadcast，athletics championship javelin commentary，international javelin final live，track and field javelin broadcast，official athletics replay javelin\n排除词：AI，animation，animated，simulator，simulation，video game，VR，tutorial，highlights，shorts，game，gaming，simulation，3D，roblox，minecraft"
+  ],
+  "qc_prompt": []
+}
