@@ -246,3 +246,26 @@ Phase 5 专属规则 → Phase 6 过滤 → Phase 7 QC ≥ 70%
 3. **共享规则修改 → 所有数据集受益**
 4. 目标: 降低 `no_signal` 与 `score_threshold` 导致的误杀
 5. 验证: 重跑 Phase 5 + Phase 6，对比 Recall 变化
+
+---
+
+## 子规则备份与复用
+
+冻结数据集时，在删除专属规则目录前，将规则备份到 `data/runs/{sport}/rules_backup/`。
+
+备份内容仅包含**与共享规则有差异的文件**（通常只有 `entities.toml`）。
+
+同类型新数据集（如射箭 → 射击、飞镖等 playlist 噪声结构相似的小众体育），
+可在 Phase 2 前直接用备份覆盖专属规则，跳过 FN 分析迭代：
+
+```bash
+# 初始化专属规则后
+cp data/runs/archery/rules_backup/entities.toml data/runs/{sport}/rules/entities.toml
+# 然后直接进入 Phase 2 过滤
+```
+
+约束：
+
+1. 仅限噪声结构相似的同类型数据集复用
+2. 复用后仍需跑完整的 Phase 2-3 QC 验证
+3. Precision < 70% 则按标准流程迭代，不硬套
