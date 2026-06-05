@@ -3,7 +3,6 @@
 strong_sport_title_pattern = "\\b(match|final|semi[\\s-]?final|quarter[\\s-]?final|highlights|full\\s*(match|game|race|replay|coverage)|vs\\.?|\\svs\\s|versus|championship|tournament|olympic|world\\s*cup|grand\\s*prix|diamond\\s*league|commentary|play[\\s-]?by[\\s-]?play|broadcast|live\\s*stream|round\\s*\\d|bout|regatta|grand\\s*final|shootout|overtime|national\\s*games|varsity|campeonato|@\\s*\\w+|flames|canadiens|lakers|celtics)\\b"
 
 [meta]
-rules_version = "2026.06.05-1"
 version = "2.0"
 keep_score = 35
 gray_score_low = 15

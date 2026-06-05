@@ -75,17 +75,23 @@ def main():
     polluted = analyze(args.input, chunksize=args.chunksize)
 
     update(out_dir, 5, status="running", stage="pass2")
-    summary = clean(args.input, polluted, "clean", out_dir, fmt="parquet")
+    raw_stem = os.path.splitext(os.path.basename(args.input))[0]
+    # Remove _raw suffix if present
+    if raw_stem.endswith("_raw"):
+        raw_stem = raw_stem[:-4]
+    summary = clean(args.input, polluted, "clean", out_dir, fmt="parquet", raw_name=raw_stem, run=args.run)
 
-    generate(args.input, out_dir, "clean", summary, fmt="parquet", sample_n=args.sample_n)
+    generate(args.input, out_dir, "clean", summary, fmt="parquet", sample_n=args.sample_n, raw_name=raw_stem, run=args.run)
 
     # _done
     retention = summary["total_keep"] / max(summary["total_rows"], 1)
     input_stem = Path(args.input).stem
     if 0.65 <= retention <= 0.85:
         import shutil
-        shutil.copy2(os.path.join(out_dir, "clean_all.parquet"),
-                     os.path.join(out_dir, f"{input_stem}_done.parquet"))
+        src_done = os.path.join(out_dir, f"{raw_stem}_{args.run}_keep.parquet")
+        dst_done = os.path.join(out_dir, f"{input_stem}_done.parquet")
+        if os.path.exists(src_done):
+            shutil.copy2(src_done, dst_done)
         log(f"可落盘: {input_stem}_done.parquet ({retention*100:.1f}%)")
     else:
         log(f"通过率 {retention*100:.1f}% 不在 65-85%, 跳过 _done")

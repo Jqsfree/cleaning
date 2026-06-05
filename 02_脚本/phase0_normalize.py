@@ -5,7 +5,7 @@ phase0_normalize.py -- SOP Phase 0/1: 数据规范化 → baseline 产物
 仅做通用数据质量处理，不做任何体育相关的过滤/打分。
 
 输出:
-  {output_dir}/baseline.parquet
+  {output_dir}/{原始文件名}_raw.parquet
   {output_dir}/baseline_stats.md
 
 用法:
@@ -76,7 +76,8 @@ def main():
         con.execute("SET enable_progress_bar = true")
 
     stats = {}
-    out_parquet = os.path.join(out_dir, "baseline.parquet")
+    raw_stem = os.path.splitext(os.path.basename(args.input))[0]
+    out_parquet = os.path.join(out_dir, f"{raw_stem}_raw.parquet")
     out_stats   = os.path.join(out_dir, "baseline_stats.md")
 
     # Stage 0
@@ -153,7 +154,7 @@ def main():
         src = "stage3"
 
     # Stage 5: write
-    log(f"Stage 5/5: 写出 baseline.parquet ...")
+    log(f"Stage 5/5: 写出 {raw_stem}_raw.parquet ...")
     t5 = time.perf_counter()
     con.execute(f"COPY (SELECT * FROM {src}) TO '{out_parquet}' (FORMAT PARQUET)")
     n_final = con.execute(f"SELECT COUNT(*) FROM {src}").fetchone()[0]
@@ -193,7 +194,7 @@ def main():
     print(f"  保留:       {n_final:>12,}  ({n_final/max(n_raw,1)*100:5.1f}%)")
     print(f"  耗时:       {elapsed:>11.1f}s")
     print(f"  产物:       {out_dir}/")
-    print(f"              baseline.parquet")
+    print(f"              {raw_stem}_raw.parquet")
     print(f"              baseline_stats.md")
     print("=" * 62)
 

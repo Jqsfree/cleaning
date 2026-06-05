@@ -26,3 +26,12 @@ Global Champions Tour, Longines, Aachen, Calgary Stampede；synonyms 新增 eque
 - 原因: run02 中 11 条真实马术/击剑/斯诺克赛事被 `step1_blacklist` 误杀（vlog_entertainment/gaming 规则命中），黑名单本身规则合理但覆盖过宽
 - 来源: equestrian 010_drop_qc FN 分析, step1_blacklist 误杀样本
 - 预期: 救回 ~11 条马术/击剑/斯诺克 FN, 0 Precision 损失, 所有数据集受益
+
+## 2026-06-05
+
+### Rule: athletics_entities
+
+- 操作: entities.toml sports 列表新增 sprint/hurdles/long jump/high jump/triple jump/pole vault/steeplechase/race walk/relay race/world athletics/european championships/ncaa track/usatf/iaaf；synonyms 新增 athletics 同义词组
+- 原因: 田径 DROP 中 67% 被 blacklist 误杀 + 33% no_signal，强信号召回 69K 候选 Precision 67.3% 但 blacklist 挡掉 47K
+- 来源: athletics_one Phase 8 召回分析, recovered_candidate 69,767 条的 drop_reason 分布
+- 预期: 后续田径批次 no_signal 减少，recall 提升

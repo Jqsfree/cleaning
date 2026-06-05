@@ -77,7 +77,15 @@ def main():
     """)
     n_samples = con.execute("SELECT COUNT(*) FROM sample_data").fetchone()[0]
 
-    out_parquet = os.path.join(out_dir, "audit_sample_v1.parquet")
+    # Extract input stem for naming
+    raw_stem = os.path.splitext(os.path.basename(args.input))[0]
+    # Try to derive sample type from input path or output dir
+    sample_type = "unknown"
+    if "_keep." in raw_stem or "keep" in os.path.basename(out_dir).lower():
+        sample_type = "keep"
+    elif "_drop." in raw_stem or "drop" in os.path.basename(out_dir).lower():
+        sample_type = "drop"
+    out_parquet = os.path.join(out_dir, f"{raw_stem}_{sample_type}_qc.parquet" if sample_type != "unknown" else "audit_sample_v1.parquet")
     con.execute(f"COPY sample_data TO '{out_parquet}' (FORMAT PARQUET)")
 
     # keyword distribution
@@ -112,11 +120,11 @@ def main():
     print(f"  样本:       {n_samples:,} / {n_total:,}")
     print(f"  耗时:       {elapsed:.1f}s")
     print(f"  产物:       {out_dir}/")
-    print(f"              audit_sample_v1.parquet")
+    print(f"              {os.path.basename(out_parquet)}")
     print(f"              audit_stats.csv")
     print("=" * 62)
     print()
-    print("  → 标注 audit_sample_v1.parquet，添加列:")
+    print(f"  → 标注 {os.path.basename(out_parquet)}，添加列:")
 
     mark_done(out_dir, 2, samples=n_samples, total=n_total, elapsed_sec=round(elapsed,1))
     write_run_log(2, args.input, out_dir,

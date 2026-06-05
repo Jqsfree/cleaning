@@ -26,6 +26,7 @@ from .scoring import register_udfs, get_thresholds
 
 def clean(input_path: str, polluted: set, stem: str = "clean",
           output_dir: str = "output",
+          raw_name: str = "", run: str = "run01",
           keep_score: int | None = None, gray_low: int | None = None,
           med_min: int | None = None,
           fmt: str = "parquet") -> dict:
@@ -180,10 +181,11 @@ def clean(input_path: str, polluted: set, stem: str = "clean",
     print(f"  keep: {n_keep:,} (H={n_high:,} M={n_medium:,}) | drop: {n_drop:,}")
 
     # ── 输出 ──
-    out_high    = os.path.join(output_dir, "clean_high")
-    out_medium  = os.path.join(output_dir, "clean_medium")
-    out_all     = os.path.join(output_dir, "clean_all")
-    out_dropped = os.path.join(output_dir, "clean_dropped")
+    base = raw_name if raw_name else stem
+    out_high    = os.path.join(output_dir, f"{base}_{run}_keep_high.parquet")
+    out_medium  = os.path.join(output_dir, f"{base}_{run}_keep_medium.parquet")
+    out_all     = os.path.join(output_dir, f"{base}_{run}_keep.parquet")
+    out_dropped = os.path.join(output_dir, f"{base}_{run}_drop.parquet")
 
     # 内部辅助列，不输出到最终文件
     _AUX_COLS = {'bl_match', 's_score', 'kw_aligned', 'strong_sig', 'kw_entities', 'drop_step', 'drop_reason', 'tier', 'reason'}
@@ -194,19 +196,11 @@ def clean(input_path: str, polluted: set, stem: str = "clean",
         cols = [c for c in all_col_names if c not in _AUX_COLS]
         col_str = ", ".join(f'"{c}"' for c in cols)
         sql = f'SELECT {col_str} FROM {table_name}'
-
-        if fmt in ("parquet", "both"):
-            db.execute(f"COPY ({sql}) TO '{base_path}.parquet' (FORMAT PARQUET)")
-        if fmt in ("csv", "both"):
-            db.execute(f"COPY ({sql}) TO '{base_path}.csv' (HEADER, DELIMITER ',')")
+        db.execute(f"COPY ({sql}) TO '{base_path}' (FORMAT PARQUET)")
 
     write_table("keep_high", out_high)
     write_table("keep_medium", out_medium)
 
-    # all = high + medium
-    db.execute("CREATE TEMP TABLE keep_all AS SELECT * FROM keep_high UNION ALL SELECT * FROM keep_medium")
-    write_table("keep_all", out_all)
-    write_table("dropped", out_dropped)
 
     # ── summary ──
     elapsed = time.perf_counter() - t0

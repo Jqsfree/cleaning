@@ -109,8 +109,12 @@ def main():
         print(f"[ERROR] audit 文件不存在: {args.audit}")
         sys.exit(1)
 
-    clean_all_path = os.path.join(args.clean_dir, "clean_all.parquet")
-    clean_drop_path = os.path.join(args.clean_dir, "clean_dropped.parquet")
+    # Auto-detect: try new naming first, fallback to old
+    import glob as _glob
+    keep_files = _glob.glob(os.path.join(args.clean_dir, "*_keep.parquet"))
+    drop_files = _glob.glob(os.path.join(args.clean_dir, "*_drop.parquet"))
+    clean_all_path = keep_files[0] if keep_files else os.path.join(args.clean_dir, "clean_all.parquet")
+    clean_drop_path = drop_files[0] if drop_files else os.path.join(args.clean_dir, "clean_dropped.parquet")
     if not os.path.exists(clean_all_path) and not os.path.exists(clean_drop_path):
         print(f"[ERROR] Phase 5 产物不存在于: {args.clean_dir}")
         sys.exit(1)

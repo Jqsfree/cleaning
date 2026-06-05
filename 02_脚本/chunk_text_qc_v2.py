@@ -233,7 +233,64 @@ def run_text_qc(
         df = pd.read_csv(input_csv, dtype=str, low_memory=False).fillna("")
     n_total = len(df)
     safe_total = max(n_total, 1)  # 除零保护
-    log(f"  行数: {n_total:,}")
+    log(f"  样本行数: {n_total:,}")
+
+    # ── 自动检测全量数据池大小 ─────────────────────────────
+    input_abs = os.path.abspath(input_csv)
+    input_dir = os.path.dirname(input_abs)
+    file_name = os.path.basename(input_csv).lower()
+    pool_size = None
+    pool_label = "全量"
+
+    # 搜索范围：QC目录自身 → 父(数据集根) → 005_clean下的run目录
+    search_dirs = [input_dir]
+    p = input_dir
+    for _ in range(4):
+        p = os.path.dirname(p)
+        if p and os.path.isdir(p):
+            search_dirs.append(p)
+
+    # 额外：找 005_clean 下的 run 目录
+    for sdir in list(search_dirs):
+        clean_dir = os.path.join(sdir, "005_clean")
+        if os.path.isdir(clean_dir):
+            for rd in sorted(os.listdir(clean_dir)):
+                rp = os.path.join(clean_dir, rd)
+                if os.path.isdir(rp):
+                    search_dirs.append(rp)
+
+    for sdir in search_dirs:
+        sf = os.path.join(sdir, "clean_summary.json")
+        if os.path.exists(sf):
+            import json as _json
+            with open(sf) as _f:
+                _s = _json.load(_f)
+            if "keep" in file_name:
+                pool_size = _s.get("total_keep")
+                pool_label = "全量 KEEP"
+            elif "drop" in file_name:
+                pool_size = _s.get("total_drop")
+                pool_label = "全量 DROP"
+            if pool_size is not None and pool_size > 0:
+                break
+
+    # fallback: QC目录自身的 progress.json 中的 total 字段
+    if pool_size is None:
+        pf = os.path.join(input_dir, "progress.json")
+        if os.path.exists(pf):
+            import json as _json
+            with open(pf) as _f:
+                _p = _json.load(_f)
+            pool_size = _p.get("total") or _p.get("total_rows") or _p.get("keep")
+            if pool_size and ("keep" in file_name):
+                pool_label = "全量 KEEP"
+            elif pool_size and ("drop" in file_name):
+                pool_label = "全量 DROP"
+
+    if pool_size is not None and pool_size > 0:
+        log(f"  {pool_label}数据池: {pool_size:,} 条")
+    else:
+        log(f"  (未找到全量数据池信息)")
 
     # ── 备份原文件 ───────────────────────────────────────────
     bak_path = backup_input(input_csv, run_id)
