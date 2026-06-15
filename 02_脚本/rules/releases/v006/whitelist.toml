@@ -211,3 +211,23 @@ pattern = "\\b(smash\\s*bros\\.?|super\\s*smash|ssbu|ssb4|melee\\s*tournament)\\
 category = "marble_context"
 score = -5
 pattern = "\\b(marble\\s*rac(e|ing)|plinko|algodoo|marbl(e|es)\\s*(league|run|world))\\b"
+
+# ===== 非赛事格式负向信号 (2026-06-06) =====
+# 来源: SPORTSNET 全量QC — 43条F中~18条为谈话节目, ~10条为采访/发布会
+# 命中频道含 SPORTSNET, NBC Sports, ESPN, CBC Sports 等体育媒体
+# 这些频道出产赛事集锦(应保留)和谈话节目(应惩罚), title级区分
+
+[[negative]]
+category = "non_event_talk"
+score = -20
+pattern = "\\b(Kyper|Bourne|32\\s*Thoughts|After\\s*Hours|Hockey\\s*Central|Saturday\\s*Headlines|Morning\\s*Catch-Up|Power\\s*Rankings|Trade\\s*Deadline\\s*Reaction|Deadline\\s*Winners|Real\\s*Kyper|The\\s*Process\\s*Behind|Cap\\s*Situation\\s*Looking|Home\\s*Stand\\s*Slump)\\b"
+
+[[negative]]
+category = "non_event_interview"
+score = -20
+pattern = "\\b(\\w+\\s+discusses\\s+|jokes\\s+about\\s+|reflects\\s+on\\s+|Speaks\\s+Following|Gotta\\s*Hear\\s*It.*jokes|Full\\s*Episode|Behind\\s*the\\s*Scenes|GamePlus|Address.*Struggles)\\b"
+
+[[negative]]
+category = "non_event_news"
+score = -20
+pattern = "\\b(Who\\s*(Says|Are|Really)|What\\s*(Makes|Are)|Is\\s*It\\s*Time|Could.*Be|Salary\\s*Cap|off-season.*celebrating|Christmas\\s*Debates|Biggest\\s*Part\\s*Of|Welcome\\s*To\\s*The|Hockey\\s*Day\\s*In|Coaching\\s*Brothers|Coaching\\s*The)\\b"

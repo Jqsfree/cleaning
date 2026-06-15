@@ -20,16 +20,34 @@ REFRESH_SEC = 5
 
 # ═══════════════════ load ═══════════════════
 
-def find_runs(dataset: str) -> dict[str, dict]:
-    """返回 {run_name: {phase_id: progress_data}}"""
-    base = RUNS_DIR / dataset
+def discover_datasets() -> list[str]:
+    """自动发现 data/runs/ 下所有数据集目录的完整相对路径。
+    遍历 {parent}/{sport}_{batch}/ 结构。
+    返回路径列表如 ['data_ONE/pingpong_two', 'data_two/curling_two']
+    """
+    datasets = []
+    for parent in sorted(RUNS_DIR.iterdir()):
+        if not parent.is_dir() or parent.name.startswith("."):
+            continue
+        for ds in sorted(parent.iterdir()):
+            if ds.is_dir() and not ds.name.startswith("."):
+                # 确认为 pipeline 目录：必须有 001_baseline/ 或 005_clean/
+                if (ds / "001_baseline").exists() or (ds / "005_clean").exists():
+                    datasets.append(str(ds.relative_to(RUNS_DIR)))
+    return datasets
+
+
+def find_runs(dataset_rel: str) -> dict[str, dict]:
+    """返回 {run_name: {phase_id: progress_data}}
+    dataset_rel 是相对路径，如 'data_ONE/pingpong_two'
+    """
+    base = RUNS_DIR / dataset_rel
     if not base.exists():
         return {}
     runs = {}
     for d in sorted(base.iterdir()):
         if not d.is_dir():
             continue
-        # Static dirs (001_baseline etc) treated as run "shared"
         if d.name.startswith(("001_", "002_")):
             pf = d / "progress.json"
             if pf.exists():
@@ -38,7 +56,6 @@ def find_runs(dataset: str) -> dict[str, dict]:
                     runs.setdefault("shared", {})[data.get("phase", 0)] = data
                 except json.JSONDecodeError:
                     pass
-        # Run dirs (003_analysis/run01, 005_clean/run01)
         elif d.name.startswith(("003_", "004_", "005_", "006_", "007_")):
             for rd in sorted(d.iterdir()):
                 if not rd.is_dir():
@@ -53,8 +70,8 @@ def find_runs(dataset: str) -> dict[str, dict]:
     return runs
 
 
-def load_stats(dataset: str) -> list[dict]:
-    sp = RUNS_DIR / dataset / "001_baseline" / "baseline_stats.md"
+def load_stats(dataset_rel: str) -> list[dict]:
+    sp = RUNS_DIR / dataset_rel / "001_baseline" / "baseline_stats.md"
     if not sp.exists(): return []
     rows = []
     for line in sp.read_text().split("\n"):
@@ -64,8 +81,8 @@ def load_stats(dataset: str) -> list[dict]:
     return rows
 
 
-def list_files(dataset: str, subdir: str) -> list[str]:
-    p = RUNS_DIR / dataset / subdir
+def list_files(dataset_rel: str, subdir: str) -> list[str]:
+    p = RUNS_DIR / dataset_rel / subdir
     if not p.exists(): return []
     # for run-based dirs, dig one level deeper
     files = []
@@ -154,15 +171,26 @@ def render_dataset(ds_name: str, label: str, emoji: str):
 # ═══════════════════ page ═══════════════════
 
 st.set_page_config(page_title="sport-live Monitor", layout="wide", page_icon="🏟")
-st.markdown(f'<meta http-equiv="refresh" content="{REFRESH_SEC}">', unsafe_allow_html=True)
 st.title("🏟 sport-live 管道监控")
 st.caption(f"⏱ {time.strftime('%Y-%m-%d %H:%M:%S')} · 每 {REFRESH_SEC}s 刷新")
 
-col1, col2 = st.columns(2)
-with col1:
-    render_dataset("pingpong", "乒乓球", "🏓")
-with col2:
-    render_dataset("curling", "冰壶", "🥌")
+# 自动发现数据集
+datasets = discover_datasets()
+if not datasets:
+    st.warning("暂无数据集，请将数据放入 data/runs/ 目录下")
+else:
+    emojis = ["🏟", "⚽", "🏀", "🏈", "🎾", "🏐", "🥌", "🏓", "🏸", "🏒", "⛸", "🏊", "🤸", "🤼", "🎯", "🏋", "🚴", "🏇", "⛷", "🥋"]
+    for i in range(0, len(datasets), 2):
+        col1, col2 = st.columns(2)
+        with col1:
+            ds = datasets[i]
+            label = ds.split("/")[-1] if "/" in ds else ds
+            render_dataset(ds, label, emojis[i % len(emojis)])
+        with col2:
+            if i + 1 < len(datasets):
+                ds = datasets[i + 1]
+                label = ds.split("/")[-1] if "/" in ds else ds
+                render_dataset(ds, label, emojis[(i + 1) % len(emojis)])
 
 st.divider()
 st.caption("`conda activate data_cleaning && streamlit run monitor.py`")

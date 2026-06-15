@@ -36,19 +36,23 @@ Global Champions Tour, Longines, Aachen, Calgary Stampede；synonyms 新增 eque
 - 来源: athletics_one Phase 8 召回分析, recovered_candidate 69,767 条的 drop_reason 分布
 - 预期: 后续田径批次 no_signal 减少，recall 提升
 
-## 2026-06-06
+## 2026-06-06 v003
 
-### Rule: smash_bros_game
-- 操作: 新增共享黑名单 pass2，内容类型规则
-- 来源样本:
-    - climbing_two run01 FP分析, 频道: Tulsa Smash(15) / FSC Smash(13) / Mellow Mushroom Smash(12), 判定: FP
-    - climbing_two run02 FP分析, 频道: VGBootCamp(11), title含"Smash Bros"/"Melee", 判定: FP
-- 预期: 消除跨运动 Smash Bros 格斗游戏视频 FP，0 TP 损失
-- 实际: 待验证
+### Rule: gaming_channels_pingpong_two_fp
 
-### Rule: marble_simulation
-- 操作: 新增共享黑名单 pass2，内容类型规则
-- 来源样本:
-    - climbing_two run01 FP分析, 频道: Marks Marble Racing / Worlds greatest Marble race, title含"Marble Race"/"Plinko", 判定: FP
-- 预期: 消除跨运动 Marble Race / Plinko 模拟视频 FP，0 TP 损失
+- 操作: 新增 41 个游戏频道名正则（pass2）
+- 来源: pingpong_two run01-run04 FP 分析，跨 4 轮 QC 累计命中 60+ FP
+- 预期: 减少游戏频道污染
+- 影响范围: 所有运动数据集
+
+## 2026-06-08
+
+### 修复：白名单检查前剥离 keyword 负向标签
+- 操作: scoring.py blacklist_pass2/blacklist_r2 UDF 白名单检查前
+  用 _strip_keyword_tags 剥离 keyword 里的 -tag 标签
+- 原因: keyword 里的否定标签（如 -fifa、-movie）被白名单 regex 误命中，
+  导致整条记录豁免黑名单。Johnny Mac's Stadium Ambience 是典型案例：
+  kw 含 -fifa，被白名单 FIFA 命中豁免
+- 来源: pingpong_two run_r2_test QC 分析，channel whitelist 误豁免根因排查
+- 预期: 修复所有 keyword 负向标签导致的误豁免，所有数据集受益
 - 实际: 待验证

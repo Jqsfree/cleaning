@@ -186,28 +186,3 @@ pattern = "\\b(user|channel|account|page)\\b"
 category = "weak_channel"
 pattern = "\\b(temp|test|demo|sample)\\b"
 
-
-[[negative]]
-category = "gaming_context"
-score = -5
-pattern = "\\b(minecraft|roblox|fortnite|gameplay|let'?s\\s*play|walkthrough|mod\\s*apk)\\b"
-
-[[negative]]
-category = "anime_context"
-score = -5
-pattern = "\\b(naruto|one\\s*piece|dragon\\s*ball|demon\\s*slayer)\\b"
-
-[[negative]]
-category = "game_title_context"
-score = -5
-pattern = "\\b(subway\\s*surfers|street\\s*fighter|mario\\s*kart|starcraft|free\\s*fire|garena|call\\s*of\\s*duty|\\bcod\\b|black\\s*ops|\\bmlg\\b)\\b"
-
-[[negative]]
-category = "smash_bros_context"
-score = -5
-pattern = "\\b(smash\\s*bros\\.?|super\\s*smash|ssbu|ssb4|melee\\s*tournament)\\b"
-
-[[negative]]
-category = "marble_context"
-score = -5
-pattern = "\\b(marble\\s*rac(e|ing)|plinko|algodoo|marbl(e|es)\\s*(league|run|world))\\b"

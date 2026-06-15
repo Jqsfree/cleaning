@@ -301,30 +301,12 @@ terms = [
   "The Man Cave TV",
   "Highlight Castle",
   "jeff yeaple",
-  # -- DROP QC T 误杀频道 (FP跨数据集分析, 2026-06-06) --
-  "USA Gymnastics",
-  "World Rugby",
-  "Eurosport France",
-  "MLB",
-  "Tennis TV",
-  "All Elite Wrestling",
-  "Planet Canoe",
-  "Bodybuilding and Beyond",
-  "olympicvancouver2010",
-  "Australian Open",
-  "ESPN",
-  "CFL Classics",
-  "Belgian-Motorsport",
-  "Amy Whitton",
-  "Matt Hozjan",
-  "sp1873",
-  "Alessia",
 ]
 action = "skip_blacklist"
 category = "verified_sport"
 
 [channel_whitelist_regex]
-pattern = "(?i)\\b(FEI|HITS\\s*Ocala|FIE\\s*Fencing|Northern\\s*Ireland\\s*Open|Dressage|World\\s*Archery|FIBA3x3|FIFA|College\\s*Championships|Jomboy\\s*Media|World\\s*Gymnastics\\s*Channel|World\\s*Table\\s*Tennis|Paralympic\\s*Games|NBC\\s*Sports|Sky\\s*Sports|Newcastle\\s*United|Crewe\\s*Alexandra|WNBA|FISU|British\\s*Pathé|American\\s*Football\\s*International|Kerala\\s*Olympic|Go\\s*Beyond\\s*Sports|ISSF|Fencing\\s*Vision|Amplified|Not\\s*Just\\s*Every\\s*Four\\s*Years|rhythmic\\s*gymnastics\\s*club|Tom\\s*Daugherty|Fight\\s*Mentality|Gabriel\\s*Medeiros|RED|Türkiye\\s*Voleybol\\s*Federasyonu|Illinois\\s*DNR|nicoleclarke116|Pac\\-12|FIBA\\s*Basketball|Wimbledon|Wanda\\s*Diamond\\s*League|United\\s*World\\s*Wrestling|runnerspace|Sound\\s*Running|Big\\s*Ten\\s*Football|EUROLEAGUE\\s*BASKETBALL|ESCRIME\\s*TV|NFL\\s*Throwback|Sport\\s*Kite|Entertainment\\s*\\-\\s*Mediacorp|Shore\\s*Shot\\s*Archery|The\\s*Brotherhood\\s*of\\s*North\\s*Dakota|Archery\\s*Connection|Kenzo\\s*Fernandes|Cricket\\s*Wricket|markosparko78|Top\\s*Bins\\s*Football|Dorking\\s*Wanderers|Minnesota\\s*Gophers|Mehak\\s*Shahid|IKF\\s*Africa|nausch01|stance|Hockey\\s*Trend|Muay\\s*Thai\\s*Galaxy|N1\\s*Media\\s*Consultancy|Chess\\s*Guru|SW561|MJSIII|cflvideo1964|SteelBuck\\s*6|Neion\\s*Vintage\\s*NFL|rtsportsuploads|All\\s*Highlights|Comrade\\s*Dobler|Lafayette\\s*Cathey|Tim\\s*McCartney|The\\s*Man\\s*Cave\\s*TV|Highlight\\s*Castle|jeff\\s*yeaple|USA\\s*Gymnastics|World\\s*Rugby|Eurosport\\s*France|MLB|Tennis\\s*TV|All\\s*Elite\\s*Wrestling|Planet\\s*Canoe|Bodybuilding\\s*and\\s*Beyond|olympicvancouver2010|Australian\\s*Open|ESPN|CFL\\s*Classics|Belgian\\-Motorsport|Amy\\s*Whitton|Matt\\s*Hozjan|sp1873|Alessia)\\b"
+pattern = "(?i)\\b(FEI|HITS\\s*Ocala|FIE\\s*Fencing|Northern\\s*Ireland\\s*Open|Dressage|World\\s*Archery|FIBA3x3|FIFA|College\\s*Championships|Jomboy\\s*Media|World\\s*Gymnastics\\s*Channel|World\\s*Table\\s*Tennis|Paralympic\\s*Games|NBC\\s*Sports|Sky\\s*Sports|Newcastle\\s*United|Crewe\\s*Alexandra|WNBA|FISU|British\\s*Pathé|American\\s*Football\\s*International|Kerala\\s*Olympic|Go\\s*Beyond\\s*Sports|ISSF|Fencing\\s*Vision|Amplified|Not\\s*Just\\s*Every\\s*Four\\s*Years|rhythmic\\s*gymnastics\\s*club|Tom\\s*Daugherty|Fight\\s*Mentality|Gabriel\\s*Medeiros|RED|Türkiye\\s*Voleybol\\s*Federasyonu|Illinois\\s*DNR|nicoleclarke116|Pac-12|FIBA\\s*Basketball|Wimbledon|Wanda\\s*Diamond\\s*League|United\\s*World\\s*Wrestling|runnerspace|Sound\\s*Running|Big\\s*Ten\\s*Football|EUROLEAGUE\\s*BASKETBALL|ESCRIME\\s*TV|NFL\\s*Throwback|Sport\\s*Kite|Entertainment\\s*-\\s*Mediacorp|Shore\\s*Shot\\s*Archery|The\\s*Brotherhood\\s*of\\s*North\\s*Dakota|Archery\\s*Connection|Kenzo\\s*Fernandes|Cricket\\s*Wricket|markosparko78|Top\\s*Bins\\s*Football|Dorking\\s*Wanderers|Minnesota\\s*Gophers|Mehak\\s*Shahid|IKF\\s*Africa|nausch01|stance|Hockey\\s*Trend|Muay\\s*Thai\\s*Galaxy|N1\\s*Media\\s*Consultancy|Chess\\s*Guru|SW561|MJSIII|cflvideo1964|SteelBuck\\s*6|Neion\\s*Vintage\\s*NFL|rtsportsuploads|All\\s*Highlights|Comrade\\s*Dobler|Lafayette\\s*Cathey|Tim\\s*McCartney|The\\s*Man\\s*Cave\\s*TV|Highlight\\s*Castle|jeff\\s*yeaple)\\b"
 
 weak_entities = [
   "analysis",

@@ -15,6 +15,23 @@ from pathlib import Path
 MAIN_RULES_DIR = Path(__file__).resolve().parent.parent / "rules"
 
 
+def sync_current_to_main():
+    """将 current/ (真理源) 同步到 rules/ (管道实际读取)。
+
+    SOP 要求总是在 current/ 中修改规则，然后调用此函数同步。
+    """
+    src_dir = MAIN_RULES_DIR / "current"
+    if not src_dir.exists():
+        print("[SYNC] current/ 不存在，跳过")
+        return
+    for name in ["blacklist.toml", "whitelist.toml", "entities.toml"]:
+        src = src_dir / name
+        dst = MAIN_RULES_DIR / name
+        if src.exists():
+            shutil.copy2(src, dst)
+    print("[SYNC] current/ → rules/")
+
+
 # ══════════════════════════════════
 # 加载
 # ══════════════════════════════════
