@@ -10,7 +10,7 @@ import sys, os, argparse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from core.cleaner import clean
+from categories.language_teaching.cleaner import clean
 
 
 def main():

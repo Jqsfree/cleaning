@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-core/cleaner.py — DuckDB 多步清洗（语言教学版）
+categories/language_teaching/cleaner.py — 语言教学 DuckDB 多步清洗
 
 流程:
-  Step 0: 加载 raw 数据（无 UDF）
+  Step 0: 加载 raw 数据
   Step 1: pass2 黑名单 drop  — 纯 SQL regexp_matches
   Step 1b: r2 黑名单 drop   — 纯 SQL regexp_matches
-  Step 2: 弱信号 drop       — 纯 SQL
+  Step 2: 强语言教学信号      — 纯 SQL
   Step 3: 对幸存行调用打分 UDF，决定 high / medium / drop
 
 输出:
@@ -17,32 +17,31 @@ core/cleaner.py — DuckDB 多步清洗（语言教学版）
   - clean_summary.json
 """
 
-import time, json, os, tomllib
+import os
+import time
 from pathlib import Path
+
 import duckdb
 
-from .scoring import register_udfs, get_thresholds
+from core.rules_loader import load_blacklist, load_strong_pattern
+from core.sql_builder import (
+    sql_escape,
+    load_raw_table,
+    add_search_text,
+    write_parquet_with_excludes,
+    write_summary_json,
+)
+from categories.language_teaching.scorer import register_udfs, get_thresholds
 
-_RULES_DIR = Path(__file__).resolve().parent.parent / "rules" / "current"
+_RULES_DIR = Path(__file__).resolve().parent / "rules"
 
-
-def _load_regex_list(section: str) -> str:
-    """从 blacklist.toml 加载指定 section 的 pattern，拼成一个正则"""
-    bl_path = _RULES_DIR / "blacklist.toml"
-    if not bl_path.exists():
-        return r"(?!x)x"
-    bl = tomllib.loads(bl_path.read_text("utf-8"))
-    patterns = [item["pattern"] for item in bl.get(section, [])]
-    return "|".join(patterns) if patterns else r"(?!x)x"
-
-
-def _load_strong_pattern() -> str:
-    """从 whitelist.toml 加载强语言教学信号正则"""
-    wl_path = _RULES_DIR / "whitelist.toml"
-    if not wl_path.exists():
-        return r"(?!x)x"
-    wl = tomllib.loads(wl_path.read_text("utf-8"))
-    return wl.get("strong_lang_teaching_title_pattern", r"(?!x)x")
+# 输出时排除的辅助列（keep 文件用 _KEEP_EXCLUDE，drop 文件用 _DROP_EXCLUDE）
+_KEEP_EXCLUDE = {
+    "search_text", "title_channel",
+    "lt_score", "kw_aligned", "strong_sig", "kw_entities",
+    "drop_step", "drop_reason", "tier",
+}
+_DROP_EXCLUDE = _KEEP_EXCLUDE - {"drop_step", "drop_reason"}
 
 
 def clean(
@@ -62,7 +61,6 @@ def clean(
     gray_low = gray_low if gray_low is not None else thresholds["gray_score_low"]
     med_min = med_min if med_min is not None else thresholds["medium_min_score"]
     if no_medium:
-        # 把 medium 门槛拉到 infinity，只保留 high
         med_min = 9999
 
     t0 = time.perf_counter()
@@ -71,41 +69,20 @@ def clean(
 
     os.makedirs(output_dir, exist_ok=True)
 
-    # 预编译正则（纯 SQL 用，不加 Python 边界开销）
-    # TOML 中的 \b ' 等字符放入 SQL 字符串需转义
-    def _sql_escape(s: str) -> str:
-        """仅转义 SQL 单引号。反斜杠不转义：DuckDB SQL 字面量中反斜杠无特殊含义，
-        RE2 正则引擎直接接收原样字符，如 \\b 即为单词边界。"""
-        return s.replace("'", "''")
-
-    pass2_re = _sql_escape(_load_regex_list("pass2"))
-    r2_re = _sql_escape(_load_regex_list("r2"))
-    strong_re = _sql_escape(_load_strong_pattern())
+    # ── 加载规则 ──
+    rules = load_blacklist(_RULES_DIR)
+    pass2_re = sql_escape(rules["pass2"])
+    r2_re = sql_escape(rules["r2"])
+    strong = load_strong_pattern(_RULES_DIR)
+    strong_re = sql_escape(strong) if strong else r"(?!x)x"
 
     db = duckdb.connect(":memory:")
 
-    # ── Step 0: 加载 raw，不加任何 UDF ──
-    ext = os.path.splitext(input_path)[1].lower()
-    if ext == ".parquet":
-        reader = f"read_parquet('{input_path}')"
-    else:
-        reader = f"read_csv_auto('{input_path}', header=true, all_varchar=true, sample_size=-1, ignore_errors=true)"
-
-    db.execute(f"CREATE TEMP TABLE raw AS SELECT * FROM {reader}")
-    n_total = db.execute("SELECT COUNT(*) FROM raw").fetchone()[0]
+    # ── Step 0: 加载 raw ──
+    n_total = load_raw_table(db, input_path)
     print(f"  rows: {n_total:,}")
 
-    # 拼接文本列（只拼一次）
-    # keyword 剥离 -xxx 否定标签，避免黑名单误命中
-    # "spanish class -vlog -cartoon" → "spanish class"
-    db.execute("""
-        CREATE TEMP TABLE raw_text AS
-        SELECT *,
-               COALESCE(title,'') || ' ' || COALESCE(channel,'') || ' ' ||
-               regexp_replace(COALESCE(keyword,''), '((^|\\s)-[a-zA-Z0-9*?]+)+$', '') AS search_text,
-               COALESCE(title,'') || ' ' || COALESCE(channel,'') AS title_channel
-        FROM raw
-    """)
+    add_search_text(db)
 
     # ── Step 1: pass2 黑名单（纯 SQL） ──
     db.execute(f"""
@@ -141,7 +118,7 @@ def clean(
         WHERE NOT regexp_matches(search_text, '{r2_re}', 'i')
     """)
 
-    # ── Step 2: 强语言教学信号（纯 SQL） ──
+    # ── Step 2: 强信号（纯 SQL） ──
     db.execute(f"""
         CREATE TEMP TABLE after_r2_sig AS
         SELECT *,
@@ -149,7 +126,7 @@ def clean(
         FROM after_r2
     """)
 
-    # ── Step 3: 对幸存行调 Python UDF（打分 + 实体解析） ──
+    # ── Step 3: UDF 打分 ──
     n_surviving = db.execute("SELECT COUNT(*) FROM after_r2_sig").fetchone()[0]
     print(f"  幸存行:   {n_surviving:,} → 调 UDF 打分...")
 
@@ -164,7 +141,7 @@ def clean(
         FROM after_r2_sig
     """)
 
-    # ── Step 4: 计分分类 ──
+    # ── Step 4: tier 分档 ──
     db.execute(f"""
         CREATE TEMP TABLE scored_tier AS
         SELECT *,
@@ -181,6 +158,7 @@ def clean(
     db.execute("CREATE TEMP TABLE keep_high AS SELECT * FROM scored_tier WHERE tier = 'high'")
     db.execute("CREATE TEMP TABLE keep_medium AS SELECT * FROM scored_tier WHERE tier = 'medium'")
 
+    # 合并 drop 来源：打分 drop + 黑名单 drop
     db.execute("""
         CREATE TEMP TABLE dropped AS
         SELECT *, 'step_score' AS drop_step, tier AS drop_reason
@@ -219,33 +197,17 @@ def clean(
     out_all = os.path.join(output_dir, f"{base}_{run}_keep.parquet")
     out_dropped = os.path.join(output_dir, f"{base}_{run}_drop.parquet")
 
-    _AUX_COLS = {
-        "search_text", "title_channel",
-        "lt_score", "kw_aligned", "strong_sig", "kw_entities",
-        "drop_step", "drop_reason", "tier",
-    }
-    select_cols = db.execute("SELECT * FROM dropped LIMIT 0").description  # dropped 是列超集（含 drop_step/drop_reason）
-    all_col_names = [c[0] for c in select_cols]
-
-    # keep/drop 输出分开控制：keep 文件去掉所有辅助列，drop 文件保留 drop_step, drop_reason 供评估用
-    _KEEP_EXCLUDE = _AUX_COLS
-    _DROP_EXCLUDE = _AUX_COLS - {"drop_step", "drop_reason"}
-
-    def _write_cols(table_name, base_path, exclude):
-        cols = [c for c in all_col_names if c not in exclude]
-        col_str = ", ".join(f'"{c}"' for c in cols)
-        db.execute(f"COPY (SELECT {col_str} FROM {table_name}) TO '{base_path}' (FORMAT PARQUET)")
-
-    _write_cols("keep_high", out_high, _KEEP_EXCLUDE)
-    _write_cols("keep_medium", out_medium, _KEEP_EXCLUDE)
+    write_parquet_with_excludes(db, "keep_high", out_high, _KEEP_EXCLUDE)
+    write_parquet_with_excludes(db, "keep_medium", out_medium, _KEEP_EXCLUDE)
 
     db.execute("CREATE TEMP TABLE keep_all AS SELECT * FROM keep_high UNION ALL SELECT * FROM keep_medium")
-    _write_cols("keep_all", out_all, _KEEP_EXCLUDE)
-    _write_cols("dropped", out_dropped, _DROP_EXCLUDE)
+    write_parquet_with_excludes(db, "keep_all", out_all, _KEEP_EXCLUDE)
+    write_parquet_with_excludes(db, "dropped", out_dropped, _DROP_EXCLUDE)
 
     elapsed = time.perf_counter() - t0
     summary = {
         "engine": "duckdb-sql-first",
+        "category": "language_teaching",
         "input": os.path.abspath(input_path),
         "total_rows": n_total,
         "total_keep": n_keep,
@@ -261,9 +223,7 @@ def clean(
         },
     }
 
-    summary_path = os.path.join(output_dir, "clean_summary.json")
-    with open(summary_path, "w") as f:
-        json.dump(summary, f, indent=2, ensure_ascii=False)
+    write_summary_json(output_dir, summary)
 
     db.close()
 

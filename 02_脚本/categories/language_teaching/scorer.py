@@ -1,123 +1,81 @@
 #!/usr/bin/env python3
 """
-core/scoring.py -- DuckDB UDF 注册（语言教学版）
+categories/language_teaching/scorer.py -- 语言教学专用打分 UDF
 
-从 rules/*.toml 加载规则，注册为 DuckDB UDF，供清洗 SQL 调用。
-规则在首次调用 register_udfs() 或 get_thresholds() 时延迟加载。
+基于 rules_loader 加载规则，注册 5 个 DuckDB UDF：
+  - blacklist_pass2 / blacklist_r2: 黑名单匹配（含频道白名单豁免）
+  - strong_lang_signal: 强语言教学信号
+  - lang_teaching_score: 综合打分（正/负分 + 实体对齐惩罚）
+  - parse_lang_entities: 从 keyword 解析语言实体
+  - keyword_aligned: keyword 实体是否与 title/channel 对齐
 """
 
-import sys, os, re, tomllib
+import re
 from pathlib import Path
 
-_DEFAULT_RULES_DIR = Path(__file__).resolve().parent.parent / "rules"
-_RULES_DIR = Path(os.environ.get("TEACH_RULES_DIR", str(_DEFAULT_RULES_DIR)))
+from core.rules_loader import (
+    load_blacklist,
+    load_strong_pattern,
+    load_scoring_rules,
+    load_entities,
+)
 
-# ── 延迟加载状态 ──
+RULES_DIR = Path(__file__).resolve().parent / "rules"
+
+# ── 模块级缓存（只加载一次） ──
 _loaded = False
-
-# 阈值
-KEEP_SCORE_THRESHOLD = 35
-GRAY_SCORE_LOW = 15
-MEDIUM_MIN_SCORE = 15
-
-# 编译后的规则（延迟初始化）
-LANG_POSITIVE = []
-LANG_NEGATIVE = []
-BL_PASS2_PATTERNS = []
-BL_R2_PATTERNS = []
-BL_PASS2_RE = None
-BL_R2_RE = None
-STRONG_RE = None
-LANGUAGES = []
-LANGUAGES_SORTED = []
-SYNONYMS = {}
-WEAK_ENTITIES = set()
-CHANNEL_WL_RE = None
-
-
-def _compile_pass2():
-    global BL_PASS2_RE
-    BL_PASS2_RE = re.compile("|".join(BL_PASS2_PATTERNS), re.I) if BL_PASS2_PATTERNS else re.compile(r"(?!x)x")
-
-
-def _compile_r2():
-    global BL_R2_RE
-    BL_R2_RE = re.compile("|".join(BL_R2_PATTERNS), re.I) if BL_R2_PATTERNS else re.compile(r"(?!x)x")
+_pass2_re = None
+_r2_re = None
+_strong_re = None
+_positive = []
+_negative = []
+_languages = []
+_languages_sorted = []
+_synonyms = {}
+_weak_entities = set()
+_channel_wl_re = None
 
 
 def _ensure_loaded():
-    """延迟加载规则文件。幂等 — 多次调用只加载一次。"""
-    global _loaded, KEEP_SCORE_THRESHOLD, GRAY_SCORE_LOW, MEDIUM_MIN_SCORE
-    global LANG_POSITIVE, LANG_NEGATIVE, BL_PASS2_PATTERNS, BL_R2_PATTERNS, BL_PASS2_RE, BL_R2_RE, STRONG_RE
-    global LANGUAGES, LANGUAGES_SORTED, SYNONYMS, WEAK_ENTITIES, CHANNEL_WL_RE
+    global _loaded, _pass2_re, _r2_re, _strong_re
+    global _positive, _negative
+    global _languages, _languages_sorted, _synonyms, _weak_entities, _channel_wl_re
 
     if _loaded:
         return
 
-    bl_path = _RULES_DIR / "current" / "blacklist.toml"
-    wl_path = _RULES_DIR / "current" / "whitelist.toml"
-    ent_path = _RULES_DIR / "current" / "entities.toml"
+    bl = load_blacklist(RULES_DIR)
+    _pass2_re = re.compile(bl["pass2"], re.I)
+    _r2_re = re.compile(bl["r2"], re.I)
 
-    _bl = tomllib.loads(bl_path.read_text("utf-8")) if bl_path.exists() else {}
-    _wl = tomllib.loads(wl_path.read_text("utf-8")) if wl_path.exists() else {}
-    _ent = tomllib.loads(ent_path.read_text("utf-8")) if ent_path.exists() else {}
+    strong = load_strong_pattern(RULES_DIR)
+    _strong_re = re.compile(strong, re.I) if strong else re.compile(r"(?!x)x")
 
-    # 阈值 — 来自 whitelist.toml [meta]
-    T = _wl.get("meta", {})
-    KEEP_SCORE_THRESHOLD = T.get("keep_score", 35)
-    GRAY_SCORE_LOW = T.get("gray_score_low", 15)
-    MEDIUM_MIN_SCORE = T.get("medium_min_score", 15)
+    scoring = load_scoring_rules(RULES_DIR)
+    _positive = scoring["positive"]
+    _negative = scoring["negative"]
 
-    # 编译正/负信号
-    _pos_raw = [(item["pattern"], item["score"]) for item in _wl.get("positive", [])]
-    _neg_raw = [(item["pattern"], item["score"]) for item in _wl.get("negative", [])]
+    ent = load_entities(RULES_DIR)
+    _languages = ent.get("languages", [])
+    _languages_sorted = sorted(_languages, key=len, reverse=True)
+    _synonyms = ent.get("synonyms", {})
+    _weak_entities = set(ent.get("weak_entities", []))
 
-    LANG_POSITIVE = [(re.compile(p, re.I), s) for p, s in _pos_raw]
-    LANG_NEGATIVE = [(re.compile(p, re.I), s) for p, s in _neg_raw]
-
-    # 黑名单 — 存 pattern 列表避免 split("|") bug
-    BL_PASS2_PATTERNS = [item["pattern"] for item in _bl.get("pass2", [])]
-    BL_R2_PATTERNS = [item["pattern"] for item in _bl.get("r2", [])]
-    _compile_pass2()
-    _compile_r2()
-
-    # 强语言教学信号
-    STRONG_RE = re.compile(
-        _wl.get("strong_lang_teaching_title_pattern", r"(?!x)x"), re.I
-    )
-
-    # 语言词典
-    LANGUAGES = _ent.get("languages", [])
-    LANGUAGES_SORTED = sorted(LANGUAGES, key=len, reverse=True)
-    SYNONYMS = _ent.get("synonyms", {})
-    WEAK_ENTITIES = set(_ent.get("weak_entities", []))
-
-    # 频道白名单
-    _wl_rx = _ent.get("channel_whitelist_regex", {})
-    CHANNEL_WL_RE = (
-        re.compile(_wl_rx.get("pattern", r"(?!x)x"), re.I) if _wl_rx else None
+    wl_rx = ent.get("channel_whitelist_regex", {})
+    _channel_wl_re = (
+        re.compile(wl_rx.get("pattern", r"(?!x)x"), re.I)
+        if wl_rx else None
     )
 
     _loaded = True
 
 
 def get_thresholds() -> dict:
-    """返回规则中定义的阈值，供 cleaner.py 等模块使用。"""
-    _ensure_loaded()
-    return {
-        "keep_score": KEEP_SCORE_THRESHOLD,
-        "gray_score_low": GRAY_SCORE_LOW,
-        "medium_min_score": MEDIUM_MIN_SCORE,
-    }
+    from core.rules_loader import load_thresholds
+    return load_thresholds(RULES_DIR)
 
 
-def set_rules_dir(path: str):
-    """切换规则目录并触发重新加载。"""
-    global _RULES_DIR, _loaded
-    _RULES_DIR = Path(path)
-    _loaded = False
-    _ensure_loaded()
-
+# ── UDF 注册 ─────────────────────────────────────────────
 
 def register_udfs(conn):
     """向 DuckDB 连接注册所有语言教学清洗 UDF。"""
@@ -126,22 +84,22 @@ def register_udfs(conn):
     # ── blacklist_pass2 ──
     def blacklist_pass2(title, channel, keyword):
         kw_clean = _strip_keyword_tags(keyword or "")
-        if CHANNEL_WL_RE and CHANNEL_WL_RE.search(
+        if _channel_wl_re and _channel_wl_re.search(
             f"{title or ''} {channel or ''} {kw_clean or ''}"
         ):
             return ""
         text = f"{title or ''} {channel or ''} {keyword or ''}"
-        m = BL_PASS2_RE.search(text)
+        m = _pass2_re.search(text)
         return m.group(0) if m else ""
 
     def blacklist_r2(title, channel, keyword):
         kw_clean = _strip_keyword_tags(keyword or "")
-        if CHANNEL_WL_RE and CHANNEL_WL_RE.search(
+        if _channel_wl_re and _channel_wl_re.search(
             f"{title or ''} {channel or ''} {kw_clean or ''}"
         ):
             return ""
         text = f"{title or ''} {channel or ''} {keyword or ''}"
-        m = BL_R2_RE.search(text)
+        m = _r2_re.search(text)
         return m.group(0) if m else ""
 
     conn.create_function(
@@ -153,32 +111,24 @@ def register_udfs(conn):
 
     # ── strong_lang_signal ──
     def strong_lang_signal(title, channel):
-        return bool(STRONG_RE.search(f"{title or ''} {channel or ''}"))
+        return bool(_strong_re.search(f"{title or ''} {channel or ''}"))
 
     conn.create_function(
         "strong_lang_signal", strong_lang_signal, ["VARCHAR", "VARCHAR"], "BOOLEAN"
     )
 
     # ── lang_teaching_score ──
-    def _strip_keyword_tags(kw):
-        """剥离 keyword 中 - 开头的标签 token。"""
-        if not kw:
-            return kw
-        kw = kw.strip().strip('"').lower()
-        parts = re.split(r"\s+-\s*", kw)
-        return parts[0] if parts else kw
-
     def lang_teaching_score(title, channel, keyword):
         kw_clean = _strip_keyword_tags(keyword)
         text = f"{title or ''} {channel or ''} {kw_clean or ''}"
         score = 0
-        for pat, pts in LANG_POSITIVE:
+        for pat, pts in _positive:
             if pat.search(text):
                 score += pts
-        for pat, pts in LANG_NEGATIVE:
+        for pat, pts in _negative:
             if pat.search(text):
                 score += pts
-        # 语言实体对齐惩罚: keyword 有语言实体但没出现在 title 中 → -25
+        # 语言实体对齐惩罚
         entities_str = parse_lang_entities(keyword)
         if entities_str:
             entities = entities_str.split("|")
@@ -186,7 +136,7 @@ def register_udfs(conn):
             aligned = any(e in title_lower for e in entities)
             if not aligned:
                 for ent in entities:
-                    for key, syns in SYNONYMS.items():
+                    for key, syns in _synonyms.items():
                         if key in ent or ent in key:
                             for s in syns:
                                 if s in title_lower:
@@ -196,7 +146,7 @@ def register_udfs(conn):
                             break
                     if aligned:
                         break
-            if not aligned and not STRONG_RE.search(title or ""):
+            if not aligned and not _strong_re.search(title or ""):
                 score -= 25
         return score
 
@@ -215,12 +165,11 @@ def register_udfs(conn):
         parts = re.split(r"\s+-\s*", kw)
         core = parts[0] if parts else kw
         entities = []
-        for term in LANGUAGES_SORTED:
+        for term in _languages_sorted:
             if term in core:
                 entities.append(term)
         if not entities:
             words = re.findall(r"[a-z一-鿿぀-ゟ゠-ヿ가-힯]{3,}", core)
-            # 教学语境词
             context_terms = {
                 "lesson", "class", "course", "learn", "study", "teach",
                 "grammar", "vocabulary", "pronunciation", "conversation",
@@ -258,7 +207,7 @@ def register_udfs(conn):
         for e in entities:
             if e in text:
                 return True
-            for key, syns in SYNONYMS.items():
+            for key, syns in _synonyms.items():
                 if key in e or e in key:
                     for s in syns:
                         if s in text:
@@ -273,3 +222,14 @@ def register_udfs(conn):
     )
 
     return conn
+
+
+# ── 工具函数 ─────────────────────────────────────────────
+
+def _strip_keyword_tags(kw):
+    """剥离 keyword 中 - 开头的标签 token。"""
+    if not kw:
+        return kw
+    kw = kw.strip().strip('"').lower()
+    parts = re.split(r"\s+-\s*", kw)
+    return parts[0] if parts else kw

@@ -128,7 +128,7 @@ def main():
         lines.append("")
 
     lines.append("## 下一步")
-    lines.append(f"根据污染分析结果更新 02_脚本/rules/current/blacklist.toml")
+    lines.append(f"根据污染分析结果更新 categories/language_teaching/rules/blacklist.toml 或 categories/beauty/rules/blacklist.toml")
     lines.append(f"然后重新运行 phase5_clean.py 迭代清洗")
 
     out_md = os.path.join(out_dir, "pollution_analysis_v1.md")
