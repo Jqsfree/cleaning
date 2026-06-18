@@ -1,0 +1,109 @@
+# Entity rules — 美妆
+# brands: 知名美妆品牌列表
+# product_types: 美妆产品类型
+# techniques: 化妆技法
+# weak_entities: 泛词，不能独立作为强信号
+# channel_whitelist_regex: 知名美妆频道白名单正则
+
+# ═══════════════════ 美妆品牌 ═══════════════════
+brands = [
+  # 国际高端
+  "Chanel", "Dior", "YSL", "Lancôme", "Estée Lauder", "Clinique",
+  "Guerlain", "Givenchy", "Tom Ford", "Hermès", "Giorgio Armani",
+  "Bobbi Brown", "MAC", "NARS", "Urban Decay", "Too Faced",
+  "Anastasia Beverly Hills", "Huda Beauty", "Fenty Beauty",
+  "Charlotte Tilbury", "Pat McGrath", "Natasha Denona",
+  "Hourglass", "Laura Mercier", "BareMinerals", "Smashbox",
+  "Tarte", "Benefit", "Becca", "Jouer", "Kevyn Aucoin",
+  # 大众/药妆
+  "Maybelline", "L'Oréal", "Revlon", "CoverGirl", "NYX",
+  "elf Cosmetics", "Wet n Wild", "Milani", "ColourPop",
+  "Makeup Revolution", "Rimmel", "Essence", "Catrice",
+  "Physicians Formula", "Neutrogena", "Olay", "L'Oreal Paris",
+  # 韩妆
+  "Etude House", "Innisfree", "Laneige", "Sulwhasoo", "Missha",
+  "Tony Moly", "Holika Holika", "Peripera", "Romand", "Clio",
+  "3CE", "The Face Shop", "Nature Republic", "Cosrx",
+  # 日妆
+  "Shiseido", "Shu Uemura", "SK-II", "CANMAKE", "Kate Tokyo",
+  "Dolly Wink", "Heroine Make", "Addiction", "Suqqu",
+  # 护肤
+  "The Ordinary", "CeraVe", "La Roche-Posay", "Avene", "Vichy",
+  "Kiehl's", "Drunk Elephant", "Glow Recipe", "Tatcha",
+  "Sunday Riley", "Dr. Jart+", "Paula's Choice",
+  "Ole Henriksen", "Fresh", "Origins", "Kora Organics",
+  # 中国品牌
+  "完美日记", "花西子", "橘朵", "彩棠", "毛戈平", "珀莱雅",
+  "自然堂", "百雀羚", "HomeFacialPro",
+  # 小众/网红
+  "Glossier", "Rare Beauty", "Kylie Cosmetics", "Haus Labs",
+  "Jones Road", "Merit", "Saie", "Tower 28", "Kosas",
+  "Ilia", "Westman Atelier", "Victoria Beckham Beauty",
+  "Patrick Ta", "Makeup by Mario", "One Size",
+  # 印度/南亚
+  "Lakmé", "Sugar Cosmetics", "Swiss Beauty", "Mamaearth",
+  "MyGlamm", "Nykaa", "Blue Heaven",
+  # 工具/刷具
+  "Real Techniques", "Sigma Beauty", "Zoeva", "Morphe",
+  "Sephora Collection", "Beauty Blender", "Fenty Beauty",
+  "Artis", "Hakuhodo", "Chikuhodo",
+  # 美发
+  "Olaplex", "Moroccanoil", "Living Proof", "Briogeo",
+  "GHD", "Dyson Hair", "T3", "Amika", "Kristin Ess",
+  "Shea Moisture", "Cantu",
+  # 美甲
+  "OPI", "Essie", "Sally Hansen", "China Glaze",
+  "CND", "Kiara Sky", "Madam Glam", "Beetles",
+  # 身体/香氛
+  "Sol de Janeiro", "Bath & Body Works", "Jo Malone",
+  "Diptyque", "Byredo", "Le Labo",
+]
+
+# ═══════════════════ 产品类型 ═══════════════════
+product_types = [
+  "foundation", "concealer", "primer", "powder",
+  "eyeshadow", "eyeliner", "mascara", "eyebrow",
+  "lipstick", "lip gloss", "lip liner", "lip tint", "liquid lipstick",
+  "blush", "bronzer", "highlighter", "contour",
+  "setting spray", "setting powder", "finishing powder",
+  "BB cream", "CC cream", "tinted moisturizer",
+  "serum", "toner", "moisturizer", "face oil", "essence",
+  "sunscreen", "SPF", "face mask", "sheet mask", "clay mask",
+  "eye cream", "night cream", "day cream",
+  "cleanser", "micellar water", "makeup remover",
+  "nail polish", "gel polish", "acrylic powder",
+  "hair dye", "hair color", "shampoo", "conditioner",
+  "hair mask", "hair oil", "hair spray",
+  "perfume", "body lotion", "body butter",
+  "makeup brush", "beauty sponge", "eyelash curler",
+  "false lashes", "lash glue",
+]
+
+# ═══════════════════ 化妆技法 ═══════════════════
+techniques = [
+  "contouring", "highlighting", "strobing", "baking",
+  "cut crease", "halo eye", "smokey eye", "winged liner",
+  "tightlining", "waterlining", "ombre lip", "gradient lip",
+  "overlining lips", "lip contour",
+  "draping", "blush draping", "underpainting",
+  "glass skin", "dewy skin", "matte skin",
+  "fox eye", "siren eye", "puppy eyeliner", "cat eye",
+  "soap brows", "laminated brows", "feather brows",
+  "color correcting", "concealing",
+  "setting", "baking", "powdering",
+  "transition shade", "outer V", "inner corner highlight",
+  "lash mapping", "lash application",
+]
+
+# ═══════════════════ 弱实体（泛词，不能独立作为强信号） ═══════════════════
+weak_entities = [
+  "makeup", "beauty", "cosmetic", "skincare", "hair", "nail",
+  "tutorial", "routine", "review", "look", "style", "glam",
+  "natural", "everyday", "simple", "easy", "quick", "beginner",
+  "tips", "hacks", "tricks", "secrets",
+  "products", "favorites", "must-haves", "essentials",
+]
+
+# ═══════════════════ 知名美妆频道白名单 ═══════════════════
+[channel_whitelist_regex]
+pattern = "(?i)(\\w+\\s*makeup\\b|\\w+\\s*beauty\\b|\\w+\\s*skincare\\b|\\w+\\s*cosmetics?\\b|makeup\\s*by\\s*\\w+|beauty\\s*by\\s*\\w+|\\b(Tati|James\\s*Charles|Jeffree\\s*Star|Nikkie\\s*Tutorials|Jaclyn\\s*Hill|Manny\\s*MUA|Patrick\\s*Starrr|Bretman\\s*Rock|Kathleen\\s*Lights|Jackie\\s*Aina|Wayne\\s*Goss|Lisa\\s*Eldridge|Hindash|PONY\\s*Syndrome|Ssin\\b|Daisy|Michelle\\s*Phan|Desi\\s*Perkins|Kandee\\s*Johnson|Carli\\s*Bybel|Chloe\\s*Morello|Nikkia\\s*Joy|Alissa\\s*Ashley|Laura\\s*Lee|RawBeautyKristi|Samantha\\s*Ravndahl|Allie\\s*Glines|Jessica\\s*Braun|Andrea\\s*Ali|Emily\\s*Noel|Temptalia|Pixiwoo|Real\\s*Techniques|Sephora|Ulta\\s*Beauty|Cult\\s*Beauty|Beautylish|Dermstore|Allure|Refinery29|Into\\s*The\\s*Gloss|Byrdie|Hypebae|Nylon|Cosmopolitan|Vogue\\s*Beauty|Harper'?s?\\s*Bazaar|ELLE))\\b"

@@ -1,0 +1,123 @@
+# Entity rules — 语言教学
+# languages: 目标语言实体列表
+# weak_entities: 泛词，不能独立作为强信号
+# synonyms: 语言名同义词/变体映射
+# channel_whitelist_regex: 频道白名单正则（知名语言教学频道）
+
+# ═══════════════════ 目标语言 ═══════════════════
+languages = [
+  # 东亚语言
+  "chinese", "mandarin", "cantonese", "putonghua", "zhongwen", "hanyu",
+  "japanese", "nihongo", "nippongo",
+  "korean", "hanguk", "hangugo",
+  # 欧洲语言
+  "english",
+  "spanish", "espanol", "castilian", "castellano",
+  "french", "francais", "français",
+  "german", "deutsch",
+  "italian", "italiano",
+  "portuguese", "portugues", "português", "brazilian portuguese",
+  "russian", "russkiy",
+  "dutch", "nederlands",
+  "polish", "polski",
+  "swedish", "svenska",
+  "norwegian", "norsk",
+  "danish", "dansk",
+  "finnish", "suomi",
+  "greek", "ellenika",
+  "czech", "cestina", "čeština",
+  "hungarian", "magyar",
+  "romanian", "romana", "română",
+  "ukrainian",
+  "turkish", "turkce", "türkçe",
+  "catalan", "catala", "català",
+  # 南亚语言
+  "hindi",
+  "urdu",
+  "bengali", "bangla",
+  "punjabi", "gurmukhi",
+  "tamil",
+  "telugu",
+  "marathi",
+  "gujarati",
+  "kannada",
+  "malayalam",
+  "sanskrit",
+  "nepali",
+  "sinhala",
+  # 中东/中亚语言
+  "arabic", "arabiya",
+  "hebrew", "ivrit",
+  "persian", "farsi",
+  "pashto",
+  "turkish",
+  "kazakh",
+  "uzbek",
+  # 东南亚语言
+  "thai",
+  "vietnamese", "tieng viet", "tiếng việt",
+  "indonesian", "bahasa indonesia",
+  "malay", "bahasa melayu",
+  "tagalog", "filipino",
+  "burmese", "myanmar",
+  "khmer", "cambodian",
+  "lao",
+  # 非洲语言
+  "swahili", "kiswahili",
+  "amharic",
+  "hausa",
+  "yoruba",
+  "igbo",
+  "zulu",
+  "afrikaans",
+  # 其他
+  "esperanto",
+  "latin",
+  "sign language", "asl", "bsl", "libras",
+  # 少数民族语言
+  "catalan", "basque", "galician",
+  "welsh", "irish", "gaelic", "scots gaelic",
+  "romansh",
+  "tibetan",
+  "uyghur",
+  "mongolian",
+  "maori",
+  "hawaiian",
+  "navajo",
+  "yiddish",
+  "kurdish",
+]
+
+# ═══════════════════ 弱实体（泛词，不能独立作为强信号） ═══════════════════
+weak_entities = [
+  "language", "languages", "lesson", "class", "course", "learn",
+  "speak", "speaking", "talk", "words", "word", "phrase", "phrases",
+  "basic", "beginner", "intermediate", "advanced",
+  "teacher", "tutor", "student", "school",
+]
+
+# ═══════════════════ 同义词映射 ═══════════════════
+[synonyms]
+chinese = ["mandarin", "putonghua", "zhongwen", "hanyu", "中文", "汉语", "普通话"]
+japanese = ["nihongo", "日本語", "日语"]
+korean = ["hanguk", "hangugo", "한국어", "한글"]
+english = ["ingles", "anglais", "englisch", "inglês", "английский"]
+spanish = ["espanol", "español", "castilian", "castellano", "spagnolo"]
+french = ["francais", "français", "francese"]
+german = ["deutsch", "tedesco", "alemán", "alemao"]
+italian = ["italiano"]
+portuguese = ["portugues", "português", "portoghese"]
+russian = ["russkiy", "русский"]
+arabic = ["arabiya", "عربية", "العربية"]
+hindi = ["हिन्दी", "हिंदी"]
+dutch = ["nederlands", "holandes"]
+turkish = ["turkce", "türkçe", "турецкий"]
+vietnamese = ["tieng viet", "tiếng việt"]
+indonesian = ["bahasa indonesia", "bahasa"]
+swahili = ["kiswahili"]
+farsi = ["persian"]
+tagalog = ["filipino"]
+
+# ═══════════════════ 知名语言教学频道白名单 ═══════════════════
+[channel_whitelist_regex]
+pattern = "(?i)(learn\\s*(english|french|spanish|german|japanese|chinese|korean|italian|arabic|russian|portuguese|hindi|dutch|polish|turkish|greek|swedish|norwegian|danish|finnish|czech|thai|vietnamese|indonesian|hebrew|persian|urdu|tamil|tagalog|swahili|afrikaans|icelandic|croatian|serbian|bulgarian|romanian|hungarian|ukrainian)|\\w+\\s*(class|lesson|course|school|academy|institute|tutor|coach|teacher)\\b|polyglot|linguist|multilingual|bilingual|\\b(BBC\\s*Learning\\s*English|VOA\\s*Learning\\s*English|English\\s*with\\s*\\w+|Learn\\s*\\w+\\s*with\\s*\\w+|\\w+Pod101|\\w+Class101|Easy\\s*(Languages|German|French|Spanish|Italian|English|Russian|Japanese|Chinese|Korean))|Talk\\s*To\\s*Me\\s*In\\s*Korean|Comprehensible\\s*Input|RealLife\\s*English|Speak\\s*English\\s*With)"

@@ -1,0 +1,88 @@
+# Whitelist / scoring rules — 美妆视频清洗
+# positive: 加分信号（越强分越高）
+# negative: 减分信号（惩罚项）
+
+strong_beauty_title_pattern = "\\b(makeup|beauty|cosmetic|skincare|hair\\s*(tutorial|style|care|routine)|nail\\s*(art|tutorial|design)|eyeshadow|eyeliner|lipstick|foundation|mascara|contour|blush|bronzer|highlighter|concealer|primer|powder\\s*(foundation|makeup)|eyebrow|\\blash\\b|wig\\b|hairstyle|haircut|make\\s*up|maquillage|maquiagem|maquillaje|GRWM|get\\s*ready\\s*with\\s*me|makeup\\s*(tutorial|routine|review|look|transformation|challenge)|beauty\\s*(tutorial|routine|review|hack|tip|blog|vlog|channel)|skincare\\s*(routine|review|tip)|swatch|palette\\b|pigment|pigmented|blend\\s*(makeup|eyeshadow)|smokey\\s*eye|winged\\s*liner|cut\\s*crease|baking\\s*(makeup|technique)|setting\\s*(spray|powder)|glam\\s*(look|makeup)|bridal\\s*makeup|festive\\s*makeup|party\\s*makeup|natural\\s*makeup|full\\s*face\\s*makeup|first\\s*impressions?\\s*(makeup|beauty)|testing\\s*(makeup|beauty|lips?stick)|trying\\s*(new\\s*)?makeup|unboxing\\s*(makeup|beauty)|haul\\s*(makeup|beauty|skincare|cosmetic))\\b"
+
+[meta]
+rules_version = "2026.06.10-1"
+version = "1.0"
+keep_score = 35
+gray_score_low = 15
+medium_min_score = 15
+playlist_min_samples = 5
+playlist_min_hit_rate = 0.10
+
+# ═══════════════════ [[positive]] — 美妆加分信号 ═══════════════════
+
+[[positive]]
+category = "makeup_tutorial"
+pattern = "\\b(makeup\\s*tutorial|beauty\\s*tutorial|how\\s*to\\s*(apply|do|create|achieve)\\s*(makeup|eyeshadow|eyeliner|lipstick|foundation)|step[\\s-]by[\\s-]step\\s*(makeup|beauty|tutorial)|beginner\\s*(makeup|beauty)\\s*tutorial|easy\\s*(makeup|beauty)\\s*(tutorial|look)|quick\\s*(makeup|beauty)\\s*(tutorial|look))\\b"
+score = 30
+
+[[positive]]
+category = "product_review_swatch"
+pattern = "\\b(makeup\\s*review|beauty\\s*review|product\\s*review|swatch|swatches|first\\s*impressions?|testing\\s*(makeup|beauty|product)|honest\\s*review|worth\\s*the\\s*hype|worth\\s*it\\?|full\\s*face\\s*(of|first|using|new)|unboxing\\s*(makeup|beauty)|haul\\s*(makeup|beauty|cosmetic|skincare))\\b"
+score = 28
+
+[[positive]]
+category = "skincare"
+pattern = "\\b(skincare\\s*(routine|review|tip|tutorial|for|hack)|face\\s*wash|cleanser|moisturizer|serum|toner|sunscreen|\\bSPF\\b|exfoliat(e|ing|or)|face\\s*mask|sheet\\s*mask|clay\\s*mask|peel\\s*off\\s*mask|charcoal\\s*mask|homemade\\s*(face|skin|beauty|cream|mask)|night\\s*cream|anti[\\s-]?aging|acne\\s*(treatment|solution|care)|pimple|blackhead|glowing\\s*skin|fairness|whitening\\s*cream)\\b"
+score = 25
+
+[[positive]]
+category = "hair_tutorial"
+pattern = "\\b(hair\\s*(tutorial|style|routine|care|transformation|hack)|hairstyle|haircut\\s*tutorial|braid\\s*(tutorial|hair)|waterfall\\s*braid|fishtail\\s*braid|dutch\\s*braid|french\\s*braid|curling\\s*hair|straightening\\s*hair|blowout\\s*tutorial|hair\\s*dye|hair\\s*color|balayage|ombre\\s*hair|wig\\s*(install|review|tutorial)|natural\\s*hair\\s*(routine|tutorial|care)|curly\\s*hair\\s*(routine|tutorial))\\b"
+score = 25
+
+[[positive]]
+category = "nail_art"
+pattern = "\\b(nail\\s*(art|design|tutorial|hack|idea)|manicure|pedicure|gel\\s*nails?|acrylic\\s*nails?|nail\\s*polish|nail\\s*stamping|nail\\s*vinyl|nail\\s*tape|cutepolish|simplynailogic|nail\\s*care|nail\\s*routine)\\b"
+score = 25
+
+[[positive]]
+category = "makeup_technique"
+pattern = "\\b(eyeshadow\\s*(tutorial|look|palette|application)|eyeliner\\s*(tutorial|hack|tip|style)|lipstick\\s*(tutorial|swatch|review|application)|contour(ing)?\\s*(tutorial|tip|hack|routine)|highlight(er|ing)?\\s*(tutorial|tip|placement)|foundation\\s*(routine|review|tutorial|application)|mascara\\s*(trick|hack|review|tutorial)|eyebrow\\s*(tutorial|routine|shaping|filling)|concealer\\s*(tutorial|hack|tip)|blush\\s*(application|placement|tutorial)|bronzer\\s*(tutorial|application)|setting\\s*(spray|powder|technique)|baking\\s*(technique|makeup)|cut\\s*crease|smokey\\s*eye|winged\\s*liner|halo\\s*eye|ombre\\s*lip|gradient\\s*lip)\\b"
+score = 22
+
+[[positive]]
+category = "grwm_routine"
+pattern = "\\b(GRWM|get\\s*ready\\s*with\\s*me|makeup\\s*routine|beauty\\s*routine|morning\\s*routine.*(makeup|skincare|beauty)|night\\s*routine.*(makeup|skincare|beauty)|everyday\\s*(makeup|beauty)\\s*routine|daily\\s*(makeup|beauty)\\s*routine|my\\s*(makeup|beauty)\\s*routine|full\\s*face\\s*routine|5\\s*minute\\s*(makeup|face)|10\\s*minute\\s*(makeup|face))\\b"
+score = 20
+
+[[positive]]
+category = "transformation"
+pattern = "\\b(makeup\\s*transformation|beauty\\s*transformation|before\\s*(and|&)\\s*after|makeover|glow\\s*up|dramatic\\s*makeup|bold\\s*makeup|creative\\s*makeup|editorial\\s*makeup|fantasy\\s*makeup)\\b"
+score = 20
+
+[[positive]]
+category = "special_occasion"
+pattern = "\\b(bridal\\s*makeup|wedding\\s*makeup|prom\\s*makeup|party\\s*makeup|festive\\s*makeup|holiday\\s*makeup|halloween\\s*makeup|cosplay\\s*makeup|date\\s*night\\s*makeup|valentine'?s?\\s*makeup|new\\s*year'?s?\\s*eve\\s*makeup|eid\\s*makeup|diwali\\s*makeup)\\b"
+score = 18
+
+[[positive]]
+category = "brand_product"
+pattern = "\\b(NYX|Maybelline|L'?Or[eé]al|MAC\\s*Cosmetics|NARS|Too\\s*Faced|Urban\\s*Decay|Anastasia\\s*Beverly|Huda\\s*Beauty|Fenty\\s*Beauty|Charlotte\\s*Tilbury|Natasha\\s*Denona|Pat\\s*McGrath|Morphe|ColourPop|elf\\s*Cosmetics|Revlon|CoverGirl|Wet\\s*n\\s*Wild|Milani|Makeup\\s*Revolution|The\\s*Ordinary|CeraVe|La\\s*Roche[\\s-]Posay|Kylie\\s*Cosmetics|Rare\\s*Beauty|Glossier|Drunk\\s*Elephant|Tatcha|Sunday\\s*Riley|Ole[\\s-]Henriksen|Clinique|Est[eé]e\\s*Lauder|Lanc[oô]me|Dior\\s*Beauty|Chanel\\s*Beauty|YSL\\s*Beauty|Givenchy\\s*Beauty|Gucci\\s*Beauty|Tom\\s*Ford\\s*Beauty)\\b"
+score = 15
+
+[[positive]]
+category = "beauty_channel"
+pattern = "\\b(makeup\\s*by\\s*\\w+|beauty\\s*by\\s*\\w+|\\w+\\s*makeup\\b|\\w+\\s*beauty\\b|skincare\\s*by\\s*\\w+|glam\\s*\\w+|cosmetics?\\b|makeup\\s*(artist|blogger|vlogger|channel|studio))\\b"
+score = 12
+
+# ═══════════════════ [[negative]] — 减分信号 ═══════════════════
+
+[[negative]]
+category = "non_beauty_tutorial"
+pattern = "\\b(photoshop\\s*tutorial|illustrator\\s*tutorial|after\\s*effects\\s*tutorial|premiere\\s*pro\\s*tutorial|canva\\s*tutorial|excel\\s*tutorial|powerpoint\\s*tutorial|python\\s*tutorial|javascript\\s*tutorial|web\\s*development\\s*tutorial|arduino\\s*tutorial|raspberry\\s*pi\\s*tutorial)\\b"
+score = -25
+
+[[negative]]
+category = "non_beauty_channel"
+pattern = "\\b(Movieclips|Law\\s*&\\s*Crime|Law\\s*and\\s*Crime|BBC\\s*News|Zee\\s*TV|Sony\\s*(SAB|PAL|TV|LIV)|Star\\s*Plus|Colors\\s*TV|KBS\\s*WORLD|ABS[\\s-]?CBN|Aaj\\s*Tak|NDTV|ABP\\s*News|Republic\\s*(TV|Bharat)|Times\\s*Now|CNN|Fox\\s*News|NBC\\s*News|Sky\\s*News|Al\\s*Jazeera|EuroNews|5[\\s-]Minute\\s*Crafts|Troom\\s*Troom|Blossom\\b|Toys\\s*and\\s*Colors|Ryan'?s\\s*World|Flamingo\\b|LankyBox|FGTeeV|Cocomelon|ChuChu\\s*TV|Little\\s*Baby\\s*Bum|Blippi|Paw\\s*Patrol|Peppa\\s*Pig|Pinkfong|BabyBus|Super\\s*Simple\\s*Songs)\\b"
+score = -20
+
+[[negative]]
+category = "vlog_title_no_beauty"
+pattern = "\\b(come\\s*(shopping|with\\s*me|to\\s*the)|what\\s*i\\s*eat|pack\\s*with\\s*me|clean\\s*with\\s*me|decorate\\s*with\\s*me|travel\\s*with\\s*me)\\b"
+score = -15

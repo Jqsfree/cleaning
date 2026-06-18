@@ -1,0 +1,5 @@
+# This directory is a Syncthing folder marker.
+# Do not delete.
+
+folderID: uhpce-wenou
+created: 2026-06-12T17:05:45+08:00

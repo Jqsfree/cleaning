@@ -1,0 +1,102 @@
+# Blacklist rules — 美妆视频清洗
+# pass2 = 硬过滤（高置信非美妆，命中即 drop）
+# r2    = 二次过滤（可结合打分信号）
+
+[meta]
+version = "1.0"
+
+# ═══════════════════ pass2: 高置信非美妆 ═══════════════════
+
+[[pass2]]
+category = "gaming"
+pattern = "\\b(minecraft|roblox|fortnite|gameplay|let'?s\\s*play|walkthrough|pubg|free\\s*fire|garena|subway\\s*surfers|mario\\s*kart|street\\s*fighter|call\\s*of\\s*duty|\\bcod\\b|gta\\s*[45v]|valorant|overwatch|dota\\s*2|league\\s*of\\s*legends|fifa\\s*\\d+|pok[eé]mon|yugioh|clash\\s*(of|royale)|esports?|boss\\s*fight|smash\\s*bros|super\\s*smash|baldur'?s\\s*gate|\\b3rd\\s*strike\\b|video\\s*game|console\\s*game|pc\\s*game|gaming\\s*channel|twitch\\s*stream)\\b"
+
+[[pass2]]
+category = "sports"
+pattern = "\\b(football|basketball|baseball|hockey|soccer|cricket|tennis|boxing|ufc|mma|wwe\\b|wrestling|olympic|world\\s*cup|championship|tournament|match\\s*day|full\\s*match|highlights?|final\\b|semi[\\s-]?final|grand\\s*prix|formula\\s*1|\\bf1\\b|nba\\b|nfl\\b|nhl\\b|mlb\\b|premier\\s*league|la\\s*liga|serie\\s*a|bundesliga|champions\\s*league|ski\\s*race|biathlon|marathon|triathlon|cycling\\s*race|swim\\s*meet|gymnastics|figure\\s*skating|speed\\s*skating|ice\\s*hockey|snowboard|cross\\s*country\\s*ski|track\\s*and\\s*field|shot\\s*put|pole\\s*vault|long\\s*jump|high\\s*jump|hurdles?|relay\\s*race)\\b"
+
+[[pass2]]
+category = "music_entertainment"
+pattern = "\\b(official\\s*(music|audio|video)|lyrics?\\s*video|music\\s*video|dj\\s*set|extended\\s*mix|rap\\s*battle|kpop|k[\\s-]?pop|blackpink|\\bbts\\b|taylor\\s*swift|karaoke|cover\\s*song|\\bremix\\b|slowed\\s*\\+\\s*reverb|dj\\s*mix|song\\s*playlist|music\\s*playlist|\\btopic\\b.*-\\s*Topic|\\b-\\s*Topic\\b|guitar\\s*(lesson|tutorial|cover)|piano\\s*(tutorial|cover|lesson)|drum\\s*(cover|lesson)|bass\\s*(cover|lesson))\\b"
+
+[[pass2]]
+category = "tv_movie_drama"
+pattern = "\\b(movie\\s*scene|movieclips|official\\s*trailer|teaser\\s*trailer|netflix|tv\\s*series|tv\\s*show|\\bdrama\\b|bollywood|tollywood|kollywood|soap\\s*opera|full\\s*episode|full\\s*story\\b|season\\s*\\d+\\s*episode|episode\\s*\\d+|full\\s*hd\\s*movie|Sony\\s*(SAB|PAL)|KBS\\s*WORLD|taarak\\s*mehta|star\\s*plus|zee\\s*tv|abs[\\s-]?cbn)\\b"
+
+[[pass2]]
+category = "news_media"
+pattern = "\\b(CBS\\s*News|Fox\\s*News|NBC\\s*News|CNN\\b|euronews|BBC\\s*News|Sky\\s*News|NEWS\\s*CENTER|CCTV\\s*Video\\s*News|press\\s*conference|white\\s*house|election|presidential|al\\s*jazeera|inside\\s*story|protest|law\\s*&\\s*crime|law\\s*and\\s*crime|lehren\\s*tv|vikatan\\s*tv|social\\s*news)\\b"
+
+[[pass2]]
+category = "religion"
+pattern = "\\b(worship|sermon|prayer|bible|gospel|pastor|church\\s*service|quran|tafseer|madani\\s*channel|sabbath\\s*school|jewish\\s*prayer|islamiat|islamic\\s*studies)\\b"
+
+[[pass2]]
+category = "kids_cartoon"
+pattern = "\\b(peppa\\s*pig|cartoon|cartoonito|nursery\\s*rhyme|kids\\s*channel|cocomelon|super\\s*simple\\s*songs|toca\\s*(life|boca)|grizzy|lemmings|dinosaur\\s*king|pinkfong|babybus|little\\s*fox|toys\\s*and\\s*colors|slime\\s*video|satisfying\\s*slime|ryan'?s\\s*world|blippi|morphle|paw\\s*patrol|bluey\\b)\\b"
+
+[[pass2]]
+category = "tech_programming"
+pattern = "\\b(programming|coding|algorithm|data\\s*structure|\\bapi\\b|machine\\s*learning|deep\\s*learning|artificial\\s*intelligence|\\bai\\b|neural\\s*network|database|sql|python\\s*tutorial|java\\s*tutorial|javascript|react\\.?js|node\\.?js|docker|kubernetes|devops|full\\s*stack|frontend|backend|software\\s*engineer|hacker|cybersecurity|ethical\\s*hacking|photoshop\\s*(tutorial|color\\s*grading)|best\\s*design\\s*for|figma\\s*tutorial)\\b"
+
+[[pass2]]
+category = "language_teaching"
+pattern = "\\b(hsk\\s*\\d|jlpt\\s*n\\d|delf|dalf|goethe|toefl|ielts|toeic|esl\\b|efl\\b|tefl\\b|tesol\\b|hiragana|katakana|kanji\\b|hangul|hangeul|pinyin|grammar\\s*lesson|vocabulary\\s*lesson|english\\s*(lesson|class|course|listening|speaking|practice)|learn\\s*(english|french|spanish|japanese|chinese|korean|german|italian|arabic|hindi)|language\\s*(lesson|class|course|learning|school))\\b"
+
+[[pass2]]
+category = "cooking_food"
+pattern = "\\b(recipe|cooking|mukbang|eat\\s*with\\s*me|street\\s*food|village\\s*(food|cooking|lifestyle)|kitchen\\s*recipe|baking\\s*tutorial|food\\s*challenge|mukbang|food\\s*review\\b|taste\\s*test\\b|cook\\s*with\\s*me)\\b"
+
+[[pass2]]
+category = "medical_health"
+pattern = "\\b(lipoma\\s*removal|surgery\\b|medical\\s*procedure|dementia|alzheimer|diabetes|cancer\\s*treatment|stomach\\s*problems|gas.*constipation|weight\\s*loss\\s*surgery|dental\\s*implant|hair\\s*transplant|plastic\\s*surgery\\b|dermatology\\s*clinic\\b|\\bdr\\.\\s*\\w+\\s*(clinic|hospital))\\b"
+
+[[pass2]]
+category = "yoga_fitness"
+pattern = "\\b(yoga\\s*(with|class|workout|journey|practice|for)|meditation\\s*(class|session|music|for)|pilates|zumba|hiit\\s*workout|crossfit|gym\\s*workout|fitness\\s*routine|exercise\\s*routine|bodyweight\\s*workout|cardio\\s*workout|stretching\\s*routine|warm\\s*up\\s*routine|abs\\s*workout|glute\\s*workout)\\b"
+
+[[pass2]]
+category = "car_auto"
+pattern = "\\b(car\\s*review|auto\\s*review|drag\\s*race|car\\s*mod|truck\\b|motorcycle|bike\\s*review|ford\\s*(explorer|mustang)|lamborghini|ferrari|porsche|tesla|electric\\s*car|hybrid|mechanic|engine\\s*repair|oil\\s*change|car\\s*maintenance|šKODA|SKODA|racing\\s*car|rally\\s*race)\\b"
+
+[[pass2]]
+category = "non_beauty_educational"
+pattern = "\\b(CA\\s*Foundation|Islamiat|Class\\s*\\d+(th|st|nd|rd)\\b|cbse|ncert|uptet|ctet|upsc|ssc\\b|gate\\s*exam|jee\\s*(main|advanced)|neet\\b|ias\\b|ips\\b|accounting\\s*syllabus|physics|chemistry|biology|calculus|algebra|trigonometry|science\\s*experiment|lecture\\s*\\d+|100%\\s*syllabus|new\\s*scheme)\\b"
+
+[[pass2]]
+category = "life_hacks_deals"
+pattern = "\\b(free\\s*hack|BOGO|swiggy|money\\s*earning|how\\s*to\\s*earn|make\\s*money\\s*online|work\\s*from\\s*home\\s*jobs?|freelanc(e|ing)\\s*(tips|guide|how)|passive\\s*income|side\\s*hustle|credit\\s*card\\s*hack|free\\s*recharge)\\b"
+
+# ═══════════════════ r2: 二次过滤 ═══════════════════
+
+[[r2]]
+category = "asmr_non_makeup"
+pattern = "\\b(asmr\\s*(whisper|binaural|eating|mouth|trigger|roleplay|sleep|relaxing|tingles?|dummy\\s*head)|\\basmr\\b)\\b"
+
+[[r2]]
+category = "vlog_non_beauty"
+pattern = "\\b(school\\s*(routine|morning|night)|morning\\s*routine\\b|night\\s*routine\\b|daily\\s*vlog\\b|what\\s*i\\s*eat\\s*in\\s*a\\s*day|room\\s*tour\\b|house\\s*tour\\b|apartment\\s*tour\\b|couples?\\s*(know|challenge|tag|q&a)|boyfriend\\s*(tag|does|tries)|girlfriend\\s*(tag|does|tries))\\b"
+
+[[r2]]
+category = "podcast_interview"
+pattern = "\\b(podcast\\b|talk\\s*show|interview\\b|stand\\s*up\\s*comedy|comedy\\s*special|behind\\s*the\\s*scenes\\b|documentary\\b|true\\s*crime|true\\s*story\\b)\\b"
+
+[[r2]]
+category = "finance_trading"
+pattern = "\\b(stock\\s*market|crypto|bitcoin|trading|forex|investment|mutual\\s*fund|real\\s*estate|insurance|credit\\s*card|loan\\b|mortgage|financial|wealth\\s*management|tax\\s*guide|business\\s*growth|startup\\b)\\b"
+
+[[r2]]
+category = "diy_craft_non_beauty"
+pattern = "\\b(diy\\s*(room|home|house|furniture|garden|candle|soap|bath\\s*bomb|slime|craft|paper|cardboard|wood|paint)|crochet|knitting|sewing|woodworking|origami|resin\\s*art\\b)\\b"
+
+[[r2]]
+category = "anime_manga"
+pattern = "\\b(anime|manga|naruto|one\\s*piece|dragon\\s*ball|demon\\s*slayer|attack\\s*on\\s*titan|jujutsu\\s*kaisen|my\\s*hero\\s*academia|death\\s*note|tokyo\\s*ghoul|bleach\\b|hunter\\s*x\\s*hunter|chainsaw\\s*man|spy\\s*x\\s*family)\\b"
+
+[[r2]]
+category = "travel_outdoor"
+pattern = "\\b(travel\\s*vlog|travel\\s*guide|travel\\s*diary|trekking|hiking|camping|backpacking|solo\\s*travel|road\\s*trip|survival\\s*in|wilderness|bushcraft|fishing\\s*trip|hunting\\b|safari\\b|national\\s*park\\s*tour)\\b"
+
+[[r2]]
+category = "nsfw_adult"
+pattern = "\\b(tv\\s*(erotica|nude|hot\\b|adult)|nude\\b|erotic\\b|18\\+|onlyfans|\\bOF\\b\\s*(model|content)|下着|sexy\\s*(video|model|girl))\\b"

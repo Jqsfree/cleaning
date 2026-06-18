@@ -1,0 +1,103 @@
+# Whitelist / scoring rules — 语言教学视频清洗
+# positive: 加分信号（越强分越高）
+# negative: 减分信号（惩罚项）
+
+strong_lang_teaching_title_pattern = "\\b(lesson|class|course|lecture|tutorial|learn|learning|practice|grammar|vocabulary|pronunciation|conversation|speaking|listening|reading|writing|beginner|intermediate|advanced|full\\s*course|complete\\s*course|language\\s*school|study|teach|teaching|\\b(a1|a2|b1|b2|c1|c2)\\b|hsk\\s*\\d|jlpt\\s*n\\d|delf|dalf|goethe|toefl|ielts|toeic|esl\\b|efl\\b|tefl\\b|tesol\\b|hiragana|katakana|kanji|hangul|hangeul|pinyin|alphabet|devanagari|cyrillic|fran[çc]ais|espa[ñn]ol|deutsch|italiano|portugu[êe]s|\\bÑÐ¾¿\\b|mandarin|cantonese|putonghua)\\b"
+
+[meta]
+rules_version = "2026.06.09-1"
+version = "1.0"
+keep_score = 35
+gray_score_low = 15
+medium_min_score = 15
+playlist_min_samples = 5
+playlist_min_hit_rate = 0.10
+
+# ═══════════════════ [[positive]] — 语言教学加分信号 ═══════════════════
+
+[[positive]]
+category = "structured_lesson"
+pattern = "\\b(lesson\\s*\\d+|class\\s*\\d+|lecture\\s*\\d+|unit\\s*\\d+|chapter\\s*\\d+|week\\s*\\d+|session\\s*\\d+|episode\\s*\\d+|part\\s*\\d+)\\b"
+score = 30
+
+[[positive]]
+category = "language_certification"
+pattern = "\\b(hsk\\s*[1-6]|jlpt\\s*n[1-5]|delf\\s*(a[12]|b[12])|dalf\\s*c[12]|goethe\\s*zertifikat|goethe\\s*(a[12]|b[12]|c[12])|toefl|ielts|toeic|celpip|tef\\b|tcf\\b|dele\\b|sieLE|cils\\b|cils|plida|celi\\b|cape\\b|opIc|flex\\s*test|esol|esl\\b|efl\\b|tefl\\b|tesol\\b|celta|delta\\b)\\b"
+score = 28
+
+[[positive]]
+category = "language_writing_system"
+pattern = "\\b(hiragana|katakana|kanji\\b|hangul|hangeul|pinyin|zhuyin|devanagari|cyrillic|alphabet|script|characters?|stroke\\s*order|radicals?)\\b"
+score = 25
+
+[[positive]]
+category = "grammar_structure"
+pattern = "\\b(grammar|tense|verb\\s*conjugation|sentence\\s*structure|word\\s*order|syntax|morphology|phonetics?|phonology|particle|preposition|adjective|adverb|noun\\s*phrase|clause|passive\\s*voice|active\\s*voice|conditional|subjunctive|imperative|declension|case\\s*system|nominative|accusative|dative|genitive|instrumental|locative)\\b"
+score = 25
+
+[[positive]]
+category = "vocabulary_building"
+pattern = "\\b(vocabulary|vocab\\b|words?\\s*list|flash\\s*card|anki|memorize|remember|learn\\s*\\d+\\s*words|common\\s*phrases|useful\\s*phrases|essential\\s*(words|phrases|verbs)|basic\\s*(words|phrases|vocabulary)|\\d+\\s*most\\s*common|frequency\\s*list|frequency\\s*dictionary|word\\s*bank|glossary)\\b"
+score = 22
+
+[[positive]]
+category = "conversation_speaking"
+pattern = "\\b(conversation|speaking|speak\\b|dialog|dialogue|pronunciation|accent|intonation|fluency|oral|spoken|talk\\s*in\\s*\\w+|shadowing|repeat\\s*after\\s*me|listen\\s*and\\s*repeat|role\\s*play|real\\s*life|daily\\s*conversation|everyday\\s*\\w+)\\b"
+score = 20
+
+[[positive]]
+category = "listening_comprehension"
+pattern = "\\b(listening|comprehension|dictation|audio\\s*(lesson|class|practice)|podcast|slow\\s*(english|french|spanish|german|japanese|chinese|korean|italian)|natural\\s*speed|native\\s*speaker|subtitles?|transcript|with\\s*subtitles)\\b"
+score = 20
+
+[[positive]]
+category = "reading_writing"
+pattern = "\\b(reading\\s*(practice|comprehension|exercise)|writing\\s*(practice|exercise|skill)|essay\\s*writing|paragraph|handwriting|cursive|calligraphy|typing\\s*in\\s*\\w+|text\\s*analysis|literature|poem|story|short\\s*story|news\\s*article|newspaper)\\b"
+score = 18
+
+[[positive]]
+category = "language_level_marker"
+pattern = "\\b(beginner|elementary|pre[\\s-]?intermediate|intermediate|upper[\\s-]?intermediate|advanced|proficiency|mastery|\\b(a1|a2|b1|b2|c1|c2)\\b|novice|level\\s*\\d|grade\\s*\\d|step\\s*\\d|stage\\s*\\d|phase\\s*\\d|basic|fundamental|essential|introduction|intro\\b)\\b"
+score = 15
+
+[[positive]]
+category = "course_series"
+pattern = "\\b(full\\s*course|complete\\s*course|full\\s*series|complete\\s*series|all\\s*lessons?|\\d+\\s*lessons?|\\d+\\s*hours?|intensive\\s*course|crash\\s*course|boot\\s*camp|masterclass|workshop|seminar|training|coaching|tutoring|self[\\s-]?study|online\\s*(course|class|lesson)|video\\s*(course|lesson|class)|recorded\\s*(class|lesson|lecture)|live\\s*(class|lesson|session|replay))\\b"
+score = 18
+
+[[positive]]
+category = "textbook_curriculum"
+pattern = "\\b(textbook|workbook|curriculum|syllabus|module|course\\s*book|student'?s?\\s*book|teacher'?s?\\s*book|exercise\\s*book|practice\\s*book|answer\\s*key|solution|homework|assignment|quiz|test|exam|examination|assessment|evaluation|mock\\s*test|sample\\s*paper|past\\s*paper|practice\\s*test|model\\s*test|model\\s*paper)\\b"
+score = 15
+
+[[positive]]
+category = "bilingual_multilingual"
+pattern = "\\b(bilingual|multilingual|polyglot|trilingual|in\\s*\\w+\\s*and\\s*\\w+|\\w+\\s*to\\s*\\w+\\s*translation|translated|subtitled|dubbed|with\\s*\\w+\\s*subtitles?|\\w+\\s*with\\s*\\w+\\s*translation|explained\\s*in\\s*\\w+|taught\\s*in\\s*\\w+)\\b"
+score = 15
+
+[[positive]]
+category = "language_school_channel"
+pattern = "\\b(learn\\s*\\w+\\s*(with|by|online|fast|easy|free)|\\w+\\s*(class|lesson|course|school|academy|institute|teacher|tutor|coach|professor|instructor|lecturer|polyglot|linguist|language\\s*lover|language\\s*learner|language\\s*student|language\\s*nerd|language\\s*geek))\\b"
+score = 12
+
+# ═══════════════════ [[negative]] — 减分信号（有语言关键词但实际非语言教学） ═══════════════════
+
+[[negative]]
+category = "tv_drama_series"
+pattern = "\\b(episode\\s*\\d+\\s*(review|recap|reaction)|season\\s*\\d+|\\btv\\s*show|drama\\s*series|kdrama|cdrama|jdrama|telenovela)\\b"
+score = -20
+
+[[negative]]
+category = "gaming_stream"
+pattern = "\\b(gaming|gameplay|playthrough|speedrun|twitch\\s*stream|stream\\s*highlight|no\\s*commentary\\s*gameplay|lets\\s*play|let'?s\\s*play)\\b"
+score = -25
+
+[[negative]]
+category = "music_performance"
+pattern = "\\b(cover\\s*song|karaoke|sing\\s*along|guitar\\s*lesson|piano\\s*tutorial|drum\\s*lesson|bass\\s*lesson|violin\\s*lesson|music\\s*lesson|choir|chorus|orchestra|band\\s*rehearsal|concert|live\\s*performance|festival|dj\\s*set)\\b"
+score = -20
+
+[[negative]]
+category = "non_lang_educational"
+pattern = "\\b(coding|programming|web\\s*development|data\\s*science|excel\\s*tutorial|powerpoint\\s*tutorial|photoshop\\s*tutorial|\\bms\\s*(word|excel|office)|\\bcs\\b|computer\\s*science|electrical\\s*engineering|mechanical\\s*engineering|civil\\s*engineering|medical\\s*school|law\\s*school|bar\\s*exam|cpa\\s*exam|gmat|gre\\b|sat\\b|act\\b|upsc|ssc\\b|gate\\s*exam|ias\\b|ips\\b|neet|jee\\s*(main|advanced)|cat\\s*exam|mat\\s*exam)\\b"
+score = -20
