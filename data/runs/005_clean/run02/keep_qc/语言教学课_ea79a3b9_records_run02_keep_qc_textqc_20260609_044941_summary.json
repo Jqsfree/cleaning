@@ -1,0 +1,26 @@
+{
+  "step": "text_qc_v2",
+  "run_id": "20260609_044941",
+  "model": "qwen3.5-flash",
+  "workers": 20,
+  "input": "/home/jqs/teach/data/runs/005_clean/run02/keep_qc/语言教学课_ea79a3b9_records_run02_keep_qc.parquet",
+  "backup": "data/runs/005_clean/run02/keep_qc/语言教学课_ea79a3b9_records_run02_keep_qc.parquet.bak_20260609_044941",
+  "total_rows": 381,
+  "pending_before": 381,
+  "elapsed_sec": 108.9,
+  "results": {
+    "T": 288,
+    "T_pct": 75.6,
+    "F": 93,
+    "F_pct": 24.4,
+    "ERROR": 0
+  },
+  "outputs": {
+    "written_back_to": "data/runs/005_clean/run02/keep_qc/语言教学课_ea79a3b9_records_run02_keep_qc.parquet",
+    "snapshot_csv": "data/runs/005_clean/run02/keep_qc/语言教学课_ea79a3b9_records_run02_keep_qc_textqc_20260609_044941.csv",
+    "summary_json": "data/runs/005_clean/run02/keep_qc/语言教学课_ea79a3b9_records_run02_keep_qc_textqc_20260609_044941_summary.json",
+    "pass_list": "data/runs/005_clean/run02/keep_qc/语言教学课_ea79a3b9_records_run02_keep_qc_textqc_20260609_044941_pass.txt",
+    "fail_list": "data/runs/005_clean/run02/keep_qc/语言教学课_ea79a3b9_records_run02_keep_qc_textqc_20260609_044941_fail.txt",
+    "error_list": "data/runs/005_clean/run02/keep_qc/语言教学课_ea79a3b9_records_run02_keep_qc_textqc_20260609_044941_error.txt"
+  }
+}

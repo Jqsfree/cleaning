@@ -1,0 +1,22 @@
+{
+  "engine": "duckdb-sql-first",
+  "input": "/home/jqs/teach/data/runs/001_baseline/语言教学课_ea79a3b9_records_raw.parquet",
+  "total_rows": 951087,
+  "total_keep": 141893,
+  "total_keep_high": 141893,
+  "total_keep_medium": 0,
+  "total_drop": 809194,
+  "retention_pct": 14.9,
+  "elapsed_sec": 168.7,
+  "steps": {
+    "step1_pass2_blacklist": {
+      "dropped": 82985
+    },
+    "step1b_r2_blacklist": {
+      "dropped": 84195
+    },
+    "step3_score_drop": {
+      "dropped": 642014
+    }
+  }
+}
