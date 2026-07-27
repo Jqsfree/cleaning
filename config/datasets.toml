@@ -1,0 +1,193 @@
+# 数据集中央清单
+# 记录所有已知原始数据及其对应管道运行目录
+# 生成: 2026-07-07
+
+# ═══════════════════════════════════════════════════════════
+# language_teaching — 语言教学视频
+# ═══════════════════════════════════════════════════════════
+
+[[datasets]]
+category = "language_teaching"
+raw_dir = "raw/language_teach"
+runs = [
+    "data/runs/001_baseline",
+    "data/runs/005_clean",
+    "data/runs/language_teach",
+]
+description = "语言教学课程视频（英语/日语/韩语/德语/西班牙语/小语种）"
+raw_files = [
+    "语言教学课_ea79a3b9_records.csv",
+    "语言教学-视频2_69e95f17_records.csv",
+    "语言教学-视频3_67f01c78_records.csv",
+    "语言教学-视频4_d8407b85_records.csv",
+    "语言教学-视频5_ad0d3d31_records.csv",
+    "语言教学-视频6_90d200e6_records.csv",
+    "语言教学-视频7_03b3215e_records.csv",
+    "语言教学-视频8_0c2f5adc_records.csv",
+    "语言教学-视频9_e5b35dc5_records.csv",
+    "语言教学-视频10_02d63228_records.csv",
+    "语言教学-视频11_669b7433_records.csv",
+    "语言教学视频12大批量_b65eaf90_records.csv",
+    "语言教学视频13大批量_42185ccf_records.csv",
+    "英语教学线上课程-视频_01c94d61_records.csv",
+    "日语教学线上课程-视频_5ccdce90_records.csv",
+    "韩语教学线上课程-视频_c1833fab_records.csv",
+    "德语教学线上课程-视频_bb5be569_records.csv",
+    "西班牙语教学线上课程-视频_a647a38f_records.csv",
+    "小语种教学课程_49403df8_records.csv",
+    "小语种教学课程-视频_715ffc34_records.csv",
+]
+
+# ═══════════════════════════════════════════════════════════
+# beauty — 美妆/化妆教程视频
+# ═══════════════════════════════════════════════════════════
+
+[[datasets]]
+category = "beauty"
+raw_dir = "raw/beauty"
+runs = [
+    "data/runs/beauty",
+    "data/runs/beauty_new",
+]
+description = "美妆/化妆/护肤教程视频"
+raw_files = [
+    "化妆美妆教程类_11c8ae10_records.csv",
+    "化妆美妆教程类_11c8ae10_records6.10.csv",
+    "化妆美妆教程类_11c8ae10_records6.10_all_discard.csv",
+    "化妆美妆教程类_11c8ae10_records6.10_duration_discard.csv",
+    "化妆美妆教程类-视频_a9ea5da2_records.csv",
+    "化妆美妆教程-视频2_4364f4bb_records.csv",
+    "化妆美妆教程-视频3_a6e8269d_records.csv",
+    "化妆美妆教程-视频4_d6c2e301_records.csv",
+    "化妆美妆教程-视频4-5-6_d6c2e301_records.csv",
+    "化妆美妆教程-视频5_6a98c2b5_records.csv",
+    "化妆美妆教程-视频6_e6b51f6c_records.csv",
+    "化妆美妆教程-视频7_23c8c3b4_records.csv",
+    "化妆美妆教程-视频8_6f84f4f7_records.csv",
+    "化妆美妆教程-视频9-中文_7b1fd80d_records.csv",
+]
+
+# ═══════════════════════════════════════════════════════════
+# tow-person — 双人对话视频
+# ═══════════════════════════════════════════════════════════
+
+[[datasets]]
+category = "tow-person"
+raw_dir = "raw/tow-person"
+runs = [
+    "data/runs/tow-person",
+    "data/runs/tow-person_人工补",
+    "data/runs/tow-person_双人3-ty_2",
+    "data/runs/tow-person_双人对话合",
+    "data/runs/tow-person_双人对话词组",
+    "data/runs/tow-person_双人视频7",
+    "data/runs/tow-person_双人视频9",
+    "data/runs/tow-person_未提交",
+    "data/runs/tow-person_频道_gao",
+    "data/runs/tow-person_频道补",
+]
+description = "双人对话/采访/辩论视频"
+raw_files = [
+    "双人对话-0615ZK_4554d5e5_records.csv",
+    "双人对话-3-ty_67c24de5_records_1.csv",
+    "双人对话-3-ty_67c24de5_records_2.csv",
+    "双人对话-3-ty_67c24de5_records_2_dedup.csv",
+    "双人对话-dong_704ae81c_records.csv",
+    "双人对话列表-ty_b9433395_records.csv",
+    "双人对话列表-ty-未提交_b9433395_records.csv",
+    "双人对话合.csv",
+    "双人对话合_dedup.csv",
+    "双人对话视频7_297db69f_dedup.csv",
+    "双人对话视频7_297db69f_records_2.csv",
+    "双人对话视频9_72a69f85_dedup.csv",
+    "双人对话视频9_72a69f85_records.csv",
+    "双人对话词组-ty_f17898af_dedup.csv",
+    "双人对话词组-ty_f17898af_records.csv",
+    "双人对话_频道_gao_dedup.csv",
+    "双人对话_频道_gao_合并.csv",
+    "双人对话-频道-补_8aa08a0d_dedup.csv",
+    "双人对话-频道-补_8aa08a0d_records.csv",
+    "双人对话-频道-补_8aa08a0d_records_1.csv",
+    "双人对话-频道-补_8aa08a0d_records(1)_dedup.csv",
+    "live-conversation-补_1b700861_records.csv",
+    "觀點_list.csv",
+    "人工补_合并去重.csv",
+    "人工补/双人对话-gao_e84b1543_records.csv",
+    "人工补/双人对话手动补-dong_1d619b57_records.csv",
+    "人工补/双人对话手动补-lila_183a0aed_records.csv",
+]
+
+# ═══════════════════════════════════════════════════════════
+# broadcast — 单人口播视频
+# ═══════════════════════════════════════════════════════════
+
+[[datasets]]
+category = "broadcast"
+raw_dir = "raw/broadcast"
+runs = ["data/runs/broadcast"]
+description = "单人口播/演讲视频"
+raw_files = [
+    "单人口播_cd7de25d_records_5.csv",
+    "单人口播_cd7de25d_records_5_id.csv",
+]
+
+# ═══════════════════════════════════════════════════════════
+# gordonua — Gordonua 频道访谈
+# ═══════════════════════════════════════════════════════════
+
+[[datasets]]
+category = "gordonua"
+raw_dir = "raw/gordonua"
+runs = ["data/runs/Gordonua_baseline"]
+description = "В гостях у Гордона 频道访谈视频"
+raw_files = [
+    "Gordonua.csv",
+    "Gordonua_fixed.csv",
+]
+
+# ═══════════════════════════════════════════════════════════
+# welding — 焊接/金属加工视频
+# ═══════════════════════════════════════════════════════════
+
+[[datasets]]
+category = "welding"
+raw_dir = "raw/welding"
+runs = [
+    "data/runs/welding/001_baseline",
+    "data/runs/welding/002_audit",
+    "data/runs/welding/005_clean",
+]
+description = "电焊/金属加工教学视频"
+raw_files = [
+    "电焊-01_fdd94c7f_records.csv",
+]
+
+# ═══════════════════════════════════════════════════════════
+# pyship — Python 编程相关（独立数据集，未接入管道）
+# ═══════════════════════════════════════════════════════════
+
+[[datasets]]
+category = "pyship"
+raw_dir = "raw/pyship"
+runs = []
+description = "Python/编程相关视频（未接入管道，来源不明）"
+status = "inactive"
+raw_files = [
+    "meta_py.csv",
+    "meta_dedup.csv",
+    "meta_in_short.csv",
+    "py-vid.csv",
+    "物理实验-shorts-5W采集.csv",
+]
+
+# ═══════════════════════════════════════════════════════════
+# video79_pass — 双人对话 pass 集
+# ═══════════════════════════════════════════════════════════
+
+[[datasets]]
+category = "video79_pass"
+raw_dir = ""
+runs = ["data/runs/video79_pass_sample"]
+description = "双人对话 pass 集（合并结果）"
+status = "legacy"
+raw_files = []

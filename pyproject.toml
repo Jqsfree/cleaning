@@ -1,5 +1,23 @@
 [project]
-name = "teach"
-version = "0.1.0"
+name = "dataclean"
+version = "0.2.0"
+description = "YouTube 视频元数据清洗管道"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "duckdb>=1.5",
+    "pandas>=3.0",
+    "openai>=2.0",
+    "tqdm>=4.0",
+    "requests>=2.0",
+]
+optional-dependencies = { vision = ["yt-dlp>=2024", "Pillow>=10"] }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dataclean"]
+
+[tool.uv]
+dev-dependencies = []

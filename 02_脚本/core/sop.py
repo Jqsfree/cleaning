@@ -1,67 +1,94 @@
 #!/usr/bin/env python3
 """
-core/sop.py -- SOP 加载 + 运行日志
+core/sop.py — 运行日志（无跨品类统一 Phase 表）
 
-每个 phase 脚本调用 write_run_log() 自动追加到 项目记录.md。
+各品类数据与路径不同，流程见 AGENTS.md「分品类流程」。
+本模块只提供 write_run_log / 可选短横幅，不再打印 Phase0–7 全表。
 """
 
-import os, time
+from __future__ import annotations
+
+import os
+import time
 from pathlib import Path
 
-SOP_PATH = Path(__file__).resolve().parent.parent.parent / "SOP.md"
 PROJECT_LOG = Path(__file__).resolve().parent.parent.parent / "项目记录.md"
 
-PHASES = {
-    0: "数据规范化 — 字段标准化、去重、时长过滤 → baseline.parquet",
-    1: "基线数据集 — 数据质量处理 + 统计 → baseline_stats.md",
-    2: "随机抽样质检 — 抽样供人工/LLM 标注",
-    3: "污染分析 — 高频词/频道/类别 → pollution_analysis_v1.md",
-    4: "规则生成 — 从质检证据生成 → rules_v1.toml",
-    5: "规则清洗 — Pass1 统计 + Pass2 过滤 → clean_*.parquet",
-    6: "效果验证 — 误杀率/漏检率/污染率 → evaluation_report_v1.md",
-    7: "迭代 — 返回 Phase 2 继续闭环",
+# 脚本阶段短名 → 中文说明（仅日志标题，不是强制 SOP）
+STAGE_LABELS = {
+    "quality": "初筛",
+    "normalize": "规范化（遗留）",
+    "clean": "规则清洗",
+    "sample": "抽样",
+    "analyze": "污染分析",
+    "dedup": "跨批去重",
+    "qc_text": "文本 QC",
+    "qc_vision": "视觉 QC",
+    "qc_vision_thumb": "缩略图视觉 QC",
+    "qc_vision_sb": "Storyboard 视觉 QC",
+    "qc_two_person": "双人对话视觉 QC",
+    "resolution": "分辨率抓取",
+    "yt_definition": "清晰度 hd/sd",
+    "yt_definition_filter": "清晰度过滤 ≥720",
+    "pipeline": "薄编排",
+    # 兼容旧调用里的数字
+    0: "规范化（遗留）",
+    1: "初筛",
+    2: "抽样",
+    3: "污染分析",
+    5: "规则清洗",
+    9: "跨批去重",
+    205: "Storyboard 视觉 QC",
 }
 
 
 def load_sop() -> str:
-    if SOP_PATH.exists():
-        return SOP_PATH.read_text(encoding="utf-8")
+    """兼容旧 import；统一 SOP 文件已弃用。"""
     return ""
 
 
-def print_banner(phase: int | None = None):
+def print_banner(stage: str | int | None = None, category: str | None = None) -> None:
+    """短横幅：不打印跨品类 Phase 全表。"""
+    label = STAGE_LABELS.get(stage, str(stage)) if stage is not None else "pipeline"
+    cat = f"  category={category}" if category else ""
     print()
     print("=" * 62)
-    print("  SOP -- 语言教学视频数据清洗流程")
-    print("=" * 62)
-    for i, desc in PHASES.items():
-        marker = "  <-" if i == phase else ""
-        print(f"  Phase {i}: {desc}{marker}")
+    print(f"  {label}{cat}")
+    print("  （分品类流程见 AGENTS.md，无统一 Phase0–7）")
     print("=" * 62)
     print()
 
 
-def write_run_log(phase: int, input_path: str, output_dir: str,
-                  stats: dict | None = None, command: str = ""):
-    """追加一条运行记录到 项目记录.md。"""
+def write_run_log(
+    stage: str | int,
+    input_path: str,
+    output_dir: str,
+    stats: dict | None = None,
+    command: str = "",
+    category: str | None = None,
+) -> None:
+    """追加一条运行记录到 项目记录.md，并写 output_dir/run_log.md。"""
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
+    label = STAGE_LABELS.get(stage, str(stage))
 
-    lines = []
-    # Ensure project log exists
     if not PROJECT_LOG.exists():
         PROJECT_LOG.write_text(
             "# 项目记录\n\n"
-            "> teach -- YouTube 语言教学视频数据清洗\n"
-            "> 自动记录每次管道运行。\n\n"
+            "> YouTube 元数据清洗 — 自动记录每次管道运行\n"
+            "> 各品类流程不同，见 AGENTS.md\n\n"
             "---\n\n",
-            encoding="utf-8"
+            encoding="utf-8",
         )
 
-    lines.append("")
-    lines.append(f"## Phase {phase} -- {PHASES[phase].split(chr(8212))[0].strip()}")
-    lines.append("")
-    lines.append(f"**时间:** {ts}")
-    lines.append(f"**阶段:** Phase {phase}")
+    lines = [
+        "",
+        f"## {label}",
+        "",
+        f"**时间:** {ts}",
+        f"**阶段:** {label} (`{stage}`)",
+    ]
+    if category:
+        lines.append(f"**品类:** `{category}`")
     lines.append(f"**输入:** `{input_path}`")
     lines.append(f"**输出:** `{output_dir}/`")
     if command:
@@ -78,16 +105,19 @@ def write_run_log(phase: int, input_path: str, output_dir: str,
                 lines.append(f"| {k} | {v:.1f} |")
             else:
                 lines.append(f"| {k} | {v} |")
-
     lines.append("")
 
     with open(PROJECT_LOG, "a", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
+    os.makedirs(output_dir, exist_ok=True)
     log_path = os.path.join(output_dir.rstrip("/"), "run_log.md")
     with open(log_path, "w", encoding="utf-8") as f:
-        f.write(f"# Run Log -- Phase {phase}\n\n")
+        f.write(f"# Run Log — {label}\n\n")
         f.write(f"**Time:** {ts}\n")
+        f.write(f"**Stage:** `{stage}`\n")
+        if category:
+            f.write(f"**Category:** `{category}`\n")
         f.write(f"**Input:** `{input_path}`\n")
         f.write(f"**Command:** `{command}`\n\n")
         if stats:

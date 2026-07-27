@@ -23,13 +23,14 @@ from pathlib import Path
 
 import duckdb
 
-from core.rules_loader import load_blacklist, load_strong_pattern
+from core.rules_loader import load_blacklist, load_blacklist_individual, load_strong_pattern, save_hit_cache
 from core.sql_builder import (
     sql_escape,
     load_raw_table,
     add_search_text,
     write_parquet_with_excludes,
     write_summary_json,
+    count_rule_hits,
 )
 from categories.language_teaching.scorer import register_udfs, get_thresholds
 
@@ -44,6 +45,44 @@ _KEEP_EXCLUDE = {
 _DROP_EXCLUDE = _KEEP_EXCLUDE - {"drop_step", "drop_reason"}
 
 
+def _compute_rule_stats(db: duckdb.DuckDBPyConnection, rules_dir: Path) -> dict:
+    """统计各规则的命中数。"""
+    bl_individual = load_blacklist_individual(rules_dir)
+    stats: dict[str, dict[str, int]] = {}
+
+    # pass2 命中
+    pass2_rules = bl_individual.get("pass2", [])
+    if pass2_rules:
+        p2_hits = count_rule_hits(db, "step1", pass2_rules)
+        if p2_hits:
+            stats["pass2"] = p2_hits
+
+    # r2 命中
+    r2_rules = bl_individual.get("r2", [])
+    if r2_rules:
+        r2_hits = count_rule_hits(db, "step1b_r2", r2_rules)
+        if r2_hits:
+            stats["r2"] = r2_hits
+
+    return stats
+
+
+def _compute_auto_thresholds(db, table, score_col, high_pct=80, med_pct=50):
+    """基于分数分位数计算自适应阈值。
+
+    对标: DemandClean (VLDB 2025) — 动态阈值替代静态硬编码。
+    """
+    result = db.execute(f"""
+        SELECT
+            CAST(approx_quantile({score_col}, {high_pct / 100}) AS INTEGER),
+            CAST(approx_quantile({score_col}, {med_pct / 100}) AS INTEGER)
+        FROM {table}
+    """).fetchone()
+    keep = max(10, result[0] or 30)
+    med = max(5, result[1] or 10)
+    return {"keep_score": keep, "gray_score_low": med, "medium_min_score": med}
+
+
 def clean(
     input_path: str,
     stem: str = "clean",
@@ -54,7 +93,9 @@ def clean(
     gray_low: int | None = None,
     med_min: int | None = None,
     no_medium: bool = False,
+    auto_threshold: bool = False,
     fmt: str = "parquet",
+    **kwargs,
 ) -> dict:
     thresholds = get_thresholds()
     keep_score = keep_score if keep_score is not None else thresholds["keep_score"]
@@ -141,6 +182,14 @@ def clean(
         FROM after_r2_sig
     """)
 
+    # ── 自适应阈值 ──
+    if auto_threshold:
+        auto_t = _compute_auto_thresholds(db, "scored", "lt_score")
+        keep_score = auto_t["keep_score"]
+        gray_low = auto_t["gray_score_low"]
+        med_min = max(med_min, auto_t["medium_min_score"])
+        print(f"  auto-threshold: keep={keep_score} gray={gray_low} med={med_min}")
+
     # ── Step 4: tier 分档 ──
     db.execute(f"""
         CREATE TEMP TABLE scored_tier AS
@@ -204,6 +253,11 @@ def clean(
     write_parquet_with_excludes(db, "keep_all", out_all, _KEEP_EXCLUDE)
     write_parquet_with_excludes(db, "dropped", out_dropped, _DROP_EXCLUDE)
 
+    # ── 规则命中统计 ──
+    rule_stats = _compute_rule_stats(db, _RULES_DIR)
+    if rule_stats:
+        save_hit_cache(_RULES_DIR, rule_stats)
+
     elapsed = time.perf_counter() - t0
     summary = {
         "engine": "duckdb-sql-first",
@@ -221,6 +275,11 @@ def clean(
             "step1b_r2_blacklist": {"dropped": n_r2},
             "step3_score_drop": {"dropped": max(0, n_drop - n_bl - n_r2)},
         },
+        "rule_stats": rule_stats,
+        "keep_path": out_all,
+        "keep_high_path": out_high,
+        "keep_medium_path": out_medium,
+        "drop_path": out_dropped,
     }
 
     write_summary_json(output_dir, summary)

@@ -3,22 +3,79 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-# IDE
+# IDE / editor junk
 .idea/
 .vscode/
 *.swp
 *.swo
+*.kate-swp
+*~
+.~lock.*
 
-# Data outputs
+# Data outputs (never commit bulk tables)
 *.parquet
 *.csv
+*.tsv
 
-# Cache
+# Images / media from QC (local only)
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.gif
+
+# Model weights (large; keep local)
+models/
+*.pkl
+*.pth
+*.pt
+*.ckpt
+*.onnx
+
+# Cache / logs
 qc_thumb_cache/
+*.log
+**/.rule_hits_cache.json
+
+# Run outputs & local assets samples
+data/runs/
+data/assets/rejects/*/proposed.csv
+data/assets/rejects/*/human_validated.csv
+!data/runs/**/README.md
+!data/runs/**/README_*.md
+!data/assets/rejects/README.md
+!data/assets/rejects/_metrics/**
+
+# Debug / temp
+data/runs/_tmp/
+**/*.bak_*
+**/.cookies_cache.txt
+**/*.ckpt.csv
 
 # Environment
 .conda/
 venv/
+.venv/
 .env
+.env.*
 
+# Secrets / local auth (never commit)
+**/cookies.txt
+**/*cookies*.txt
+*.cookies.txt
+.qc_vision_cookies_*.txt
+**/cookies_chrome.txt
+
+# Agent / local tool configs (optional local)
+.agents/
+.qoder/
+.serena/
+.cursor/
+
+# Keep Claude project rules; ignore nested skill caches if any
+.claude/skills/

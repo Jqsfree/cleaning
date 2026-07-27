@@ -1,0 +1,58 @@
+# Blacklist rules — 焊接/金属加工视频清洗
+# pass2 = 硬过滤（高置信非焊接，命中即 drop）
+# r2    = 二次过滤（工业通用场景，可能含焊接但非核心）
+
+[meta]
+version = "1.0"
+
+# ═══════════════════ pass2: 高置信非焊接 ═══════════════════
+
+[[pass2]]
+category = "music_media_assets"
+pattern = "\\b(royalty\\s*free\\s*music|\\bncs\\b|nocopyrightsounds|sound\\s*effects?\\s*(library|pack)?|stock\\s*footage|vector\\s*illustration|animation\\s*sprite|motion\\s*graphic|color\\s*grading|video\\s*editing\\s*software|voice\\s*over\\s*artist|subtitle\\s*file|translator\\s*caption|creative\\s*commons|public\\s*domain|copyright\\s*infringement|fair\\s*use\\s*doctrine|microstock|audio\\s*mixing|\\bremix\\b|mashup|\\bmix\\s*tape|\\bdj\\s*set|\\bplaylist\\b)\\b"
+
+[[pass2]]
+category = "it_devops_security"
+pattern = "\\b(docker\\s*(container|compose|app)|kubernetes\\s*(pod|cluster|orchestrat)|microservice|serverless\\s*function|lambda\\s*edge|cdn\\s*cache|ftp\\s*server|sftp\\s*secure|http\\s*post|get\\s*url|\\bapi\\s*key|json\\s*api|yaml\\s*config|xml\\s*schema|oauth\\s*2\\.0|\\bbcrypt\\b|\\bjwt\\b|bearer\\s*token|ssl\\s*certificate|https\\s*encryption|\\bcaptcha\\b|brute\\s*force|\\bddos\\b|hash\\s*collision|bot\\s*detection|rate\\s*limit|encryption\\s*protocol|firewall|global\\s*dns|salt\\s*random|two\\s*factor\\s*auth|bandwidth\\s*upload|edge\\s*computing|cloud\\s*server|data\\s*latency|smart\\s*factory|\\biot\\b|blockchain|\\bapi\\s*header|web\\s*development|programming|\\bcoding\\b|tutorial\\s*(how\\s*to\\s*crack|ckad|cka\\s*exam))\\b"
+
+[[pass2]]
+category = "business_admin"
+pattern = "\\b(tax\\s*form\\s*1099|payroll\\s*check|budget\\s*(overrun|approval)|contract\\s*negotiation|kpi\\s*dashboard|business\\s*insurance|stakeholder\\s*feedback|weekly\\s*status|monthly\\s*progress|milestone\\s*(completion|report)|annual\\s*performance|resource\\s*allocation|winning\\s*contract|proposal\\s*submission|productivity\\s*rate|client\\s*meeting|cost\\s*estimate\\s*job|change\\s*order|project\\s*kickoff|timeline\\s*schedule|union\\s*benefits|team\\s*coordination|supervisor\\s*monitoring|turnstile|access\\s*control\\s*badge|warehouse\\s*interior|locker\\s*room|day\\s*shift|night\\s*shift)\\b"
+
+[[pass2]]
+category = "ml_ai_data"
+pattern = "\\b(machine\\s*learning\\s*(algo|model)?|deep\\s*neural\\s*network|predictive\\s*analytics|computer\\s*vision|image\\s*processing\\s*algo|digital\\s*twin|augmented\\s*reality|mixed\\s*reality|metadata\\s*tags|\\bcsv\\s*export|audit\\s*trail|success\\s*metrics?|smart\\s*factory\\s*trend)\\b"
+
+[[pass2]]
+category = "legal_compliance"
+pattern = "\\b(privacy\\s*policy|terms\\s*of\\s*service|copyright\\s*infringement|fair\\s*use\\s*doctrine)\\b"
+
+[[pass2]]
+category = "energy_science_irrelevant"
+pattern = "\\b(cold\\s*fusion|nuclear\\s*waste|spent\\s*fuel|fusion\\s*reactor|inertial\\s*fusion|magnetic\\s*confinement|\\bstellarator\\b|\\btokamak\\b|tidal\\s*current|wave\\s*energy|geothermal|ocean\\s*thermal|biomass\\s*boiler|hydroelectric|green\\s*hydrogen|carbon\\s*footprint|leed\\s*certification|sustainable\\s*materials|iso\\s*9001|lean\\s*manufacturing|total\\s*quality\\s*management|continuous\\s*improvement\\s*kaizen|renewable\\s*energy|solar\\s*panel|wind\\s*turbine|energy\\s*saving\\s*mode|power\\s*consumption\\s*data|heat\\s*exchanger|chemical\\s*plant|chemical\\s*waste|radioactive\\s*shield)\\b"
+
+[[pass2]]
+category = "asmr_relaxation"
+pattern = "\\b(welding\\s*sounds?\\s*asmr|grinding\\s*noise\\s*relax|\\basmr\\b|rain\\s*sounds?|white\\s*noise|meditation|\\blofi\\b|lo[\\s-]?fi|sleep\\s*(music|sounds?))\\b"
+
+[[pass2]]
+category = "spectator_entertainment"
+pattern = "\\b(spectator\\s*viewing|\\bprank\\b|\\bchallenge\\b|\\bunboxing\\b|\\bhaul\\b|try\\s*on|\\bmakeup\\b|\\bbeauty\\b|\\bcooking\\b|\\brecipe\\b|\\bvlog\\b|daily\\s*vlog|\\bgaming\\b|\\bgameplay\\b|\\blets?\\s*play\\b|\\bminecraft\\b|\\broblox\\b|\\bfortnite\\b|\\banime\\b|\\bcartoon\\b|animated\\s*series|\\bmovie\\b|\\bdrama\\b|\\btv\\s*show|\\bnetflix\\b|\\bmanga\\b|manhwa|\\brecap\\b)\\b"
+
+[[pass2]]
+category = "photography_cinematography"
+pattern = "\\b(security\\s*camera|\\bcctv\\b|macro\\s*lens|drone\\s*view|moving\\s*crane\\s*camera|chest\\s*mount\\s*camera|helmet\\s*mounted\\s*view|worker\\s*perspective|fixed\\s*angle\\s*workshop|wide\\s*angle\\s*shop|unedited\\s*raw\\s*footage|real\\s*time\\s*recording|time\\s*lapse\\s*fabrication|full\\s*process\\s*video|surveillance\\s*footage|slow\\s*motion\\s*welding|audio\\s*mixing|color\\s*grading|video\\s*editing|microstock|\\broll\\s*footage|b\\s*roll|\\bfilm\\b|\\bfilming\\b|cinematic|\\bcamera\\b|\\blens\\b|\\bdrone\\b|\\bgopro\\b)\\b"
+
+[[pass2]]
+category = "generic_safety_admin"
+pattern = "\\b(confined\\s*space\\s*entry|respiratory\\s*protection|electrical\\s*shock|radiation\\s*exposure|skin\\s*burn\\s*prevent|fall\\s*protection\\s*harness|fire\\s*extinguisher|first\\s*aid\\s*kit|safety\\s*audit|spill\\s*kit|eyewash\\s*station|emergency\\s*plan|evacuation\\s*route|buddy\\s*system|blind\\s*spot\\s*awareness|noise\\s*level\\s*measure|alert\\s*sirens?|turnstile|access\\s*control|labor\\s*hour|load\\s*weight|machine\\s*grounding|locker\\s*room|day\\s*shift|night\\s*shift|weekly\\s*status|monthly\\s*progress|milestone|annual\\s*performance|resource\\s*allocation|team\\s*coordination|supervisor\\s*monitoring|stakeholder\\s*feedback|productivity\\s*rate|efficiency\\s*improvement|automation\\s*adoption|traceability\\s*record|training\\s*simulator|union\\s*benefits|\\bcertification\\b|\\blicense\\b|\\bpermit\\b|\\bcompliance\\b|\\baudit\\b|\\bchecklist\\b)\\b"
+
+[[pass2]]
+category = "generic_shop_facility"
+pattern = "\\b(tool\\s*box\\s*organiz|recycling\\s*scrap|duct\\s*work|\\bhvac\\b|cable\\s*management|cleanliness\\s*standard|replacement\\s*parts|spare\\s*consumables|maintenance\\s*log|service\\s*interval|setup\\s*and\\s*teardown|assembly\\s*line|factory\\s*floor|outdoor\\s*job|warehouse\\s*interior|change\\s*order|project\\s*kickoff|timeline\\s*schedule|cost\\s*estimate|proposal\\s*submission|client\\s*meeting|contract\\s*negotiation|business\\s*insurance|budget\\s*overrun|tax\\s*form|payroll)\\b"
+
+# ═══════════════════ r2: 二次过滤 ═══════════════════
+
+[[r2]]
+category = "industrial_general_not_welding"
+pattern = "\\b(alert\\s*sirens?|evacuation\\s*route|buddy\\s*system|blind\\s*spot|turnstile|access\\s*control|labor\\s*hour|load\\s*weight|maintenance\\s*log|service\\s*interval|replacement\\s*parts|spare\\s*consumables|cable\\s*management|duct\\s*work|hvac|warehouse|tool\\s*box\\s*organization|setup\\s*and\\s*teardown|machine\\s*grounding|noise\\s*level|cleanliness\\s*standard|precision\\s*tolerance|drone\\s*view\\s*yard|moving\\s*crane\\s*camera|chest\\s*mount\\s*camera|helmet\\s*mounted\\s*view|fixed\\s*angle\\s*workshop|wide\\s*angle\\s*shop|worker\\s*perspective|real\\s*time\\s*recording|unedited\\s*raw\\s*footage|time\\s*lapse\\s*fabrication|full\\s*process\\s*video|assembly\\s*line|factory\\s*floor|outdoor\\s*job\\s*site|rolling\\s*mill|cnc\\s*machining|recycling\\s*scrap|spill\\s*kit|eyewash\\s*station|first\\s*aid\\s*kit|containment\\s*building|confined\\s*space|emergency\\s*plan|evacuation|respiratory\\s*protection|fall\\s*protection|trip\\s*hazard|radiation\\s*exposure|electrical\\s*shock|fire\\s*extinguisher|hot\\s*work\\s*permit|safety\\s*audit|locker\\s*room|traceability|material\\s*certificate|qualified\\s*procedure|procedure\\s*specification|warping\\s*correction|cooling\\s*rate|protective\\s*coating|powder\\s*coating|galvanizing|solvent\\s*degrease|surface\\s*finish|buffing\\s*tool|brush\\s*wire\\s*wheel|sanders?\\s*grinder|overhead\\s*crane|lift\\s*rigging|slings?\\s*chains|hose\\s*routing|gas\\s*cylinder|crack\\s*failure|residual\\s*stress|training\\s*simulator|automation\\s*adoption|efficiency\\s*improvement|productivity\\s*rate|outdoor\\s*job|extreme\\s*weather|uv\\s*eye|skin\\s*burn|arc\\s*light|smoke\\s*fume|sparks\\s*flying|macro\\s*lens|highway\\s*bridge|skyscraper|hydroelectric|ocean\\s*thermal|offshore\\s*oil|chemical\\s*plant)\\b"

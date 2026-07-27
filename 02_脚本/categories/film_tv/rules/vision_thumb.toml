@@ -1,0 +1,30 @@
+# Vision QC config — 影视剧原片
+# 适配 Qwen-VL：不设 system；规则全部放在 user（官方推荐）
+# 日常入口: python3 02_脚本/qc_vision_thumb.py input.parquet --category film_tv -t 12
+
+[meta]
+category = "film_tv"
+category_label = "影视剧原片"
+
+[prompts]
+# 空 system：调用端应省略 system message
+system_prompt = ""
+
+user_prompt_tmpl = """看这张 YouTube 缩略图（共 {n} 张），判断是否同时满足下面 3 条。全满足输出 T，否则输出 F。
+
+硬条件（缺一不可）：
+1) 现代题材真人：日常服装、当代场景。古装/历史装束 → F
+2) 中文或英文影视：主片名是中文（简繁）或英文（拉丁字母）或中英双语。主片名是韩/日/泰等其他文字 → F。几乎无文字且明显像韩剧/日剧等非中英宣传图 → F
+3) 官方电影海报或剧集封面（key art）：主视觉突出、片名有设计感、像影院/流媒体宣传图，不是自制封面
+
+直接 F：
+- YouTube CTR 风：夸张表情、红箭头、emoji、半屏喊麦大字
+- 口播/教程/vlog/开箱/直播截图
+- 综艺/演唱会/体育/新闻/红毯
+- 动漫、游戏画面、纯文字卡/PPT
+
+只输出一个字母 T 或 F，不要解释。"""
+
+[labels]
+pass_label = "中英现代影视封面"
+fail_label = "非目标封面"

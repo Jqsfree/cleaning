@@ -1,0 +1,164 @@
+# Blacklist rules — 影视剧原片清洗 (宁错杀 v1.9.1)
+
+[meta]
+version = "1.9.1"
+
+[[pass2]]
+category = "anime_cartoon"
+pattern = "\\b(anime|manga|cartoon|animation|animated|cgi\\s*animation|3d\\s*animation|2d\\s*animation|stop\\s*motion\\s*animation|anime\\s*movie|anime\\s*series|naruto|one\\s*piece|dragon\\s*ball|demon\\s*slayer|attack\\s*on\\s*titan|jujutsu\\s*kaisen|pok[eé]mon|doraemon|gundam|ghibli|spirited\\s*away|totoro|anime\\s*film|\\b動漫\\b|\\b动画\\b|\\b动漫\\b|\\b卡通\\b)\\b"
+
+[[pass2]]
+category = "music_official"
+pattern = "\\b(official\\s*(music|audio|lyric)\\s*video|music\\s*video|lyric\\s*video|full\\s*album|official\\s*visualizer|visualizer\\b|audio\\s*only|live\\s*concert|live\\s*performance\\s*\\|\\s*music|music\\s*playlist|song\\s*playlist|\\bmixtape\\b|\\bEP\\s*\\d{4}\\b|\\bsingle\\s*\\d{4}\\b|\\bOST\\s*\\||karaoke\\s*version|instrumental\\s*version|acoustic\\s*version|cover\\s*(by|version)|remix\\s*official|extended\\s*mix|radio\\s*edit|\\bM\\/V\\b|\\[MV\\]|\\(MV\\)|official\\s*audio|\\bacoustic\\b.*\\bft\\.|\\bft\\.\\s*\\w+\\s*-\\s*\\w+|jyp\\s*entertainment)\\b|(Official\\s*(Video|MV|Performance|Song|Audio|HD\\s*Video))|\\[Official\\s*(MV|Video)\\]|\\(Lyrics?\\)|\\|\\s*Lyrics?\\b|full\\s*(audio\\s*song|video\\s*song)|\\[Full\\s*(Song|Audio)\\]|\\|\\s*Full\\s*Song\\b|live\\s*(@\\s*|In\\s+)|\\|\\s*Karaoke\\b|karaoke\\s*(video|song|with)?|instrumental\\s*music|acoustic\\s*(performance|piano|cover)|cover\\s*song\\b|\\[Cover\\]|\\(cover\\)|extended\\s*remix|\\[BE\\s*ORIGINAL\\]|\\bFMV\\b|\\|\\s*Official\\s*$|clip\\s*officiel|no\\s*copyright\\s*music|royalty\\s*free.*music|worship\\s*song|motivational\\s*song|award\\s*winning\\s*song|love\\s*song\\s*\\d{4}|new\\s*(nepali|punjabi)\\s*song|theme\\s*song\\b.*\\|.*MV|\\bmusic\\s*(by|for)\\s*(video|film|tv)|cinematic\\s*(music|orchestra|trailer)|soundtrack\\b.*\\|\\s*OST|\\bmultitrack\\s*mix\\b|\\bCoke\\s*Studio\\b|\\bGaither\\s*(Vocal|Music)\\b|\\bsufi\\s*(song|music|qawwali)|Bhakti\\s*Geet|bhakti\\s*geet|Hindi\\s*Gane|Hindi\\s*Songs?|Bhojpuri\\s*Song|Punjabi\\s*Songs?\\s*Collection|sony\\s*music\\s*(malayalam|india)|official\\s*lyric|\\bft\\.\\s*\\w+.*-.*\\w+|\\bfeat\\.\\s*\\w+.*-|\\b(Tamil|Telugu|Malayalam|Kannada|Punjabi|Hindi)\\s*(Video|Song)\\b|\\|\\s*(Official|HD)\\s*$|\\bNonstop\\s*Songs?\\b|\\bVideo\\s*Song\\s*\\|.*\\|.*\\||\\|\\s*Song\\s*Video\\s*\\||\\b(Promo|Hit)\\s*Song\\b|\\[Background\\s*Music\\s*No\\s*Copyright\\]|Cinematic\\s*(Hero|Trailer|Background).*Music.*\\[Free\\]|\\bSad\\s*Background\\s*Music\\b|MUSICA\\s*para\\s*PASARELAS|Musica\\s*(per|da)\\s*(Sfilate?|Sfilata)|\\bDeep\\s*House\\b.*Fashion|Rumba\\s*Music\\s*for\\s*Ballroom|CHHAKA\\s*CHHAG|SANTALI\\s*(OLD\\s*)?CASSETTE\\s*MP3|\\bSANTALI\\s*(MUSIC|SONG|VIDEO)|\\bKhortha\\s*(Geet|Song|Nonstop)|LATEST\\s*LOVE\\s*FAILURE\\s*SONG|NEW\\s*LOVE\\s*FAILURE\\s*SONG|Punjabi\\s*Songs?\\s*\\d{4}|\\bMASHUP\\b.*\\|.*\\|.*Band|\\bFolk\\s*Songs?\\.flv|\\bMakeout\\s*Playlist\\b|DANCE\\s*COVER.*NEW\\s*(MISING|SANTALI|PUNJABI|NEPALI)|\\(Reprise\\)|ringtone\\s*(\\d{4}|song|music|video|mp3)?|\\bringtone\\b|\\bbgm\\b|\\blullaby\\b|bedtime\\s*music|baby\\s*sleep\\s*music|drum\\s*cover|guitar\\s*cover|bass\\s*cover|\\btheme\\s*song\\b|classical\\s*music|\\bOST\\s*compilation"
+
+[[pass2]]
+category = "gaming"
+pattern = "\\b(minecraft|roblox|fortnite|gameplay|walkthrough|playthrough|speedrun|lets?\\s*play|twitch\\s*stream|stream\\s*highlight|no\\s*commentary\\s*gameplay|gaming\\s*montage|boss\\s*fight|pubg|free\\s*fire|garena|call\\s*of\\s*duty|valorant|overwatch|dota\\s*2|league\\s*of\\s*legends|fifa\\s*\\d+|gta\\s*[45v]|esports?|clash\\s*(of|royale)\\b|smg4\\b|super\\s*smash|mario\\s*(kart|party|bros)|sonic\\s*the\\s*hedgehog|resident\\s*evil|street\\s*fighter|tekken|mortal\\s*kombat|toca\\s*(boca|life)|brawl\\s*stars)\\b|Let'?s?\\s*Play\\s*\\w+\\s*(\\d+|\\-\\s*part)|\\bFive\\s*Nights\\s*at\\s*Freddy'?s?\\b|\\bGranny\\s*(Chapter|\\d+)|WHAT\\s*IF\\s*GRANNY|\\bBloodborne\\b.*\\bENB\\b|\\bDream\\s*SMP\\b|\\bMr\\.\\s*Meat\\b|\\bKingdom\\s*Hearts\\b.*FANDUB|Rise\\s*of\\s*the\\s*Tomb\\s*Raider.*Movie|\\bSCP\\s*Foundation\\b|\\bMystery\\s*Flesh\\s*Pit\\b|\\bSIDEMEN\\b|\\bAmong\\s*Us\\b|\\bSMP\\b|\\bHEROBRINE\\b|\\bMinecraft\\b|mlbb\\b"
+
+[[pass2]]
+category = "kids_nursery"
+pattern = "\\b(nursery\\s*rhyme|kids?\\s*songs?|baby\\s*shark|cocomelon|peppa\\s*pig|pinkfong|babybus|blippi|ms\\s*rachel|preschool\\s*learning|toddler\\s*learning|children'?s?\\s*music|kids?\\s*animation|kids?\\s*cartoon)\\b|\\bBluey\\b|\\bScooby\\s*Doo|Oggy\\s*and\\s*the\\s*Cockroaches|Numberblocks|\\bSEALOOK\\b|\\bBFDI\\b|\\bSML\\s*(Movie|React)|skibidi\\s*toilet|Lego\\s*Ninjago|Gumball|Ben\\s*10|Learn\\s*Colors?\\s*(with|for)|Finger\\s*Family|Nursery\\s*Rhyme|HooplaKidz|Mega\\s*Gummy\\s*Bear|Paw\\s*Patrol|Phonics\\s*For\\s*Kids|educational\\s*video\\s*to\\s*learn|Cedarmont\\s*Kids|Horrid\\s*Henry|Hello\\s*Kitty\\s*and\\s*Friends|Infobells|\\bSEUSSICAL\\b|Punyakoti\\s*Kannada\\s*Song|Govina\\s*Haadu|Lagu\\s*Kanak\\s*Kanak|Didi\\s*&\\s*Friends|Sesame\\s*Street|Smart\\s*Cookies|BeForever.*American\\s*Girl|Sally\\s*Bollywood|TKKG\\s*Playbacktheater|\\bDiana\\s*(and|&|e|i|y)\\s*Roma\\b|Kids\\s*Diana\\s*Show|OLIVER\\s*SHOW|Cat\\s*TV\\b|TV\\s*FOR\\s*CATS|toy\\s*(video|review|unboxing)"
+
+[[pass2]]
+category = "sports_event"
+pattern = "\\b(full\\s*match|match\\s*highlights?|live\\s*match|post[\\s-]?match|fight\\s*night|ufc\\s*\\d+|boxing\\s*match|wrestling\\s*match|\\bf1\\s*race|formula\\s*1\\s*race|grand\\s*prix\\s*highlights|nba\\s*(finals?|playoffs?|highlights?)|nfl\\s*(super\\s*bowl|highlights?)|premier\\s*league\\s*match|champions\\s*league\\s*final|world\\s*cup\\s*(final|match|highlights)|olympic\\s*(games|highlights|final)|cricket\\s*(match|highlights?|hitting|world\\s*cup)|ipl\\s*(match|final|\\d{4}))\\b"
+
+[[pass2]]
+category = "news_politics"
+pattern = "\\b(breaking\\s*news|news\\s*live|press\\s*conference|election\\s*(live|results|coverage)|white\\s*house\\s*(briefing|press)|state\\s*of\\s*the\\s*union|political\\s*rally|parliament\\s*(session|debate)|congressional\\s*hearing|senate\\s*hearing|news\\s*anchor|news\\s*bulletin|news\\s*update|top\\s*stories|headline\\s*news)\\b|\\bpolitical\\b|election\\s*campaign|\\bdemocrat\\b|republican|\\bTrump\\b|\\bBiden\\b|conservative\\b|liberal\\b|parliament\\b|congressional|senate\\s*hearing"
+
+[[pass2]]
+category = "religious"
+pattern = "\\b(sermon|worship\\s*service|church\\s*service|sunday\\s*service|gospel\\s*song|bible\\s*study|quran\\s*recitation|islamic\\s*lecture|prayer\\s*meeting|religious\\s*ceremony|gospel\\s*music|christian\\s*(movie|film|concert|worship|music))\\b|Sheikh\\s*Ayman\\s*Suwayd|Sourate\\s*Al-|\\bQuran\\b|\\bSurah\\b|\\bAyah\\b|Quran\\s*Recitation|Islamic\\s*(Lecture|Teachings?|Reminder)|Markandeya.*Maha?mr?ityunjaya|Mahamrityunjaya\\s*Mantra"
+
+[[pass2]]
+category = "tutorial_howto"
+pattern = "\\b(how\\s*to\\s*(make|build|create|draw|paint|cook|bake|fix|repair|install|set\\s*up|use|learn|train|get|start|write|edit|design|code|program)|tutorial\\s*(video|guide|step)|step\\s*by\\s*step\\s*(guide|tutorial|instructions?)|\\bDIY\\b|DIY\\s+\\w|learn\\s*how\\s*to|beginner'?s?\\s*guide|master\\s*class|workshop\\s*video|screenwrit(er|ing)\\s*(method|tips|technique|\\d))\\b|English\\s*Speaking\\s*Course\\s*Day|Class\\s*\\d+\\s*(Maths?|English|Science)\\s*Chapter|Day\\s*\\d+\\s*of\\s*\\d+\\s*of\\s*(SAT|GRE|GMAT)\\s*Prep|Java\\s*program\\s*to|Learn\\s*Coding|Spoken\\s*English\\s*-\\s*\\d+|\\bNCERT\\s*Class|NCERT\\s*\\d|Maths?\\s*Chapter\\s*\\d+\\s*Exercise|Derivative\\s*of\\s*\\w+\\s*Function|Mathematics\\s*of\\s*Support\\s*Vector|Cartesian\\s*Product.*Relational\\s*Algebra|Comparing\\s*Things.*Spoken\\s*English|SSC\\s*GD\\s*(GS|Practice|Class)|PEO\\s*&\\s*Junior\\s*Assistant|New\\s*Income\\s*Tax\\s*Slab|EMRS\\s*DOCUMENT\\s*VERIFICATION|Profit\\s*Prior\\s*to\\s*Incorporation|Hand\\s*Embroidery\\s*for\\s*Beginners|crochet\\s*(pattern|mystery|project)|What\\s*are\\s*Tensors|Beginning\\s*Graphic\\s*Design|Urdu\\s*Research.*Paper\\s*presented|Odia\\s*Grammar\\s*Full\\s*Set|foundation\\s*digital\\s*awareness|Intraday\\s*Trading\\s*Malayalam|Best\\s*Antiviruses?\\s*for\\s*Cybersecurity|Top\\s*\\d+\\s*Antivirus\\s*Software|Is,\\s*Am,\\s*Are.*(प्रयोग|का|में)|Was,\\s*Were.*(प्रयोग|का|में)|Has,\\s*Have.*(प्रयोग|का|में)|\\bSpoken\\s*English\\b.*\\|\\s*Class\\s*[-–]|English\\s*Grammar\\s*in\\s*Hindi|Admission\\s*Test|Entrance\\s*Exam|Unit\\s*Test|Syllabus|Exam\\s*(Guide|Paper|Question)|Class\\s*\\d\\s*(Exam|Test|Admission)|Teaching\\s*Aids?|B\\.Ed\\b|Lesson\\s*Plan|School\\s*Admission"
+
+[[pass2]]
+category = "ai_concept_trailer"
+pattern = "\\b(AI\\s*(trailer|concept|generated|film|movie|created)|concept\\s*trailer.*\\b(AI|artificial)|artificial\\s*intelligence\\s*(trailer|concept|film)|AI\\s*reimagined|AI\\s*remake|AI\\s*(version|rendition|adaptation)|Midjourney|Stable\\s*Diffusion\\s*film)\\b|AI\\s*短剧|ai\\s*短剧|#AI短剧|AI\\s*真人剧|#ai真人剧|\\bAI\\s*Short\\b|ai\\s*short\\s*drama"
+
+[[pass2]]
+category = "podcast_talk_show"
+pattern = "\\b(podcast\\s*(episode|full|video|clip|highlights?)?|talk\\s*show\\s*(full|episode|clip)?|stand[\\s-]up\\s*comedy\\s*(special|full|show|clip)|late\\s*night\\s*(show|with)|comedy\\s*central\\s*presents|improv\\s*show|open\\s*mic\\s*night|roast\\s*(of|battle|comedy))\\b"
+
+[[pass2]]
+category = "award_show"
+pattern = "\\b(award\\s*(show|ceremony|night|event)|red\\s*carpet\\s*(event|premiere|arrivals?|live|coverage)|oscars?\\s*(\\d{4}|award|ceremony|red\\s*carpet|winner|nominee)|golden\\s*globe|emmy\\s*award|bafta\\s*(award|film)|grammy\\s*(award|ceremony)|tony\\s*award|cannes\\s*(film\\s*festival|\\d{4}|red\\s*carpet|winner|award)|sundance\\s*(film\\s*festival|\\d{4}|award))\\b"
+
+[[pass2]]
+category = "shopping_haul"
+pattern = "\\b(haul\\s*(video|unboxing|review)|unboxing\\s*(video|review)?|try[\\s-]on\\s*haul|shopping\\s*haul|makeup\\s*(tutorial|review|haul)|skincare\\s*(routine|review|tutorial)|what\\s*I\\s*(bought|got|ordered)|amazon\\s*haul|shein\\s*haul)\\b"
+
+[[pass2]]
+category = "vlog_lifestyle"
+pattern = "\\b(daily\\s*vlog|\\bvlog\\s*\\d+|week\\s*in\\s*my\\s*life|day\\s*in\\s*the\\s*life|morning\\s*routine|night\\s*routine|what\\s*I\\s*eat\\s*in\\s*a\\s*day|apartment\\s*tour|room\\s*tour|house\\s*tour|travel\\s*vlog|come\\s*with\\s*me|get\\s*ready\\s*with\\s*me|grwm\\b|aesthetic\\s*vlog)\\b"
+
+[[pass2]]
+category = "tech_review"
+pattern = "\\b(phone\\s*review|laptop\\s*review|tech\\s*review|gadget\\s*review|unboxing\\s*\\w+\\s*(pro|max|ultra)?|apple\\s*(iphone|ipad|macbook|watch|airpods|vision)|samsung\\s*(galaxy|s\\d+|z\\s*(flip|fold))|google\\s*pixel|nvidia\\s*(rtx|geforce)|amd\\s*ryzen|intel\\s*core)\\b"
+
+[[pass2]]
+category = "non_english_film"
+pattern = "\\b(nollywood\\s*(movie|film|tv|glamour)?|novelas?\\s*completas?|telenovela|pashto\\s*(movie|film|story)|punjabi\\s*(movie|film|fan|full)|marathi\\s*(serial|movie|film)|bengali\\s*(movie|film|serial)|kannada\\s*(movie|film)|telugu\\s*(movie|film|comedy|show|drama)|malayalam\\s*(movie|film)|tamil\\s*(movie|film)|urdu\\s*(movie|film|drama)|hindi\\s*(full\\s*movie|movie|film|serial|dubbed|romantic|mix|songs?)|bollywood\\s*(movie|film|full|horror|actor|actress|song|dance|news)|indian\\s*series\\s*in\\s*english\\s*dubbed|\\bindian\\s+series\\b|lollywood|kollywood|tollywood|dhallywood|nigerian\\s*(nollywood|movie|film|series)|mercy\\s*johnson|ik\\s*ogbonna|chineze\\s*anya|chinonso\\s*arubayi|african\\s*(movie|film|nollywood|series)|\\bbangla\\s*(movie|film|drama|natok|song|music|video)?|bengali\\s*(full\\s*movie|movie|film|serial|drama|song|natok)|\\bTVB\\s*l.n.g\\s*ti.ng|Kênh\\s*TVB\\s*ti.ng|etvteluguindia|etv\\s*telugu|shemaroo|zeetv|desi\\s*(tv|cinema|drama)|\\bpure\\s*hindi|\\bAllu\\s*Arjun|\\bMahesh\\s*Babu|\\bJr\\s*NTR)\\b|Jodha\\s*Akbar|Kurulus\\s*Osman|Ertugrul\\s*Ghazi|Magnificent\\s*Century|Muhteşem\\s*Yüzyıl|Kösem|Razia\\s*Sultan|Maharana\\s*Pratap|Peshwa\\s*Bajirao|Chandra\\s*Nandni|Amrit\\s*Manthan|Tenali\\s*Rama|Punyashlok\\s*Ahilya|Bagani\\b|Mere\\s*Sai|Bhagavata\\s*Pravachana|Saraswatichandra|Bharat\\s*Ka\\s*Veer\\s*Putra|Shirdi\\s*Ke\\s*Sai\\s*Baba|Jeenay\\s*Ki\\s*Arzoo|Qaidi\\s*No\\s*\\d|Rao\\s*Bahadur|Byomkesh\\s*Bakshi|Crime\\s*Patrol.*Bengali|\\bJodha\\b.*Akbar|\\bOsman\\b.*Urdu|\\bOsman\\b.*Sahab|\\bGhazi\\b.*Urdu|\\bUrdu\\b.*Season|\\bUrdu\\b.*Episode|\\bUrdu\\b.*Throwback|Raisinghani\\s*vs|Linlang\\s*Recap|SWAHILI\\s*MOVIE|malayalam\\s*explanation|\\btelugu\\b|tamil\\s*(show|serial|story|kathaigal|love\\s*melody)|Sinhala\\s*Fairy\\s*Tales|Myanmar\\s*Fairy\\s*Tales|Lagu\\s*Anak\\s*Indonesia|\\bBonanza\\b.*Episode|\\bBonanza\\b.*\\|.*Cowboy|\\bTaxi\\b.*\\|.*Episode|\\bTaxi\\b.*\\|.*Season|\\bDream\\s*SMP\\s*Season|\\bRun\\s*BTS\\b.*Episode|Daydreamer\\s*Full\\s*Episode|\\bBagani\\b.*Episode|\\bTitanic\\s*Parte\\s*\\d+|\\bFilme\\s*de\\s*(Actiune|Groaza).*Subtitrate|\\bKerala\\s*Horror\\s*Story|Borivali\\s*Horror|\\bMahabharatham\\b|\\bFireside\\s*\\|\\s*\\d+\\s*\\w+\\s*\\d+|\\bJaago\\s*Lahore\\b|\\bMPYA\\s*\\d{4}\\s*DJ\\b|\\bDJ\\s*\\w+\\s*MOVIE\\b|\\bSWAHILI\\b|\\bIMETAFSIRIWA\\s*KWA\\s*KISWAHILI\\b|\\bKannada\\s*Song\\b|\\bSantali\\s*(Video|Song|Music|Old)|\\bMising\\s*(Video|Song|Dance|Music)|\\bNepali\\s*(Adhunik|Song|Video|Movie)|\\bKashmiri\\s*(Music|Song|Video)|volkodav\\s*\\d+\\s*\\d+\\s*rutracker|Film\\s*India\\s*Dubing|Bahasa\\s*indonesia|cz\\s*dabing|dabing\\b|arabic\\s*(song|music|drama|series|movie)|urdu\\s*(song|music|drama|series|poetry|story)|nepali\\s*(song|music|ringtone|video|movie)|indonesia\\b|\\bbangla\\b|tamil\\s*(song|music)|telugu\\s*(song|music|video)|kannada\\s*(song|music)|malayalam\\s*(song|music)|punjabi\\s*(song|music)|marathi\\s*(song|music|serial)|gujarati\\b"
+
+[[pass2]]
+category = "movie_explainer"
+pattern = "\\b(movie\\s*explainer|film\\s*explainer|movies?\\s*explained\\s*(in|by)|story\\s*explained\\s*(in|by)|explained\\s*in\\s*(hindi|urdu|pashto|tamil|telugu|punjabi|spanish))\\b"
+
+[[pass2]]
+category = "ranking_list"
+pattern = "\\b(\\d+\\s*(forgotten|greatest|iconic|best|worst|underrated|overrated)\\s+\\w+\\s+(movies?|films?|tv\\s*shows?)|top\\s*\\d+\\s*(movies?|films?|tv\\s*shows?)|movies?\\s*that\\s*(inspired|changed|defined))\\b"
+
+[[pass2]]
+category = "reality_docu_show"
+pattern = "\\b(paramedics?\\s*(respond|episode)|ambulance\\s*(australia|uk|usa|episode|show)|police\\s*(interceptors|camera|action|patrol|chase)|border\\s*security|highway\\s*patrol|road\\s*policing|customs\\s*(uk|australia)|\\bcops?\\s*\\d+\\b|first\\s*responders?|rescue\\s*\\d+|rescue\\s*heroes|bondi\\s*rescue|air\\s*ambulance|emergency\\s*room|trauma\\s*unit|real\\s*life\\s*(crime|police|emergency|rescue))\\b"
+
+[[pass2]]
+category = "fashion_show"
+pattern = "\\b(swim\\s*week|fashion\\s*(show|week|runway|collection)|swimwear\\s*(show|collection|fashion)|miami\\s*fashion|new\\s*york\\s*fashion\\s*week|paris\\s*fashion\\s*week|runway\\s*show|model\\s*runway|lingerie\\s*(show|fashion))\\b"
+
+[[pass2]]
+category = "academic_news"
+pattern = "\\b(student\\s*accepted\\s*to\\s*(every\\s*)?(ivy|college|university|harvard|yale|stanford|mit)|ivy\\s*league\\s*(school|acceptance|decision|reaction)|college\\s*acceptance\\s*reaction|harvard\\s*accepted|university\\s*decision\\s*reaction|valedictorian|graduation\\s*speech|commencement\\s*(speech|address))\\b"
+
+[[pass2]]
+category = "variety_comedy_show"
+pattern = "\\b(drama\\s*company|comedy\\s*show|variety\\s*show|stand[\\s-]up\\s*comedy|reality\\s*show|talent\\s*show|sketch\\s*comedy|improv\\s*comedy|comedy\\s*circus|comedy\\s*nights?|comedy\\s*ka\\s*maha|comedy\\s*dangal|jabardasth|sridevi\\s*drama|etvtelugu|etv\\s*telugu|shemaroo\\s*comedy|kapil\\s*sharma|comedy\\s*king|hasya\\s*|mazaak\\s*|laughtel|comedy\\s*adda|comedy\\s*studio|comedy\\s*club|comedy\\s*hour|comedy\\s*gala|comedy\\s*stars?|super\\s*singer|singing\\s*competition|dance\\s*competition|talent\\s*hunt|reality\\s*(tv|show|series|singing)|game\\s*show|talk\\s*show)\\b"
+
+[[pass2]]
+category = "download_tutorial"
+pattern = "\\b(download\\s*(movie|film|link|app|kaise|kare|karbo|website|site|hd\\s*print|free\\s*download)|kaise\\s*(download|dekhe)|movie\\s*(download|kaise|kare|dekhe)|watch\\s*online\\s*(hd|free)\\s*(print|download)|full\\s*movie\\s*(download|free\\s*download|watch\\s*online)|how\\s*to\\s*download|download\\s*kare|download\\s*kaise|movie\\s*download\\s*(link|site|app|website))\\b"
+
+[[pass2]]
+category = "audiobook_audio_only"
+pattern = "\\b(audiobook|audio\\s*book|full\\s*audiobook|audiobooks?\\s*full|bedtime\\s*stor(y|ies)|sleep\\s*stor(y|ies)|story\\s*time\\s*for\\s*kids|read\\s*aloud|audio\\s*only|no\\s*video|visualizer\\s*only|full\\s*cast\\s*audiobook)\\b"
+
+[[pass2]]
+category = "non_film_channel"
+pattern = "\\b(N\\s*TECH\\s*(BANGLA|INDIA|HINDI)?|Smart\\s*Somnath|technical?\\s*(guruji|guide|master|adda|bhai|dude|view)|tech\\s*(channel|guide|tips|tricks|hindi|bangla|urdu)|fan\\s*page\\s*(movie|film)?|movie\\s*(update|news|review)\\s*(channel|daily|24|hd|4k)?|trailer\\s*(channel|zone|hub|world|mania|daily)|film\\s*(update|news)\\s*(channel|daily)?|cinema\\s*(update|news)|bollywood\\s*(update|news|gossip|masala|hungama|life|talkies)|hollywood\\s*(update|news|gossip|channel)|south\\s*(movie|film|cinema)\\s*(update|news))\\b"
+
+[[pass2]]
+category = "demo_test_video"
+pattern = "\\b(\\d+K\\s*(HDR|Video|OLED|Dolby|ULTRA\\s*HD|60FPS|120[fF]ps)|Dolby\\s*Vision\\s*(\\d+K|Quality|OLED|\\d+[fF]ps)|OLED\\s*(Dolby|HDR|\\d+K)|16K\\s*(Video|HDR)|HDR\\s*TEST\\b|Amazing\\s*Nature\\s*in\\s*\\d+K)\\b"
+
+[[pass2]]
+category = "health_medical"
+pattern = "\\b(health\\s*(tips|care|advice|news)?|medical\\s*(advice|tips|news|drama|show|procedure)?|\\bdoctor\\b|hospital\\b|surgery\\b|\\bdisease\\b|mental\\s*health|\\bpatient\\b|clinical\\b|\\bsymptoms?\\b|\\bdiagnosis\\b|\\btreatment\\b|healthcare|wellness|\\btherapy\\b|\\bcancer\\b|blood\\s*(pressure|sugar|test)|diabetes|\\bheart\\s*(attack|disease))\\b"
+
+[[pass2]]
+category = "compilation_topn"
+pattern = "\\b(Top\\s*\\d+\\s*(Best|Worst|Iconic|Greatest|Most|Must|Essential)|Best\\s*of\\s*\\d{4}|Countdown\\b|\\bCompilation\\b|\\bTier\\s*List\\b|\\bRanked\\b|\\bRanking\\b)\\b"
+
+[[pass2]]
+category = "prank_challenge"
+pattern = "\\b(Prank\\b|Challenge\\b|Try\\s*Not\\s*To\\s*Laugh|Funny\\s*(Video|Compilation|Moments|Pranks?)|\\bFAIL\\s*Compilation|Epic\\s*Fail)\\b"
+
+[[pass2]]
+category = "commentary_review"
+pattern = "\\b(电影解说|movie\\s*review|talk\\s*movie|电影.*排行榜|.*电视剧.*精品推荐|movie\\s*explained|影片.*解说|电视剧全解析|十大.*电影|十大.*电视剧|演讲完整版|开播大典|发布会.*完整版|微电影|学生作品|student\\s*project|short\\s*film\\s*festival|短片)\\b"
+
+[[pass2]]
+category = "short_drama_tags"
+pattern = "\\b(#短剧|#热门短剧|#MiniDrama|#minidrama|#drama|#爽剧|#爽文|#ShortDrama|#shortdrama|#revenge|#Dramabox)\\b"
+
+[[pass2]]
+category = "radio_podcast"
+pattern = "\\b(Yours\\s*Truly.*Johnny\\s*Dollar|Classic\\s*Radio|\\bThroughline\\b|Crash\\s*Course|\\bMonstrum\\b|\\bELTAI\\s*Webinar|\\bWebinar\\s*\\d|\\bPodcast\\b|\\bRadio\\s*Mystery|\\bFireside\\s*Chat|\\bCandid\\s*Minds|\\b\\d+\\s*Detective\\s*Riddles|\\bEp\\.?\\s*\\d+\\s*(Just|No)|\\b\\d+\\s*Missing\\s*People|\\b80s\\s*Kids\\s*Unite|Sabbath\\s*School|\\bEp\\.?\\s*\\d+\\s*\\|.*\\|.*\\|$)\\b|BBC\\s*(Saturday\\s*Night|Radio\\s*\\d)|\\bDragnet\\b.*Radio\\s*Drama|\\bFred\\s*Allen\\s*Show\\b|Old\\s*Time\\s*Radio|OTR\\b|\\bP\\s*Division\\b.*BBC|\\w+\\s*\\d{2}-\\d{2}-\\d{4}.*\\||\\bAFRS\\b|\\bEp\\d+\\b|Johnny\\s*Dollar\\b.*AFRS|Ep\\.\\s*\\d+\\s+\\w+.*\\w+.*!|Ep\\.\\s*\\d+\\s+\\w+\\s+\\w+|\\bSentimental\\s*Value\\b.*\\||\\bVolume\\.\\s*\\d+\\s*\\||\\bTales\\s*Involving\\b|Stand[\\s-]up\\s*Comedy\\b|\\bRoundtable\\b"
+
+[[pass2]]
+category = "reaction_review"
+pattern = "\\b(Reaction\\s*!|Reaction\\s*\\||\\bReaction\\b.*\\bFirst\\s*Time|\\bReaction\\b.*\\bWatch\\b|Out\\s*Of\\s*The\\s*Theater|\\bReview\\b.*\\bDeep\\s*Dive|\\bReview\\b.*\\bExplained|The\\s*Film\\s*Buff\\s*(Review|Reivew)|\\bRECAP\\s*&\\s*REVIEW|\\bMovie\\s*Review\\b.*\\|\\s*\\w+\\s*\\||\\bReview\\b.*\\bNon-Spoiler)\\b|\\bMovie\\s*Reviews?\\s*-\\s*|\\b(Review|Recap|RECAPPED)\\b.*\\bIN\\s*HINDI\\b|\\bReview\\b.*Crossover\\s*Episode|\\bBook\\s*Review\\b|\\bno\\s*spoilers\\s*book\\s*review\\b|\\bFilm\\s*Review\\b|\\bMovie\\s*Review\\b|An\\s*Idiot'?s?\\s*Retrospective|\\bRetrospective\\b.*\\||Everything\\s*Wrong\\s*with\\b|\\bExamining\\s*\\w+'?s?\\s*Flop\\s*Era\\b|WHY\\s*THE\\s*\\w+\\s*FINALE\\s*WAS\\s*THE\\s*WORST|Is\\s*the\\s*New\\s*\\w+\\s*Movie\\s*Worth\\s*the\\s*Hype|\\bRANT\\b.*\\||First\\s*Time\\s*(Reaction|Watching|Watch)|\\b(Angry|Honest|Spoiler)\\s*Review\\b|Full\\s*Breakdown\\b|Ending\\s*Explained|\\bReaction\\b.*\\b(Episode|Season|Movie|Film)"
+
+[[pass2]]
+category = "movie_clip_scene"
+pattern = "\\b(\\w+\\s*Scene\\s*\\||\\bScene\\s*\\|.*Movieclips|\\bB-Roll\\b|\\bTrailer\\s*\\#\\d|\\bMovie\\s*Trailer\\b|\\bOfficial\\s*Trailer\\b|\\bPreview\\b.*\\|.*\\|\\s*\\w+\\s*\\||\\bTheatrical\\s*trailer|\\b\\w+\\s*Trailer\\s*\\|\\s*\\w+\\s*\\|)\\b|\\bComplete\\s*MCU\\s*Recap\\b|\\bBest\\s*(Movie|Film)s?\\s*Ever\\s*Made\\b|Top\\s*\\d+\\s*(Horror|Movie|Film|Sci[ -]?Fi)\\s*(Movie|Film)s?\\b|\\bRanking\\s*(the|Top)\\s*\\d+\\b|\\bMovies?\\s*You\\s*Need\\s*To\\s*See\\b|\\bMovies?\\s*(That|On|You).*Required\\s*Viewing|TOP\\s*\\d+\\s*EVERYTHING|\\bSDCC\\b.*PANEL\\s*REVIEW\\b|Disaster\\s*Films?\\s*You\\s*Need\\s*To\\s*See|\\bFILM\\s*DISCUSSION\\b|PHYSICAL\\s*MEDIA\\s*DISCUSSION|\\bBook\\s*Trailer\\b|\\bBest\\s*\\w+\\s*War\\s*Movies?\\b|\\bHistory\\s*of\\s*\\w+\\s*Full\\s*Film\\b|\\bPromo\\s*\\d+|\\bTeaser\\b|\\bCommercial\\b"
+
+[[pass2]]
+category = "documentary"
+pattern = "\\b(documentary|nat\\s*geo|national\\s*geographic|bbc\\s*earth|discovery\\s*channel|nature\\s*documentary|wildlife\\s*documentary|history\\s*documentary|science\\s*documentary|true\\s*crime\\s*documentary|investigative\\s*documentary|biographical\\s*documentary|docu[\\s-]?series|docuseries|david\\s*attenborough|planet\\s*earth\\s*(series|episode))\\b"
+
+[[pass2]]
+category = "behind_scenes"
+pattern = "\\b(behind\\s*the\\s*scenes|making\\s*of|blooper|gag\\s*reel|outtake|deleted\\s*scene|extended\\s*scene|director'?s?\\s*cut|alternate\\s*ending|visual\\s*effects\\s*breakdown|vfx\\s*breakdown|stunt\\s*breakdown|how\\s*it\\s*was\\s*made|on\\s*set|film\\s*production|costume\\s*design\\s*featurette|set\\s*design\\s*featurette)\\b"
+
+[[pass2]]
+category = "interview_actor"
+pattern = "\\b(interview\\s*(with|clip)?|exclusive\\s*interview|sit[\\s-]down\\s*interview|cast\\s*interview|actor\\s*interview|director\\s*interview|celebrity\\s*interview|press\\s*junket|q[\\s&]+a\\s*(session|panel|interview)?|roundtable\\s*interview|fireside\\s*chat)\\b"
+
+[[pass2]]
+category = "celebrity_gossip"
+pattern = "\\b(celebrity\\s*(news|gossip|rumor|update|drama)|entertainment\\s*news|hollywood\\s*(news|gossip|rumor|update)|bollywood\\s*(news|gossip|update)|star\\s*(news|gossip|update)|blind\\s*item|exposed\\b|scandal\\b)\\b"
+
+[[pass2]]
+category = "non_english_chinese_language"
+pattern = "\\b(hindi\\s*(dubbed|movie|film|serial|drama|full)|tamil\\s*(dubbed|movie|film)|telugu\\s*(dubbed|movie|film)|malayalam\\s*(dubbed|movie|film)|kannada\\s*(dubbed|movie|film)|bengali\\s*(dubbed|movie|film)|marathi\\s*(dubbed|serial|movie)|punjabi\\s*(dubbed|movie|film)|urdu\\s*(dubbed|movie|film|drama)|arabic\\s*dubbed|turkish\\s*dubbed|thai\\s*dubbed|vietnamese\\s*dubbed|indonesian\\s*dubbed|tagalog\\s*dubbed|russian\\s*dubbed|\\bdubbed\\s*(movie|film|series)|dubbing\\s*(movie|film)|spain\\s*dubbed|korean\\s*drama|thai\\s*(drama|series|lakorn)|turkish\\s*(drama|series|dizi)|filipino\\s*(drama|series|teleserye)|indonesian\\s*(drama|movie)|vietnamese\\s*(drama|movie)|torrent\\s*(download|magnet)|free\\s*download\\s*(movie|film|full))\\b"
+
+[[pass2]]
+category = "tv_series_episode"
+pattern = "\\b(Forensic\\s*Files.*Season.*Episode|Bonanza\\b.*Episode\\s*\\d+|\\bS\\d+E\\d+\\b.*\\||\\bSeason\\s*\\d+\\s*Ep\\s*\\d+\\b|\\bEp\\s*\\d+\\s*\\|.*\\||\\bFull\\s*Episode\\b.*Paternity\\s*Court|\\bS\\d+\\s*Ep\\s*\\d+|\\bS\\d+\\s*E\\d+\\b|\\bPawn\\s*Stars\\b.*\\|\\s*History\\b|\\bThe\\s*Voice\\s*Kids?\\b.*Blind\\s*Audition|\\bThe\\s*Voice\\s*Kids?\\b.*Australia|\\bIndian\\s*Idol\\b|\\bPocket\\s*FM\\b)\\b|Merlin\\s*S\\d+:E\\d+|S\\d+:E\\d+\\s*Part\\s*\\d+|Parte\\s*\\d+\\s*\\|.*\\|.*Titanic|The\\s*Simpsons\\s*-\\s*|\\bCuphead\\b.*Part\\s*\\d+|Hoarders:.*\\|\\s*A&E|\\bTop\\s*\\d+\\s*TV\\s*Episodes|\\bThe\\s*Loud\\s*House\\b|\\bSesame\\s*Street\\b.*Smart\\s*Cookies"
+
+[[pass2]]
+category = "vlog_challenge"
+pattern = "\\b(LAST\\s*TO\\s*STOP|I\\s*Built\\s*a\\s*SECRET|I\\s*Gave\\s*My|Going\\s*Through\\s*The\\s*Same|Mario\\s*(Drinks|Gets|Runs|Jumps)|Inside\\s*\\w+.*(Home|House).*Architectural\\s*Digest|TRAPPED\\s*in\\s*a\\s*TINY\\s*HOUSE|Spending\\s*\\d+\\s*Hours|Maddie\\s*is\\s*Taken|I\\s*Bought|I\\s*Tried|We\\s*Tried|\\$\\d[\\d,]*\\s*in\\s*ONE\\s*HOUR)\\b"

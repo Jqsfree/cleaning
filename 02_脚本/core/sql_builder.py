@@ -14,6 +14,10 @@ import json
 import os
 import duckdb
 
+# ── 共享常量 ──
+KEEP_EXCLUDE_DEFAULT = {"search_text", "title_channel", "drop_step", "drop_reason"}
+DROP_EXCLUDE_DEFAULT = {"search_text", "title_channel"}
+
 
 def sql_escape(s: str) -> str:
     """转义 DuckDB SQL 字面量中的单引号。
@@ -31,12 +35,13 @@ def load_raw_table(conn: duckdb.DuckDBPyConnection, input_path: str) -> int:
 
     创建临时表 ``raw``。
     """
+    safe_path = sql_escape(input_path)
     ext = os.path.splitext(input_path)[1].lower()
     if ext == ".parquet":
-        reader = f"read_parquet('{input_path}')"
+        reader = f"read_parquet('{safe_path}')"
     else:
         reader = (
-            f"read_csv_auto('{input_path}', header=true, all_varchar=true, "
+            f"read_csv_auto('{safe_path}', header=true, all_varchar=true, "
             f"sample_size=-1, ignore_errors=true)"
         )
 
@@ -86,7 +91,7 @@ def write_parquet_with_excludes(
     keep_cols = [c for c in all_cols if c not in exclude_cols]
     col_str = ", ".join(f'"{c}"' for c in keep_cols)
     conn.execute(
-        f"COPY (SELECT {col_str} FROM {table}) TO '{output_path}' (FORMAT PARQUET)"
+        f"COPY (SELECT {col_str} FROM {table}) TO '{sql_escape(output_path)}' (FORMAT PARQUET)"
     )
 
 
@@ -97,3 +102,50 @@ def write_summary_json(output_dir: str, summary: dict) -> str:
     with open(path, "w") as f:
         json.dump(summary, f, indent=2, ensure_ascii=False)
     return path
+
+
+# ── 规则命中统计 ──────────────────────────────────────────
+
+def count_rule_hits(
+    conn: duckdb.DuckDBPyConnection,
+    table: str,
+    rules: list[dict[str, str]],
+    text_col: str = "search_text",
+    fallback_col: str = "title_channel",
+) -> dict[str, int]:
+    """统计每条黑名单规则的命中数（用于规则效果评估）。
+
+    对已标记为 drop 的表，逐条统计每个规则 category 的命中数。
+
+    Args:
+        conn: DuckDB 连接
+        table: 已筛选的 drop 表（如 step1、step1b_r2）
+        rules: load_blacklist_individual() 返回的规则列表
+        text_col: 主搜索文本列
+        fallback_col: 备选搜索文本列
+
+    Returns:
+        {category: hit_count} 字典
+    """
+    hits: dict[str, int] = {}
+    if not rules:
+        return hits
+
+    # 检查 text_col 是否存在，不存在则用 fallback_col
+    cols = {c[0] for c in conn.execute(f"SELECT * FROM {table} LIMIT 0").description}
+    search_col = text_col if text_col in cols else fallback_col
+
+    for rule in rules:
+        pattern = rule["pattern"].replace("'", "''")
+        category = rule.get("category", "?")
+        try:
+            n = conn.execute(
+                f"SELECT COUNT(*) FROM {table} "
+                f"WHERE regexp_matches(\"{search_col}\", '{pattern}', 'i')"
+            ).fetchone()[0]
+        except Exception:
+            n = 0
+        if n > 0:
+            hits[category] = hits.get(category, 0) + n
+
+    return hits

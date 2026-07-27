@@ -12,29 +12,53 @@ TOML 约定：
     entities.toml    -- (可选) 类别专用实体定义。不存在则返回空字典
 """
 
+import json
 import re
 import tomllib
 from pathlib import Path
 
+_HIT_CACHE_FILE = ".rule_hits_cache.json"
 
-# ── 黑名单 ───────────────────────────────────────────────
 
 def load_blacklist(rules_dir: Path) -> dict[str, str]:
     """从 blacklist.toml 加载 pass2 / r2 正则。
+
+    如果有缓存的命中统计，按命中率降序排列规则（高命中率优先执行，
+    尽早过滤更多行，减少后续 SQL 计算量。对标 FONDUE/UniClean 规则排序优化）。
 
     返回:
       {"pass2": "pat1|pat2|...", "r2": "pat1|pat2|..."}
       未配置的 section 对应 "(?!x)x"（永不匹配）。
     """
-    bl_path = rules_dir / "blacklist.toml"
-    if not bl_path.exists():
-        return {"pass2": r"(?!x)x", "r2": r"(?!x)x"}
-
-    bl = tomllib.loads(bl_path.read_text("utf-8"))
+    rules = load_blacklist_individual(rules_dir)
+    rules = _apply_hit_cache_ordering(rules, rules_dir)
     result = {}
     for section in ("pass2", "r2"):
-        patterns = [item["pattern"] for item in bl.get(section, [])]
-        result[section] = "|".join(patterns) if patterns else r"(?!x)x"
+        patterns = [r["pattern"] for r in rules.get(section, [])]
+        result[section] = "|".join(patterns) if patterns else r"\b\B"
+    return result
+
+
+def load_blacklist_individual(rules_dir: Path) -> dict[str, list[dict[str, str]]]:
+    """从 blacklist.toml 加载 pass2 / r2 的逐条规则（保留 category 名）。
+
+    返回:
+      {"pass2": [{"category": "anime_cartoon", "pattern": "..."}, ...],
+       "r2":    [{"category": "documentary", "pattern": "..."}, ...]}
+    """
+    bl_path = rules_dir / "blacklist.toml"
+    if not bl_path.exists():
+        return {"pass2": [], "r2": []}
+
+    bl = tomllib.loads(bl_path.read_text("utf-8"))
+    result: dict[str, list[dict[str, str]]] = {}
+    for section in ("pass2", "r2"):
+        items = []
+        for item in bl.get(section, []):
+            pat = item.get("pattern", "")
+            if pat:
+                items.append({"category": item.get("category", "?"), "pattern": pat})
+        result[section] = items
     return result
 
 
@@ -120,3 +144,91 @@ def load_entities(rules_dir: Path) -> dict:
         return {}
 
     return tomllib.loads(ent_path.read_text("utf-8"))
+
+
+# ── 规则排序优化（缓存命中统计） ──────────────────────
+
+
+def _hit_cache_path(rules_dir: Path) -> Path:
+    return rules_dir / _HIT_CACHE_FILE
+
+
+def load_hit_cache(rules_dir: Path) -> dict[str, dict[str, int]]:
+    """加载规则命中统计缓存。"""
+    p = _hit_cache_path(rules_dir)
+    if not p.exists():
+        return {}
+    try:
+        return json.loads(p.read_text("utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def save_hit_cache(rules_dir: Path, stats: dict[str, dict[str, int]]) -> None:
+    """保存规则命中统计缓存（合并已有数据取最大值，防一次性偏差）。
+    对标: FONDUE (2025) — 基于历史命中率的选择性优化。
+    """
+    existing = load_hit_cache(rules_dir)
+    merged: dict[str, dict[str, int]] = {}
+    for section in set(list(existing.keys()) + list(stats.keys())):
+        merged[section] = {}
+        for cat in set(list(existing.get(section, {}).keys()) + list(stats.get(section, {}).keys())):
+            merged[section][cat] = max(
+                existing.get(section, {}).get(cat, 0),
+                stats.get(section, {}).get(cat, 0),
+            )
+    _hit_cache_path(rules_dir).write_text(json.dumps(merged, indent=2), "utf-8")
+
+
+def _apply_hit_cache_ordering(
+    rules: dict[str, list[dict[str, str]]],
+    rules_dir: Path,
+) -> dict[str, list[dict[str, str]]]:
+    """按缓存命中率降序排列规则（高命中率优先执行）。
+
+    无缓存时保持原始 TOML 书写顺序不变。
+    """
+    cache = load_hit_cache(rules_dir)
+    if not cache:
+        return rules
+
+    result = {}
+    for section, rule_list in rules.items():
+        hit_map = cache.get(section, {})
+        if not hit_map:
+            result[section] = list(rule_list)
+        else:
+            # 按命中数降序，无缓存记录的排末尾
+            result[section] = sorted(
+                rule_list,
+                key=lambda r: hit_map.get(r.get("category", ""), 0),
+                reverse=True,
+            )
+    return result
+
+
+def compute_and_save_rule_stats(db, rules_dir: Path,
+                                section_table_map: dict | None = None,
+                                text_col: str = "title_channel") -> dict:
+    """各 cleaner 共享的规则命中统计 + 缓存写入。"""
+    from core.sql_builder import count_rule_hits
+    if section_table_map is None:
+        section_table_map = {"pass2": "step1", "r2": "step1b_r2"}
+    bl_individual = load_blacklist_individual(rules_dir)
+    stats: dict[str, dict[str, int]] = {}
+    for section, table in section_table_map.items():
+        rules = bl_individual.get(section, [])
+        if not rules:
+            continue
+        try:
+            hits = count_rule_hits(db, table, rules, text_col=text_col)
+            if hits:
+                stats[section] = hits
+        except Exception:
+            pass
+    if stats:
+        try:
+            save_hit_cache(rules_dir, stats)
+        except OSError:
+            pass
+    return stats
