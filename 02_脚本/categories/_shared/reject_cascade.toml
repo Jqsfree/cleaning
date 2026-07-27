@@ -1,0 +1,37 @@
+# 排除类级联阈值与抽样（非交付闸门；只喂资产与验证队列）
+
+version = 1
+
+[sampling]
+# L3 人工验证抽样上限
+n_validate = 100
+seed = 42
+
+[text_rule]
+# blacklist / 列直接命中：默认 high；仍靠 overturn 校准
+default_band = "high"
+
+[text_ml]
+# ml_score：高分=更像正例(T)；drop 用低分。此处按「负例把握」理解：
+# score <= low_max → high 把握负例；score >= high_min → 不像负例(不提案)
+# 中间带 → mid → 进抽样
+low_max = 0.20
+high_min = 0.50
+
+[thumb]
+# vision_thumb F → high；若未来有 thumb 分数可再分带
+default_fail_band = "high"
+
+[sources]
+# 来源状态：active | shadow | paused（人工改；metrics 只建议）
+blacklist = "active"
+ml_action = "active"
+vision_thumb = "active"
+column = "active"
+
+[metrics]
+min_n_trusted = 30
+# overturn 率高于此 → 建议 pause / 加严
+max_overturn_rate = 0.35
+# confirm 率高且 n 够 → 可建议略放宽（仍须人工 apply）
+min_precision_to_relax = 0.85

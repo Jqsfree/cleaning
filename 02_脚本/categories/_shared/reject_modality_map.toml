@@ -1,0 +1,43 @@
+# 缩略图 / 视觉 QC → reject_tag 映射（可演进，勿假精确）
+# vision_thumb 默认只出 T/F；无细类时用 default_fail_tag。
+
+version = 1
+
+[vision_thumb]
+# F（非目标封面）默认进 provisional，避免假装已判细类
+default_fail_tag = "provisional:thumb_fail"
+fail_labels = ["F", "f", "fail", "非目标封面"]
+pass_labels = ["T", "t", "pass", "中英现代影视封面"]
+
+# 若结果表有 reason / reject_hint 列，按子串映射到 registry id（小写匹配）
+[[vision_thumb.reason_hints]]
+contains = "anime"
+tag = "anime_cartoon"
+
+[[vision_thumb.reason_hints]]
+contains = "动漫"
+tag = "anime_cartoon"
+
+[[vision_thumb.reason_hints]]
+contains = "动画"
+tag = "anime_cartoon"
+
+[[vision_thumb.reason_hints]]
+contains = "游戏"
+tag = "gaming"
+
+[[vision_thumb.reason_hints]]
+contains = "game"
+tag = "gaming"
+
+[[vision_thumb.reason_hints]]
+contains = "古装"
+tag = "provisional:costume_historical"
+
+[[vision_thumb.reason_hints]]
+contains = "文字卡"
+tag = "provisional:text_card"
+
+[[vision_thumb.reason_hints]]
+contains = "ppt"
+tag = "provisional:text_card"

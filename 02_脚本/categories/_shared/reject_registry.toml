@@ -1,0 +1,255 @@
+# 排除类 registry — 可演进命名空间（非冻死枚举）
+# 资产桶 id；会随规则/模型演进。弃用用 status=deprecated + maps_to，勿删历史 id。
+
+registry_version = 1
+
+[changelog]
+v1 = "首版：对齐 film_tv blacklist.toml category=；人工不做全量打标"
+
+[[tags]]
+id = "anime_cartoon"
+label_zh = "动画动漫"
+status = "active"
+aliases = ["动画", "动漫", "卡通", "anime", "animation"]
+
+[[tags]]
+id = "music_official"
+label_zh = "音乐MV"
+status = "active"
+aliases = ["MV", "music_mv", "音乐"]
+
+[[tags]]
+id = "gaming"
+label_zh = "游戏实况"
+status = "active"
+aliases = ["gameplay", "游戏"]
+
+[[tags]]
+id = "kids_nursery"
+label_zh = "儿童儿歌"
+status = "active"
+aliases = ["儿童", "儿歌"]
+
+[[tags]]
+id = "sports_event"
+label_zh = "体育赛事"
+status = "active"
+aliases = ["体育"]
+
+[[tags]]
+id = "news_politics"
+label_zh = "新闻政治"
+status = "active"
+aliases = ["新闻", "政治"]
+
+[[tags]]
+id = "religious"
+label_zh = "宗教内容"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "tutorial_howto"
+label_zh = "教程教学"
+status = "active"
+aliases = ["教程", "tutorial"]
+
+[[tags]]
+id = "ai_concept_trailer"
+label_zh = "AI短剧/概念预告"
+status = "active"
+aliases = ["ai_short_drama", "AI短剧", "ai短剧"]
+
+[[tags]]
+id = "podcast_talk_show"
+label_zh = "播客脱口秀"
+status = "active"
+aliases = ["播客"]
+
+[[tags]]
+id = "award_show"
+label_zh = "颁奖典礼"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "shopping_haul"
+label_zh = "购物开箱"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "vlog_lifestyle"
+label_zh = "生活Vlog"
+status = "active"
+aliases = ["vlog"]
+
+[[tags]]
+id = "tech_review"
+label_zh = "数码评测"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "non_english_film"
+label_zh = "非目标语种影视"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "movie_explainer"
+label_zh = "电影解说"
+status = "active"
+aliases = ["解说"]
+
+[[tags]]
+id = "ranking_list"
+label_zh = "榜单合集"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "reality_docu_show"
+label_zh = "真人秀纪录片式"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "fashion_show"
+label_zh = "时装秀"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "academic_news"
+label_zh = "学术资讯"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "variety_comedy_show"
+label_zh = "综艺喜剧"
+status = "active"
+aliases = ["综艺"]
+
+[[tags]]
+id = "download_tutorial"
+label_zh = "下载教程"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "audiobook_audio_only"
+label_zh = "有声书/纯音频"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "non_film_channel"
+label_zh = "非影视频道"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "demo_test_video"
+label_zh = "测试演示"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "health_medical"
+label_zh = "健康医疗"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "compilation_topn"
+label_zh = "合集TopN"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "prank_challenge"
+label_zh = "整蛊挑战"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "commentary_review"
+label_zh = "影评解说类"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "short_drama_tags"
+label_zh = "短剧标签噪声"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "radio_podcast"
+label_zh = "广播播客"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "reaction_review"
+label_zh = "Reaction/影评"
+status = "active"
+aliases = ["reaction"]
+
+[[tags]]
+id = "movie_clip_scene"
+label_zh = "片段/预告混剪"
+status = "active"
+aliases = ["trailer_recap", "trailer"]
+
+[[tags]]
+id = "documentary"
+label_zh = "纪录片"
+status = "active"
+aliases = ["纪录片"]
+
+[[tags]]
+id = "behind_scenes"
+label_zh = "花絮幕后"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "interview_actor"
+label_zh = "演员采访"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "celebrity_gossip"
+label_zh = "娱乐八卦"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "non_english_chinese_language"
+label_zh = "非中英语言内容"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "tv_series_episode"
+label_zh = "剧集集数噪声"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "vlog_challenge"
+label_zh = "Vlog挑战"
+status = "active"
+aliases = []
+
+[[tags]]
+id = "docu_legacy"
+label_zh = "纪录片(旧)"
+status = "deprecated"
+aliases = ["旧纪录片"]
+maps_to = "documentary"
+
