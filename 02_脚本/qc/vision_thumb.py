@@ -115,6 +115,10 @@ def download_thumbnail(video_id, cache_dir=None):
 def call_vision(image_data, model=None):
     if model is None:
         model = CONFIG["model"]
+    if not USER_PROMPT_TMPL:
+        raise RuntimeError(
+            "USER_PROMPT_TMPL 未初始化 -- 必须通过 main() 调用 load_vision_prompts()"
+        )
     b64 = base64.b64encode(image_data).decode()
     user_text = USER_PROMPT_TMPL.format(n=1)
     # Qwen-VL：非 Agent 场景不设 system，规则放在 user（百炼文档建议）
@@ -234,6 +238,11 @@ def batch_qc(input_path, output_csv=None, sample=None, resume=False, threads=12,
     stats = {"T": 0, "F": 0, "ERROR": 0}
     n_retry_err = 0
     if resume and os.path.exists(output_csv):
+        if os.path.isdir(output_csv):
+            raise IsADirectoryError(
+                f"输出路径是目录而非 CSV（多为旧版 -o 误 mkdir）: {output_csv}\n"
+                f"请删掉该目录后重跑，例如: rm -rf {output_csv!r}"
+            )
         print("[恢复] 读取已完成的记录（ERROR 可重试）...")
         for row in csv.DictReader(open(output_csv, "r", encoding="utf-8-sig")):
             vid = row.get("video_id", "").strip()
@@ -268,8 +277,9 @@ def batch_qc(input_path, output_csv=None, sample=None, resume=False, threads=12,
     global _API_GATE
     _API_GATE = AdaptiveConcurrencyGate(threads)
 
-    # 续跑一律重写：丢掉旧 ERROR，保留 T/F，避免 append 重复
-    out = open(output_csv, "w", encoding="utf-8-sig", newline="")
+    # 写入 .partial，正常结束或 SIGINT 后再原子 replace → 正式文件
+    partial_csv = output_csv + ".partial"
+    out = open(partial_csv, "w", encoding="utf-8-sig", newline="")
     writer = csv.DictWriter(out, fieldnames=out_cols, extrasaction="ignore")
     writer.writeheader()
     for row in kept_rows:
@@ -277,15 +287,31 @@ def batch_qc(input_path, output_csv=None, sample=None, resume=False, threads=12,
     out.flush()
     stats["ERROR"] = 0
 
-
     write_lock = threading.Lock()
     stop_event = threading.Event()
+    finalized = {"done": False}
+
+    def _finalize_partial(reason: str = "done"):
+        if finalized["done"]:
+            return
+        finalized["done"] = True
+        try:
+            out.flush()
+            out.close()
+        except Exception:
+            pass
+        try:
+            os.replace(partial_csv, output_csv)
+            print(f"\n[落盘] {reason} → {output_csv}", flush=True)
+        except OSError as e:
+            print(f"\n[ERROR] 无法原子替换 {partial_csv} → {output_csv}: {e}", flush=True)
 
     def on_exit(*_):
         stop_event.set()
-        out.close()
+        with write_lock:
+            _finalize_partial("中断")
         s = stats
-        print(f"\n[中断] T:{s['T']} F:{s['F']} E:{s['ERROR']}")
+        print(f"[中断] T:{s['T']} F:{s['F']} E:{s['ERROR']}")
         sys.exit(0)
     signal.signal(signal.SIGINT, on_exit)
     signal.signal(signal.SIGTERM, on_exit)
@@ -342,7 +368,8 @@ def batch_qc(input_path, output_csv=None, sample=None, resume=False, threads=12,
 
             futures.clear()
 
-    out.close()
+    with write_lock:
+        _finalize_partial("完成")
     total = stats.get("T", 0) + stats.get("F", 0)
     elapsed = time.time() - t0
     print(f"\n{'='*50}")
@@ -396,6 +423,11 @@ def main():
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--cache-dir", default="qc_thumb_cache")
     args = p.parse_args()
+
+    api_key = (os.getenv("DASHSCOPE_API_KEY") or "").strip()
+    if not api_key:
+        print("[ERROR] 未设置 DASHSCOPE_API_KEY 环境变量")
+        sys.exit(1)
 
     SYSTEM_PROMPT, USER_PROMPT_TMPL = load_vision_prompts(args.category)
     CONFIG["model"] = args.model

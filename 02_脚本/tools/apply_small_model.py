@@ -7,7 +7,8 @@ tools/apply_small_model.py — 生产侧小模型打分钩子
 
 用法:
   02_脚本/tools/apply_small_model.py input.csv -o $BATCH/06_tools/ \\
-    --model models/film_tv_text_clf_svm.pkl
+    --model models/film_tv_text_clf_tfidf.pkl
+  # vision 模态尚未接入（--modality vision 会报错退出）
   02_脚本/tools/apply_small_model.py input.csv -o out.csv \\
     --drop-threshold 0.15 --keep-threshold 0.85
 """
@@ -71,10 +72,15 @@ def _ensure_unpickle_helpers() -> None:
     exp = _REPO_ROOT / "experiments"
     if str(exp) not in sys.path:
         sys.path.insert(0, str(exp))
-    try:
-        import film_tv_text_classifier as _ftc  # noqa: F401
-    except Exception:
-        pass
+    for mod in (
+        "film_tv_text_classifier",
+        "live_sell_text_classifier",
+        "human_live_text_classifier",
+    ):
+        try:
+            __import__(mod)
+        except Exception:
+            pass
 
 
 def load_model(model_path: Path):
@@ -143,8 +149,24 @@ def resolve_output(path_arg: str, input_path: Path) -> Path:
     return p / f"{stem}_ml_scored.csv"
 
 
+def _default_text_model() -> Path:
+    """优先已有权重；无则回落到需显式训练的路径。"""
+    models = _REPO_ROOT / "models"
+    for name in (
+        "film_tv_text_clf_tfidf.pkl",
+        "film_tv_text_clf_v3.pkl",
+        "film_tv_text_clf_v2.pkl",
+        "film_tv_text_clf_st.pkl",
+        "film_tv_text_clf_svm.pkl",
+    ):
+        p = models / name
+        if p.exists():
+            return p
+    return models / "film_tv_text_clf_tfidf.pkl"
+
+
 def main() -> None:
-    default_model = _REPO_ROOT / "models" / "film_tv_text_clf_svm.pkl"
+    default_model = _default_text_model()
     p = argparse.ArgumentParser(
         description="小模型打分：仅高置信负例可 auto-drop；中间带回流人工",
     )
@@ -155,7 +177,7 @@ def main() -> None:
     )
     p.add_argument(
         "--model", default=str(default_model),
-        help=f"pickle 模型路径（默认 {default_model.relative_to(_REPO_ROOT)}）",
+        help="pickle 模型路径（默认自动选 models/ 下已有 film_tv_text_clf_*.pkl）",
     )
     p.add_argument(
         "--modality", choices=("text", "vision"), default="text",

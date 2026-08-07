@@ -1,0 +1,7 @@
+[meta]
+category = "beauty"
+has_cleaner = true
+deliver_format = "parquet"
+default_qc = "text"
+
+# flow 继承 recipe_default（机采为主）；仅覆盖 meta

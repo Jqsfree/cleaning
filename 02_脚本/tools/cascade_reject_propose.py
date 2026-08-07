@@ -22,7 +22,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from core.reject_modality import load_cascade_cfg  # noqa: E402
 from core.reject_taxonomy import normalize_tags  # noqa: E402
-from core.run_manifest import load_manifest, update_stage  # noqa: E402
+from core.run_manifest import maybe_update_stage  # noqa: E402
 from tools.propose_reject_tags import (  # noqa: E402
     _read_table,
     propose_from_frame,
@@ -205,21 +205,17 @@ def main() -> None:
     print("  说明: 不自动 drop；人工 confirm/correct 后 ingest")
     print("=" * 56)
 
-    if load_manifest(batch_root):
-        try:
-            update_stage(
-                batch_root,
-                "reject_cascade",
-                paths={
-                    "reject_proposed": str(batch_root / "03_qc" / "reject_proposed.csv"),
-                    "reject_sample_for_validate": str(
-                        batch_root / "03_qc" / "reject_sample_for_validate.csv"
-                    ),
-                },
-                stats={"n_sample": n},
-            )
-        except FileNotFoundError:
-            pass
+    maybe_update_stage(
+        batch_root,
+        "reject_cascade",
+        paths={
+            "reject_proposed": str(batch_root / "03_qc" / "reject_proposed.csv"),
+            "reject_sample_for_validate": str(
+                batch_root / "03_qc" / "reject_sample_for_validate.csv"
+            ),
+        },
+        stats={"n_sample": n},
+    )
 
 
 if __name__ == "__main__":

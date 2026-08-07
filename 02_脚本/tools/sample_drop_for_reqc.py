@@ -22,7 +22,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from core.run_manifest import load_manifest, update_stage  # noqa: E402
+from core.run_manifest import maybe_update_stage  # noqa: E402
 
 # 与 03_sample 一致的样本量公式
 Z_TABLE = {90: 1.645, 95: 1.96, 99: 2.576}
@@ -160,29 +160,29 @@ def main() -> None:
     batch_root = Path(args.batch_root) if args.batch_root else None
     if batch_root is None and args.output:
         cand = Path(args.output)
-        if (cand / "manifest.json").exists():
+        if (cand / "manifest.json").exists() or looks_like_batch(cand):
             batch_root = cand
-        elif (cand.parent.parent / "manifest.json").exists():
-            # …/03_qc/drop_reflux → 批次根
-            batch_root = cand.parent.parent
+        else:
+            from core.batch_layout import infer_batch_root
+            batch_root = infer_batch_root(cand)
 
-    if batch_root and load_manifest(batch_root):
-        try:
-            update_stage(
-                batch_root,
-                "drop_reflux",
-                paths={"sample": str(sample_path), "note": str(note_path)},
-                stats={
-                    "n_pool": n_total,
-                    "n_sample": len(sampled),
-                    "seed": args.seed,
-                    "input": str(inp.resolve()),
-                },
-            )
-            print(f"  manifest 已更新 stage=drop_reflux")
-        except FileNotFoundError:
-            pass
+    target = batch_root or args.output
+    if target and maybe_update_stage(
+        target,
+        "drop_reflux",
+        paths={"sample": str(sample_path), "note": str(note_path)},
+        stats={
+            "n_pool": n_total,
+            "n_sample": len(sampled),
+            "seed": args.seed,
+            "input": str(inp.resolve()),
+        },
+    ):
+        print("  manifest 已更新 stage=drop_reflux")
 
+
+def looks_like_batch(cand: Path) -> bool:
+    return (cand / "01_quality").is_dir() or (cand / "manifest.json").exists()
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>__TITLE__</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 16px; background: #1a1a1a; color: #eee; }
+    h1 { font-size: 18px; font-weight: 600; margin: 0 0 12px; }
+    .bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+    select, button, input[type=range] { font-size: 14px; }
+    select, button { padding: 6px 10px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .panel { background: #2a2a2a; border-radius: 8px; padding: 8px; text-align: center; overflow: hidden; }
+    .panel h3 { margin: 0 0 4px; font-size: 15px; }
+    .panel .meta { font-size: 12px; color: #aaa; margin-bottom: 8px; min-height: 2.5em; }
+    .img-wrap { overflow: auto; max-height: 70vh; background: #000; border-radius: 4px; }
+    img { display: block; margin: 0 auto; image-rendering: pixelated; transform-origin: top center; }
+    .hint { color: #888; font-size: 13px; margin-top: 12px; line-height: 1.5; }
+    .missing { opacity: 0.25; filter: grayscale(1); }
+  </style>
+</head>
+<body>
+  <h1>__TITLE__</h1>
+  <div class="bar">
+    <label>视频 <select id="vid"></select></label>
+    <label>帧 <select id="frame"></select></label>
+    <button id="prev" type="button">← 上一帧</button>
+    <button id="next" type="button">下一帧 →</button>
+    <label>放大 <input id="zoom" type="range" min="100" max="800" value="200" step="10"></label>
+    <span id="zoomLbl">200%</span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="hint">
+    ← → 切换帧；滚轮在图片区可平移。三档按<strong>同一采样序号</strong>对齐（约同一视频进度），
+    因 YouTube 各档 storyboard 总帧数不同，画面不会完全一致，属正常现象。
+  </p>
+  <script>
+    const DATA = __DATA_JSON__;
+    const TIERS = ["sb0", "sb1", "sb2"];
+    const vidSel = document.getElementById("vid");
+    const frameSel = document.getElementById("frame");
+    const grid = document.getElementById("grid");
+    const zoom = document.getElementById("zoom");
+    const zoomLbl = document.getElementById("zoomLbl");
+
+    const vids = Object.keys(DATA).sort();
+    for (const v of vids) {
+      const o = document.createElement("option");
+      o.value = v; o.textContent = v;
+      vidSel.appendChild(o);
+    }
+
+    function slotPct(vid, fi, n) {
+      if (!n) return "";
+      return ` · 进度槽 ~${Math.round((fi + 0.5) / n * 100)}%`;
+    }
+
+    function maxFrames(vid) {
+      return Math.max(...TIERS.map(t => DATA[vid][t]?.n ?? 0));
+    }
+
+    function fillFrames() {
+      const n = maxFrames(vidSel.value);
+      frameSel.innerHTML = "";
+      for (let i = 0; i < n; i++) {
+        const o = document.createElement("option");
+        o.value = i;
+        o.textContent = `frame_${String(i).padStart(2, "0")}`;
+        frameSel.appendChild(o);
+      }
+    }
+
+    function applyZoom() {
+      const z = zoom.value + "%";
+      zoomLbl.textContent = z;
+      grid.querySelectorAll("img").forEach(img => { img.style.width = z; });
+    }
+
+    function render() {
+      const vid = vidSel.value;
+      const fi = +frameSel.value;
+      const fn = `frame_${String(fi).padStart(2, "0")}.jpg`;
+      const nMax = maxFrames(vid);
+      const pct = slotPct(vid, fi, nMax);
+      grid.innerHTML = "";
+      for (const tier of TIERS) {
+        const m = DATA[vid][tier];
+        const panel = document.createElement("div");
+        panel.className = "panel";
+        const wrap = document.createElement("div");
+        wrap.className = "img-wrap";
+        const img = document.createElement("img");
+        img.src = `${tier}/${vid}/${fn}`;
+        img.alt = `${tier} ${fn}`;
+        const has = m && fi < m.n;
+        if (!has) img.classList.add("missing");
+        img.onerror = () => { img.alt = "无此帧"; img.classList.add("missing"); };
+        const meta = m
+          ? `${m.w}×${m.h} · 本档 ${m.n} 帧${has ? pct : " · 缺帧"}`
+          : "无数据";
+        panel.innerHTML = `<h3>${tier}</h3><div class="meta">${meta}</div>`;
+        wrap.appendChild(img);
+        panel.appendChild(wrap);
+        grid.appendChild(panel);
+      }
+      applyZoom();
+      location.hash = `v=${encodeURIComponent(vid)}&f=${fi}`;
+    }
+
+    function step(d) {
+      const n = frameSel.options.length;
+      if (!n) return;
+      frameSel.value = (fi => (fi + d + n) % n)(+frameSel.value);
+      render();
+    }
+
+    function fromHash() {
+      const h = new URLSearchParams(location.hash.slice(1).replace(/^#/, ""));
+      const v = h.get("v");
+      const f = h.get("f");
+      if (v && DATA[v]) {
+        vidSel.value = v;
+        fillFrames();
+        if (f !== null && frameSel.querySelector(`option[value="${f}"]`)) {
+          frameSel.value = f;
+        }
+      }
+    }
+
+    vidSel.onchange = () => { fillFrames(); render(); };
+    frameSel.onchange = render;
+    document.getElementById("prev").onclick = () => step(-1);
+    document.getElementById("next").onclick = () => step(1);
+    zoom.oninput = applyZoom;
+    document.onkeydown = e => {
+      if (e.key === "ArrowLeft") step(-1);
+      if (e.key === "ArrowRight") step(1);
+    };
+
+    fillFrames();
+    fromHash();
+    if (!location.hash) {
+      vidSel.value = vids[0] || "";
+      fillFrames();
+    }
+    render();
+  </script>
+</body>
+</html>

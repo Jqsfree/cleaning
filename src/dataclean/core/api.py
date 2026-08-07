@@ -63,10 +63,14 @@ class DashScopeClient:
         self._api_key = overrides.pop("api_key", None) or config.api_key
         self._api_base = overrides.pop("api_base", None) or config.api_base
         self._model = overrides.pop("model", None) or config.model
-        self._timeout = overrides.pop("timeout", None) or config.timeout
-        self._max_retries = overrides.pop("max_retries", None) or config.max_retries
-        self._backoff_base = overrides.pop("backoff_base", None) or config.backoff_base
-        self._jitter_max = overrides.pop("jitter_max", None) or config.jitter_max
+        v = overrides.pop("timeout", None)
+        self._timeout = v if v is not None else config.timeout
+        v = overrides.pop("max_retries", None)
+        self._max_retries = v if v is not None else config.max_retries
+        v = overrides.pop("backoff_base", None)
+        self._backoff_base = v if v is not None else config.backoff_base
+        v = overrides.pop("jitter_max", None)
+        self._jitter_max = v if v is not None else config.jitter_max
 
         self._client = None
         self._gate = None   # AdaptiveConcurrencyGate（可选）
@@ -169,7 +173,10 @@ class DashScopeClient:
                     max_tokens=max_tokens,
                     **kwargs,
                 )
-                return resp.choices[0].message.content.strip()
+                result = resp.choices[0].message.content.strip()
+                if self._gate:
+                    self._gate.record_outcome(ok=True)
+                return result
             except Exception as e:
                 last_error = e
                 error_str = str(e).lower()
@@ -178,14 +185,19 @@ class DashScopeClient:
                 if "429" in error_str or "rate" in error_str:
                     if self._gate:
                         self._gate.on_rate_limit()
+                        self._gate.record_outcome(transient_error=True)
                     if attempt < self._max_retries:
                         delay = self._backoff_base ** (attempt + 1) + random.uniform(0, self._jitter_max)
                         time.sleep(delay)
                         continue
                 # 其他错误
                 elif attempt < self._max_retries:
+                    if self._gate:
+                        self._gate.record_outcome(transient_error=True)
                     time.sleep(self._backoff_base ** (attempt + 1))
                     continue
+                elif self._gate:
+                    self._gate.record_outcome(transient_error=True)
             finally:
                 if self._gate:
                     self._gate.release()

@@ -24,7 +24,7 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_ROOT))
 
-from core.run_manifest import load_manifest, update_stage  # noqa: E402
+from core.run_manifest import maybe_update_stage  # noqa: E402
 from core.sop import write_run_log  # noqa: E402
 
 FETCH = Path(__file__).resolve().parent / "fetch_yt_definition.py"
@@ -107,22 +107,19 @@ def main() -> None:
         print(f"[ERROR] 未找到交付文件: {keep_path}")
         sys.exit(1)
 
-    if load_manifest(batch):
-        try:
-            update_stage(
-                batch,
-                "tools_ge720",
-                paths={
-                    "definition": str(defn_path),
-                    "deliver": str(keep_path),
-                    "drop": str(drop_path),
-                },
-                deliver_path=str(keep_path),
-            )
-        except Exception as e:
-            print(f"[WARN] manifest 更新失败: {e}")
+    if maybe_update_stage(
+        batch,
+        "tools_ge720",
+        paths={
+            "definition": str(defn_path),
+            "deliver": str(keep_path),
+            "drop": str(drop_path),
+        },
+        deliver_path=str(keep_path),
+    ):
+        print(f"manifest 已更新 stage=tools_ge720")
     else:
-        print(f"[WARN] 无 manifest.json，跳过索引更新（可先 run_manifest.py init）")
+        print("[WARN] 无法更新 manifest（检查批次根或先 run_manifest.py init）")
 
     write_run_log(
         "yt_definition_filter",

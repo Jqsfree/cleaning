@@ -1,0 +1,47 @@
+[meta]
+category = "ego_repair"
+has_cleaner = false
+deliver_format = "csv"
+default_qc = "thumb"
+
+[[flow.human]]
+id = "quality"
+kind = "auto"
+
+[[flow.human]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.human]]
+id = "thumb_qc"
+kind = "optional_auto"
+depends = ["sample"]
+hint = "qc/vision_thumb.py -c ego_repair"
+
+[[flow.human]]
+id = "deliver"
+kind = "auto"
+tool = "copy_qc"
+depends = ["sample"]
+hint = "QC 产出 → 07_deliver；勿 02_clean"
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.machine]]
+id = "thumb_qc"
+kind = "optional_auto"
+depends = ["sample"]
+
+[[flow.machine]]
+id = "deliver"
+kind = "auto"
+tool = "copy_qc"
+depends = ["sample"]

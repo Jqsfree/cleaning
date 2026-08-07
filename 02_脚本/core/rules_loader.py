@@ -7,7 +7,8 @@ core/rules_loader.py -- 通用规则加载（不绑定任何类别）
 
 TOML 约定：
   {rules_dir}/
-    blacklist.toml   -- [[pass2]], [[r2]]  每个 item 含 pattern:string
+    blacklist.toml   -- [[title_pass2]], [[title_r3]], [[channel_pass2]],
+                        [[pass2]], [[r2]]，每项含 pattern:string
     whitelist.toml   -- [meta], [[positive]], [[negative]], strong_*_pattern:string
     entities.toml    -- (可选) 类别专用实体定义。不存在则返回空字典
 """
@@ -21,26 +22,34 @@ _HIT_CACHE_FILE = ".rule_hits_cache.json"
 
 
 def load_blacklist(rules_dir: Path) -> dict[str, str]:
-    """从 blacklist.toml 加载 pass2 / r2 正则。
+    """加载 title_pass2 / title_r3 / channel_pass2 / pass2 / r2 正则。
 
-    如果有缓存的命中统计，按命中率降序排列规则（高命中率优先执行，
-    尽早过滤更多行，减少后续 SQL 计算量。对标 FONDUE/UniClean 规则排序优化）。
+    若存在 ``.rule_hits_cache.json``，按历史命中数降序拼接 pattern
+    （高命中优先，尽早过滤）。
 
     返回:
-      {"pass2": "pat1|pat2|...", "r2": "pat1|pat2|..."}
-      未配置的 section 对应 "(?!x)x"（永不匹配）。
+      {"title_pass2": "...", "title_r3": "...", "channel_pass2": "...",
+       "pass2": "...", "r2": "..."}
+      未配置的 section 对应 ``\\b\\B``（永不匹配；勿与文档旧哨兵 (?!x)x 混用）。
     """
     rules = load_blacklist_individual(rules_dir)
-    rules = _apply_hit_cache_ordering(rules, rules_dir)
+    hit_cache = load_hit_cache(rules_dir)
     result = {}
-    for section in ("pass2", "r2"):
-        patterns = [r["pattern"] for r in rules.get(section, [])]
+    for section in ("title_pass2", "title_r3", "channel_pass2", "pass2", "r2"):
+        items = list(rules.get(section, []))
+        section_hits = hit_cache.get(section) or {}
+        if section_hits:
+            items.sort(
+                key=lambda r: section_hits.get(r.get("category", "?"), 0),
+                reverse=True,
+            )
+        patterns = [r["pattern"] for r in items]
         result[section] = "|".join(patterns) if patterns else r"\b\B"
     return result
 
 
 def load_blacklist_individual(rules_dir: Path) -> dict[str, list[dict[str, str]]]:
-    """从 blacklist.toml 加载 pass2 / r2 的逐条规则（保留 category 名）。
+    """加载各 blacklist section 的逐条规则（保留 category 名）。
 
     返回:
       {"pass2": [{"category": "anime_cartoon", "pattern": "..."}, ...],
@@ -52,7 +61,7 @@ def load_blacklist_individual(rules_dir: Path) -> dict[str, list[dict[str, str]]
 
     bl = tomllib.loads(bl_path.read_text("utf-8"))
     result: dict[str, list[dict[str, str]]] = {}
-    for section in ("pass2", "r2"):
+    for section in ("title_pass2", "title_r3", "channel_pass2", "pass2", "r2"):
         items = []
         for item in bl.get(section, []):
             pat = item.get("pattern", "")
@@ -180,33 +189,6 @@ def save_hit_cache(rules_dir: Path, stats: dict[str, dict[str, int]]) -> None:
     _hit_cache_path(rules_dir).write_text(json.dumps(merged, indent=2), "utf-8")
 
 
-def _apply_hit_cache_ordering(
-    rules: dict[str, list[dict[str, str]]],
-    rules_dir: Path,
-) -> dict[str, list[dict[str, str]]]:
-    """按缓存命中率降序排列规则（高命中率优先执行）。
-
-    无缓存时保持原始 TOML 书写顺序不变。
-    """
-    cache = load_hit_cache(rules_dir)
-    if not cache:
-        return rules
-
-    result = {}
-    for section, rule_list in rules.items():
-        hit_map = cache.get(section, {})
-        if not hit_map:
-            result[section] = list(rule_list)
-        else:
-            # 按命中数降序，无缓存记录的排末尾
-            result[section] = sorted(
-                rule_list,
-                key=lambda r: hit_map.get(r.get("category", ""), 0),
-                reverse=True,
-            )
-    return result
-
-
 def compute_and_save_rule_stats(db, rules_dir: Path,
                                 section_table_map: dict | None = None,
                                 text_col: str = "title_channel") -> dict:
@@ -220,12 +202,9 @@ def compute_and_save_rule_stats(db, rules_dir: Path,
         rules = bl_individual.get(section, [])
         if not rules:
             continue
-        try:
-            hits = count_rule_hits(db, table, rules, text_col=text_col)
-            if hits:
-                stats[section] = hits
-        except Exception:
-            pass
+        hits = count_rule_hits(db, table, rules, text_col=text_col)
+        if hits:
+            stats[section] = hits
     if stats:
         try:
             save_hit_cache(rules_dir, stats)

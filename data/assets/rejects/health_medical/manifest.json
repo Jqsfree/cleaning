@@ -1,0 +1,15 @@
+{
+  "reject_tag": "health_medical",
+  "canonical_id": "health_medical",
+  "registry_version": 1,
+  "n_proposed": 970,
+  "n_human_validated": 0,
+  "n_by_modality_proposed": {
+    "text": 970
+  },
+  "n_by_modality_validated": {},
+  "sources": [
+    "/home/jqs/projects/clean_DATASET/data/runs/film_tv/_reject_seed_0727"
+  ],
+  "updated_at": "2026-07-27 14:12:03"
+}

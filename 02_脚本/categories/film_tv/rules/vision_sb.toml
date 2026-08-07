@@ -1,6 +1,6 @@
 # Vision QC config — 影视剧原片
 # 适配 Qwen-VL：不设 system；规则全部放在 user（官方推荐）
-# 日常入口: python3 02_脚本/qc_vision_thumb.py input.parquet --category film_tv -t 12
+# 日常入口: python3 02_脚本/qc/vision_storyboard.py input.parquet --category film_tv -t 12
 
 [meta]
 category = "film_tv"

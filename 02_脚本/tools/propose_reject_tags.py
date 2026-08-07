@@ -33,7 +33,7 @@ from core.reject_modality import (  # noqa: E402
 )
 from core.reject_taxonomy import get_registry, normalize_tag  # noqa: E402
 from core.rules_loader import load_blacklist_individual  # noqa: E402
-from core.run_manifest import load_manifest, update_stage  # noqa: E402
+from core.run_manifest import maybe_update_stage  # noqa: E402
 
 _CATEGORIES_DIR = Path(__file__).resolve().parent.parent / "categories"
 
@@ -301,17 +301,13 @@ def main() -> None:
     print(f"  输出:       {out_path}")
     print("=" * 56)
 
-    if load_manifest(batch_root):
-        try:
-            update_stage(
-                batch_root,
-                "reject_proposed",
-                paths={"reject_proposed": str(out_path)},
-                stats={"n_proposed": len(out), "modality": args.modality, "input": str(inp.resolve())},
-            )
-            print("  manifest 已更新 stage=reject_proposed")
-        except FileNotFoundError:
-            pass
+    if maybe_update_stage(
+        batch_root,
+        "reject_proposed",
+        paths={"reject_proposed": str(out_path)},
+        stats={"n_proposed": len(out), "modality": args.modality, "input": str(inp.resolve())},
+    ):
+        print("  manifest 已更新 stage=reject_proposed")
 
 
 if __name__ == "__main__":

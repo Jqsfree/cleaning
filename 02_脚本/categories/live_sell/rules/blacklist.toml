@@ -1,0 +1,46 @@
+# Blacklist — 直播带货（certain-noise only）
+# human_0804 标注集验证目标：伤 T = 0
+
+[meta]
+version = "1.0"
+category = "live_sell"
+
+[[pass2]]
+category = "card_pack_opening_show"
+pattern = "(?i)(opening\\s+\\d{2,}\\s+(pokemon\\s+)?(card\\s+)?packs?\\b|opened?\\s+my\\s+\\$\\s*\\d|first\\s+ever\\s+pokemon|\\$75,?000\\s+ex\\s+crystal|gold\\s*star\\s*hunting|rocket\\s+pokemon\\s+card\\s+opening|factory\\s+case|how\\s+many\\s+charizard|final\\s+celebrations\\s+pokemon|final\\s+vintage\\s+pokemon|searching\\s+for\\s+the\\s+\\$\\s*\\d+.*charizard|pull\\s+\\d+\\s+rare\\s+charizard|\\$\\s*\\d+k?\\s+booster\\s+box|from\\s+a\\s+\\$\\d+\\s*booster|yugioh\\s+cards)"
+
+[[pass2]]
+category = "non_sell_chat_show"
+pattern = "(?i)(late\\s+late\\s+show|chat\\s*-\\s*what.?s\\s*up|nobody.?s\\s+on\\s*-\\s*new\\s+month|looking\\s*ahead\\s*-\\s*q\\s*&\\s*a|live\\s+from\\s+nashville|making\\s+changes\\s+to\\s+my\\s+reselling\\s+business|all\\s+things\\s+e\\s*-\\s*com\\s+with|what\\s+the\\s+hales)"
+
+[[pass2]]
+category = "fan_travel_pageant_clip"
+pattern = "(?i)(times\\s*square|beauty\\s*pageant|fly\\s+to\\s+the\\s+philippines|leaving\\s+mgt\\b|ep\\d+\\s*\\(ch\\d+\\s*night\\s*life\\)|หลัง\\s*live)"
+
+[[pass2]]
+category = "short_promo_or_nonsell_live_tag"
+pattern = "(?i)(홍보\\s*예시|\\[tiktok\\s*live\\].*milkpansa|\\[ig\\s*live\\].*loverrukk)"
+
+[[pass2]]
+category = "shipping_logistics_only"
+pattern = "(?i)\\bipapadala\\b"
+
+[[pass2]]
+category = "gaming"
+pattern = "(?i)\\b(minecraft|roblox|fortnite|gameplay|let'?s\\s*play|walkthrough)\\b"
+
+[[pass2]]
+category = "music_mv"
+pattern = "(?i)\\b(official\\s*(music|audio|video)|lyrics?\\s*video|music\\s*video)\\b"
+
+[[pass2]]
+category = "movie_trailer"
+pattern = "(?i)\\b(official\\s*trailer|teaser\\s*trailer|full\\s*hd\\s*movie|full\\s*movie\\b)\\b"
+
+[[pass2]]
+category = "kids_cartoon"
+pattern = "(?i)\\b(peppa\\s*pig|cocomelon|nursery\\s*rhyme|kids\\s*channel|paw\\s*patrol)\\b"
+
+[[r2]]
+category = "pure_fan_meet_no_shop"
+pattern = "(?i)(englot\\s+leaving|engfa\\s+waraha.+charlotte\\s+austin.+fly\\s+to)"

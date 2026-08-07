@@ -12,6 +12,25 @@ YouTube 视频元数据清洗管道。目标 Python 3.13+，主引擎 DuckDB。
 
 LLM / vision：DashScope（`DASHSCOPE_API_KEY`）。清晰度：YouTube Data API（`YOUTUBE_API_KEY`）或 yt-dlp。
 
+### Medallion 对照（湖仓语义，物理目录不变）
+
+| 层 | 本仓路径 | 保证 |
+|----|----------|------|
+| **Bronze** | `raw/{category}/` | **只读**；管道不得写回；可重放上游 |
+| **Silver** | 批次 `01_quality/`、`05_clean/`（及 QC 中间表） | 质量过滤 / 规则清洗；可按输入+规则重跑 |
+| **Gold** | 批次 `07_deliver/` | **对外唯一交付口**；`find-deliver` 只认这里 |
+
+品类差异（是否 ge720、CSV vs parquet、有无 cleaner）写在 `categories/<name>/recipe.toml`，由编排解释，**不是**另一套 Phase 编号。
+
+### 批次元数据权威
+
+- **权威索引**：批次根 `manifest.json`（stages 路径、stats、**provenance**、deliver_path）。
+- `progress.json`：仅长任务断点，**不是**交付 KPI。
+- `项目记录.md`：可选运行流水；**勿**当 SOP 或进度条。
+- 进度自查：`tools/run_manifest.py checklist` 或 `pipeline/orchestrate.py status|next`（有 category 时按 `recipe.toml`）。
+- **血缘**：`01_quality` / `02_clean` 写 `input_sha256`、`rules_sha256`、`tools` 版本进 stage.provenance。
+- **层契约**：`core/contracts.py` + `_shared/contracts_default.toml`（品类可覆盖）；quality/deliver 硬失败，clean soft。
+
 ---
 
 ## 双路径（默认 SOP）
@@ -33,6 +52,15 @@ raw → 01_quality（基础质量）
 **禁止：** 无抽样质检依据就对机采直接 `02_clean`；对人工合格集默认跑 clean。  
 **薄编排** [`pipeline/run.py`](02_脚本/pipeline/run.py) 必须带 `--source`；默认 **只跑 quality**，不自动 clean。
 
+**配方编排**（多品类）：[`pipeline/orchestrate.py`](02_脚本/pipeline/orchestrate.py) 只 **解释** `categories/*/recipe.toml`（规则差异与阶段次数），不内置全局链。
+
+```bash
+02_脚本/pipeline/orchestrate.py status -o $BATCH/
+02_脚本/pipeline/orchestrate.py next -o $BATCH/
+02_脚本/pipeline/orchestrate.py run -o $BATCH/ --upto sample   # 须 --input；不默认 clean
+# clean / deliver 须门禁或 recipe 允许；无 --upto 禁止全自动串完
+```
+
 清晰度（`fetch_yt_definition` / `fetch_resolution`）是 **横切工具**，挂在交付前按需调用，不是 clean 前置阶段。
 
 ### 品类策略（交付差异）
@@ -43,6 +71,7 @@ raw → 01_quality（基础质量）
 | `beauty` | 黑名单 | 文本 | 否 | parquet | whitelist 未接入 |
 | `welding` | 轻量 | storyboard | 否 | parquet | quality→（规则）→storyboard |
 | `film_tv` | 黑名单 | thumb / text | **是** | **CSV** | 人工/机采分流；交付前挂 definition |
+| `live_sell` | 黑名单 | 文本 | 否 | parquet | **北星：少误杀、多留真带货**；机采 L1 停 04_rules；certain-noise only；交批默认筛后 remain + lot 抽检 |
 | `ego_repair` / `lila_outdoor` | 无 | thumb | 否 | 按 QC 产出 | 勿 `02_clean --category` |
 | `tow-person` | 无 | two_person | 否 | 按 QC 产出 | 仅画面 QC |
 
@@ -54,6 +83,57 @@ raw → 01_quality（基础质量）
 - **画面** `vision_thumb.toml`：缩略图 T/F。默认 `qc/vision_thumb.py -c film_tv`。
 - **KPI**：交付只认**人工合格率**（`ingest_human_qc`）；勿用 keep% / LLM-QC% / ml_score 当交付指标。
 - 自动文本 QC / 黑名单 = **certain-noise only**；`u` / 中间带 → 人工或小模型，勿直接当 drop。
+
+### live_sell：保留带货 + 抽检验收口径
+
+**产品北星：** 尽可能保留真直播带货（高召回、少误杀）。自动只丢 **certain-noise / 高置信负例**；uncertain 不自动扔。**不要**把交付收成「只交人工抽样 pass 子集」。
+
+**默认不加第二轮人工：** 筛前已做抽样人工 QC +（可选）drop overturn 验证即可交 remain。`lot_accept verify` 只**验证已有结果**，不要求再标 remain。
+
+**两套统计勿混用：**
+
+| 方法 | 目的 | 本仓默认 |
+|------|------|----------|
+| **prescreen_plus_screening** | 筛前人工合格率 + screening overturn | **默认**（`lot_accept verify`） |
+| **CI 比例估计**（`03_sample`） | 对某一 frame 报合格率 | 已有 quality 抽样即此；remain 独立 CI **可选** |
+| **AQL / ISO 2859** | Ac/Re 收拒 | 仅客户合同写 AQL 时用 |
+
+**筛检 ≠ 验收证据来源：**
+
+- 规则 / ML 高置信 drop = **screening**；overturn = 验证筛检器（已有抽检即可）。
+- lot 默认判决 = **验证** `human_qc.pass_rate` + `overturn`（`evidence_frame=quality`，`deliver_frame=remain`）。
+- 诚实话术：不宣称「remain 独立 CI」；客户若强制 require，再走可选 `sample`+`decide`。
+
+```bash
+# 交筛后 remain
+02_脚本/tools/lot_accept.py prepare -o $BATCH/ \
+  --lot-csv $BATCH/06_tools/*_after_highconf_drop.csv \
+  --frame remain --deliver-name ${BATCH_ID}_deliver_remain.csv
+
+# 验证已有结果（不加新人工）
+02_脚本/tools/lot_accept.py verify -o $BATCH/ --min-pass-rate 0.85
+02_脚本/tools/lot_accept.py show -o $BATCH/
+```
+
+`03_qc/pass.csv` 仍是人工锚点 / 训练正例；**对外 deliver_path 默认指向 remain 整批**。
+
+### 样例视频过滤（直播形态，非 API 硬门禁）
+
+目标由**本地样例视频**定义（非 `liveBroadcastContent`）。YouTube「直播场景」样例 → bank → 候选缩略图相似度分层。
+
+```bash
+# 建库（已有可跳过）
+02_脚本/tools/build_exemplar_bank.py \
+  --video-dir "/home/jqs/Downloads/直播和直播带货场景视频样品/YouTube/直播场景" \
+  -o data/assets/exemplars/yt_live_scene/
+
+# 打分：high/mid 默认保留，low 可丢
+02_脚本/tools/score_exemplar_sim.py $BATCH/01_quality/*quality*.csv \
+  --bank data/assets/exemplars/yt_live_scene/ \
+  -o $BATCH/06_tools/
+```
+
+带货用同级 `YouTube/直播带货场景/` 另建 bank，勿与直播场景混分。`fetch_live_broadcast` 仅旁路分析。
 
 ---
 
@@ -72,9 +152,12 @@ raw → 01_quality（基础质量）
 # drop 回流抽样 → 人工复检 → 再 ingest
 02_脚本/tools/sample_drop_for_reqc.py $BATCH/05_clean/run01/drop.csv -o $BATCH/ --n 200
 
-# 小模型（仅高置信负例可 drop；uncertain 交人工）
+# 小模型（仅高置信负例可 drop；uncertain 交人工；vision 未接入）
 02_脚本/tools/apply_small_model.py input.csv -o $BATCH/06_tools/ \
-  --model models/film_tv_text_clf_svm.pkl
+ --model models/film_tv_text_clf_tfidf.pkl
+
+# 批次自查（薄编排不自动跑 sample/QC/deliver）
+02_脚本/tools/run_manifest.py checklist -o $BATCH/ --strict
 
 # 找交付
 02_脚本/tools/run_manifest.py list --runs-root data/runs
@@ -97,20 +180,21 @@ Registry（`categories/_shared/reject_registry.toml`）是**版本化命名空�
 
 ```bash
 # 一条命令：text drop + thumb_qc → proposed → export
-02_脚本/tools/accumulate_reject_assets.py -o $BATCH/ --category film_tv \
-  --text-input $BATCH/05_clean/run01/drop.csv \
-  --thumb-input $BATCH/03_qc/xxx_thumb_qc.csv
+02_脚本/tools/reject_cli.py accumulate -o $BATCH/ --category film_tv \
+ --text-input $BATCH/05_clean/run01/drop.csv \
+ --thumb-input $BATCH/03_qc/xxx_thumb_qc.csv
+# 等价：02_脚本/tools/accumulate_reject_assets.py …
 # 旧路径 005_clean 需显式 --text-input / --thumb-input（不会自动扫 005_*）
 
 # 级联：高把握提案；冲突/中间带 → 03_qc/reject_sample_for_validate.csv
-02_脚本/tools/cascade_reject_propose.py -o $BATCH/ --category film_tv
+02_脚本/tools/reject_cli.py cascade -o $BATCH/ --category film_tv
 # 或：accumulate … --cascade
 
 # 来源准确度账本
-02_脚本/tools/reject_source_metrics.py --assets-root data/assets/rejects
+02_脚本/tools/reject_cli.py metrics --assets-root data/assets/rejects
 
 # 优化建议（默认不改配置；--apply --i-understand 只写 shadow 副本）
-02_脚本/tools/suggest_reject_opt.py --assets-root data/assets/rejects
+02_脚本/tools/reject_cli.py suggest --assets-root data/assets/rejects
 ```
 
 配置：`categories/_shared/reject_cascade.toml`、`reject_modality_map.toml`、`reject_registry.toml`。  
@@ -261,7 +345,42 @@ CK=$(ls -t "$BATCH"/05_clean/run01/*clean*.csv 2>/dev/null | command grep -v dro
 02_脚本/tools/batch_deliver_ge720.py "$CK" --batch-root "$BATCH" --batch-id 0727
 ```
 
+### 机采第一层 `live_sell`（停在 04_rules）
+
+当前阶段只做到 **定规则依据**，**不要**默认 `02_clean` / deliver / 画面 QC。
+
+```bash
+BATCH=data/runs/live_sell/machine_<批号>
+RAW=raw/live_sell/xxx.csv
+conda activate data_cleaning
+
+# quality + sample
+02_脚本/pipeline/orchestrate.py run -o "$BATCH/" \
+  --category live_sell --source machine --batch <批号> \
+  --upto sample --input "$RAW" --sample-n 385
+
+# L1 文本 QC（须 --run-text-qc；需 DASHSCOPE_API_KEY）
+02_脚本/pipeline/orchestrate.py run -o "$BATCH/" \
+  --category live_sell --source machine \
+  --upto text_qc --run-text-qc --text-workers 20
+# 等价手工：
+# S=$(ls -t "$BATCH"/02_sample/*sample*.csv | head -1)
+# 02_脚本/qc/text.py "$S" --category live_sell -w 20 -o "$BATCH/03_qc/"
+
+# 规则依据落盘 + 人工改 blacklist（certain-noise only）
+02_脚本/tools/write_rules_notes.py -o "$BATCH/"
+# 编辑 02_脚本/categories/live_sell/rules/blacklist.toml
+# —— 到此停止；有 NOTES 后再考虑 --rules-ready clean ——
+
+02_脚本/pipeline/orchestrate.py next -o "$BATCH/"   # 应为 rules / 提示写 NOTES
+02_脚本/tools/run_manifest.py checklist -o "$BATCH/"
+```
+
 `02_clean` **必须**带 `--source`；遗留脚本临时加 `--legacy`（将移除）。
+机采 `--rules-ready` / 人工 `--allow-clean` 除 boolean 外会校验批次证据
+（`04_rules` 或 `02_sample`+`03_qc`；人工输入须像 fail/`03_qc`）；临时跳过加 `--skip-evidence`。
+`run.py` 默认 **merge** manifest（不清空 stages）；显式重建用 `--reinit-manifest`。
+standalone 的 `01_quality` / `02_clean` / `03_sample` / `04_analyze` **必须**显式 `-o`（禁止旧默认路径）。
 
 ## Key Commands（摘录）
 

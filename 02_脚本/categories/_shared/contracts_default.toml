@@ -1,0 +1,28 @@
+# 默认层边界契约（品类可覆盖 categories/<name>/contracts.toml）
+
+[meta]
+version = "1"
+
+[quality]
+required_columns = ["video_id", "title"]
+min_rows = 1
+max_empty_video_id_rate = 0.0
+hard_on_fail = true
+
+[clean]
+required_columns = ["video_id", "title"]
+min_rows = 0
+max_empty_video_id_rate = 0.0
+min_retention_vs_upstream = 0.01
+hard_on_fail = true
+
+[deliver]
+required_columns = ["video_id"]
+min_rows = 1
+max_empty_video_id_rate = 0.0
+hard_on_fail = true
+
+[sample]
+required_columns = ["video_id"]
+min_rows = 1
+hard_on_fail = true

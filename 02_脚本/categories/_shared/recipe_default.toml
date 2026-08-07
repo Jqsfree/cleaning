@@ -1,0 +1,90 @@
+# 默认配方：人工/机采双路径骨架（品类可覆盖）
+# 编排器只读本文件 + categories/<name>/recipe.toml
+
+[meta]
+has_cleaner = false
+deliver_format = "parquet"
+default_qc = "text"
+
+[layers]
+bronze = "raw/{category}/"
+silver = "01_quality + 05_clean (+ 03_qc)"
+gold = "07_deliver"
+
+[paths]
+quality = "01_quality"
+sample = "02_sample"
+qc = "03_qc"
+rules = "04_rules"
+clean = "05_clean"
+tools = "06_tools"
+deliver = "07_deliver"
+
+[[flow.human]]
+id = "quality"
+kind = "auto"
+max_runs = 1
+
+[[flow.human]]
+id = "sample"
+kind = "auto"
+max_runs = 1
+depends = ["quality"]
+
+[[flow.human]]
+id = "human_qc"
+kind = "external"
+depends = ["sample"]
+hint = "ingest_human_qc.py 或将人工表放入 03_qc/"
+
+[[flow.human]]
+id = "clean"
+kind = "gated"
+optional = true
+max_runs = 99
+depends = ["human_qc"]
+when = "has_fail"
+hint = "02_clean --source human --allow-clean（仅 fail）"
+
+[[flow.human]]
+id = "deliver"
+kind = "auto"
+tool = "copy_pass"
+depends = ["human_qc"]
+hint = "合格交付：03_qc/pass 或约定 keep → 07_deliver"
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+max_runs = 1
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+max_runs = 1
+depends = ["quality"]
+
+[[flow.machine]]
+id = "text_qc"
+kind = "optional_auto"
+depends = ["sample"]
+hint = "qc/text.py … -o 03_qc/；或 --run-text-qc"
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["text_qc"]
+hint = "04_rules/NOTES.md + 更新 categories/*/rules"
+
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+max_runs = 99
+depends = ["rules"]
+hint = "02_clean --source machine --rules-ready"
+
+[[flow.machine]]
+id = "deliver"
+kind = "auto"
+tool = "copy_keep"
+depends = ["clean"]

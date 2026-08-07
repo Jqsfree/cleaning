@@ -22,7 +22,7 @@ from dataclean.core.logging import log
 
 # 复用旧 core 模块的 SOP 定义（过渡期，Stage 3 移入本包）
 try:
-    from core.sop import PHASES as _PHASES
+    from core.sop import STAGE_LABELS as _PHASES
 except ImportError:
     from dataclean.core.logging import log as _log
     _log("无法导入 core.sop.PHASES，使用默认阶段定义", level="WARN")

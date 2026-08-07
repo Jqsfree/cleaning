@@ -85,8 +85,13 @@ def load_qc_config(category: str) -> dict:
 # 工具函数
 # ══════════════════════════════════════════════════════════════
 
-def log(msg: str):
-    print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
+def log(msg: str, level: str = "INFO"):
+    tag = (
+        f"[{time.strftime('%H:%M:%S')}]"
+        if not level or level == "INFO"
+        else f"[{time.strftime('%H:%M:%S')}][{level}]"
+    )
+    print(f"{tag} {msg}", flush=True)
 
 
 def make_run_id() -> str:
@@ -309,8 +314,16 @@ def run_text_qc(
             search_dirs.append(p)
 
     for sdir in list(search_dirs):
-        clean_dir = os.path.join(sdir, "005_clean")
-        if os.path.isdir(clean_dir):
+        # 新约定 05_clean；旧 005_clean 仅兼容并 WARN
+        for clean_name in ("05_clean", "005_clean"):
+            clean_dir = os.path.join(sdir, clean_name)
+            if not os.path.isdir(clean_dir):
+                continue
+            if clean_name == "005_clean":
+                log(
+                    f"发现遗留目录 005_clean（请迁到 05_clean）: {clean_dir}",
+                    level="WARN",
+                )
             for rd in sorted(os.listdir(clean_dir)):
                 rp = os.path.join(clean_dir, rd)
                 if os.path.isdir(rp):
@@ -426,7 +439,7 @@ def run_text_qc(
             interval_sec=5.0, every_n=50,
             input=input_csv, category=category, total=n_pending,
         )
-            prog.tick(force=True, done=0, T=0, F=0, U=0, ERROR=0)
+        prog.tick(force=True, done=0, T=0, F=0, U=0, ERROR=0)
 
         flush_lock = threading.Lock()
         interrupted = {"flag": False}

@@ -20,7 +20,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from core.run_manifest import load_manifest, update_stage  # noqa: E402
+from core.run_manifest import maybe_update_stage  # noqa: E402
 from tools.export_reject_assets import DEFAULT_ASSETS, export_assets  # noqa: E402
 from tools.propose_reject_tags import (  # noqa: E402
     _read_table,
@@ -141,21 +141,17 @@ def main() -> None:
     print(f"  耗时:           {time.time() - t0:.1f}s")
     print("=" * 56)
 
-    if load_manifest(batch_root):
-        try:
-            update_stage(
-                batch_root,
-                "reject_accumulate",
-                paths={"reject_proposed": str(prop_path)},
-                stats={
-                    "n_text": n_text,
-                    "n_thumb": n_thumb,
-                    "n_proposed": n_all,
-                    "n_export_tags": len(stats),
-                },
-            )
-        except FileNotFoundError:
-            pass
+    maybe_update_stage(
+        batch_root,
+        "reject_accumulate",
+        paths={"reject_proposed": str(prop_path)},
+        stats={
+            "n_text": n_text,
+            "n_thumb": n_thumb,
+            "n_proposed": n_all,
+            "n_export_tags": len(stats),
+        },
+    )
 
 
 if __name__ == "__main__":

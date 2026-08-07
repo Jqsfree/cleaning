@@ -59,7 +59,6 @@ def clean(
     log(f"  rows: {n_total:,}")
     add_search_text(db)
 
-    # ── Step 0a: 质量过滤 ──
     # ── Step 1: pass2 ──
     db.execute(f"""
         CREATE TEMP TABLE step1 AS

@@ -28,7 +28,7 @@ from core.human_qc import (  # noqa: E402
     split_pass_fail,
     train_export_columns,
 )
-from core.run_manifest import load_manifest, update_stage  # noqa: E402
+from core.run_manifest import maybe_update_stage  # noqa: E402
 
 
 def _read_table(path: str) -> pd.DataFrame:
@@ -140,27 +140,24 @@ def main() -> None:
         print(f"              {k:12s} → {Path(v).name}")
     print("=" * 56)
 
-    if load_manifest(batch_root):
-        try:
-            update_stage(
-                batch_root,
-                "human_qc",
-                paths=paths,
-                stats={
-                    "n_labeled": n,
-                    "n_pass": n_pass,
-                    "n_fail": n_fail,
-                    "n_reject_validated": n_rej,
-                    "pass_rate": round(rate, 4),
-                    "dimension": args.dimension,
-                    "input": str(inp.resolve()),
-                },
-            )
-            print(f"  manifest 已更新 stage=human_qc")
-        except FileNotFoundError:
-            pass
+    if maybe_update_stage(
+        batch_root,
+        "human_qc",
+        paths=paths,
+        stats={
+            "n_labeled": n,
+            "n_pass": n_pass,
+            "n_fail": n_fail,
+            "n_reject_validated": n_rej,
+            "pass_rate": round(rate, 4),
+            "dimension": args.dimension,
+            "input": str(inp.resolve()),
+        },
+        category=getattr(args, "category", None),
+    ):
+        print("  manifest 已更新 stage=human_qc")
     else:
-        print("  (无 manifest，跳过更新；可用 run_manifest.py init)")
+        print("  (无法更新 manifest；检查批次根或先 run_manifest.py init)")
 
 
 if __name__ == "__main__":

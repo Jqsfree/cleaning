@@ -17,6 +17,7 @@ import duckdb
 # ── 共享常量 ──
 KEEP_EXCLUDE_DEFAULT = {"search_text", "title_channel", "drop_step", "drop_reason"}
 DROP_EXCLUDE_DEFAULT = {"search_text", "title_channel"}
+REQUIRED_RAW_COLUMNS = ("video_id", "title")
 
 
 def sql_escape(s: str) -> str:
@@ -28,25 +29,53 @@ def sql_escape(s: str) -> str:
     return s.replace("'", "''")
 
 
-# ── 数据加载 ─────────────────────────────────────────────
+def table_columns(conn: duckdb.DuckDBPyConnection, table: str) -> set[str]:
+    return {c[0] for c in conn.execute(f"SELECT * FROM {table} LIMIT 0").description}
 
-def load_raw_table(conn: duckdb.DuckDBPyConnection, input_path: str) -> int:
-    """从 csv/parquet 加载 raw 表，返回行数。
 
-    创建临时表 ``raw``。
-    """
-    safe_path = sql_escape(input_path)
-    ext = os.path.splitext(input_path)[1].lower()
-    if ext == ".parquet":
-        reader = f"read_parquet('{safe_path}')"
-    else:
-        reader = (
-            f"read_csv_auto('{safe_path}', header=true, all_varchar=true, "
-            f"sample_size=-1, ignore_errors=true)"
+def require_columns(
+    conn: duckdb.DuckDBPyConnection,
+    table: str,
+    required: tuple[str, ...] | list[str],
+) -> None:
+    """缺列时抛 ValueError（清晰 schema 错误，避免下游 SQL 难读失败）。"""
+    cols = table_columns(conn, table)
+    missing = [c for c in required if c not in cols]
+    if missing:
+        raise ValueError(
+            f"表 {table} 缺少必填列: {missing}；现有列: {sorted(cols)}"
         )
 
+
+# ── 数据加载 ─────────────────────────────────────────────
+
+def load_raw_table(
+    conn: duckdb.DuckDBPyConnection,
+    input_path: str,
+    *,
+    ignore_errors: bool = True,
+    require: tuple[str, ...] | list[str] | None = REQUIRED_RAW_COLUMNS,
+) -> int:
+    """从 csv/parquet 加载 raw 表，返回行数。
+
+    创建临时表 ``raw``。CSV 在 ignore_errors 时对比文件行数并 WARN。
+    读入口统一走 ``core.io.duckdb_reader``。
+    """
+    from core.io import duckdb_reader, warn_csv_row_skew
+
+    reader = duckdb_reader(input_path, ignore_errors=ignore_errors)
     conn.execute(f"CREATE TEMP TABLE raw AS SELECT * FROM {reader}")
-    return conn.execute("SELECT COUNT(*) FROM raw").fetchone()[0]
+    n = conn.execute("SELECT COUNT(*) FROM raw").fetchone()[0]
+    ext = os.path.splitext(input_path)[1].lower()
+    if ext in (".csv", ".tsv") and ignore_errors:
+        try:
+            from core.log import log
+            warn_csv_row_skew(input_path, n, log_fn=log)
+        except Exception:
+            pass
+    if require:
+        require_columns(conn, "raw", require)
+    return n
 
 
 # ── 文本拼接 ─────────────────────────────────────────────
@@ -64,13 +93,26 @@ def add_search_text(
 
     keyword 否定标签例: "spanish class -vlog -cartoon" → "spanish class"
     """
+    cols = table_columns(conn, from_table)
+    for col in ("title", "channel", "keyword"):
+        if col not in cols:
+            # 缺列用空串表达式，避免硬炸；title 仍建议上游 require_columns
+            pass
+    title_expr = "COALESCE(title,'')" if "title" in cols else "''"
+    channel_expr = "COALESCE(channel,'')" if "channel" in cols else "''"
+    if "keyword" in cols:
+        kw_expr = (
+            "regexp_replace(COALESCE(keyword,''), "
+            "'((^|\\s)-[a-zA-Z0-9*?]+)+$', '')"
+        )
+    else:
+        kw_expr = "''"
     conn.execute(f"""
         CREATE TEMP TABLE {to_table} AS
         SELECT *,
-               COALESCE(title,'') || ' ' || COALESCE(channel,'') || ' ' ||
-               regexp_replace(COALESCE(keyword,''), '((^|\\s)-[a-zA-Z0-9*?]+)+$', '')
+               {title_expr} || ' ' || {channel_expr} || ' ' || {kw_expr}
                    AS search_text,
-               COALESCE(title,'') || ' ' || COALESCE(channel,'') AS title_channel
+               {title_expr} || ' ' || {channel_expr} AS title_channel
         FROM {from_table}
     """)
 
@@ -135,6 +177,7 @@ def count_rule_hits(
     cols = {c[0] for c in conn.execute(f"SELECT * FROM {table} LIMIT 0").description}
     search_col = text_col if text_col in cols else fallback_col
 
+    errors: list[str] = []
     for rule in rules:
         pattern = rule["pattern"].replace("'", "''")
         category = rule.get("category", "?")
@@ -143,9 +186,17 @@ def count_rule_hits(
                 f"SELECT COUNT(*) FROM {table} "
                 f"WHERE regexp_matches(\"{search_col}\", '{pattern}', 'i')"
             ).fetchone()[0]
-        except Exception:
-            n = 0
+        except Exception as e:
+            errors.append(f"{category}: {e}")
+            continue
         if n > 0:
             hits[category] = hits.get(category, 0) + n
+
+    if errors:
+        preview = "; ".join(errors[:5])
+        more = f" …(+{len(errors) - 5})" if len(errors) > 5 else ""
+        raise RuntimeError(
+            f"规则命中统计失败 {len(errors)}/{len(rules)} 条: {preview}{more}"
+        )
 
     return hits

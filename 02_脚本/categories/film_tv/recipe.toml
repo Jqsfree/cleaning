@@ -1,0 +1,69 @@
+[meta]
+category = "film_tv"
+has_cleaner = true
+deliver_format = "csv"
+default_qc = "thumb_text"
+needs_ge720 = true
+
+[[flow.human]]
+id = "quality"
+kind = "auto"
+max_runs = 1
+
+[[flow.human]]
+id = "sample"
+kind = "auto"
+max_runs = 1
+depends = ["quality"]
+
+[[flow.human]]
+id = "human_qc"
+kind = "external"
+depends = ["sample"]
+hint = "ingest_human_qc.py → 03_qc/"
+
+[[flow.human]]
+id = "clean"
+kind = "gated"
+optional = true
+max_runs = 99
+depends = ["human_qc"]
+when = "has_fail"
+
+[[flow.human]]
+id = "deliver"
+kind = "auto"
+tool = "ge720"
+depends = ["human_qc"]
+hint = "batch_deliver_ge720.py（对 quality keep 或 clean keep）"
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.machine]]
+id = "text_qc"
+kind = "optional_auto"
+depends = ["sample"]
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["text_qc"]
+
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+max_runs = 99
+depends = ["rules"]
+
+[[flow.machine]]
+id = "deliver"
+kind = "auto"
+tool = "ge720"
+depends = ["clean"]

@@ -1066,14 +1066,10 @@ def call_vision_api(
             api_sec = time.perf_counter() - t0
             _BENCH.api_secs.append(api_sec)
             label = parse_vision_label(raw)
-            if label == "T":
+            if label in ("T", "F", "U"):
                 if gate:
                     gate.record_outcome(ok=True)
-                return {"overall": True, "reason": raw[:20]}, ""
-            if label == "F":
-                if gate:
-                    gate.record_outcome(ok=True)
-                return {"overall": False, "reason": raw[:20]}, ""
+                return {"label": label, "overall": label == "T", "reason": raw[:20]}, ""
             if attempt < MAX_RETRIES - 1:
                 time.sleep(random.uniform(0.05, 0.25))
                 continue
@@ -1137,7 +1133,7 @@ def _apply_qc_result(
         df.at[idx, "qc_vision_run_id"] = run_id
         return "ERROR", False
     if result:
-        overall = "T" if result.get("overall") else "F"
+        overall = result.get("label") or ("T" if result.get("overall") else "F")
         df.at[idx, "qc_vision_result"] = overall
         df.at[idx, "qc_vision_error_reason"] = ""
         df.at[idx, "qc_vision_model"] = model
@@ -1179,6 +1175,8 @@ def run_qc_sequential(
                 elif label == "F":
                     n_f += 1
                     n_ok += 1
+                elif label == "U":
+                    n_ok += 1
                 else:
                     n_err += 1
                 completed += 1
@@ -1214,6 +1212,8 @@ def run_qc_sequential(
                 n_ok += 1
             elif label == "F":
                 n_f += 1
+                n_ok += 1
+            elif label == "U":
                 n_ok += 1
             else:
                 n_err += 1
@@ -1311,6 +1311,8 @@ def run_qc_pipeline(
                     counters["n_ok"] += 1
                 elif label == "F":
                     counters["n_f"] += 1
+                    counters["n_ok"] += 1
+                elif label == "U":
                     counters["n_ok"] += 1
                 else:
                     counters["n_err"] += 1
@@ -1445,16 +1447,13 @@ def row_l0_reason(df: pd.DataFrame, idx) -> str | None:
 
 
 def parse_vision_label(raw: str) -> str | None:
-    """解析模型输出为 T/F；无法解析返回 None。"""
+    """解析模型输出为 T/F/U；无法解析返回 None。"""
     text = (raw or "").strip().upper()
-    if re.fullmatch(r"T", text):
-        return "T"
-    if re.fullmatch(r"F", text):
-        return "F"
-    if "T" in text and "F" not in text:
-        return "T"
-    if "F" in text and "T" not in text:
-        return "F"
+    if re.fullmatch(r"[TFU]", text):
+        return text
+    found = set(re.findall(r"[TFU]", text))
+    if len(found) == 1:
+        return found.pop()
     return None
 
 

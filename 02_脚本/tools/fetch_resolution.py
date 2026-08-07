@@ -179,12 +179,12 @@ class CircuitBreaker:
         else:
             self.consecutive_no_ok += 1
         if self.consecutive_no_ok >= self.max_no_ok:
-            return True
+                return True
         if len(self._recent) >= self.window:
             rate = sum(self._recent) / len(self._recent)
             if rate >= self.fail_rate:
                 return True
-        return False
+                return False
 
 
 # ─────────────────────────────────────────────
@@ -415,7 +415,7 @@ def fetch_one(
         cookie_ver = cookie_mgr.refresh_version if cookie_mgr else 0
         ydl = _get_ydl(ydl_opts, cookie_ver)
         try:
-            info = ydl.extract_info(url, download=False)
+        info = ydl.extract_info(url, download=False)
         except DownloadError as e:
             # 默认 format 选择失败时，降级再试一次（只要 formats 列表能拿到 height）
             msg = str(e)
@@ -1181,7 +1181,7 @@ def run_fetch_job(args: argparse.Namespace) -> None:
     if total_pending == 0:
         print("没有待处理的行，退出。")
         write_final_csv(df, final_path, ckpt_path)
-        print(f"已输出到: {final_path}")
+            print(f"已输出到: {final_path}")
         out_dir = os.path.dirname(os.path.abspath(final_path)) or "."
         mark_done(
             out_dir, "resolution",
@@ -1229,11 +1229,11 @@ def run_fetch_job(args: argparse.Namespace) -> None:
             )
             spec_show = f"{browser}:{profile}" if profile else browser
             print(f"从浏览器提取 cookies ({spec_show}) → {cache_path}")
-            if cookie_mgr.extract_now():
+        if cookie_mgr.extract_now():
                 print(f"  cookies 已缓存 (每 {COOKIE_REFRESH_SEC // 60} 分钟自动刷新)")
-            else:
+        else:
                 print("  提取失败，回退为匿名访问")
-                cookie_mgr = None
+            cookie_mgr = None
 
         if cookie_mgr and not CookieManager.cookie_file_has_youtube_login(cookie_mgr.cache_path):
             print("  [WARN] cookies 中未见 YouTube 登录标记 (LOGIN_INFO/PSID)，风控风险高")
@@ -1312,34 +1312,34 @@ def run_fetch_job(args: argparse.Namespace) -> None:
 
     executor = ThreadPoolExecutor(max_workers=args.workers)
     future_to_idx: dict = {}
-    completed = 0
+        completed = 0
     interrupted = False
 
     def handle_result(result: FetchResult) -> None:
         """写入缓存、更新统计与进度条。"""
         nonlocal completed, last_cookie_refresh, circuit_tripped
-        stats.count(result.fetch_status)
-        with results_lock:
-            results[result.idx] = result
-        completed += 1
+            stats.count(result.fetch_status)
+            with results_lock:
+                results[result.idx] = result
+            completed += 1
 
         if breaker.record(result.fetch_status):
             circuit_tripped = True
 
-        if pbar:
-            snap = stats.snapshot()
-            pbar.update(1)
-            pbar.set_postfix({
-                "ok": snap["ok"],
+            if pbar:
+                snap = stats.snapshot()
+                pbar.update(1)
+                pbar.set_postfix({
+                    "ok": snap["ok"],
                 "ef": snap["empty_formats"],
                 "nh": snap["no_height"],
-                "err": snap["error"],
-                "unav": snap["unavailable"],
-                "pri": snap["private"],
-                "del": snap["deleted"],
-            }, refresh=True)
-        elif completed % 10 == 0:
-            snap = stats.snapshot()
+                    "err": snap["error"],
+                    "unav": snap["unavailable"],
+                    "pri": snap["private"],
+                    "del": snap["deleted"],
+                }, refresh=True)
+            elif completed % 10 == 0:
+                snap = stats.snapshot()
             print(
                 f"\r  进度: {completed}/{total_pending}  "
                 f"ok={snap['ok']} ef={snap['empty_formats']} "
@@ -1347,18 +1347,18 @@ def run_fetch_job(args: argparse.Namespace) -> None:
                 end="",
             )
 
-        if cookie_mgr:
-            now = time.monotonic()
-            if now - last_cookie_refresh >= COOKIE_REFRESH_SEC:
-                if cookie_mgr.maybe_refresh():
-                    if pbar:
-                        pbar.set_postfix({"cookie": "刷新"}, refresh=True)
-                last_cookie_refresh = now
+            if cookie_mgr:
+                now = time.monotonic()
+                if now - last_cookie_refresh >= COOKIE_REFRESH_SEC:
+                    if cookie_mgr.maybe_refresh():
+                        if pbar:
+                            pbar.set_postfix({"cookie": "刷新"}, refresh=True)
+                    last_cookie_refresh = now
 
-        need_flush = len(results) >= FLUSH_BATCH_SIZE
-        time_elapsed = time.monotonic() - last_flush_time
-        if need_flush or (results and time_elapsed >= FLUSH_INTERVAL_SEC):
-            do_flush()
+            need_flush = len(results) >= FLUSH_BATCH_SIZE
+            time_elapsed = time.monotonic() - last_flush_time
+            if need_flush or (results and time_elapsed >= FLUSH_INTERVAL_SEC):
+                do_flush()
 
         snap = stats.snapshot()
         prog.tick(done=completed, **snap)
@@ -1409,8 +1409,8 @@ def run_fetch_job(args: argparse.Namespace) -> None:
             f.cancel()
     finally:
         executor.shutdown(wait=False, cancel_futures=True)
-        if pbar:
-            pbar.close()
+    if pbar:
+        pbar.close()
 
     if interrupted:
         sys.exit(130)
@@ -1430,7 +1430,7 @@ def run_fetch_job(args: argparse.Namespace) -> None:
     # ── 收尾：写完整输出并清理 sidecar ─────────
     elapsed = time.monotonic() - t_start
     write_final_csv(df, final_path, ckpt_path)
-    print(f"输出: {final_path}")
+        print(f"输出: {final_path}")
 
     print_summary(stats, total_pending, elapsed)
     snap = stats.snapshot()

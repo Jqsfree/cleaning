@@ -8,8 +8,10 @@ This file provides Claude Code-specific guidance for this repository.
 
 | 路径 | 角色 |
 |------|------|
-| `02_脚本/` | **生产**：`pipeline/` / `qc/` / `tools/` |
-| `src/dataclean/` | 包化 WIP；勿当主入口 |
+| `02_脚本/` | **生产**：`pipeline/` / `qc/` / `tools/`；品类注册表单源 `core/category_registry.py`；流程差异见 `categories/*/recipe.toml` |
+| `src/dataclean/` | 包化 WIP（Phase CLI **已冻结**，须 `--allow-wip`）；勿当主入口；见 `src/dataclean/README.md` |
+
+**层语义（Medallion）**：`raw/`=Bronze；`01_quality`/`05_clean`=Silver；`07_deliver`=Gold。批次权威索引=`manifest.json`。编排=`orchestrate.py`（读 recipe，非统一 Phase）。
 
 ## 环境
 
@@ -19,6 +21,7 @@ This file provides Claude Code-specific guidance for this repository.
 
 - **人工采** `human`：quality → sample → 人工质检 → 合格交付；不合格才 `02_clean`
 - **机采** `machine`：quality → sample → 文本 QC → 改 TOML → **再** `02_clean`
+  - **`live_sell` 当前只做到第一层**：quality → sample → text QC → `04_rules`（停；勿默认 clean）
 - 清晰度：`tools/fetch_yt_definition.py`（工具，交付前可选）
 - 目录：`data/runs/{category}/{source}_{batch}/{01_quality…07_deliver}/`；禁止 `data/runs/` 根放数
 
@@ -28,7 +31,7 @@ This file provides Claude Code-specific guidance for this repository.
 
 各品类数据与主链不同，见 AGENTS 品类策略表。`core/sop.py` **只写 run_log**。
 
-**有 cleaner：** `language_teaching`（+scorer）/ `beauty` / `welding` / `film_tv`。
+**有 cleaner：** `language_teaching`（+scorer）/ `beauty` / `welding` / `film_tv` / `live_sell`。
 
 **仅 QC：** `ego_repair` / `lila_outdoor` — 勿 `02_clean --category`。
 
@@ -45,7 +48,7 @@ categories/<name>/
 ## Cleaner 形态
 
 - **language_teaching**：SQL 黑名单 → UDF 评分 → high/medium/drop。
-- **beauty / film_tv / welding**：主要为 SQL 黑名单 keep/drop。
+- **beauty / film_tv / welding / live_sell**：主要为 SQL 黑名单 keep/drop。
 
 ## film_tv
 

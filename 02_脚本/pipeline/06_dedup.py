@@ -1,18 +1,15 @@
 #!/home/jqs/miniconda3/envs/data_cleaning/bin/python
 """
-phase_dedup.py — 新批次 vs 旧批次去重
+06_dedup.py — 新批次 vs 旧批次去重
 
 从 baseline 中移除旧批次已交付的 video_id。
 
 用法:
   # 单个旧交付
-  python3 phase_dedup.py baseline.parquet -d old_deliver/keep_final.csv -o deduped.parquet
+  02_脚本/pipeline/06_dedup.py baseline.parquet -d old/07_deliver/0724_deliver_ge720.csv -o deduped.parquet
 
-  # 多个旧交付（跨运动去重）
-  python3 phase_dedup.py baseline.parquet -d data/runs/data_ONE/*/deliver/ -o deduped.parquet
-
-  # 指定旧批次目录（自动找 deliver/）
-  python3 phase_dedup.py baseline.parquet --old-run data/runs/data_ONE/curling_one/ -o deduped.parquet
+  # 批次根（自动找 07_deliver/）
+  02_脚本/pipeline/06_dedup.py baseline.parquet --old-run data/runs/film_tv/human_0724/ -o deduped.parquet
 """
 
 import sys, os, argparse, glob
@@ -25,19 +22,40 @@ from core.sop import write_run_log
 
 
 def find_deliver_csvs(source: str) -> list:
-    """从目录或文件路径解析交付 CSV 列表。"""
+    """从目录或文件路径解析交付 CSV 列表（兼容新旧布局）。"""
     if os.path.isfile(source):
         return [source]
-    if os.path.isdir(source):
-        deliver = os.path.join(source, "deliver")
-        if os.path.isdir(deliver):
-            csvs = glob.glob(os.path.join(deliver, "*_keep_final.csv"))
-            if csvs:
-                return csvs
-        csvs = glob.glob(os.path.join(source, "*_keep_final.csv"))
-        if csvs:
-            return csvs
-    return []
+    if not os.path.isdir(source):
+        return []
+
+    patterns = [
+        # 新布局
+        os.path.join(source, "07_deliver", "*_deliver*.csv"),
+        os.path.join(source, "07_deliver", "*.csv"),
+        # 旧布局
+        os.path.join(source, "deliver", "*_keep_final.csv"),
+        os.path.join(source, "deliver", "*_deliver*.csv"),
+        os.path.join(source, "*_keep_final.csv"),
+        os.path.join(source, "*_deliver*.csv"),
+    ]
+    found: list[str] = []
+    seen: set[str] = set()
+    for pat in patterns:
+        for p in sorted(glob.glob(pat)):
+            if not os.path.isfile(p):
+                continue
+            if p in seen:
+                continue
+            name = os.path.basename(p).lower()
+            if name.startswith("."):
+                continue
+            seen.add(p)
+            found.append(p)
+        if found and ("07_deliver" in pat or "deliver" in pat):
+            # 优先返回该布局下的命中，避免根目录杂 CSV
+            if any("/07_deliver/" in f or "/deliver/" in f for f in found):
+                return [f for f in found if "/07_deliver/" in f or "/deliver/" in f]
+    return found
 
 
 def main():
@@ -46,7 +64,7 @@ def main():
     parser.add_argument("-d", "--deliveries", nargs="+", default=[],
                         help="旧批次交付 CSV 或目录（可多个）")
     parser.add_argument("--old-run", nargs="+", default=[],
-                        help="旧批次 run 目录")
+                        help="旧批次 run 目录（自动找 07_deliver/）")
     parser.add_argument("-o", "--output", required=True,
                         help="输出去重后的 parquet")
     parser.add_argument("--dry-run", action="store_true")
@@ -62,8 +80,17 @@ def main():
     for r in args.old_run:
         old_csvs.extend(find_deliver_csvs(r))
 
+    # 去重路径
+    seen = set()
+    uniq = []
+    for c in old_csvs:
+        if c not in seen:
+            seen.add(c)
+            uniq.append(c)
+    old_csvs = uniq
+
     if not old_csvs:
-        print("[ERROR] 未找到旧交付。用 -d 或 --old-run 指定。")
+        print("[ERROR] 未找到旧交付。用 -d 或 --old-run 指定（支持 07_deliver/*_deliver*.csv）。")
         sys.exit(1)
 
     print(f"旧交付: {len(old_csvs)} 个")
@@ -120,4 +147,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

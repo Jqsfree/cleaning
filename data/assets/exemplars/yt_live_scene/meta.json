@@ -1,0 +1,9 @@
+{
+  "created_at": "2026-08-05 16:42:12",
+  "video_dir": "/home/jqs/Downloads/直播和直播带货场景视频样品/YouTube/直播场景",
+  "n_exemplars": 10,
+  "n_frames": 12,
+  "model": "ViT-B-32",
+  "pretrained": "openai",
+  "note": "直播场景视觉原型；liveBroadcastContent 非硬门禁"
+}

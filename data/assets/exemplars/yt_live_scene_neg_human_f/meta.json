@@ -1,0 +1,10 @@
+{
+  "created_at": "2026-08-06 10:21:45",
+  "n_exemplars": 224,
+  "n_requested": 224,
+  "n_frames": 1,
+  "model": "ViT-B-32",
+  "pretrained": "openai",
+  "source": "video_id_thumbs",
+  "note": "人工 QC qc_result=false 缩略图负例；用于 margin 二滤"
+}

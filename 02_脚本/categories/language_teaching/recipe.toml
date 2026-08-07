@@ -1,0 +1,6 @@
+[meta]
+category = "language_teaching"
+has_cleaner = true
+deliver_format = "parquet"
+default_qc = "text"
+# 使用 default 双路径 flow

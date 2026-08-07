@@ -1,19 +1,16 @@
-#!/usr/bin/env python3
 """
-cli/main.py — 统一命令行入口
+cli/main.py — WIP 包化入口（已冻结，非生产）
 
-用法:
-  dataclean phase0 <input> -o <output_dir>            # 数据规范化
-  dataclean phase2 sample <input> -o <output_dir>     # 抽样
-  dataclean phase5 clean <input> -o <output_dir>      # 规则清洗
-  dataclean list categories                            # 列出所有类别
-  dataclean list phases                                # 列出所有阶段
+生产请用 ``02_脚本/pipeline/`` 与 AGENTS.md 双路径。
+本 CLI 仅在显式 ``--allow-wip`` 下可用。
+
+用法（实验）:
+  python -m dataclean.cli.main --allow-wip list phases
 """
 
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 
 
@@ -70,9 +67,9 @@ def cmd_list_categories(args):
 
 
 def cmd_list_phases(args):
-    """列出所有管道阶段"""
+    """列出 WIP 冻结阶段（非生产）"""
     from dataclean.pipeline.registry import list_phases
-    print("\n管道阶段:")
+    print("\n管道阶段（WIP-FROZEN，非生产 SOP）:")
     print("=" * 50)
     for pid, info in list_phases().items():
         print(f"  Phase {pid}: {info['name']:15s} {info['desc']}")
@@ -81,19 +78,21 @@ def cmd_list_phases(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="dataclean — YouTube 视频元数据清洗管道"
+        description="dataclean WIP CLI（已冻结）— 生产请用 02_脚本/"
+    )
+    parser.add_argument(
+        "--allow-wip", action="store_true",
+        help="确认使用冻结中的 WIP Phase CLI（非生产）",
     )
     sub = parser.add_subparsers(dest="command", help="子命令")
 
-    # ── phase0 normalize ──
-    p0 = sub.add_parser("phase0", help="Phase 0: 数据规范化")
+    p0 = sub.add_parser("phase0", help="[WIP] Phase 0: 数据规范化")
     p0.add_argument("input", help="原始 CSV 文件")
     p0.add_argument("-o", "--output-dir", default="data/runs/001_baseline/", help="输出目录")
     p0.add_argument("--min-duration", type=int, default=10, help="最小时长(秒)")
     p0.set_defaults(func=cmd_phase0)
 
-    # ── phase2 sample ──
-    p2 = sub.add_parser("phase2", help="Phase 2: 抽样质检")
+    p2 = sub.add_parser("phase2", help="[WIP] Phase 2: 抽样质检")
     p2_sub = p2.add_subparsers(dest="phase2_cmd")
 
     p2_sample = p2_sub.add_parser("sample", help="统计学抽样")
@@ -103,8 +102,7 @@ def main():
     p2_sample.add_argument("--seed", type=int, default=42, help="随机种子")
     p2_sample.set_defaults(func=cmd_phase2_sample)
 
-    # ── phase5 clean ──
-    p5 = sub.add_parser("phase5", help="Phase 5: 规则清洗")
+    p5 = sub.add_parser("phase5", help="[WIP] Phase 5: 规则清洗")
     p5.add_argument("input", help="baseline parquet 文件")
     p5.add_argument("-c", "--category", default="language_teaching",
                     help="类别名（language_teaching, beauty, welding, film_tv）")
@@ -116,7 +114,6 @@ def main():
     p5.add_argument("--no-medium", action="store_true", help="只保留 high")
     p5.set_defaults(func=cmd_phase5)
 
-    # ── list ──
     p_list = sub.add_parser("list", help="列出注册信息")
     p_list_sub = p_list.add_subparsers(dest="list_cmd")
     p_list_cat = p_list_sub.add_parser("categories", help="列出所有类别")
@@ -127,7 +124,14 @@ def main():
     args = parser.parse_args()
     if args.command is None:
         parser.print_help()
+        print(
+            "\n[提示] 本入口已冻结。生产: 02_脚本/pipeline/run.py（见 AGENTS.md）",
+            file=sys.stderr,
+        )
         sys.exit(0)
+
+    from dataclean.pipeline.registry import assert_wip_allowed
+    assert_wip_allowed(allow_wip=bool(getattr(args, "allow_wip", False)))
 
     args.func(args)
 

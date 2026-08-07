@@ -1,0 +1,76 @@
+# live_sell 配方
+# 机采第一层（当前阶段）：quality → sample → text_qc → rules（停在 04_rules）
+# 后续层 clean/deliver 已声明但不在本阶段默认执行（勿无 NOTES 就 --rules-ready clean）
+
+[meta]
+category = "live_sell"
+has_cleaner = true
+deliver_format = "parquet"
+default_qc = "text"
+needs_ge720 = false
+layer1_stop = "rules"
+
+[[flow.human]]
+id = "quality"
+kind = "auto"
+
+[[flow.human]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.human]]
+id = "human_qc"
+kind = "external"
+depends = ["sample"]
+
+[[flow.human]]
+id = "clean"
+kind = "gated"
+optional = true
+max_runs = 99
+depends = ["human_qc"]
+when = "has_fail"
+
+[[flow.human]]
+id = "deliver"
+kind = "auto"
+tool = "copy_remain"
+depends = ["human_qc"]
+hint = "默认交筛后 remain：lot_accept prepare + verify（复用已有 human_qc/overturn，不加第二轮人工）。03_qc/pass 仅锚点/训练"
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.machine]]
+id = "text_qc"
+kind = "optional_auto"
+depends = ["sample"]
+hint = "qc/text.py $SAMPLE --category live_sell -w 20 -o $BATCH/03_qc/（或 orchestrate run --upto text_qc --run-text-qc）"
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["text_qc"]
+hint = "tools/write_rules_notes.py -o $BATCH/；按 text QC 收紧 categories/live_sell/rules/blacklist.toml（certain-noise only）。本阶段停在 04_rules，勿默认 02_clean"
+
+# --- 以下为后续层（第一层完成后才做）---
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+max_runs = 99
+depends = ["rules"]
+hint = "第一层完成后：02_clean --source machine --rules-ready（须有 04_rules 证据）"
+
+[[flow.machine]]
+id = "deliver"
+kind = "auto"
+tool = "copy_keep"
+depends = ["clean"]
+hint = "后续层：clean keep → 07_deliver/"

@@ -1,0 +1,79 @@
+# human_live 配方 — 真人直播（泛直播内容，与带货无关）
+# 判定口径：是否「真人直播」（真人出镜 / 真人场景）；非真人硬噪声黑名单过滤。
+
+[meta]
+category = "human_live"
+has_cleaner = true
+deliver_format = "parquet"
+default_qc = "text"
+needs_ge720 = false
+
+[[flow.human]]
+id = "quality"
+kind = "auto"
+max_runs = 1
+
+[[flow.human]]
+id = "sample"
+kind = "auto"
+max_runs = 1
+depends = ["quality"]
+
+[[flow.human]]
+id = "human_qc"
+kind = "external"
+depends = ["sample"]
+hint = "ingest_human_qc.py → 03_qc/（真人直播 T/F/U 人工标注）"
+
+[[flow.human]]
+id = "clean"
+kind = "gated"
+optional = true
+max_runs = 99
+depends = ["human_qc"]
+when = "has_fail"
+hint = "02_clean --source human --allow-clean（仅 fail 集）"
+
+[[flow.human]]
+id = "deliver"
+kind = "auto"
+tool = "copy_keep"
+depends = ["human_qc"]
+hint = "合格交付：03_qc/pass 或约定 keep → 07_deliver"
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+max_runs = 1
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+max_runs = 1
+depends = ["quality"]
+
+[[flow.machine]]
+id = "text_qc"
+kind = "optional_auto"
+depends = ["sample"]
+hint = "qc/text.py $SAMPLE --category human_live -w 20 -o $BATCH/03_qc/"
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["text_qc"]
+hint = "04_rules/NOTES.md + 更新 categories/human_live/rules/blacklist.toml（certain-noise only）"
+
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+max_runs = 99
+depends = ["rules"]
+hint = "02_clean --source machine --rules-ready（须有 04_rules 证据）"
+
+[[flow.machine]]
+id = "deliver"
+kind = "auto"
+tool = "copy_keep"
+depends = ["clean"]
+hint = "clean keep → 07_deliver"

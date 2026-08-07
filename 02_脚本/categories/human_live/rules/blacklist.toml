@@ -1,0 +1,120 @@
+# Blacklist — 真人直播（certain-noise only）
+# 丢弃确定「非真人直播」的硬噪声（MV/动画/游戏实机/影视/图片轮播/纯音频/直拍/剧集）。
+# 中间带（真人+游戏混合等）走 QC / 人工，勿直接 drop。
+# 规则随 human_live 人工标注迭代（正反馈闭环），不冻死。
+# 2026-08-06: 禁用 qc_derived_*；按 e26e1746 F 样本扩硬噪声。
+# 2026-08-06: 新增 title_pass2，仅匹配 title；人工标签影子回测 52F/1T，
+# 唯一 T 为 Minecraft Let's Play，按当前「游戏不算」口径应为 F。
+# 2026-08-06: 新增 aggressive title_r3 + channel_pass2 最大收缩层；
+# 影子回测命中 126F/36T，允许错杀，必须与 certain-noise 统计分开。
+
+[meta]
+version = "1.3"
+category = "human_live"
+
+[[title_pass2]]
+category = "game_title"
+pattern = "(?i)\\b(gameplay|walkthrough|playthrough|let'?s\\s*play|no\\s*commentary|full\\s*game|gaming\\s*vods?|game\\s*vods?|minecraft|roblox|fortnite|valorant|grand\\s*theft\\s*auto|gta\\s*[45v]?|league\\s*of\\s*legends|counter[-\\s]?strike|cs:?go|apex\\s*legends|subnautica|phasmophobia|gorilla\\s*tag|danganronpa|fallout\\s*3|sly\\s*cooper)\\b"
+
+[[title_pass2]]
+category = "official_music"
+pattern = "(?i)\\b(official\\s*music(\\s*video)?|official\\s*audio|official\\s*mv|lyrics?\\s*video|music\\s*video|official\\s*visualizer|audio\\s*visualizer|full\\s*album)\\b"
+
+[[title_pass2]]
+category = "film_tv_hard"
+pattern = "(?i)\\b(full\\s*episodes?|s\\d{1,2}e\\d{1,2}|full\\s*(hd\\s*)?movie|movie\\s*clip|film\\s*scene|official\\s*trailer|teaser\\s*trailer|dvdrip|xvid)\\b"
+
+[[title_pass2]]
+category = "animation_kids"
+pattern = "(?i)\\b(anime|cartoon|nursery\\s*rhyme|peppa\\s*pig|cocomelon|paw\\s*patrol|scooby\\s*doo|sfm)\\b|アニメ|動漫|动画"
+
+[[title_pass2]]
+category = "news_recording"
+pattern = "(?i)\\b(bbc\\s*news|news\\s*coverage|breaking\\s*news|wabc[-\\s]?tv|vintage\\s*radio\\s*broadcast)\\b"
+
+[[title_pass2]]
+category = "audio_slides_screen"
+pattern = "(?i)\\b(audio\\s*only|podcast\\s*audio|radio\\s*broadcast|slideshow|photo\\s*montage|pictures\\s*only|screen\\s*recording|desktop\\s*recording|powerpoint|ppt)\\b|\\[m4a\\]"
+
+[[title_r3]]
+category = "sports_event"
+pattern = "(?i)\\b(full\\s*match|match\\s*highlights?|nfl|nba|mls\\s*next\\s*pro|ufc|wwe|formula\\s*1|f1\\s*(race|highlights?)|premier\\s*league|champions\\s*league|patriots\\s+vs|steelers\\s+vs)\\b"
+
+[[title_r3]]
+category = "podcast_talk_program"
+pattern = "(?i)\\b(podcast|late\\s+(late\\s+)?show|tonight\\s*show|talk\\s*show|full\\s*show|the\\s*maury\\s*show|daily\\s*show|breakfast\\s*club\\s*full\\s*show)\\b"
+
+[[title_r3]]
+category = "generic_official_media"
+pattern = "(?i)\\b(official\\s*video|official\\s*visualizer|audio\\s*visualizer|soundtrack)\\b"
+
+[[title_r3]]
+category = "episode_number"
+pattern = "(?i)\\b(episode\\s*\\d+|ep\\.?\\s*\\d+|season\\s*\\d+\\s*episode)\\b"
+
+[[title_r3]]
+category = "news_network"
+pattern = "(?i)\\b(bloomberg|cnn|fox\\s*news|white\\s*house\\s*leaks)\\b"
+
+[[title_r3]]
+category = "asmr_radio"
+pattern = "(?i)\\b(asmr|music\\s*stream|vintage\\s*radio|nrk\\s*radio)\\b"
+
+[[channel_pass2]]
+category = "qc_all_f_channel_min2"
+pattern = "(?i)^(5-Minute Crafts PLAY|A&E|ABS-CBN Entertainment|Ben Azelart|Breakfast Club Power 105\\.1 FM|CaseOh|Cole Wra1th|CoryxKenshin|Cut|DashieGames|Dish VODs|Foltyn Reacts|GMA Network|Grant Wisler|HL GX|InquisitorMaster|KAYE|Kindly Keyin|M2|OmniBased|PoliceActivity|RDC Live|Ray William Johnson|She Cooks|SkizzlemanLive|Steak VODS|The Late Late Show with James Corden|The Late Show with Stephen Colbert|The Royalty Family|Zee Telugu|boss rino)$"
+
+[[pass2]]
+category = "interview_talk_show"
+pattern = "(?i)\\b(late\\s+show|tonight\\s+show|talk\\s+show|the\\s+daily\\s+show|ellen\\s+show|jimmy\\s+fallon|stephen\\s+colbert|james\\s+corden|daily\\s+show|saturday\\s+night\\s+live|\\bsnl\\b)\\b"
+
+[[pass2]]
+category = "music_mv"
+pattern = "(?i)\\b(official\\s*music(\\s*video)?|official\\s*audio|official\\s*mv|lyrics?\\s*video|music\\s*video|full\\s*album)\\b"
+
+[[pass2]]
+category = "anime_cartoon"
+pattern = "(?i)(\\banime\\b|\\bmanga\\b|アニメ|動漫|动画|\\bcartoon\\b|peppa\\s*pig|cocomelon|nursery\\s*rhyme|paw\\s*patrol|kids\\s*channel|steven\\s*universe|\\bcuphead\\b|one\\s*piece|\\bnaruto\\b|鬼灭|進擊|进击的巨人)"
+
+[[pass2]]
+category = "gameplay_no_facecam"
+pattern = "(?i)\\b(gameplay|walkthrough|let'?s\\s*play|no\\s*commentary)\\b"
+
+# 具名游戏 VOD（DuckDB 无负向断言；facecam+游戏中间带可能被误伤，交人工回流）
+[[pass2]]
+category = "named_game_vod"
+pattern = "(?i)\\b(minecraft|roblox|fortnite|call\\s*of\\s*duty|valorant|gta\\s*[45v]?|grand\\s*theft\\s*auto|world\\s*of\\s*warcraft|league\\s*of\\s*legends|counter[-\\s]?strike|\\bcs:?go\\b|apex\\s*legends)\\b"
+
+[[pass2]]
+category = "fancam_stage"
+pattern = "(?i)(fancam|직캠|\\bmcountdown\\b|music\\s*bank\\s*(퇴근|퇴근길)?|\\bkbs\\s*music\\s*bank\\b)"
+
+[[pass2]]
+category = "tv_episode_drama"
+pattern = "(?i)\\b(full\\s*episode|episode\\s*\\d+|ep\\.?\\s*\\d+|s\\d+e\\d+|season\\s*\\d+\\s*episode)\\b"
+
+[[pass2]]
+category = "movie_trailer_clip"
+pattern = "(?i)\\b(official\\s*trailer|teaser\\s*trailer|first\\s*trailer|movie\\s*clip|full\\s*(hd\\s*)?movie\\b|film\\s*scene|horror\\s*movies?\\s*full)\\b"
+
+[[pass2]]
+category = "slideshow_images"
+pattern = "(?i)\\b(slideshow|slide\\s*tape|photo\\s*(slideshow|montage)|image\\s*loop|pictures\\s*only)\\b"
+
+[[pass2]]
+category = "audio_only"
+pattern = "(?i)\\b(audio\\s*only|podcast\\s*audio|music\\s*stream)\\b"
+
+[[pass2]]
+category = "audio_radio_asmr"
+pattern = "(?i)(\\basmr\\b|\\[m4a\\]|\\bm4a\\b|vintage\\s*radio|radio\\s*broadcast|nrk\\s*radio)"
+
+[[r2]]
+category = "ai_synthetic_no_human"
+pattern = "(?i)\\b(ai\\s+generated\\s+(video|animation)|text.?to.?speech\\s+video|slime\\s+video\\s+asmr)\\b"
+
+# ── experimental：QC 派生整词桶/频道（曾误杀采词与真直播）——不加载 ──
+# load_blacklist 只读 [[pass2]]/[[r2]]；以下仅文档保留，禁止启用。
+# [[experimental]]
+# category = "qc_derived_keyword_allf"
+# category = "qc_derived_channel_allf"

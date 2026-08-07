@@ -1,0 +1,59 @@
+[meta]
+category = "welding"
+has_cleaner = true
+deliver_format = "parquet"
+default_qc = "storyboard"
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+optional = true
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["quality"]
+hint = "04_rules + blacklist"
+
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+max_runs = 99
+depends = ["rules"]
+
+[[flow.machine]]
+id = "storyboard_qc"
+kind = "optional_auto"
+depends = ["clean"]
+hint = "qc/vision_storyboard.py"
+
+[[flow.machine]]
+id = "deliver"
+kind = "auto"
+tool = "copy_keep"
+depends = ["clean"]
+
+[[flow.human]]
+id = "quality"
+kind = "auto"
+
+[[flow.human]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.human]]
+id = "human_qc"
+kind = "external"
+depends = ["sample"]
+
+[[flow.human]]
+id = "deliver"
+kind = "auto"
+tool = "copy_pass"
+depends = ["human_qc"]

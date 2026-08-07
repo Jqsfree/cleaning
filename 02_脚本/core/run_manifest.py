@@ -25,7 +25,13 @@ def load_manifest(batch_root: str | Path) -> dict[str, Any]:
     path = manifest_path(batch_root)
     if not path.exists():
         return {}
-    return json.loads(path.read_text(encoding="utf-8"))
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise ValueError(f"manifest JSON 损坏: {path}: {e}") from e
+    if not isinstance(data, dict):
+        raise ValueError(f"manifest 根须为 object: {path}")
+    return data
 
 
 def save_manifest(batch_root: str | Path, data: dict[str, Any]) -> Path:
@@ -47,12 +53,41 @@ def init_manifest(
     batch: str,
     input_path: str = "",
     notes: str = "",
+    reinit: bool = False,
 ) -> Path:
-    """创建或覆盖批次清单骨架。"""
+    """创建批次清单；默认 merge 保留已有 stages / deliver_path。
+
+    reinit=True 时清空 stages（显式重建）。
+    """
     source = source.strip().lower()
     if source not in ("human", "machine"):
         raise ValueError("source 必须是 human 或 machine")
-    data: dict[str, Any] = {
+
+    existing: dict[str, Any] = {}
+    if not reinit:
+        try:
+            existing = load_manifest(batch_root)
+        except ValueError:
+            existing = {}
+
+    if existing and not reinit:
+        data = dict(existing)
+        data["category"] = category
+        data["source"] = source
+        data["batch"] = batch
+        if input_path:
+            data["input"] = input_path
+        if notes:
+            data["notes"] = notes
+        data.setdefault("stages", {})
+        data.setdefault("deliver_path", data.get("deliver_path") or "")
+        data.setdefault(
+            "created_at",
+            data.get("created_at") or time.strftime("%Y-%m-%d %H:%M:%S"),
+        )
+        return save_manifest(batch_root, data)
+
+    data = {
         "category": category,
         "source": source,
         "batch": batch,
@@ -72,25 +107,100 @@ def update_stage(
     paths: dict[str, str] | None = None,
     stats: dict[str, Any] | None = None,
     deliver_path: str | None = None,
+    provenance: dict[str, Any] | None = None,
 ) -> Path:
-    """追加/更新某一 stage 记录。"""
+    """追加/更新某一 stage；paths/stats/provenance 与已有条目 merge，不整段抹掉。"""
     data = load_manifest(batch_root)
     if not data:
         raise FileNotFoundError(
             f"无 manifest: {manifest_path(batch_root)}；请先 run_manifest.py init"
         )
     stages = data.setdefault("stages", {})
+    prev = dict(stages.get(stage) or {})
     entry: dict[str, Any] = {
+        **prev,
         "updated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
     if paths:
-        entry["paths"] = paths
+        merged_paths = dict(prev.get("paths") or {})
+        merged_paths.update(paths)
+        entry["paths"] = merged_paths
     if stats:
-        entry["stats"] = stats
+        merged_stats = dict(prev.get("stats") or {})
+        merged_stats.update(stats)
+        entry["stats"] = merged_stats
+    if provenance:
+        merged_prov = dict(prev.get("provenance") or {})
+        merged_prov.update(provenance)
+        entry["provenance"] = merged_prov
     stages[stage] = entry
     if deliver_path:
         data["deliver_path"] = deliver_path
     return save_manifest(batch_root, data)
+
+
+def infer_source_batch(batch_root: str | Path) -> tuple[str, str] | None:
+    """从目录名 {source}_{batch} 解析；失败返回 None。"""
+    name = Path(batch_root).name
+    if "_" not in name:
+        return None
+    source, batch = name.split("_", 1)
+    source = source.strip().lower()
+    if source not in ("human", "machine") or not batch:
+        return None
+    return source, batch
+
+
+def maybe_update_stage(
+    output_path: str | Path,
+    stage: str,
+    *,
+    paths: dict[str, str] | None = None,
+    stats: dict[str, Any] | None = None,
+    deliver_path: str | None = None,
+    category: str | None = None,
+    provenance: dict[str, Any] | None = None,
+    soft_init: bool = True,
+) -> bool:
+    """
+    从阶段输出路径推断批次根并 update_stage。
+
+    无批次根 → False；无 manifest 时 soft_init 从目录名创建。
+    失败不抛（打到调用方可选日志），返回 False。
+    """
+    from core.batch_layout import infer_batch_root
+
+    root = infer_batch_root(output_path)
+    if root is None:
+        return False
+    try:
+        data = load_manifest(root)
+    except ValueError:
+        return False
+    if not data:
+        if not soft_init:
+            return False
+        parsed = infer_source_batch(root)
+        if not parsed:
+            return False
+        source, batch = parsed
+        cat = (category or root.parent.name or "unknown").strip() or "unknown"
+        try:
+            init_manifest(root, category=cat, source=source, batch=batch)
+        except Exception:
+            return False
+    try:
+        update_stage(
+            root,
+            stage,
+            paths=paths,
+            stats=stats,
+            deliver_path=deliver_path,
+            provenance=provenance,
+        )
+    except Exception:
+        return False
+    return True
 
 
 def format_summary(data: dict[str, Any]) -> str:
@@ -101,8 +211,16 @@ def format_summary(data: dict[str, Any]) -> str:
         f"input={data.get('input')}",
         f"deliver={data.get('deliver_path') or '(未登记)'}",
         f"updated_at={data.get('updated_at')}",
-        "stages:",
     ]
+    lot = data.get("lot")
+    if isinstance(lot, dict) and lot:
+        lines.append(
+            "lot: "
+            f"frame={lot.get('sample_frame')} size={lot.get('lot_size')} "
+            f"method={lot.get('method')} n={lot.get('n')} "
+            f"pass_rate={lot.get('pass_rate')} decision={lot.get('decision')}"
+        )
+    lines.append("stages:")
     for name, meta in (data.get("stages") or {}).items():
         paths = meta.get("paths") or {}
         lines.append(f"  - {name}: {paths or meta}")

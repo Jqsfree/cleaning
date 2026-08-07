@@ -1,0 +1,15 @@
+{
+  "reject_tag": "non_film_channel",
+  "canonical_id": "non_film_channel",
+  "registry_version": 1,
+  "n_proposed": 4491,
+  "n_human_validated": 0,
+  "n_by_modality_proposed": {
+    "text": 4491
+  },
+  "n_by_modality_validated": {},
+  "sources": [
+    "/home/jqs/projects/clean_DATASET/data/runs/film_tv/_reject_seed_0727"
+  ],
+  "updated_at": "2026-07-27 14:12:04"
+}

@@ -19,6 +19,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from core.batch_layout import evaluate_checklist  # noqa: E402
+from core.batch_sop import evaluate_recipe_checklist  # noqa: E402
 from core.run_manifest import (  # noqa: E402
     find_deliver_paths,
     format_list_table,
@@ -38,13 +40,31 @@ def main() -> None:
     p = argparse.ArgumentParser(description="批次 manifest 索引")
     sub = p.add_subparsers(dest="cmd", required=True)
 
-    p_init = sub.add_parser("init", help="创建 manifest.json")
+    p_init = sub.add_parser("init", help="创建 manifest.json（默认 merge 保留 stages）")
     p_init.add_argument("-o", "--batch-root", required=True)
     p_init.add_argument("--category", required=True)
     p_init.add_argument("--source", required=True, choices=("human", "machine"))
     p_init.add_argument("--batch", required=True)
     p_init.add_argument("--input", default="")
     p_init.add_argument("--notes", default="")
+    p_init.add_argument(
+        "--reinit", action="store_true",
+        help="清空已有 stages / deliver_path 后重建",
+    )
+
+    p_ck = sub.add_parser(
+        "checklist",
+        help="双路径批次自查（不跑管道；对照 AGENTS SOP）",
+    )
+    p_ck.add_argument("-o", "--batch-root", required=True)
+    p_ck.add_argument(
+        "--source", default=None, choices=("human", "machine"),
+        help="默认读 manifest.source",
+    )
+    p_ck.add_argument(
+        "--strict", action="store_true",
+        help="有 missing 项则 exit 2",
+    )
 
     p_up = sub.add_parser("update", help="更新某一 stage")
     p_up.add_argument("-o", "--batch-root", required=True)
@@ -86,8 +106,56 @@ def main() -> None:
             batch=args.batch,
             input_path=args.input,
             notes=args.notes,
+            reinit=args.reinit,
         )
-        print(f"已写 {path}")
+        mode = "reinit" if args.reinit else "merge"
+        print(f"已写 {path} ({mode})")
+        return
+
+    if args.cmd == "checklist":
+        data = load_manifest(args.batch_root)
+        source = args.source or (data.get("source") if data else None)
+        if not source:
+            print("[ERROR] 请传 --source，或先 init manifest")
+            sys.exit(2)
+        category = (data or {}).get("category")
+        missing = 0
+        print(f"batch={args.batch_root}  source={source}"
+              + (f"  category={category}" if category else ""))
+        if category:
+            # 品类 recipe 为权威 checklist（与 orchestrate status 同口径）
+            rows = evaluate_recipe_checklist(
+                args.batch_root, category=str(category), source=str(source),
+            )
+            for r in rows:
+                mark = {
+                    "ok": "OK",
+                    "missing": "MISSING",
+                    "optional_missing": "opt-",
+                    "skip": "skip",
+                }.get(r["status"], r["status"])
+                if r["status"] == "missing" and r.get("optional") != "yes":
+                    missing += 1
+                print(
+                    f"  [{mark:7}] {r['id']:<12} {r.get('kind',''):<14} {r.get('hint','')}"
+                )
+        else:
+            rows = evaluate_checklist(args.batch_root, source)
+            for r in rows:
+                mark = {
+                    "ok": "OK",
+                    "missing": "MISSING",
+                    "optional_missing": "opt-",
+                }.get(r["status"], r["status"])
+                if r["status"] == "missing":
+                    missing += 1
+                print(f"  [{mark:7}] {r['id']:<10} {r['path']:<16} {r['hint']}")
+        if missing:
+            print(f"\n缺 {missing} 项必做阶段（薄编排不自动补跑）")
+            if args.strict:
+                sys.exit(2)
+        else:
+            print("\n必做项齐全（optional 可缺）")
         return
 
     if args.cmd == "update":

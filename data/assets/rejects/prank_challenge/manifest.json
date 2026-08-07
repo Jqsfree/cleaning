@@ -1,0 +1,15 @@
+{
+  "reject_tag": "prank_challenge",
+  "canonical_id": "prank_challenge",
+  "registry_version": 1,
+  "n_proposed": 99,
+  "n_human_validated": 0,
+  "n_by_modality_proposed": {
+    "text": 99
+  },
+  "n_by_modality_validated": {},
+  "sources": [
+    "/home/jqs/projects/clean_DATASET/data/runs/film_tv/_reject_seed_0727"
+  ],
+  "updated_at": "2026-07-27 14:12:04"
+}

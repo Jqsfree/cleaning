@@ -1,13 +1,10 @@
 #!/home/jqs/miniconda3/envs/data_cleaning/bin/python
 """
-phase3_analyze.py -- SOP Phase 3: 污染分析
-
-从标注后的 audit_sample 统计污染来源。
-输出: {output_dir}/{run}/pollution_analysis_v1.md
+04_analyze.py — 污染分析（标注样本 → pollution_analysis.md）
 
 用法:
-  python3 phase3_analyze.py audit_sample_v1.parquet -o data/runs/003_analysis/
-  python3 phase3_analyze.py audit_sample_v1.parquet -o data/runs/003_analysis/ --run run02
+  02_脚本/pipeline/04_analyze.py sample.parquet -o data/runs/film_tv/machine_0724/03_qc/analysis/
+  02_脚本/pipeline/04_analyze.py sample.parquet -o …/03_qc/analysis/ --run run02
 """
 
 import sys, os, time, argparse, textwrap
@@ -19,6 +16,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from core.sop import print_banner, write_run_log
 from core.io import duckdb_reader
 from core.progress import mark_done
+from core.batch_layout import require_output_dir, warn_outside_batch
+from core.log import log as core_log
 
 
 def log(msg: str):
@@ -30,7 +29,10 @@ def main():
 
     parser = argparse.ArgumentParser(description="污染分析")
     parser.add_argument("input", help="标注后的 audit sample (parquet/csv)")
-    parser.add_argument("-o", "--output-dir", default="data/runs/003_analysis")
+    parser.add_argument(
+        "-o", "--output-dir", required=True,
+        help="输出目录（建议 …/{source}_{batch}/03_qc/analysis/）",
+    )
     parser.add_argument("--run", default="run01", help="迭代轮次")
     parser.add_argument("--label-col", default="qc_text_result")
     parser.add_argument("--category-col", default="audit_category")
@@ -39,7 +41,9 @@ def main():
     if not os.path.exists(args.input):
         print(f"[ERROR] {args.input}"); sys.exit(1)
 
-    out_dir = os.path.join(args.output_dir.rstrip("/"), args.run)
+    base = require_output_dir(args.output_dir)
+    warn_outside_batch(base, log_fn=core_log)
+    out_dir = os.path.join(base, args.run)
     os.makedirs(out_dir, exist_ok=True)
 
     t0 = time.perf_counter()
