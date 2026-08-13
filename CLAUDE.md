@@ -33,7 +33,10 @@ This file provides Claude Code-specific guidance for this repository.
 
 **有 cleaner：** `language_teaching`（+scorer）/ `beauty` / `welding` / `film_tv` / `live_sell`。
 
-**仅 QC：** `ego_repair` / `lila_outdoor` — 勿 `02_clean --category`。
+**仅 QC：** `ego_repair` / `lila_outdoor` / `exo_agriculture` / `exo_outdoor` / `general_scene` / `vlog` — 勿 `02_clean --category`。  
+户外探险按 PDF 归 **`exo_outdoor`**（第三人称）；勿用 `lila_outdoor`（POV，本批不收）。  
+**通用场景**（含校园与教育）归 **`general_scene`**：文本过滤效用达瓶颈后再缩略图。  
+**vlog(4%)** 归 **`vlog`**：**限手持移动、不限主题**；第一人称 handheld 行走可收；与 exo/ego 区分。
 
 ```
 categories/<name>/

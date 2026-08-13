@@ -1,0 +1,96 @@
+# Blacklist — vlog · 手持移动（certain-noise only）
+# 硬约束：非真人一律 drop（游戏/动画/AI/CGI/虚拟人）
+# 不因「逛 anime 店」等主题 drop；只匹配确定非真人/非实拍形态
+
+[meta]
+version = "0.4.0"
+category = "vlog"
+basis = "PDF vlog(4%) + 非真人一律不要 + textqc R1/R3 util 增量规则"
+
+# ── pass2 ──
+
+[[pass2]]
+category = "non_real_gaming"
+pattern = "\\b(gameplay|lets?\\s*play|\\bminecraft\\b|\\bfortnite\\b|\\broblox\\b|gta\\s*[45v]|\\bwalkthrough\\b.*\\b(game|part\\s*\\d)|gaming\\s*live\\s*stream|twitch\\s*stream)\\b"
+
+[[pass2]]
+category = "non_real_gaming_ranked"
+pattern = "\\b(free\\s*fire|clash\\s*squad|blox\\s*fruits|the\\s*sims\\s*4|bedrock\\s*hardcore|noob\\s*to\\s*pro|grandmaster\\s*rank|raistar|ungraduate\\s*gamer|baldi'?s\\s*basics|geometry\\s*dash|red\\s*dead\\s*redemption|\\brdr2\\b|runningman|99\\s*nights|\\bwwe\\b)\\b"
+
+[[pass2]]
+category = "non_real_animation"
+pattern = "\\b(cartoon\\s*episode|anime\\s*episode|animated\\s*(series|movie|film)|\\bcartoon\\b.*\\bepisode\\b|3d\\s*animation|cgi\\b|motion\\s*graphics)\\b"
+
+[[pass2]]
+category = "kids_toy_non_vlog"
+pattern = "\\b(lol\\s*surprise|pop\\s*up\\s*pirate|mother\\s*goose\\s*club|hotel\\s*transylvania\\s*3|cockroaches\\s*game)\\b"
+
+[[pass2]]
+category = "non_real_ai_virtual"
+pattern = "\\b(ai\\s*generated|#ai\\b|midjourney|sora\\b|runway\\s*ml|deepfake|vtuber|virtual\\s*youtuber|hololive|ai\\s*short\\s*drama|短剧.*#ai|#cdrama)\\b"
+
+[[pass2]]
+category = "fixed_talking_head"
+pattern = "\\b(talking\\s*head|podcast\\s*ep(isode)?|sit\\s*down\\s*interview|studio\\s*interview|split\\s*screen|分屏访谈|press\\s*briefing|news\\s*anchor)\\b"
+
+[[pass2]]
+category = "news_broadcast"
+pattern = "\\b(breaking\\s*news|abc\\s*news|bbc\\s*news|cbs\\s*news|nbc\\s*news|ap\\s*archive|cgtn|al\\s*jazeera|press\\s*conference|citynews|arirang\\s*news|formosa\\s*news|news24|kpix|new\\s*china\\s*tv)\\b"
+
+[[pass2]]
+category = "sports_broadcast"
+pattern = "\\b(full\\s*match|match\\s*highlights|race\\s*replay|super\\s*bowl\\s*highlights|champions\\s*league\\s*highlights)\\b"
+
+[[pass2]]
+category = "screen_recording"
+pattern = "\\b(zoom\\s*lecture|google\\s*meet\\s*class|screen\\s*recording|powerpoint|ppt\\s*recording|webinar\\s*recording)\\b"
+
+[[pass2]]
+category = "tedx_lecture"
+pattern = "\\b(tedx?\\s*talks?|\\btedx\\b|ted\\s*talks|keynote\\s*speech)\\b"
+
+[[pass2]]
+category = "music_mv"
+pattern = "\\b(music\\s*video|\\blyric\\s*video|official\\s*audio)\\b"
+
+[[pass2]]
+category = "film_trailer"
+pattern = "\\b(official\\s*trailer|movie\\s*trailer|film\\s*festival\\s*trailer|\\bteaser\\s*trailer\\b)\\b"
+
+[[pass2]]
+category = "tv_stage"
+pattern = "\\b(late\\s*show|talk\\s*show|variety\\s*show|talent\\s*show|live\\s*on\\s*stage|grammy\\s*awards|oscars\\s*20)\\b"
+
+[[pass2]]
+category = "kids_nursery"
+pattern = "\\b(nursery\\s*rhymes?|cocomelon|kids?\\s*songs?|baby\\s*shark|peppa\\s*pig|hindi\\s*kids?\\s*rhyme|popular\\s*hindi\\s*kids?)\\b"
+
+[[pass2]]
+category = "howto_tutorial_non_vlog"
+pattern = "\\b(how\\s*to\\s*draw|step\\s*by\\s*step.*tutorial|\\bdance\\s*workout\\b|school\\s*project|front\\s*page\\s*design)\\b"
+
+[[pass2]]
+category = "simulator_nonreal"
+pattern = "\\b(flight\\s*simulator|full\\s*motion\\s*simulator)\\b"
+
+[[pass2]]
+category = "sleep_ambient_fixed"
+pattern = "\\b(ambience\\s*for\\s*sleep|snowstorm\\s*ambience|dark\\s*winter\\s*cabin.*ambience)\\b"
+
+[[pass2]]
+category = "tv_clip_show"
+pattern = "\\b(\\bsnl\\b|live\\s*report\\s*-\\s*snl|hot\\s*clips.*runningman|sunday\\s*brunch\\s*ep)\\b"
+
+# ── r2 ──
+
+[[r2]]
+category = "montage_compilation"
+pattern = "\\b(top\\s*\\d+\\s*compilation|best\\s*of\\s*compilation|funny\\s*moments\\s*compilation|tiktok\\s*compilation)\\b"
+
+[[r2]]
+category = "non_real_stock"
+pattern = "\\b(stock\\s*footage|b[- ]?roll\\s*only|no\\s*people\\s*stock)\\b"
+
+[[r2]]
+category = "reaction_clip"
+pattern = "\\b(reacts?\\s*to|\\breaction\\b\\s*[!\\)]*|fire\\s*in\\s*the\\s*booth\\s*\\|\\s*reaction)\\b"

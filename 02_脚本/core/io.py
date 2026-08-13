@@ -104,6 +104,8 @@ def resolve_output_dir(arg: str | None, input_path: str) -> str:
         return os.path.dirname(os.path.abspath(input_path)) or "."
     if os.path.isfile(arg):
         return os.path.dirname(os.path.abspath(arg)) or "."
+    if os.path.isdir(arg):
+        return arg
     # 显式文件扩展名（含未创建）→ 父目录；勿把 path/foo.csv 当目录 makedirs
     ext = os.path.splitext(arg.rstrip(os.sep))[1].lower()
     if ext in {".csv", ".tsv", ".parquet", ".pq", ".json", ".jsonl", ".txt"}:

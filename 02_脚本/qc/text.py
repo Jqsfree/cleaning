@@ -127,7 +127,12 @@ def atomic_write(df: pd.DataFrame, target_path: str):
 
 
 def _create_client(api_key: str, workers: int = DEFAULT_WORKERS) -> OpenAI:
-    """创建 OpenAI 兼容 client，增大连接池并设置显式超时。"""
+    """创建 OpenAI 兼容 client，增大连接池并设置显式超时。
+
+    trust_env=False：忽略 shell 里的 HTTP(S)_PROXY / ALL_PROXY。
+    常见本地代理为 socks://…，httpx 默认不支持，会直接在 Client() 初始化时报错。
+    DashScope 兼容端点通常直连即可。
+    """
     if httpx is not None:
         max_conn = max(30, workers + 10)
         keep = max(20, min(max_conn, workers + 5))
@@ -137,6 +142,7 @@ def _create_client(api_key: str, workers: int = DEFAULT_WORKERS) -> OpenAI:
                 max_keepalive_connections=keep,
             ),
             timeout=httpx.Timeout(30.0, connect=10.0),
+            trust_env=False,
         )
         return OpenAI(api_key=api_key, base_url=API_BASE_URL, http_client=http_client)
     else:

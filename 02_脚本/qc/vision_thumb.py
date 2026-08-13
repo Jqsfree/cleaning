@@ -245,7 +245,7 @@ def batch_qc(input_path, output_csv=None, sample=None, resume=False, threads=12,
             )
         print("[恢复] 读取已完成的记录（ERROR 可重试）...")
         for row in csv.DictReader(open(output_csv, "r", encoding="utf-8-sig")):
-            vid = row.get("video_id", "").strip()
+            vid = (row.get("video_id") or "").strip()
             st = (row.get("qc_thumb_result") or "").strip()
             if not vid or not st:
                 continue

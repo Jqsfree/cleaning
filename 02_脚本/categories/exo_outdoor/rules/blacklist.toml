@@ -1,0 +1,147 @@
+# Blacklist — exo 户外探险（certain-noise only）
+# 依据:
+#   R1: text_qc 270（T2/F80/U181）→ v0.1
+#   R2: clean keep 抽 1000 text_qc（T4/F319/U672）→ v0.2 增补
+# 约定: 只丢「标题/频道上可确定」的噪声；U/中间带勿进 pass2
+# 匹配字段: title_channel（与 film_tv cleaner 一致）
+
+[meta]
+version = "0.2.0"
+category = "exo_outdoor"
+basis = "text_qc_20260810_134712 + text_qc_20260811_054953 + PDF exo outdoor"
+
+# ═══════════════════ pass2: 高置信非目标 ═══════════════════
+
+[[pass2]]
+category = "pov_first_person"
+pattern = "\\b(helmet\\s*cam|\\bpov\\b|first\\s*person|chest\\s*mount|\\bfpv\\b)\\b"
+
+[[pass2]]
+category = "gear_review_unbox"
+pattern = "\\b(unboxing|buyer'?s?\\s*guide|gear\\s*guide|must[\\s-]?have\\s+\\w+|tent\\s*review|after\\s*one\\s*year)\\b"
+
+[[pass2]]
+category = "competition_broadcast"
+pattern = "\\b(x\\s*games|full\\s*competition|full\\s*match|match\\s*highlights?|race\\s*highlights?)\\b"
+
+[[pass2]]
+category = "gaming"
+pattern = "\\b(spintires|\\bgameplay\\b|\\bminecraft\\b|\\bfortnite\\b|lets?\\s*play|gta\\s*[45v]?|\\broblox\\b|fallout\\s*\\d+|prince\\s*of\\s*persia|\\bwalkthrough\\b|rc\\s*crawler|rc\\s*cars?)\\b"
+
+[[pass2]]
+category = "reality_tv"
+pattern = "\\b(north\\s*woods\\s*law)\\b"
+
+[[pass2]]
+category = "product_helmet_ad"
+pattern = "\\b(helmet\\s*introduction|motorcycle\\s*superstore|bell\\s*moto-\\d|samger\\s*dot\\s*adult|smart\\s*helmets?|helmets?\\s*\\(huds?\\)|helmet\\s*(review|buy|scam))\\b"
+
+[[pass2]]
+category = "rv_vehicle_ad"
+pattern = "\\b(forest\\s*river\\s*rv|\\d{4}\\s+ram\\s+1500\\s+trx)\\b"
+
+[[pass2]]
+category = "best_under_price"
+pattern = "\\bbest\\s+\\w+.*under\\s*\\$\\d"
+
+[[pass2]]
+category = "howto_podcast_hard"
+pattern = "\\b(the\\s*nice\\s*knit\\s*podcast|podcast\\s*\\|\\s*ep\\.?\\s*\\d+|\\bpodcast\\b|\\binterview\\b)\\b"
+
+[[pass2]]
+category = "official_audio_mv"
+pattern = "\\b(official\\s*(audio|video|mv)|music\\s*video)\\b"
+
+[[pass2]]
+category = "news_hard"
+pattern = "\\b(abc\\s*news|bbc\\s*news|breaking\\s*news)\\b"
+
+[[pass2]]
+category = "camp_gadgets_review"
+pattern = "\\b(camp\\s*kitchen\\s*review|genius\\s*camping\\s*gadgets|camping\\s*gadgets?\\s+that)\\b"
+
+[[pass2]]
+category = "how_to_pack_install"
+pattern = "\\b(how\\s*to\\s*pack|how\\s*to\\s*corner|how\\s*i\\s*pack|steps?\\s*to\\s*install|install\\s*your)\\b"
+
+[[pass2]]
+category = "things_wish_buying"
+pattern = "\\b(\\d+\\s*things\\s*i\\s*wish|before\\s*buying|before\\s*you\\s*hit\\s*the\\s*trail)\\b"
+
+[[pass2]]
+category = "outdoor_cooking_food"
+pattern = "\\b(grill\\s*chicken|steak\\s*cooked|outdoor\\s*cooking|cooked\\s*on\\s*a\\s*hot\\s*stone|chuck\\s*wagon\\s*meals)\\b"
+
+[[pass2]]
+category = "horror_stories"
+pattern = "\\b(horror\\s*stories|fishing\\s*horror\\s*stories)\\b"
+
+[[pass2]]
+category = "comedy_standup"
+pattern = "\\b(nate\\s*bargatze|stand[\\s-]?up\\s*comedy)\\b"
+
+[[pass2]]
+category = "overland_listicle"
+pattern = "\\b(\\d+\\s*(best|reliable|awesome)\\s+.*(vehicles?|camp\\s*spots?|slide[\\s-]?out|camping\\s*boxes))\\b"
+
+[[pass2]]
+category = "remote_start_ad"
+pattern = "\\b(start\\s*your\\s*car\\s*remotely|get\\s*your\\s*slot\\s*now)\\b"
+
+[[pass2]]
+category = "kids_song"
+pattern = "\\b(nursery\\s*rhyme|cocomelon|kids?\\s*songs?)\\b"
+
+[[pass2]]
+category = "winch_product_install"
+pattern = "\\b(winch\\s*with\\s*.*install|throttle\\s*controller)\\b"
+
+[[pass2]]
+category = "ebike_buying"
+pattern = "\\b(before\\s*buying\\s*an\\s*e[\\s-]?bike|electric\\s*bicycle\\s*info)\\b"
+
+[[pass2]]
+category = "tree_kit_howto"
+pattern = "\\b(tree\\s*climbing\\s*kit|monkey\\s*hardware)\\b"
+
+[[pass2]]
+category = "built_ultimate_truck"
+pattern = "\\b(how\\s*we\\s*built|ultimate\\s*rock\\s*bouncer)\\b"
+
+[[pass2]]
+category = "fishing_rodeo"
+pattern = "\\b(fishing\\s*rodeo)\\b"
+
+[[pass2]]
+category = "accident_clickbait"
+pattern = "\\b(crash\\s*lands|insane\\s*accident)\\b"
+
+[[pass2]]
+category = "top5_hiking_shoes"
+pattern = "\\b(top\\s*\\d+\\s+hiking\\s*shoes|hiking\\s*shoes\\s*20\\d{2})\\b"
+
+[[pass2]]
+category = "celebrity_networth"
+pattern = "\\b(net\\s*worth|wife\\s*\\|\\s*age)\\b"
+
+[[pass2]]
+category = "film_official_trailer"
+pattern = "\\b(official\\s*trailer|movie\\s*trailer|film\\s+trailer)\\b"
+
+# ═══════════════════ r2: 次级（仍偏确定噪声；命中即 drop）═══════════════════
+
+[[r2]]
+category = "cooking_howto_series"
+pattern = "\\b(cowboy\\s*campfire\\s*cooking|campfire\\s*cooking\\s*series|how[\\s-]?to\\s+make\\s+soup)\\b"
+
+[[r2]]
+category = "camera_showdown_ad"
+pattern = "\\b(travel\\s*camera\\s*showdown|gopro\\s*hero\\s*\\d+\\s*(black|under\\s*water))\\b"
+
+[[r2]]
+category = "outdoor_cleaning_diy"
+pattern = "\\b(outdoor\\s*cleaning|new\\s*fire\\s*pit\\s*#)\\b"
+
+[[r2]]
+category = "subaru_antilag_fun"
+pattern = "\\b(anti[\\s-]?lag|mountain\\s*pass\\s*fun)\\b"
