@@ -31,7 +31,7 @@ This file provides Claude Code-specific guidance for this repository.
 
 各品类数据与主链不同，见 AGENTS 品类策略表。`core/sop.py` **只写 run_log**。
 
-**有 cleaner：** `language_teaching`（+scorer）/ `beauty` / `welding` / `film_tv` / `live_sell`。
+**有 cleaner：** `language_teaching`（+scorer）/ `beauty` / `welding` / `film_tv` / `live_sell` / `human_live` / `exo`。
 
 **仅 QC：** `ego_repair` / `lila_outdoor` / `exo_agriculture` / `exo_outdoor` / `general_scene` / `vlog` — 勿 `02_clean --category`。  
 户外探险按 PDF 归 **`exo_outdoor`**（第三人称）；勿用 `lila_outdoor`（POV，本批不收）。  

@@ -72,6 +72,8 @@ raw → 01_quality（基础质量）
 | `welding` | 轻量 | storyboard | 否 | parquet | quality→（规则）→storyboard |
 | `film_tv` | 黑名单 | thumb / text | **是** | **CSV** | 人工/机采分流；交付前挂 definition |
 | `live_sell` | 黑名单 | 文本 | 否 | parquet | **北星：少误杀、多留真带货**；机采 L1 停 04_rules；certain-noise only；交批默认筛后 remain + lot 抽检 |
+| `human_live` | 有 | thumb / 多帧 | 否 | 按 QC 产出 | 真人出镜直播形态；见 human_live 规则与 visual_filter |
+| `exo` | 黑名单 | thumb / text | 否 | 按 QC 产出 | 本机批次 `machine_0807` 农业采摘（有 cleaner）；与 `exo_agriculture` 并存 |
 | `ego_repair` / `lila_outdoor` | 无 | thumb | 否 | 按 QC 产出 | 勿 `02_clean --category`；lila=历史 POV 户外，**本批 PDF 不收 ego** |
 | `exo_agriculture` | 无 | thumb | 否 | 按 QC 产出 | exo 农业种植采摘；勿 `02_clean`；缩略图按 PDF 收紧 |
 | `exo_outdoor` | 无 | thumb | 否 | 按 QC 产出 | exo 户外探险（PDF 五.exo·1%）；第三人称；勿当 `lila_outdoor` |
