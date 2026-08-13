@@ -43,7 +43,11 @@ raw → 01_quality（基础质量）
 | `beauty` | 黑名单 | 文本 | 否 | parquet | whitelist 未接入 |
 | `welding` | 轻量 | storyboard | 否 | parquet | quality→（规则）→storyboard |
 | `film_tv` | 黑名单 | thumb / text | **是** | **CSV** | 人工/机采分流；交付前挂 definition |
-| `ego_repair` / `lila_outdoor` | 无 | thumb | 否 | 按 QC 产出 | 勿 `02_clean --category` |
+| `ego_repair` / `lila_outdoor` | 无 | thumb | 否 | 按 QC 产出 | 勿 `02_clean --category`；lila=历史 POV 户外，**本批 PDF 不收 ego** |
+| `exo_agriculture` | 无 | thumb | 否 | 按 QC 产出 | exo 农业种植采摘；勿 `02_clean`；缩略图按 PDF 收紧 |
+| `exo_outdoor` | 无 | thumb | 否 | 按 QC 产出 | exo 户外探险（PDF 五.exo·1%）；第三人称；勿当 `lila_outdoor` |
+| `general_scene` | 无* | thumb | 否 | 按 QC 产出 | PDF 八.通用场景；本批校园教育；文本 certain-noise 后再 thumb |
+| `vlog` | 无* | thumb | 否 | 按 QC 产出 | PDF vlog(4%) **限手持移动**；**不限主题**；勿 `02_clean`；勿当 exo/ego |
 | `tow-person` | 无 | two_person | 否 | 按 QC 产出 | 仅画面 QC |
 
 机采 `sd` / 抽检子集才考虑慢路径 `fetch_resolution`；**不要**默认全量 yt-dlp。

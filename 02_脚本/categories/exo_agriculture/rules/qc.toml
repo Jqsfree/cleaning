@@ -1,0 +1,16 @@
+[meta]
+category = "exo_agriculture"
+category_label = "exo农业种植采摘"
+
+# 本批文本侧已在仓外过滤；缩略图收紧用 vision_thumb.toml。
+# 若后续要跑 qc/text.py，再补全 prompts。
+
+[prompts]
+system_prompt = """你是 exo 视角农业视频文本审核员。仅当标题/描述明确像第三人称田间种植、采摘、采收劳作时输出 t；明确是口播教程、农机广告、烹饪、新闻访谈等输出 f；无法确认输出 u。只输出 t/f/u。"""
+
+user_prompt_question = "是否像第三人称农业种植/采摘劳作视频？只输出 t、f 或 u。"
+
+[labels]
+pass_label = "exo农业劳作"
+fail_label = "非目标"
+uncertain_label = "不确定"

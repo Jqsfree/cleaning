@@ -1,0 +1,119 @@
+# Blacklist — 通用场景·校园教育（certain-noise）
+# R1 seed 先验；R2 依据 sample1000 text_qc_20260811_105606（T218/F510/U218）
+
+[meta]
+version = "0.2.0"
+category = "general_scene"
+basis = "PDF 八.通用场景 + text_qc_20260811_105606"
+
+# ── pass2 ──
+
+[[pass2]]
+category = "news_broadcast"
+pattern = "\\b(breaking\\s*news|abc\\s*news|bbc\\s*news|cbs\\s*news|ap\\s*archive|cgtn|al\\s*jazeera|news\\s*live|press\\s*conference|cbs\\b|nbc\\b|citynews|arirang\\s*news|formosa\\s*news|news24|kpix|new\\s*china\\s*tv|三立新聞|民視|live大現場)\\b"
+
+[[pass2]]
+category = "tedx_lecture"
+pattern = "\\b(tedx?\\s*talks?|\\btedx\\b|ted\\s*talks|keynote\\s*speech|webinar\\s*recording)\\b"
+
+[[pass2]]
+category = "gaming"
+pattern = "\\b(gameplay|\\bminecraft\\b|\\bfortnite\\b|\\broblox\\b|gta\\s*[45v]?|lets?\\s*play|\\bwalkthrough\\b)\\b"
+
+[[pass2]]
+category = "kids_nursery"
+pattern = "\\b(nursery\\s*rhymes?|cocomelon|kids?\\s*songs?|baby\\s*shark|peppa\\s*pig|pop\\s*babies|alphabit|children'?s?\\s*educational\\s*songs?|twinkle\\s*twinkle)\\b"
+
+[[pass2]]
+category = "music_mv"
+pattern = "\\b(official\\s*(audio|video|mv)|music\\s*video|\\blyric\\s*video)\\b"
+
+[[pass2]]
+category = "pov_helmet"
+pattern = "\\b(helmet\\s*cam|\\bpov\\b|first\\s*person|chest\\s*mount|\\bfpv\\b)\\b"
+
+[[pass2]]
+category = "screen_recording_course"
+pattern = "\\b(full\\s*course|online\\s*course|powerpoint|screen\\s*recording|zoom\\s*lecture|google\\s*meet\\s*class)\\b"
+
+[[pass2]]
+category = "howto_tutorial"
+pattern = "\\b(how\\s*to\\s+draw|how\\s*to\\s+support|full\\s*video\\s*tutorial|\\btutorial\\b|beginner'?s?\\s*guide)\\b"
+
+[[pass2]]
+category = "sports_game_footage"
+pattern = "\\b(vs\\.?\\s+.*(basketball|football|soccer|baseball|softball|volleyball|hockey|wrestling)|nfl\\s*play|chicago\\s*bears|eagles\\s*host\\s*nfl|@\\s*the\\s*map)\\b"
+
+[[pass2]]
+category = "crime_news"
+pattern = "\\b(chase\\s*suspect|was\\s*raped|police\\s*chase)\\b"
+
+[[pass2]]
+category = "ai_short_drama"
+pattern = "\\b(短劇|#ai\\b|#cdrama|ai\\s*短剧|turkish\\s*drama)\\b"
+
+[[pass2]]
+category = "virtual_lab_explainer"
+pattern = "\\b(virtual\\s*lab|newton'?s?\\s*first\\s*law)\\b"
+
+[[pass2]]
+category = "hotel_travel_ad"
+pattern = "\\b(best\\s*western|reasons\\s*to\\s*make\\s*.*your\\s*home)\\b"
+
+[[pass2]]
+category = "clinical_rounds"
+pattern = "\\b(clinical\\s*case\\s*presentation|teaching\\s*rounds)\\b"
+
+[[pass2]]
+category = "science_project_diy"
+pattern = "\\b(science\\s*project|free\\s*energy\\s*based|automatic\\s*street\\s*light\\s*project)\\b"
+
+[[pass2]]
+category = "teacher_training_talk"
+pattern = "\\b(how\\s*to\\s*support\\s*positive|teacher\\s*training|what\\s*skills\\s*do\\s*you\\s*gain\\s*by\\s*teaching)\\b"
+
+[[pass2]]
+category = "exam_logic_quiz"
+pattern = "\\b(only\\s*logic\\s*formula|sat\\s*prep|exam\\s*tips)\\b"
+
+[[pass2]]
+category = "film_fest_trailer"
+pattern = "\\b(film\\s*festival|official\\s*trailer|movie\\s*trailer)\\b"
+
+[[pass2]]
+category = "school_registration_ad"
+pattern = "\\b(registration\\s*for\\s*the\\s*academic\\s*year|admissions?\\s*open)\\b"
+
+[[pass2]]
+category = "animation"
+pattern = "\\b(\\bcartoon\\b|\\banime\\b|\\banimated\\b)\\b"
+
+[[pass2]]
+category = "asmr"
+pattern = "\\basmr\\b"
+
+[[pass2]]
+category = "art_portfolio_consult"
+pattern = "\\b(art\\s*portfolio|艺术院校|作品集攻略)\\b"
+
+[[pass2]]
+category = "english_lesson_num"
+pattern = "\\b(year\\s*\\d+\\s*english,?\\s*lesson|lesson\\s*\\d+,)\\b"
+
+[[pass2]]
+category = "overcrowded_news_style"
+pattern = "\\b(overcrowded\\s*elementary|hallway\\s*floors)\\b"
+
+[[pass2]]
+category = "celeb_tv"
+pattern = "\\b(justin\\s*bieber|first\\s*time\\s*on\\s*television)\\b"
+
+[[pass2]]
+category = "auto_trade_show"
+pattern = "\\b(autoline\\s*this\\s*week|gm'?s?\\s*mobility)\\b"
+
+# ── r2 ──
+
+[[r2]]
+category = "tefl_promo"
+pattern = "\\b(tefl\\s*&\\s*tesol|tesol\\s*training|tefl\\s*course\\s*online)\\b"

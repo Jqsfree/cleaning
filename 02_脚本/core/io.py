@@ -55,9 +55,18 @@ def strip_stem(name: str) -> str:
 
 
 def resolve_output_dir(arg: str | None, input_path: str) -> str:
-    """解析 -o：空 → 输入同目录；已有文件 → 取其 dirname；否则当作目录。"""
+    """解析 -o：空 → 输入同目录；已有文件 → 取其 dirname；否则当作目录。
+
+    尚不存在但带常见数据扩展名（.csv/.parquet/…）时按「输出文件」取其父目录，
+    避免 makedirs 误建名为 xxx.csv 的文件夹。
+    """
     if not arg:
         return os.path.dirname(os.path.abspath(input_path)) or "."
     if os.path.isfile(arg):
+        return os.path.dirname(os.path.abspath(arg)) or "."
+    if os.path.isdir(arg):
+        return arg
+    ext = os.path.splitext(arg)[1].lower()
+    if ext in (".csv", ".tsv", ".parquet", ".pq", ".json", ".jsonl"):
         return os.path.dirname(os.path.abspath(arg)) or "."
     return arg
