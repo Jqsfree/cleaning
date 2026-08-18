@@ -50,6 +50,22 @@ def build_text(row: pd.Series) -> str:
     return combined
 
 
+def parse_text_fields(value: str) -> tuple[str, ...]:
+    fields = tuple(field.strip() for field in value.split(",") if field.strip())
+    if not fields:
+        raise ValueError("--text-fields 至少需要一个字段")
+    return fields
+
+
+def build_text_from_fields(row: pd.Series, fields: tuple[str, ...]) -> str:
+    values = []
+    for field in fields:
+        value = row.get(field, "")
+        if pd.notna(value):
+            values.append(str(value))
+    return re.sub(r"\s+", " ", " ".join(values).strip())
+
+
 def score_to_action(
     score: float,
     *,
@@ -76,6 +92,9 @@ def _ensure_unpickle_helpers() -> None:
         "film_tv_text_classifier",
         "live_sell_text_classifier",
         "human_live_text_classifier",
+        "exo_service_text_classifier",
+        "exo_medical_text_classifier",
+        "exo_agriculture_text_classifier",
     ):
         try:
             __import__(mod)
@@ -101,8 +120,24 @@ def apply_text_model(
     *,
     drop_threshold: float,
     keep_threshold: float,
+    text_fields: tuple[str, ...] | None = None,
 ) -> pd.DataFrame:
-    texts = df.apply(build_text, axis=1).tolist()
+    if text_fields is None:
+        texts = df.apply(build_text, axis=1).tolist()
+    else:
+        parts = []
+        for f in text_fields:
+            if f in df.columns:
+                series = df[f].fillna("").astype(str)
+                if f == "description":
+                    series = series.str.slice(0, 800)
+            else:
+                series = pd.Series([""] * len(df), index=df.index)
+            parts.append(series)
+        joined = parts[0]
+        for extra in parts[1:]:
+            joined = joined + " " + extra
+        texts = joined.str.replace(r"\s+", " ", regex=True).str.strip().tolist()
     if hasattr(pipe, "predict_proba"):
         proba = pipe.predict_proba(texts)
         # 取正类列：优先 classes_==1 / 'T'
@@ -191,10 +226,23 @@ def main() -> None:
         "--keep-threshold", type=float, default=0.85,
         help="score >= 此值 → keep_candidate（默认 0.85）",
     )
+    p.add_argument(
+        "--text-fields", default=None,
+        help="显式文本字段，逗号分隔；如 title,channel。默认保持 title+keyword 兼容路径",
+    )
+    p.add_argument(
+        "--chunksize", type=int, default=0,
+        help="CSV 分块打分行数；0=整表读入。大表（百万行）请设 20000–50000 以免 OOM",
+    )
     args = p.parse_args()
 
     if args.drop_threshold >= args.keep_threshold:
         print("[ERROR] --drop-threshold 必须 < --keep-threshold")
+        sys.exit(2)
+    try:
+        text_fields = parse_text_fields(args.text_fields) if args.text_fields else None
+    except ValueError as e:
+        print(f"[ERROR] {e}")
         sys.exit(2)
 
     inp = Path(args.input)
@@ -218,27 +266,62 @@ def main() -> None:
         sys.exit(1)
 
     ext = inp.suffix.lower()
-    df = pd.read_parquet(inp) if ext in (".parquet", ".pq") else pd.read_csv(inp)
-    print(f"[{time.strftime('%H:%M:%S')}] 输入 {inp}  ({len(df):,} 行)")
+    out_path = resolve_output(args.output, inp)
+    print(f"[{time.strftime('%H:%M:%S')}] 输入 {inp}")
     print(f"  模型: {args.model}")
     print(f"  阈值: drop<{args.drop_threshold}  keep>={args.keep_threshold}")
+    if text_fields:
+        print(f"  文本字段: {','.join(text_fields)}")
+    if args.chunksize > 0:
+        print(f"  分块: {args.chunksize:,}")
 
     t0 = time.perf_counter()
-    scored = apply_text_model(
-        df, pipe,
-        drop_threshold=args.drop_threshold,
-        keep_threshold=args.keep_threshold,
-    )
-    elapsed = time.perf_counter() - t0
+    counts: dict[str, int] = {}
+    n = 0
 
-    out_path = resolve_output(args.output, inp)
-    if out_path.suffix.lower() in (".parquet", ".pq"):
-        scored.to_parquet(out_path, index=False)
+    def _accumulate(scored: pd.DataFrame, *, header: bool) -> None:
+        nonlocal n
+        n += len(scored)
+        for action, c in scored["ml_action"].value_counts().to_dict().items():
+            counts[action] = counts.get(action, 0) + int(c)
+        if out_path.suffix.lower() in (".parquet", ".pq"):
+            raise SystemExit("[ERROR] --chunksize 暂不支持 parquet 输出，请用 .csv")
+        scored.to_csv(out_path, index=False, mode="w" if header else "a", header=header)
+
+    if args.chunksize > 0:
+        if ext in (".parquet", ".pq"):
+            print("[ERROR] --chunksize 仅支持 CSV 输入")
+            sys.exit(2)
+        if out_path.exists():
+            out_path.unlink()
+        first = True
+        for chunk in pd.read_csv(inp, chunksize=args.chunksize):
+            scored = apply_text_model(
+                chunk, pipe,
+                drop_threshold=args.drop_threshold,
+                keep_threshold=args.keep_threshold,
+                text_fields=text_fields,
+            )
+            _accumulate(scored, header=first)
+            first = False
+            print(f"  …已打分 {n:,} 行", flush=True)
     else:
-        scored.to_csv(out_path, index=False)
+        df = pd.read_parquet(inp) if ext in (".parquet", ".pq") else pd.read_csv(inp)
+        print(f"  行数: {len(df):,}")
+        scored = apply_text_model(
+            df, pipe,
+            drop_threshold=args.drop_threshold,
+            keep_threshold=args.keep_threshold,
+            text_fields=text_fields,
+        )
+        if out_path.suffix.lower() in (".parquet", ".pq"):
+            scored.to_parquet(out_path, index=False)
+        else:
+            scored.to_csv(out_path, index=False)
+        n = len(scored)
+        counts = scored["ml_action"].value_counts().to_dict()
 
-    n = len(scored)
-    counts = scored["ml_action"].value_counts().to_dict()
+    elapsed = time.perf_counter() - t0
     print()
     print("=" * 56)
     print("  小模型打分完成（非人工合格率）")

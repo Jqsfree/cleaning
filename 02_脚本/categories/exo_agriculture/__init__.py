@@ -1,1 +1,1 @@
-# exo_agriculture — 仅 QC（vision_thumb）；勿注册 02_clean
+# exo_agriculture — exo农业种植采摘；文本 QC + certain-noise；勿无规则依据 clean

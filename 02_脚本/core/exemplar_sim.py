@@ -102,6 +102,13 @@ class ClipEncoder:
         self.model = self.model.to(self.device).eval()
         self.model_name = model_name
         self.pretrained = pretrained
+        self._tokenizer = None
+
+    def _tokenizer_fn(self):
+        import open_clip
+        if self._tokenizer is None:
+            self._tokenizer = open_clip.get_tokenizer(self.model_name)
+        return self._tokenizer
 
     @torch.no_grad()
     def encode_images(self, images: list[Image.Image]) -> np.ndarray:
@@ -110,6 +117,15 @@ class ClipEncoder:
         tensors = torch.stack([self.preprocess(im.convert("RGB")) for im in images])
         tensors = tensors.to(self.device)
         feats = self.model.encode_image(tensors)
+        feats = feats / feats.norm(dim=-1, keepdim=True)
+        return feats.detach().float().cpu().numpy()
+
+    @torch.no_grad()
+    def encode_text(self, texts: list[str]) -> np.ndarray:
+        if not texts:
+            return np.zeros((0, 512), dtype=np.float32)
+        tokens = self._tokenizer_fn()(texts).to(self.device)
+        feats = self.model.encode_text(tokens)
         feats = feats / feats.norm(dim=-1, keepdim=True)
         return feats.detach().float().cpu().numpy()
 

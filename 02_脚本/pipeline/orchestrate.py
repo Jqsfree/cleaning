@@ -387,8 +387,8 @@ def main() -> None:
         help="允许自动跑 optional_auto 的 text/thumb QC（默认跳过；--upto text_qc 必填）",
     )
     p_run.add_argument(
-        "--text-workers", type=int, default=20,
-        help="text_qc 并发（传给 qc/text.py -w）",
+        "--text-workers", type=int, default=32,
+        help="text_qc 并发（传给 qc/text.py -w；默认 32，模型见 text.py DEFAULT_MODEL=qwen-plus）",
     )
     p_run.add_argument(
         "--dry-run-qc", action="store_true",

@@ -1,0 +1,24 @@
+# Blacklist — 商品开箱（certain-noise only）
+# 不加 gameplay/anime：样本 T 有 anime haul、主机开箱+gameplay
+# v0.1.0: 仅 MV/新闻/儿歌/AI 虚拟人
+
+[meta]
+version = "0.1.0"
+category = "unbox"
+basis = "shared hard-noise minus game/anime (T hits on sample)"
+
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news)"
+
+[[pass2]]
+category = "kids_show"
+pattern = "(?i)(\\bcocomelon\\b|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song|mother\\s*goose\\s*club)"
+
+[[pass2]]
+category = "non_real_ai"
+pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake)"

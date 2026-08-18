@@ -22,9 +22,11 @@ class _FakePipe:
 
     def __init__(self, scores):
         self._scores = scores
+        self.seen_texts = []
 
     def predict_proba(self, texts):
         import numpy as np
+        self.seen_texts = list(texts)
         n = len(texts)
         scores = list(self._scores)
         if len(scores) < n:
@@ -57,6 +59,62 @@ def test_build_text_uses_title_keyword():
     text = asm.build_text(row)
     assert "Hello" in text
     assert "FILM_YEAR_TOKEN" in text or "HAS_YEAR_TOKEN" in text
+
+
+def test_apply_text_model_default_still_uses_title_keyword():
+    df = pd.DataFrame({
+        "title": ["Hello (2019)"],
+        "keyword": ["drama"],
+        "channel": ["ShouldNotAppearWhenKeywordExists"],
+    })
+    pipe = _FakePipe([0.5])
+    asm.apply_text_model(df, pipe, drop_threshold=0.15, keep_threshold=0.85)
+    assert "Hello" in pipe.seen_texts[0]
+    assert "drama" in pipe.seen_texts[0]
+    assert "ShouldNotAppearWhenKeywordExists" not in pipe.seen_texts[0]
+
+
+def test_apply_text_model_accepts_explicit_text_fields():
+    df = pd.DataFrame({
+        "title": ["Cashier working"],
+        "channel": ["Store Cam"],
+        "keyword": ["polluted query"],
+    })
+    pipe = _FakePipe([0.5])
+
+    asm.apply_text_model(
+        df,
+        pipe,
+        drop_threshold=0.15,
+        keep_threshold=0.85,
+        text_fields=("title", "channel"),
+    )
+
+    assert pipe.seen_texts == ["Cashier working Store Cam"]
+    assert "polluted query" not in pipe.seen_texts[0]
+
+
+def test_apply_text_model_vectorized_fields_match_row_builder():
+    df = pd.DataFrame({
+        "title": ["A", "B"],
+        "description": ["  foo", "bar  "],
+        "keyword": ["nope", "nope"],
+    })
+    pipe = _FakePipe([0.2, 0.8])
+    out = asm.apply_text_model(
+        df, pipe,
+        drop_threshold=0.15,
+        keep_threshold=0.85,
+        text_fields=("title", "description"),
+    )
+    assert pipe.seen_texts == ["A foo", "B bar"]
+    assert list(out["ml_action"]) == ["uncertain", "uncertain"]
+
+
+def test_parse_text_fields_rejects_empty_value():
+    assert asm.parse_text_fields("title,channel") == ("title", "channel")
+    with pytest.raises(ValueError):
+        asm.parse_text_fields(" , ")
 
 
 def test_missing_model_message(tmp_path: Path):

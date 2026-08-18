@@ -102,7 +102,8 @@ def write_run_log(
             if isinstance(v, int):
                 lines.append(f"| {k} | {v:,} |")
             elif isinstance(v, float):
-                lines.append(f"| {k} | {v:.1f} |")
+                # 勿用 .1f：0.05 会被写成 0.1（抽样误差）
+                lines.append(f"| {k} | {v:g} |")
             else:
                 lines.append(f"| {k} | {v} |")
     lines.append("")
@@ -127,7 +128,7 @@ def write_run_log(
                 if isinstance(v, int):
                     f.write(f"| {k} | {v:,} |\n")
                 elif isinstance(v, float):
-                    f.write(f"| {k} | {v:.1f} |\n")
+                    f.write(f"| {k} | {v:g} |\n")
                 else:
                     f.write(f"| {k} | {v} |\n")
 

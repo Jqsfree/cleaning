@@ -1,0 +1,20 @@
+# Blacklist — exo 工厂生产（certain-noise only）
+# v0.1.0: round1 255（T18/F177/U38/E22）
+# 不加裸 how to / press brake / electrical：产线实拍标题常带这些词
+
+[meta]
+version = "0.1.0"
+category = "exo_factory"
+basis = "machine_0814 text QC round1; tutorial/interview/MV only"
+
+[[pass2]]
+category = "tutorial_course"
+pattern = "(?i)(\\btutorial\\b|interview\\s*questions|how\\s*to\\s*pass)"
+
+[[pass2]]
+category = "podcast_interview"
+pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night)"
+
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyric\\s*video|teaser\\s*trailer)"

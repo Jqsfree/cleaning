@@ -1,0 +1,51 @@
+# exo_agriculture 配方
+# 机采：quality → sample → text_qc → rules（停在文本边界）→ 再 vision_thumb
+# 勿默认串到 deliver；clean 仅 certain-noise 且须规则依据
+
+[meta]
+category = "exo_agriculture"
+has_cleaner = true
+deliver_format = "csv"
+default_qc = "text"
+needs_ge720 = false
+layer1_stop = "rules"
+notes = "PDF 五.exo 农业种植采摘；教程口播游戏 certain-noise"
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.machine]]
+id = "text_qc"
+kind = "optional_auto"
+depends = ["sample"]
+hint = "qc/text.py $SAMPLE --category exo_agriculture -w 20 -o $BATCH/03_qc/"
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["text_qc"]
+hint = "eval_text_boundary.py propose + 收紧 blacklist（certain-noise only）；本阶段停在 04_rules"
+
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+depends = ["rules"]
+hint = "直接调 categories.exo_agriculture.cleaner；勿无 NOTES 就全量 clean"
+
+[[flow.machine]]
+id = "clip_filter"
+kind = "optional_auto"
+depends = ["clean"]
+hint = "MiniLM semantic_remain 后：run_exo_agriculture_cascade_clip.py $BATCH/06_tools/*_semantic_remain.csv -o $BATCH/06_tools/ --sample 0；只丢 clip_fail"
+
+[[flow.machine]]
+id = "thumb_qc"
+kind = "optional_auto"
+depends = ["clip_filter"]
+hint = "qc/vision_thumb.py $BATCH/06_tools/*_clip_remain*.csv -c exo_agriculture -t 12 -o $BATCH/03_qc/thumb/"

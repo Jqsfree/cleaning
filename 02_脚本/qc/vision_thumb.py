@@ -41,8 +41,8 @@ _CATEGORIES_DIR = _SCRIPT_DIR / "categories"
 # 提示词 — 从 TOML 加载
 # ============================================================
 
-def load_vision_prompts(category: str):
-    p = _CATEGORIES_DIR / category / "rules" / "vision_thumb.toml"
+def load_vision_prompts(category: str, toml_path: str | None = None):
+    p = Path(toml_path) if toml_path else (_CATEGORIES_DIR / category / "rules" / "vision_thumb.toml")
     if not p.exists():
         print(f"[ERROR] vision_thumb.toml 不存在: {p}")
         sys.exit(1)
@@ -422,6 +422,7 @@ def main():
     p.add_argument("-m", "--model", default="qwen3-vl-flash")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--cache-dir", default="qc_thumb_cache")
+    p.add_argument("--toml", default=None, help="覆盖默认 vision_thumb.toml 路径")
     args = p.parse_args()
 
     api_key = (os.getenv("DASHSCOPE_API_KEY") or "").strip()
@@ -429,7 +430,7 @@ def main():
         print("[ERROR] 未设置 DASHSCOPE_API_KEY 环境变量")
         sys.exit(1)
 
-    SYSTEM_PROMPT, USER_PROMPT_TMPL = load_vision_prompts(args.category)
+    SYSTEM_PROMPT, USER_PROMPT_TMPL = load_vision_prompts(args.category, args.toml)
     CONFIG["model"] = args.model
     CONFIG["threads"] = args.threads
     CONFIG["cache_dir"] = args.cache_dir

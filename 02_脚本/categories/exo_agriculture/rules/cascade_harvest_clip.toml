@@ -1,0 +1,57 @@
+# exo_agriculture CLIP 零样本 — 农业种植/采摘场景（本地 ViT-B-32）
+# 校准: eval_exo_agriculture_clip.py --labels human268 --write-config 本文件
+
+[meta]
+version = "1.0.0"
+category = "exo_agriculture"
+layer = "harvest_clip_zeroshot"
+model = "ViT-B-32"
+pretrained = "openai"
+calib = "human268_20260817"
+
+[decision]
+score_keys = ["q1_field_harvest", "q2_not_talk_diy", "q3_not_fake"]
+require = ["q1_field_harvest", "q3_not_fake"]
+
+[thresholds]
+q1_field_harvest = -0.05
+q2_not_talk_diy = 0.0
+q3_not_fake = -0.02
+[q1_field_harvest]
+pos = [
+  "people harvesting vegetables and fruit in a farm field",
+  "workers picking crops in an orchard and packing baskets",
+  "planting and harvesting in a greenhouse with real crops",
+  "田间采摘水果蔬菜 装筐搬运",
+  "果园里真人采摘芒果草莓",
+]
+neg = [
+  "cooking food in a kitchen",
+  "beautiful mountain village landscape postcard with no farm work",
+  "BBC documentary title card about agriculture",
+  "travel scenery with tourists and no farming",
+]
+
+[q2_not_talk_diy]
+pos = [
+  "hands working with crops in the field",
+  "carrying harvested vegetables to a truck",
+]
+neg = [
+  "person talking to the camera in a studio",
+  "powerpoint lecture slide about farming",
+  "podcast interview split screen",
+  "DIY furniture woodworking in a workshop",
+]
+
+[q3_not_fake]
+pos = [
+  "real people in a live-action farm scene",
+  "photograph of actual field harvest work",
+]
+neg = [
+  "video game farming simulator screenshot",
+  "cartoon farm animals children's DVD cover",
+  "anime illustration of a farm",
+  "CGI 3D rendered farm scene",
+]

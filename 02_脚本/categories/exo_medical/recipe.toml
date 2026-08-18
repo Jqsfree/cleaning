@@ -1,0 +1,45 @@
+# exo_medical 配方
+# 机采：quality → sample → text_qc → rules（停在文本边界）→ 再 vision_thumb
+# 勿默认串到 deliver；clean 仅 certain-noise 且须规则依据
+
+[meta]
+category = "exo_medical"
+has_cleaner = true
+deliver_format = "csv"
+default_qc = "text"
+needs_ge720 = false
+layer1_stop = "rules"
+notes = "PDF 五.exo·服务业·医疗实验；第三人称中近景实操；口播/考证课 certain-noise"
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.machine]]
+id = "text_qc"
+kind = "optional_auto"
+depends = ["sample"]
+hint = "qc/text.py $SAMPLE --category exo_medical -w 20 -o $BATCH/03_qc/"
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["text_qc"]
+hint = "write_rules_notes + 收紧 blacklist（certain-noise only）；本阶段停在 04_rules"
+
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+depends = ["rules"]
+hint = "直接调 categories.exo_medical.cleaner；勿无 NOTES 就全量 clean"
+
+[[flow.machine]]
+id = "thumb_qc"
+kind = "optional_auto"
+depends = ["clean"]
+hint = "qc/vision_thumb.py $KEEP -c exo_medical -t 12 -o $BATCH/03_qc/"

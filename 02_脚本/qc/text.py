@@ -7,8 +7,8 @@ chunk_text_qc.py — 文本 LLM 质检（统一版）
 
 用法:
   python3 chunk_text_qc.py input.csv --category language_teaching
-  python3 chunk_text_qc.py input.csv --category beauty -w 20
-  python3 chunk_text_qc.py input.csv --category language_teaching -m qwen-plus --dry-run
+  python3 chunk_text_qc.py input.csv --category beauty -w 32
+  python3 chunk_text_qc.py input.csv --category language_teaching --dry-run
 """
 
 import sys, os, time, json, argparse, random, shutil, tomllib, signal, threading
@@ -40,8 +40,8 @@ from core.sop import write_run_log
 # 配置
 # ══════════════════════════════════════════════════════════════
 
-DEFAULT_MODEL    = "qwen3.5-flash"
-DEFAULT_WORKERS  = 20
+DEFAULT_MODEL    = "qwen-plus"
+DEFAULT_WORKERS  = 32
 CHECKPOINT_EVERY = 200           # 检查点行数间隔
 CHECKPOINT_SECS  = 60            # 检查点时间间隔（秒）
 MAX_RETRIES      = 3
@@ -72,6 +72,9 @@ def load_qc_config(category: str) -> dict:
             "user_prompt_question": cfg["prompts"]["user_prompt_question"],
             "pass_label": cfg["labels"]["pass_label"],
             "fail_label": cfg["labels"]["fail_label"],
+            "include_collect_keyword": bool(
+                cfg.get("meta", {}).get("include_collect_keyword", False)
+            ),
         }
     except KeyError as e:
         print(f"[ERROR] qc.toml 缺少必需字段 {e}: {config_path}")
@@ -153,23 +156,31 @@ def _create_client(api_key: str, workers: int = DEFAULT_WORKERS) -> OpenAI:
 # LLM 调用
 # ══════════════════════════════════════════════════════════════
 
-def _build_user_prompt(row: dict, question: str) -> str:
+def _build_user_prompt(
+    row: dict, question: str, *, include_collect_keyword: bool = False,
+) -> str:
     title   = str(row.get("title",       ""))
     channel = str(row.get("channel",     ""))
-    desc    = str(row.get("description", ""))[:200]
+    desc    = str(row.get("description", ""))[:800]
+    keyword = str(row.get("keyword",     ""))
 
     parts = []
     if title:   parts.append(f"视频标题: {title}")
     if channel: parts.append(f"频道名称: {channel}")
     if desc:    parts.append(f"视频简介: {desc}")
+    if include_collect_keyword and keyword.strip():
+        parts.append(f"采集关键词（检索词，不是视频正文）: {keyword}")
 
     return "\n".join(parts) + "\n\n" + question
 
 
 def check_one(client, row: dict, model: str, system_prompt: str,
-              user_question: str, gate: AdaptiveConcurrencyGate) -> tuple[str, str, str]:
+              user_question: str, gate: AdaptiveConcurrencyGate,
+              include_collect_keyword: bool = False) -> tuple[str, str, str]:
     """返回 (result, model_used, error_reason)"""
-    user_prompt = _build_user_prompt(row, user_question)
+    user_prompt = _build_user_prompt(
+        row, user_question, include_collect_keyword=include_collect_keyword,
+    )
 
     for attempt in range(MAX_RETRIES):
         gate.acquire()
@@ -278,6 +289,7 @@ def run_text_qc(
     user_question = qc_cfg["user_prompt_question"]
     pass_label    = qc_cfg["pass_label"]
     fail_label    = qc_cfg["fail_label"]
+    include_kw    = qc_cfg.get("include_collect_keyword", False)
 
     t0     = time.perf_counter()
     run_id = make_run_id()
@@ -476,6 +488,7 @@ def run_text_qc(
                 return ex.submit(
                     check_one, client, df.loc[idx].to_dict(),
                     model, system_prompt, user_question, gate,
+                    include_kw,
                 )
 
             with ThreadPoolExecutor(max_workers=workers) as executor:

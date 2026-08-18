@@ -1,0 +1,62 @@
+# exo_fitness CLIP 零样本 — 健身训练实拍（本地 ViT-B-32）
+# 粗筛：封面像健身房/操课/力量有氧正在练
+# 细判（第三人称/中近景）交 vision_thumb VLM（后续）
+
+[meta]
+version = "1.0.0"
+category = "exo_fitness"
+layer = "fitness_clip_zeroshot"
+model = "ViT-B-32"
+pretrained = "openai"
+basis = "2026-08-17 clean run02 keep text-filtered pool"
+
+[decision]
+score_keys = ["q1_gym_workout", "q2_not_talk_diy", "q3_not_fake"]
+require = ["q1_gym_workout", "q3_not_fake"]
+
+[thresholds]
+q1_gym_workout = 0.0
+q2_not_talk_diy = 0.0
+q3_not_fake = -0.02
+
+[q1_gym_workout]
+pos = [
+  "people doing gym workout weight training with barbell and dumbbells",
+  "group fitness class doing aerobics cardio exercise in a gym studio",
+  "indoor cycling spin class or treadmill running workout session",
+  "personal trainer guiding client through strength training exercises",
+  "健身房力量训练 团课跟练 有氧操课 器械训练实拍",
+]
+neg = [
+  "protein supplement powder product advertisement on white background",
+  "cooking healthy meal recipe in a kitchen",
+  "sports full match broadcast NBA NFL stadium crowd",
+  "music workout DVD cover with headphones and playlist text",
+  "bodybuilding competition stage posing with judges",
+  "travel vlog airport hotel room interior",
+]
+
+[q2_not_talk_diy]
+pos = [
+  "person actively exercising with visible body movement in a gym",
+  "trainer and client doing reps together during a workout",
+]
+neg = [
+  "person talking to camera in a podcast studio indoors",
+  "nutrition lecture slide about diet and weight loss",
+  "TED talk speaker on stage with microphone",
+  "news anchor desk indoor broadcast interview",
+]
+
+[q3_not_fake]
+pos = [
+  "real live-action photograph of people exercising in a gym",
+  "actual gym workout scene with people moving equipment",
+]
+neg = [
+  "video game fitness gameplay screenshot",
+  "cartoon anime character doing exercise illustration",
+  "CGI 3D rendered gym scene",
+  "movie poster with heavy text overlay",
+  "esports gaming tournament screen",
+]
