@@ -1,10 +1,12 @@
 # Blacklist — exo 农业种植采摘（certain-noise only）
 # v0.1.0: round1 271（T1/F188/U68）
+# v0.3.0: human678 F 抽检补 certain-noise（lawn/weed、买拖拉机/犁地演示、畜禽饲料）
+# v0.4.0: 0814 v11 keep 上 90% 文本 QC 挖非农串台（c90+human678 T_hurt=0）
 
 [meta]
-version = "0.2.0"
+version = "0.4.0"
 category = "exo_agriculture"
-basis = "machine_0814 text QC round1; eval_text_boundary min_f=3 0TU"
+basis = "machine_0814 c90 text QC + human678; drop diggable non-field-agri 2026-08-21"
 
 [[pass2]]
 category = "mukbang_recipe"
@@ -41,3 +43,113 @@ pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night)"
 [[pass2]]
 category = "minute_crafts"
 pattern = "(?i)(5[\\s-]?minute\\s*crafts|\\bminute\\s*crafts\\b)"
+
+# human678：草坪除草口播（T_hurt=0）
+[[pass2]]
+category = "lawn_weed_care"
+pattern = "(?i)(\\blawn\\b|kill\\s*weeds|weed\\s*killer|not\\s*(your\\s*)?grass|\\bherbicide\\b|\\bturf\\b)"
+
+# human678：买拖拉机 / 犁地演示档（非采摘作业；T_hurt=0）
+[[pass2]]
+category = "tractor_buy_plow_demo"
+pattern = "(?i)(buying\\s+a\\s+tractor|we\\s+are\\s+buying\\s+a\\s+tractor|tractor\\s+plowing|tractor\\s+cultivating|\\bjohn\\s+deere\\b.{0,30}(\\d{3,}|cribs|moisson))"
+
+# human678：畜禽饲料（非种植采摘；T_hurt=0）
+[[pass2]]
+category = "livestock_feed"
+pattern = "(?i)(cattle\\s+feed|chicken\\s+feed|livestock\\s+feed|started\\s+with\\s+\\d+\\s+hens?)"
+
+# v0.4：刺绣 / 绘画 / 纸艺（串台）
+[[pass2]]
+category = "embroidery_drawing_craft"
+pattern = "(?i)(\\bembroidery\\b|hand\\s+embroidery|\\bbroderie\\b|\\bricami\\b|how\\s*to\\s*draw|flower\\s*vase\\s*drawing|paper\\s*plant)"
+
+# v0.4：how-to 种菜/育苗口播（非田间劳作记录；c90 F≈14 T=0）
+[[pass2]]
+category = "how_to_grow_plant"
+pattern = "(?i)(how\\s*to\\s*(grow|plant|sow|germinate|propagate)|种植教程|如何催芽|如何育苗)"
+
+# v0.4：gardening tips / watering tips（窄；不含 container garden 实拍）
+[[pass2]]
+category = "gardening_tips_narrow"
+pattern = "(?i)(gardening\\s*tips|tips\\s+for\\s+growing|watering\\s*tips)"
+
+# v0.4：扦插/水培繁殖教程
+[[pass2]]
+category = "propagation_cuttings"
+pattern = "(?i)(\\bpropagation\\b|rooting\\s+\\w+\\s+cuttings|cuttings\\s+in\\s+(water|sand))"
+
+# v0.4：阳台 DIY / 圣诞装饰 DIY（不含 container garden harvest）
+[[pass2]]
+category = "diy_garden_decor"
+pattern = "(?i)(diy\\s+hydroponics|dollar\\s*tree\\s*diy|christmas\\s*(home\\s*)?decor|kitchen\\s*garden\\s*tour)"
+
+# v0.4：儿童英文歌
+[[pass2]]
+category = "kids_learn_songs"
+pattern = "(?i)(kids?\\s*\\+?\\s*children\\s*learn|learn\\s+english\\s+songs|calendar\\s+song)"
+
+# v0.4：手办 unbox（anime 已有，补 unboxing）
+[[pass2]]
+category = "unboxing"
+pattern = "(?i)\\bunboxing\\b"
+
+# v0.4：工厂果汁/橄榄油加工线（非田间采摘）
+[[pass2]]
+category = "factory_food_processing"
+pattern = "(?i)(processing\\s*line|juice\\s*(is\\s*)?made|ketchup\\s*production|olive\\s*oil\\s*is\\s*made|factory\\b.{0,20}(oil|juice|soap))"
+
+# v0.4：电音舞蹈等娱乐串台
+[[pass2]]
+category = "techno_dance"
+pattern = "(?i)techno\\s*dance"
+
+# v0.4：奇果开箱测评
+[[pass2]]
+category = "weird_fruit_review"
+pattern = "(?i)(weird\\s*fruit\\s*explorer|velvet\\s*tamarind\\s*review)"
+
+# v0.4：室内观叶养护（金钱树等）
+[[pass2]]
+category = "houseplant_care"
+pattern = "(?i)(money\\s*tree|\\bfittonia\\b|\\bsyngonium\\b|nerve\\s*plant)"
+
+# v0.4：鱼菜共生温室 tour
+[[pass2]]
+category = "aquaponics_tour"
+pattern = "(?i)(aquaponics?\\s+greenhouse\\s+tour|practical\\s+aquaponics)"
+
+# v0.4：化肥选购口播
+[[pass2]]
+category = "fertilizer_buy_guide"
+pattern = "(?i)(best\\s+npk\\s+fertilizer|fertilizer\\s+for\\s+mango)"
+
+# v0.4：儿童作文
+[[pass2]]
+category = "kids_essay"
+pattern = "(?i)(few\\s+lines\\s+essay|essay\\s+on\\s+my\\s+favorite|essay\\s+in\\s+english)"
+
+# v0.4：无关 DIY 发明
+[[pass2]]
+category = "vacuum_diy_junk"
+pattern = "(?i)(vacuum\\s*cleaner\\s+that\\s+eats|eats\\s+rocks\\s+without)"
+
+# v0.4：农具广告口播
+[[pass2]]
+category = "genius_tool_ad"
+pattern = "(?i)(stop\\s+picking\\s+\\w+\\s+by\\s+hand|genius\\s+tool\\s+instead)"
+
+# v0.4：蔬果雕刻 / food art
+[[pass2]]
+category = "food_carving_art"
+pattern = "(?i)(fruit\\s*(and\\s*)?vegetable\\s*carving|food\\s*art|watermelon\\s*peacock)"
+
+# v0.4：大麻种植秀（非目标作物）
+[[pass2]]
+category = "cannabis_grow"
+pattern = "(?i)(\\bcannabis\\b|\\bmarijuana\\b)"
+
+# v0.4：圣经/讲道串台
+[[pass2]]
+category = "bible_sermon"
+pattern = "(?i)(\\bholy\\s*bible\\b|\\bkjv\\b|doctrine\\s*of\\s*the)"

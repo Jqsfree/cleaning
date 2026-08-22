@@ -37,3 +37,9 @@ id = "clean"
 kind = "gated"
 depends = ["rules"]
 hint = "直接调 categories.exo_livestock.cleaner；勿无 NOTES 就全量 clean"
+
+[[flow.machine]]
+id = "clip_filter"
+kind = "optional_auto"
+depends = ["clean"]
+hint = "run_exo_livestock_cascade_clip.py $KEEP -o $BATCH/06_tools/ --sample 0；只丢 clip_fail"

@@ -18,6 +18,7 @@ CLEANER_MODULES: dict[str, str] = {
     "live_sell": "categories.live_sell.cleaner",
     "human_live": "categories.human_live.cleaner",
     "exo": "categories.exo.cleaner",
+    "exo_agriculture": "categories.exo_agriculture.cleaner",
 }
 
 # 无 cleaner；勿对 02_clean --category

@@ -15,6 +15,7 @@ from categories.exo_agriculture.cascade_clip import (  # noqa: E402
     load_cfg,
     margins_from_feats,
     require_keys,
+    write_live_pass,
 )
 
 _FITNESS_CFG = (
@@ -24,7 +25,7 @@ _FITNESS_CFG = (
 
 def test_fitness_cfg_require_keys():
     cfg = load_cfg(_FITNESS_CFG)
-    assert require_keys(cfg) == ["q1_gym_workout", "q3_not_fake"]
+    assert require_keys(cfg) == ["q1_gym_workout", "q2_not_talk_diy", "q3_not_fake"]
 
 
 def test_margins_pos_beats_neg():
@@ -48,10 +49,10 @@ def test_decide_require_gym_workout_and_not_fake():
     out = decide(
         scores,
         thresholds=thr,
-        require=["q1_gym_workout", "q3_not_fake"],
+        require=["q1_gym_workout", "q2_not_talk_diy", "q3_not_fake"],
         ok_mask=ok,
     )
-    assert list(out) == ["clip_fail", "clip_pass", "clip_fail", "clip_pass"]
+    assert list(out) == ["clip_fail", "clip_fail", "clip_fail", "clip_pass"]
 
 
 def test_no_thumb_kept_outside_fail():
@@ -66,3 +67,22 @@ def test_no_thumb_kept_outside_fail():
         ok_mask=np.array([False]),
     )
     assert out[0] == "no_thumb"
+
+
+def test_write_live_pass_only_clip_pass(tmp_path):
+    import pandas as pd
+
+    work = pd.DataFrame({"video_id": ["a", "b", "c"], "title": ["ta", "tb", "tc"]})
+    scored = pd.DataFrame(
+        {
+            "video_id": ["a", "b", "c"],
+            "clip_decision": ["clip_pass", "clip_fail", "clip_pass"],
+            "clip_q1_gym_workout": [0.1, -0.2, 0.2],
+        }
+    )
+    out = tmp_path / "live_pass.csv"
+    n = write_live_pass(work, scored, out)
+    assert n == 2
+    got = pd.read_csv(out, dtype=str)
+    assert list(got["video_id"]) == ["a", "c"]
+    assert "title" in got.columns

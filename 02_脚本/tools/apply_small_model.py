@@ -95,6 +95,10 @@ def _ensure_unpickle_helpers() -> None:
         "exo_service_text_classifier",
         "exo_medical_text_classifier",
         "exo_agriculture_text_classifier",
+        "exo_fitness_text_classifier",
+        "exo_outdoor_text_classifier",
+        "unbox_text_classifier",
+        "parent_child_text_classifier",
     ):
         try:
             __import__(mod)

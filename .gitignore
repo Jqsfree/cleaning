@@ -37,6 +37,13 @@ models/
 *.ckpt
 *.onnx
 
+# Embedding / prototype arrays (GB-scale; keep README + meta locally)
+*.npy
+data/assets/embeddings/**/progress.json
+data/assets/embeddings/**/export.pid
+data/assets/embeddings/**/export.log
+data/assets/exemplars/**/videos/
+
 # Cache / logs
 qc_thumb_cache/
 *.log

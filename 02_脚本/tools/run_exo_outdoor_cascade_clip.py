@@ -30,6 +30,11 @@ def main() -> int:
     ap.add_argument("--config", default=str(_DEFAULT_CFG))
     ap.add_argument("--stem", default="harvest_clip", help="harvest_clip=用输入文件名前缀")
     ap.add_argument("--overwrite", action="store_true")
+    ap.add_argument(
+        "--save-embeddings",
+        default=None,
+        help="可选：写出 float16 embedding store（与 export_clip_embeddings 同结构）",
+    )
     args = ap.parse_args()
     s = run_harvest_clip(
         args.input,
@@ -43,6 +48,7 @@ def main() -> int:
         stem=args.stem,
         batch_rows=args.batch_rows,
         overwrite=args.overwrite,
+        save_embeddings=args.save_embeddings,
     )
     print(
         f"done  run={s['n_run']:,}  pass={s['n_clip_pass']:,}  "

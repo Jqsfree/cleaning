@@ -52,13 +52,16 @@ def pick_thresholds(
     *,
     require: list[str],
     min_f_precision: float = 0.95,
+    max_t_hurt: int = 0,
 ) -> dict | None:
-    """网格搜索 require 键阈值；T 误伤=0，F precision≥min_f_precision。"""
+    """网格搜索 require 键阈值；T 误伤≤max_t_hurt，F precision≥min_f_precision。"""
     labels = scored["label"].to_numpy(dtype=str)
     ok = scored["clip_thumb_ok"].fillna(False).astype(bool).to_numpy()
     req_cols = [f"clip_{k}" for k in require]
     arrs = {k: scored[c].to_numpy(dtype=float) for k, c in zip(require, req_cols)}
     grid = np.round(np.arange(-0.05, 0.31, 0.01), 2)
+    n_f = int((labels == "F").sum())
+    n_t = int((labels == "T").sum())
     candidates = []
     for combo in product(grid, repeat=len(require)):
         thr = {k: float(v) for k, v in zip(require, combo)}
@@ -69,11 +72,10 @@ def pick_thresholds(
         n_drop = int(drop.sum())
         f_caught = int((dropped == "F").sum())
         t_hurt = int((dropped == "T").sum())
-        if n_drop == 0 or t_hurt > 0:
+        if n_drop == 0 or t_hurt > max_t_hurt:
             continue
         prec = f_caught / max(n_drop, 1)
         if prec >= min_f_precision:
-            n_f = int((labels == "F").sum())
             candidates.append({
                 "thresholds": thr,
                 "n_drop": n_drop,
@@ -81,10 +83,11 @@ def pick_thresholds(
                 "f_recall": f_caught / max(n_f, 1),
                 "drop_precision": prec,
                 "t_hurt": t_hurt,
+                "t_hurt_rate": t_hurt / max(n_t, 1),
             })
     if not candidates:
         return None
-    return max(candidates, key=lambda r: (r["f_caught"], r["drop_precision"]))
+    return max(candidates, key=lambda r: (r["f_caught"], r["drop_precision"], -r["t_hurt"]))
 
 
 def write_config_thresholds(
@@ -120,6 +123,10 @@ def main() -> int:
     ap.add_argument("--calibration-json", type=Path, default=CALIB_JSON)
     ap.add_argument("--cache-dir", default="qc_thumb_cache/exemplar_sim")
     ap.add_argument("--thumb-workers", type=int, default=12)
+    ap.add_argument(
+        "--max-t-hurt", type=int, default=3,
+        help="收紧档允许的 T 误伤上限（默认 3/268；0=只写 certain-noise 档）",
+    )
     args = ap.parse_args()
 
     labels = load_labels(args.labels)
@@ -137,15 +144,26 @@ def main() -> int:
         scored["video_id"].astype(str), "label"
     ].to_numpy()
 
-    strict = pick_thresholds(scored, require=req)
+    strict = pick_thresholds(scored, require=req, max_t_hurt=0)
+    tight = None
+    if args.max_t_hurt > 0:
+        tight = pick_thresholds(
+            scored, require=req, min_f_precision=0.9, max_t_hurt=args.max_t_hurt,
+        )
+    chosen = tight if (tight and (strict is None or tight["f_caught"] > strict["f_caught"])) else strict
     thr_out = dict(cfg["thresholds"])
     note = None
-    if strict is None:
-        note = "无 T 误伤=0 且 F precision≥0.95 的组合；保持 thresholds=0.0，应用前须目视"
+    if chosen is None:
+        note = "无可用阈值组合；保持 thresholds=0.0，应用前须目视"
         for k in req:
             thr_out[k] = 0.0
     else:
-        thr_out.update(strict["thresholds"])
+        thr_out.update(chosen["thresholds"])
+        if chosen is tight and strict is not None:
+            note = (
+                f"收紧档 t_hurt≤{args.max_t_hurt}；"
+                f"strict(t_hurt=0) 仅 f_caught={strict['f_caught']}"
+            )
 
     calib_id = f"human268_{time.strftime('%Y%m%d')}"
     result = {
@@ -156,6 +174,7 @@ def main() -> int:
         "n_f": int((labels["label"] == "F").sum()),
         "require": req,
         "strict": strict,
+        "tight": tight,
         "thresholds": thr_out,
         "note": note,
     }

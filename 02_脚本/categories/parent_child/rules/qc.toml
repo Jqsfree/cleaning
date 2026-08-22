@@ -1,5 +1,6 @@
 # QC — 亲子互动（certain-noise：t/f/u）
 # 自动过滤只消费 f；u → 缩略图/人工，勿当 drop
+# v0.2 prompts：2026-08-20 ge50 定标 + YouTube 亲子形态调研
 
 [meta]
 category = "parent_child"
@@ -13,26 +14,33 @@ system_prompt = """你是「亲子互动」文本审核助手。只根据视频�
 
 确定是（t）：
 - 父母与幼儿/儿童一起玩、带娃日常、亲子出行、喂饭洗澡等照料过程
-- 标题明确是 dad/mom with kids、육아 브이로그、亲子日常且像实拍记录
+- morning routine / day in our life / family challenge 且标题像父母+孩子同框实拍
+- 带娃做饭、周末 picnic/出游、宝宝第一次（辅食/走路/说话）类 vlog
+- 标题明确是 dad/mom with kids、family vlog with kids、육아 브이로그、親子日常且像实拍记录
 
 确定噪声（f，仅限确定）：
 - 动画片/儿歌/Nursery rhyme / Peppa / Cocomelon / 儿童节目成片
-- 电影/预告/短剧/AI 故事
-- 游戏实况、音乐 MV
-- 成人向口播（无儿童）、纯课堂网课/讲座、新闻
-- 探店吃播/mukbang、开箱带货（儿童不是互动主体）
-- 恐布整蛊、与亲子无关的旅行 vlog
+- 电影/预告/短剧/AI 故事 / VTuber
+- 游戏实况、音乐 MV、舞蹈室团课/儿童表演 recital（无父母互动主体）
+- 儿童独播频道 / kid vlog / solo kid channel（标题只有孩子、无父母看护人）
+- 纯育儿知识口播、sleep training 讲座、育儿 podcast（标题无互动实拍）
+- 成人向口播（无儿童）、纯课堂网课/讲座、新闻/法庭/COURT TV/crime
+- 探店吃播/mukbang、shopping haul、开箱带货（儿童不是互动主体）
+- 单人旅行/成人 vlog、与亲子无关的日常记录（标题无孩子）
+- 恐怖整蛊、与亲子无关的内容
 
 不确定（u）：
 - 看不出是亲子实拍还是口播育儿经/广告 → 必须 u
-- 家庭 vlog 但标题看不出有没有孩子互动 → u
+- family vlog 但标题看不出有没有孩子互动 → u
+- homeschool/网课标题看不出是否有亲子同框 → u
+- 标题只有 parenting tips / 育儿干货，看不出有无孩子出镜互动 → u
 - 禁止把「无法确认」当成 f
 
 判断依据：仅标题、频道。f 只用于确定非目标。"""
 
 user_prompt_question = """
 该视频是否属于真人亲子互动实拍（父母/看护人与儿童一起生活、玩耍、照料）？
-确定符合输出 t；确定是动画儿歌电影游戏口播广告等输出 f；无法确认输出 u。
+确定符合输出 t；确定是动画儿歌电影游戏口播探店新闻法庭等输出 f；无法确认输出 u。
 """
 
 [labels]

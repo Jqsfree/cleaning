@@ -1,11 +1,13 @@
 # Blacklist — 商品开箱（certain-noise only）
 # 不加 gameplay/anime：样本 T 有 anime haul、主机开箱+gameplay
-# v0.1.0: 仅 MV/新闻/儿歌/AI 虚拟人
+# v0.1.0: MV/新闻/儿歌/AI 虚拟人
+# v0.2.0: 0818 文本 QC 收紧 — mukbang/沙滩度假/八卦频道/沙特旅游口播；
+#         不加 \bentertainment\b（频道名命中真开箱 T）；不加裸 \brecipe\b
 
 [meta]
-version = "0.1.0"
+version = "0.2.0"
 category = "unbox"
-basis = "shared hard-noise minus game/anime (T hits on sample)"
+basis = "0814 hard-noise + 0818_lt50/ge50 textQC certain-noise (0T on samples)"
 
 [[pass2]]
 category = "official_mv_trailer"
@@ -22,3 +24,23 @@ pattern = "(?i)(\\bcocomelon\\b|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song
 [[pass2]]
 category = "non_real_ai"
 pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake)"
+
+[[pass2]]
+category = "mukbang"
+pattern = "(?i)\\bmukbang\\b"
+
+[[pass2]]
+category = "beach_resort_travel"
+pattern = "(?i)beach\\s+resort"
+
+[[pass2]]
+category = "gossip_adamslink"
+pattern = "(?i)adamslink\\s+media"
+
+[[pass2]]
+category = "saudi_travel_vlog"
+pattern = "(?i)saudi\\s+arabia"
+
+[[pass2]]
+category = "variety_showtime_scandal"
+pattern = "(?i)(it'?s\\s*showtime|\\bviral\\s*scandal\\b)"

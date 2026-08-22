@@ -1,0 +1,67 @@
+# unbox CLIP L1 — 商品开箱/拆包实拍封面（本地 ViT-B-32）
+# 粗筛：人手拆盒/展示盒内物；非游戏/口播/空镜/MV
+# 细判交 vision_thumb；阈值保守（无人工 thumb 校准前宁漏勿杀）
+
+[meta]
+version = "1.0.0"
+category = "unbox"
+layer = "unbox_clip_zeroshot"
+model = "ViT-B-32"
+pretrained = "openai"
+basis = "qc.toml unbox + MiniLM remain 0818"
+calib = "conservative_defaults_20260821"
+
+[decision]
+score_keys = ["q1_unboxing", "q2_product_hands", "q3_not_fake"]
+require = ["q1_unboxing", "q2_product_hands", "q3_not_fake"]
+
+[thresholds]
+# 保守：略低于农业/户外 L1，待人工抽检后再抬
+q1_unboxing = -0.02
+q2_product_hands = -0.03
+q3_not_fake = -0.02
+
+[q1_unboxing]
+pos = [
+  "person opening a product box package unboxing on a table",
+  "hands tearing open cardboard shipping box revealing items inside",
+  "haul unboxing many products laid out from shopping bags",
+  "opening a blind box mystery box and showing the figure",
+  "拆快递纸箱开箱展示盒内商品",
+  "人手打开包装盒拿出产品",
+]
+neg = [
+  "person talking to camera close-up face review without box",
+  "video game gameplay screenshot",
+  "official music video stage performance",
+  "travel landscape scenery mountains beach",
+  "cooking food recipe mukbang eating",
+  "TV drama episode still movie poster",
+  "news broadcast studio anchor",
+  "empty table product photo no hands opening",
+]
+
+[q2_product_hands]
+pos = [
+  "hands holding and unpacking a product from packaging",
+  "person showing items taken out of a cardboard box",
+  "fingers opening plastic wrap or box lid of a product",
+]
+neg = [
+  "talking head podcast interview split screen",
+  "first person POV only hands on game controller",
+  "warehouse forklift logistics no unboxing",
+  "store shelf retail browsing without opening packages",
+]
+
+[q3_not_fake]
+pos = [
+  "real live-action photograph of unboxing",
+  "actual person opening a real package",
+]
+neg = [
+  "cartoon anime illustration of a gift box",
+  "CGI 3D rendered product",
+  "video game inventory UI screenshot",
+  "heavy text thumbnail meme collage",
+]

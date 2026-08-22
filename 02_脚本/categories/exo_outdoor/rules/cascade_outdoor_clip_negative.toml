@@ -1,0 +1,48 @@
+[meta]
+version = "0.1.0"
+category = "exo_outdoor"
+layer = "outdoor_clip_negative_veto"
+model = "ViT-B-32"
+pretrained = "openai"
+basis = "L2 negative-only veto on clip_remain"
+
+[decision]
+# 强负类：只在明确非户外时 drop
+neg_hi_threshold = 0.285
+margin_threshold = 0.040
+# 明确户外：防止负类误杀
+pos_hi_threshold = 0.265
+
+[negative]
+prompts = [
+  "indoor scene",
+  "studio or TV studio",
+  "office",
+  "bedroom or living room",
+  "classroom",
+  "shopping mall or store",
+  "podcast or interview",
+  "talking head",
+  "gaming screen",
+  "animation or cartoon",
+  "music performance",
+  "product advertisement",
+  "product showcase",
+  "hotel advertisement",
+  "restaurant scene",
+  "car review",
+  "mechanical repair",
+  "news report",
+  "presentation or slideshow",
+]
+
+[positive]
+prompts = [
+  "hiking",
+  "trekking",
+  "mountaineering",
+  "camping",
+  "outdoor adventure",
+  "exploration in nature",
+  "outdoor expedition",
+]

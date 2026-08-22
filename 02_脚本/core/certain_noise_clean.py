@@ -45,7 +45,10 @@ def run_clean(
     if work.exists():
         work.unlink()
     db = duckdb.connect(str(work))
-    db.execute("SET memory_limit='6GB'")
+    mem = str(kwargs.get("memory_limit") or os.environ.get("DUCKDB_MEMORY_LIMIT") or "6GB")
+    db.execute(f"SET memory_limit='{sql_escape(mem)}'")
+    db.execute("SET threads=2")
+    db.execute("SET preserve_insertion_order=false")
     tmp = Path(output_dir) / ".duckdb_tmp"
     tmp.mkdir(exist_ok=True)
     db.execute(f"SET temp_directory='{sql_escape(str(tmp))}'")

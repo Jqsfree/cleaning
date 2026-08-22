@@ -3,12 +3,13 @@
 # 不加「우리 아이」（亲子口径词）、不加短词「아이스」
 
 # v0.2.0: round1 QC；v0.3.0: lt50 run02 新鲜样本 — asmr_eat_drink、1million_dance
+# v0.4.0: 0818 ge50(263)+lt50 hardkeep(271) text QC；韩文故事/电台剧/睡眠童话（15 项，均 ≥3F 0 T/U）
 # 不加 lion_dance（命中 1MILLION Dance 子串）、不加 dance_studio（儿童舞蹈易误杀）、不加 podcast_interview（累计有 U）
 
 [meta]
-version = "0.3.0"
+version = "0.4.0"
 category = "parent_child"
-basis = "machine_0814 lt50 run02 fresh sample; asmr + 1million dance; 0 T/U"
+basis = "machine_0818 ge50+lt50 hardkeep text QC 2026-08-20; qc.toml v0.2 prompts"
 
 [[pass2]]
 category = "gameplay"
@@ -53,3 +54,63 @@ pattern = "(?i)(\\basmr\\b.{0,40}(mukbang|eating|drink)|eating\\s*show)"
 [[pass2]]
 category = "channel_1million_dance"
 pattern = "(?i)1million\\s+dance"
+
+[[pass2]]
+category = "kr_story_sayeon"
+pattern = "사연"
+
+[[pass2]]
+category = "kr_folklore_yadam"
+pattern = "야담"
+
+[[pass2]]
+category = "kr_folklore_old_tale"
+pattern = "옛날이야기"
+
+[[pass2]]
+category = "kr_audiobook"
+pattern = "오디오북"
+
+[[pass2]]
+category = "kr_folktale"
+pattern = "전래동화"
+
+[[pass2]]
+category = "kr_drama_radio"
+pattern = "드라마"
+
+[[pass2]]
+category = "kr_folklore_mindam"
+pattern = "민담"
+
+[[pass2]]
+category = "kr_plot_twist"
+pattern = "반전"
+
+[[pass2]]
+category = "kr_folklore_seolhwa"
+pattern = "설화"
+
+[[pass2]]
+category = "kr_sleep_tale"
+pattern = "수면동화"
+
+[[pass2]]
+category = "kr_true_story"
+pattern = "실화사연"
+
+[[pass2]]
+category = "kr_sleep_aid"
+pattern = "잠안올때"
+
+[[pass2]]
+category = "kr_legend"
+pattern = "전설"
+
+[[pass2]]
+category = "kr_joseon_yadam"
+pattern = "조선야담"
+
+[[pass2]]
+category = "kr_genius_child_story"
+pattern = "천재아이"

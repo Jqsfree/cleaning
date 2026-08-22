@@ -1,5 +1,5 @@
 # unbox 配方
-# 机采：quality → sample → text_qc → rules（停在文本边界）→ 再 vision_thumb
+# 机采：quality → sample → text_qc → rules → clean → MiniLM → CLIP → vision_thumb
 # 勿默认串到 deliver；clean 仅 certain-noise 且须规则依据
 
 [meta]
@@ -9,7 +9,7 @@ deliver_format = "csv"
 default_qc = "text"
 needs_ge720 = false
 layer1_stop = "rules"
-notes = "商品开箱/拆包/haul；游戏影视口播 certain-noise"
+notes = "商品开箱/拆包/haul；先 MiniLM 再 CLIP 再 vision_thumb"
 
 [[flow.machine]]
 id = "quality"
@@ -37,3 +37,21 @@ id = "clean"
 kind = "gated"
 depends = ["rules"]
 hint = "直接调 categories.unbox.cleaner；勿无 NOTES 就全量 clean"
+
+[[flow.machine]]
+id = "minilm_filter"
+kind = "optional_auto"
+depends = ["clean"]
+hint = "apply_small_model.py $KEEP -o $BATCH/06_tools/unbox_minilm/ --model models/unbox_text_clf_f.pkl --text-fields title,channel --drop-threshold 0.005"
+
+[[flow.machine]]
+id = "clip_filter"
+kind = "optional_auto"
+depends = ["minilm_filter"]
+hint = "run_unbox_cascade_clip.py $BATCH/06_tools/unbox_minilm/*_remain_for_clip*.csv -o $BATCH/06_tools/unbox_clip/ --sample 0"
+
+[[flow.machine]]
+id = "thumb_qc"
+kind = "optional_auto"
+depends = ["clip_filter"]
+hint = "qc/vision_thumb.py $BATCH/06_tools/unbox_clip/*_clip_remain*.csv -c unbox -t 12 -o $BATCH/03_qc/thumb/"

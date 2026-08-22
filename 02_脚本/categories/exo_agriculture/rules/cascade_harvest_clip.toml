@@ -1,27 +1,31 @@
-# exo_agriculture CLIP 零样本 — 农业种植/采摘场景（本地 ViT-B-32）
+# exo_agriculture CLIP 零样本 — 田间种植/采摘（本地 ViT-B-32）
+# v1.1: 收紧非农（畜牧/口播/空镜/室内）；q2 纳入 require
 # 校准: eval_exo_agriculture_clip.py --labels human268 --write-config 本文件
 
 [meta]
-version = "1.0.0"
+version = "1.1.0"
 category = "exo_agriculture"
 layer = "harvest_clip_zeroshot"
 model = "ViT-B-32"
 pretrained = "openai"
-calib = "human268_20260817"
+calib = "human268_tight_20260819"
 
 [decision]
 score_keys = ["q1_field_harvest", "q2_not_talk_diy", "q3_not_fake"]
-require = ["q1_field_harvest", "q3_not_fake"]
+require = ["q1_field_harvest", "q2_not_talk_diy", "q3_not_fake"]
 
 [thresholds]
-q1_field_harvest = -0.05
-q2_not_talk_diy = 0.0
+# 目视收紧：q1=0（必须更像田间采摘而不是畜牧/空镜/口播）
+# human268 上 drop=36、T误伤 16/188（8.5%）；误伤样本多为鱼/鸡/猪/生存/景观
+q1_field_harvest = 0.0
+q2_not_talk_diy = -0.02
 q3_not_fake = -0.02
 [q1_field_harvest]
 pos = [
   "people harvesting vegetables and fruit in a farm field",
   "workers picking crops in an orchard and packing baskets",
   "planting and harvesting in a greenhouse with real crops",
+  "hands picking tomatoes strawberries mangoes into crates",
   "田间采摘水果蔬菜 装筐搬运",
   "果园里真人采摘芒果草莓",
 ]
@@ -30,18 +34,27 @@ neg = [
   "beautiful mountain village landscape postcard with no farm work",
   "BBC documentary title card about agriculture",
   "travel scenery with tourists and no farming",
+  "cows pigs chickens goats livestock in a barn",
+  "poultry farm chickens or egg collection",
+  "fishing boat netting fish or draining a pond",
+  "person talking to the camera close-up face",
+  "indoor warehouse factory construction site",
+  "empty rural landscape with no farm workers",
 ]
 
 [q2_not_talk_diy]
 pos = [
   "hands working with crops in the field",
   "carrying harvested vegetables to a truck",
+  "bending over picking fruit in an orchard",
 ]
 neg = [
   "person talking to the camera in a studio",
+  "close-up talking head vlog outdoors",
   "powerpoint lecture slide about farming",
   "podcast interview split screen",
   "DIY furniture woodworking in a workshop",
+  "milking cows or shearing sheep",
 ]
 
 [q3_not_fake]

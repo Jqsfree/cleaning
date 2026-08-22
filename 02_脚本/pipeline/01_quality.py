@@ -25,7 +25,7 @@ from core.log import log
 from core.progress import mark_done, update
 from core.run_manifest import maybe_update_stage
 from core.sop import print_banner, write_run_log
-from core.sql_builder import load_raw_table, sql_escape
+from core.sql_builder import sql_escape
 
 
 def quality_check(
@@ -43,15 +43,30 @@ def quality_check(
         raw_name = os.path.splitext(os.path.basename(input_path))[0]
         stem = raw_name.replace("_raw", "") if "_raw" in raw_name else raw_name
 
-    db = duckdb.connect(":memory:")
+    work = Path(output_dir) / ".quality.duckdb"
+    if work.exists():
+        work.unlink()
+    tmp = Path(output_dir) / ".duckdb_tmp"
+    tmp.mkdir(exist_ok=True)
+    db = duckdb.connect(str(work))
+    db.execute("SET memory_limit='4GB'")
+    db.execute(f"SET temp_directory='{sql_escape(str(tmp))}'")
 
-    # ── Step 0: 加载 ──
-    n_total = load_raw_table(db, input_path)
+    # ── Step 0: 加载（落盘表，避免 TEMP 把百万行堆进内存）──
+    from core.io import duckdb_reader, warn_csv_row_skew
+    reader = duckdb_reader(input_path, ignore_errors=True)
+    db.execute(f"CREATE TABLE raw AS SELECT * FROM {reader}")
+    n_total = db.execute("SELECT COUNT(*) FROM raw").fetchone()[0]
+    if os.path.splitext(input_path)[1].lower() in (".csv", ".tsv"):
+        try:
+            warn_csv_row_skew(input_path, n_total, log_fn=log)
+        except Exception:
+            pass
     log(f"rows: {n_total:,}")
 
     # ── Step 1: 数据质量 ──
     db.execute("""
-        CREATE TEMP TABLE drop_quality AS
+        CREATE TABLE drop_quality AS
         SELECT *, 'quality' AS drop_step,
                CASE
                    WHEN title IS NULL OR title = '' THEN 'empty_title'
@@ -75,7 +90,7 @@ def quality_check(
     log(f"质量过滤: 移除 {n_quality:,} 条 (空标题/已删除/零时长)")
 
     db.execute("""
-        CREATE TEMP TABLE after_quality AS
+        CREATE TABLE after_quality AS
         SELECT * FROM raw
         WHERE (title IS NOT NULL AND title != '')
           AND (video_id IS NOT NULL AND video_id != '')
@@ -89,7 +104,7 @@ def quality_check(
     n_before_dedup = db.execute("SELECT COUNT(*) FROM after_quality").fetchone()[0]
 
     db.execute("""
-        CREATE TEMP TABLE after_dedup AS
+        CREATE TABLE after_dedup AS
         SELECT * FROM after_quality
         WHERE rowid IN (SELECT min(rowid) FROM after_quality GROUP BY video_id)
     """)
@@ -97,7 +112,7 @@ def quality_check(
     n_dedup = n_before_dedup - n_after_dedup
 
     db.execute("""
-        CREATE TEMP TABLE drop_dedup AS
+        CREATE TABLE drop_dedup AS
         SELECT *, 'dedup' AS drop_step, 'duplicate_video_id' AS drop_reason
         FROM after_quality
         WHERE rowid NOT IN (SELECT min(rowid) FROM after_quality GROUP BY video_id)
@@ -108,7 +123,7 @@ def quality_check(
 
     # ── Step 3: 时长过滤 ──
     db.execute(f"""
-        CREATE TEMP TABLE drop_duration AS
+        CREATE TABLE drop_duration AS
         SELECT *, 'duration' AS drop_step,
                CASE WHEN TRY_CAST(COALESCE(duration_seconds,'0') AS DOUBLE) < {min_duration}
                     THEN 'duration<{min_duration}s'
@@ -122,7 +137,7 @@ def quality_check(
     log(f"时长过滤 ({min_duration}s–{max_duration}s): 移除 {n_dur:,} 条")
 
     db.execute(f"""
-        CREATE TEMP TABLE keep AS
+        CREATE TABLE keep AS
         SELECT * FROM after_dedup
         WHERE TRY_CAST(COALESCE(duration_seconds,'0') AS DOUBLE) >= {min_duration}
           AND TRY_CAST(COALESCE(duration_seconds,'0') AS DOUBLE) <= {max_duration}
@@ -136,7 +151,7 @@ def quality_check(
 
     db.execute(f"COPY keep TO '{sql_escape(out_keep)}' (FORMAT CSV, HEADER true)")
 
-    db.execute("CREATE TEMP TABLE drop_all AS SELECT * FROM drop_quality UNION ALL SELECT * FROM drop_dedup UNION ALL SELECT * FROM drop_duration")
+    db.execute("CREATE TABLE drop_all AS SELECT * FROM drop_quality UNION ALL SELECT * FROM drop_dedup UNION ALL SELECT * FROM drop_duration")
     db.execute(f"COPY drop_all TO '{sql_escape(out_drop)}' (FORMAT CSV, HEADER true)")
 
     elapsed = time.perf_counter() - t0
@@ -147,6 +162,13 @@ def quality_check(
     print(f"  drop: {out_drop}")
 
     db.close()
+    try:
+        work.unlink(missing_ok=True)
+        for p in tmp.glob("*"):
+            p.unlink(missing_ok=True)
+        tmp.rmdir()
+    except OSError:
+        pass
     stats = {
         "total_rows": n_total,
         "keep": n_keep,

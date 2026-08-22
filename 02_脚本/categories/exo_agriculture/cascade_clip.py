@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import time
 import tomllib
@@ -18,6 +19,134 @@ from core.log import log
 from core.run_manifest import maybe_update_stage
 
 _RULES = Path(__file__).resolve().parent / "rules" / "cascade_harvest_clip.toml"
+
+
+def ids_sha256(ids: list[str]) -> str:
+    digest = hashlib.sha256()
+    for video_id in ids:
+        digest.update(video_id.encode("utf-8"))
+        digest.update(b"\n")
+    return digest.hexdigest()
+
+
+def open_embedding_store(
+    store_dir: Path,
+    ids: list[str],
+    *,
+    overwrite: bool = False,
+) -> tuple[Any, Any, Path]:
+    """打开/创建与 export_clip_embeddings 同结构的 float16 store。
+
+    返回 (embeddings_memmap, thumb_ok_memmap, meta_path)。
+    """
+    store_dir.mkdir(parents=True, exist_ok=True)
+    fingerprint = ids_sha256(ids)
+    index_path = store_dir / "index.csv"
+    array_path = store_dir / "embeddings.npy"
+    ok_path = store_dir / "thumb_ok.npy"
+    progress_path = store_dir / "progress.json"
+    meta_path = store_dir / "meta.json"
+
+    reuse = (
+        not overwrite
+        and array_path.is_file()
+        and index_path.is_file()
+        and progress_path.is_file()
+    )
+    if reuse:
+        progress = json.loads(progress_path.read_text(encoding="utf-8"))
+        if progress.get("ids_sha256") != fingerprint:
+            raise ValueError(
+                f"embedding store 与当前 video_id 不一致: {store_dir}；"
+                "请换目录或 cascade --overwrite"
+            )
+        embeddings = np.lib.format.open_memmap(array_path, mode="r+")
+        thumb_ok = np.lib.format.open_memmap(ok_path, mode="r+")
+        log(f"[embedding] 续写 store={store_dir} done={progress.get('done', 0)}/{len(ids)}")
+        return embeddings, thumb_ok, meta_path
+
+    pd.DataFrame({
+        "row": np.arange(len(ids), dtype=np.int64),
+        "video_id": ids,
+    }).to_csv(index_path, index=False)
+    embeddings = np.lib.format.open_memmap(
+        array_path, mode="w+", dtype=np.float16, shape=(len(ids), 512),
+    )
+    embeddings[:] = np.nan
+    thumb_ok = np.lib.format.open_memmap(
+        ok_path, mode="w+", dtype=np.bool_, shape=(len(ids),),
+    )
+    thumb_ok[:] = False
+    progress_path.write_text(
+        json.dumps(
+            {"done": 0, "total": len(ids), "ids_sha256": fingerprint},
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    log(f"[embedding] 新建 store={store_dir} n={len(ids):,}")
+    return embeddings, thumb_ok, meta_path
+
+
+def write_embedding_rows(
+    embeddings: Any,
+    thumb_ok: Any,
+    *,
+    rows: list[int],
+    feats: np.ndarray,
+    ok: np.ndarray,
+) -> None:
+    for local_i, row in enumerate(rows):
+        if not ok[local_i]:
+            continue
+        embeddings[row] = feats[local_i].astype(np.float16)
+        thumb_ok[row] = True
+    embeddings.flush()
+    thumb_ok.flush()
+
+
+def finalize_embedding_store(
+    store_dir: Path,
+    *,
+    ids: list[str],
+    input_path: str,
+    model: str,
+    pretrained: str,
+    thumb_ok: Any,
+) -> None:
+    fingerprint = ids_sha256(ids)
+    n_ok = int(np.count_nonzero(thumb_ok))
+    meta = {
+        "input": str(Path(input_path).resolve()),
+        "rows": len(ids),
+        "dim": 512,
+        "dtype": "float16",
+        "model": model,
+        "pretrained": pretrained,
+        "ids_sha256": fingerprint,
+        "thumb_ok": n_ok,
+        "completed_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+    }
+    (store_dir / "meta.json").write_text(
+        json.dumps(meta, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (store_dir / "progress.json").write_text(
+        json.dumps(
+            {
+                "done": len(ids),
+                "total": len(ids),
+                "ids_sha256": fingerprint,
+                "thumb_ok": n_ok,
+                "updated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def q_keys(cfg: dict[str, Any]) -> tuple[str, ...]:
@@ -116,7 +245,8 @@ def score_frame(
     batch_size: int = 64,
     thumb_workers: int = 16,
     thumb_chunk: int = 5000,
-) -> pd.DataFrame:
+    return_feats: bool = False,
+) -> pd.DataFrame | tuple[pd.DataFrame, np.ndarray, np.ndarray]:
     """对含 video_id 的表打分；返回 clip_* 列 + clip_decision。"""
     if "video_id" not in frame.columns:
         raise ValueError("需要 video_id")
@@ -146,11 +276,27 @@ def score_frame(
         out[f"clip_{key}"] = scores[key]
     out["clip_decision"] = decision
     out["clip_thumb_ok"] = ok
+    if return_feats:
+        return out, feats, ok
     return out
 
 
 def _scored_columns(keys: tuple[str, ...]) -> list[str]:
     return ["video_id", "clip_decision", "clip_thumb_ok", *[f"clip_{k}" for k in keys]]
+
+
+def write_live_pass(work: pd.DataFrame, all_scored: pd.DataFrame, pass_csv: Path) -> int:
+    """每批把已判定 clip_pass 写出，中途可抽检；不含 clip_fail。"""
+    if all_scored is None or all_scored.empty:
+        return 0
+    base = work.drop(columns=[c for c in work.columns if c.startswith("clip_")], errors="ignore")
+    live = all_scored.loc[all_scored["clip_decision"] == "clip_pass"]
+    out = base.merge(live, on="video_id", how="inner")
+    pass_csv.parent.mkdir(parents=True, exist_ok=True)
+    tmp = pass_csv.with_suffix(".tmp.csv")
+    out.to_csv(tmp, index=False)
+    tmp.replace(pass_csv)
+    return len(out)
 
 
 def run_harvest_clip(
@@ -166,6 +312,7 @@ def run_harvest_clip(
     stem: str = "harvest_clip",
     batch_rows: int = 5000,
     overwrite: bool = False,
+    save_embeddings: str | Path | None = None,
 ) -> dict[str, Any]:
     """全量或抽样 CLIP 过滤；batch_rows>0 时分批 checkpoint。"""
     t0 = time.perf_counter()
@@ -181,6 +328,7 @@ def run_harvest_clip(
     pool_n = len(frame)
     work = sample_candidates(frame, n_sample, seed) if n_sample > 0 else frame
     ids = work["video_id"].tolist()
+    id_to_row = {vid: i for i, vid in enumerate(ids)}
 
     date_tag = time.strftime("%m%d")
     stem_base = Path(input_path).stem if stem == "harvest_clip" else stem
@@ -193,6 +341,13 @@ def run_harvest_clip(
     progress_path = out / f"{stem_base}_clip_progress.json"
     sum_path = out / f"{stem_base}_clip_summary.json"
 
+    emb_dir = Path(save_embeddings) if save_embeddings else None
+    emb_arr = emb_ok = None
+    if emb_dir is not None:
+        emb_arr, emb_ok, _ = open_embedding_store(
+            emb_dir, ids, overwrite=overwrite,
+        )
+
     done: set[str] = set()
     parts: list[pd.DataFrame] = []
     if ckpt_path.is_file() and not overwrite:
@@ -200,6 +355,8 @@ def run_harvest_clip(
         parts.append(prev)
         done = set(prev["video_id"].astype(str).str.strip())
         log(f"[续跑] checkpoint {len(done):,} 行")
+        n_live = write_live_pass(work, prev, pass_csv)
+        log(f"  live pass={n_live:,} → {pass_csv}")
 
     pending = [vid for vid in ids if vid not in done]
     log(
@@ -220,7 +377,7 @@ def run_harvest_clip(
             f"=== batch {batch_i} rows={len(chunk_ids)} "
             f"global {start + len(done) + 1}-{start + len(done) + len(chunk_ids)}/{len(ids)} ==="
         )
-        scored = score_frame(
+        scored_pack = score_frame(
             chunk_frame,
             cfg=cfg,
             encoder=encoder,
@@ -228,10 +385,35 @@ def run_harvest_clip(
             cache_dir=cache_dir,
             batch_size=batch_size,
             thumb_workers=thumb_workers,
+            return_feats=emb_arr is not None,
         )
+        if emb_arr is not None:
+            scored, feats, ok = scored_pack
+            rows = [id_to_row[str(v).strip()] for v in scored["video_id"].tolist()]
+            write_embedding_rows(
+                emb_arr, emb_ok, rows=rows, feats=feats, ok=ok,
+            )
+        else:
+            scored = scored_pack
         parts.append(scored[_scored_columns(keys)])
         all_scored = pd.concat(parts, ignore_index=True)
         all_scored = all_scored.drop_duplicates("video_id", keep="last")
+        if emb_dir is not None and emb_ok is not None:
+            (emb_dir / "progress.json").write_text(
+                json.dumps(
+                    {
+                        "done": len(all_scored),
+                        "total": len(ids),
+                        "ids_sha256": ids_sha256(ids),
+                        "thumb_ok": int(np.count_nonzero(emb_ok)),
+                        "updated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
         tmp = ckpt_path.with_suffix(".tmp.csv")
         all_scored.to_csv(tmp, index=False)
         tmp.replace(ckpt_path)
@@ -252,7 +434,11 @@ def run_harvest_clip(
             json.dumps(progress, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
-        log(f"  ckpt {len(all_scored):,}/{len(ids):,}  {rate:.1f} r/s  eta≈{rem/3600:.1f}h")
+        n_live = write_live_pass(work, all_scored, pass_csv)
+        log(
+            f"  ckpt {len(all_scored):,}/{len(ids):,}  pass={n_live:,}  "
+            f"{rate:.1f} r/s  eta≈{rem/3600:.1f}h"
+        )
 
     all_scored = pd.concat(parts, ignore_index=True) if parts else pd.DataFrame()
     all_scored = all_scored.drop_duplicates("video_id", keep="last")
@@ -269,6 +455,17 @@ def run_harvest_clip(
     remain = merged[merged["clip_decision"] != "clip_fail"].copy()
     remain.to_csv(remain_csv, index=False)
     failed.to_csv(drop_csv, index=False)
+
+    if emb_dir is not None and emb_ok is not None:
+        finalize_embedding_store(
+            emb_dir,
+            ids=ids,
+            input_path=input_path,
+            model=cfg["meta"]["model"],
+            pretrained=cfg["meta"]["pretrained"],
+            thumb_ok=emb_ok,
+        )
+        log(f"  embeddings → {emb_dir}")
 
     n_ok = int(merged["clip_thumb_ok"].fillna(False).astype(bool).sum()) if len(merged) else 0
     n_pass = int((merged["clip_decision"] == "clip_pass").sum())
@@ -296,6 +493,7 @@ def run_harvest_clip(
         "remain_csv": str(remain_csv),
         "drop_csv": str(drop_csv),
         "checkpoint": str(ckpt_path),
+        "embeddings_dir": str(emb_dir) if emb_dir else None,
         "elapsed_sec": round(time.perf_counter() - t0, 1),
         "notes": [
             "local open_clip; clip_decision≠交付 KPI",
@@ -306,16 +504,19 @@ def run_harvest_clip(
     sum_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     log(f"  pass={n_pass} fail={n_fail} remain={len(remain)} no_thumb={n_miss} → {sum_path}")
 
+    paths = {
+        "scored": str(scored_csv),
+        "remain": str(remain_csv),
+        "drop": str(drop_csv),
+        "summary": str(sum_path),
+        "checkpoint": str(ckpt_path),
+    }
+    if emb_dir is not None:
+        paths["embeddings"] = str(emb_dir)
     maybe_update_stage(
         out,
         "harvest_clip",
-        paths={
-            "scored": str(scored_csv),
-            "remain": str(remain_csv),
-            "drop": str(drop_csv),
-            "summary": str(sum_path),
-            "checkpoint": str(ckpt_path),
-        },
+        paths=paths,
         stats={
             "n": len(merged),
             "n_remain": len(remain),

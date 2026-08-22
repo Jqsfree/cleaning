@@ -1,23 +1,23 @@
 # exo_fitness CLIP 零样本 — 健身训练实拍（本地 ViT-B-32）
-# 粗筛：封面像健身房/操课/力量有氧正在练
-# 细判（第三人称/中近景）交 vision_thumb VLM（后续）
+# v1.1: 人工 QC 0818（fitness2 + 人工1）收紧口播讲解 / 非真人
+# 粗筛：封面像正在练，不是黑板讲知识、不是游戏/动画
 
 [meta]
-version = "1.0.0"
+version = "1.1.0"
 category = "exo_fitness"
 layer = "fitness_clip_zeroshot"
 model = "ViT-B-32"
 pretrained = "openai"
-basis = "2026-08-17 clean run02 keep text-filtered pool"
+basis = "2026-08-18 human QC 健身训练2_b99edc4e + 健身训练人工1_ea9f482e; clip-matched n=350 T257/F93"
 
 [decision]
 score_keys = ["q1_gym_workout", "q2_not_talk_diy", "q3_not_fake"]
-require = ["q1_gym_workout", "q3_not_fake"]
+require = ["q1_gym_workout", "q2_not_talk_diy", "q3_not_fake"]
 
 [thresholds]
-q1_gym_workout = 0.0
-q2_not_talk_diy = 0.0
-q3_not_fake = -0.02
+q1_gym_workout = -0.01
+q2_not_talk_diy = 0.015
+q3_not_fake = 0.005
 
 [q1_gym_workout]
 pos = [
@@ -40,12 +40,16 @@ neg = [
 pos = [
   "person actively exercising with visible body movement in a gym",
   "trainer and client doing reps together during a workout",
+  "people sweating and moving through a fitness class",
 ]
 neg = [
   "person talking to camera in a podcast studio indoors",
   "nutrition lecture slide about diet and weight loss",
   "TED talk speaker on stage with microphone",
   "news anchor desk indoor broadcast interview",
+  "fitness coach explaining anatomy on a classroom blackboard",
+  "teacher pointing at whiteboard lecturing about exercise theory",
+  "person standing at chalkboard teaching gym knowledge no workout",
 ]
 
 [q3_not_fake]
@@ -59,4 +63,6 @@ neg = [
   "CGI 3D rendered gym scene",
   "movie poster with heavy text overlay",
   "esports gaming tournament screen",
+  "animated 3D avatar doing workout in a video game",
+  "mobile fitness game screenshot with UI buttons",
 ]

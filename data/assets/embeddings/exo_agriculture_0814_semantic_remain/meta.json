@@ -1,0 +1,11 @@
+{
+  "input": "/home/jqs/projects/clean_DATASET/data/runs/exo_agriculture/machine_0814/06_tools/农业采集_0814_semantic_remain_clip_scored_0818.csv",
+  "rows": 1294085,
+  "dim": 512,
+  "dtype": "float16",
+  "model": "ViT-B-32",
+  "pretrained": "openai",
+  "ids_sha256": "80abd21dbdfa3dd9786500218ba362b28bf830f8e3ae40ed6fb5ed5ca45e48e4",
+  "thumb_ok": 1291803,
+  "completed_at": "2026-08-21 15:33:24"
+}
