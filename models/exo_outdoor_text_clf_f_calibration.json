@@ -23,16 +23,16 @@
     "u_hurt": 0,
     "u_hurt_rate": 0.0
   },
-  "model_path": "/home/jqs/projects/clean_DATASET/models/exo_outdoor_text_clf_f.pkl",
+  "model_path": "/home/jqs/projects/exo_dataset/models/exo_outdoor_text_clf_f.pkl",
   "qc_snapshots": [
     "/home/jqs/tmp/exo户外探险_975f0137_qc_result.csv",
     "/home/jqs/tmp/户外探险_979680ae_qc_result.csv"
   ],
   "hard_negative_sources": [
-    "/home/jqs/projects/clean_DATASET/data/runs/exo_outdoor/machine_0817/05_clean/run01/户外探险_merged_0817_clean_drop_0817.csv",
-    "/home/jqs/projects/clean_DATASET/data/runs/exo_outdoor/machine_0818/05_clean/run01/户外探险_0818_clean_drop_0819.csv",
-    "/home/jqs/projects/clean_DATASET/data/runs/exo_outdoor/machine_0818/05_clean/run02/户外探险_0818_clean_drop_0819.csv",
-    "/home/jqs/projects/clean_DATASET/data/runs/exo_outdoor/machine_0818/05_clean/run03/户外探险_0818_clean_drop_0819.csv"
+    "/home/jqs/projects/exo_dataset/data/runs/exo_outdoor/machine_0817/05_clean/run01/户外探险_merged_0817_clean_drop_0817.csv",
+    "/home/jqs/projects/exo_dataset/data/runs/exo_outdoor/machine_0818/05_clean/run01/户外探险_0818_clean_drop_0819.csv",
+    "/home/jqs/projects/exo_dataset/data/runs/exo_outdoor/machine_0818/05_clean/run02/户外探险_0818_clean_drop_0819.csv",
+    "/home/jqs/projects/exo_dataset/data/runs/exo_outdoor/machine_0818/05_clean/run03/户外探险_0818_clean_drop_0819.csv"
   ],
   "hard_negative_source_count": 4,
   "notes": [

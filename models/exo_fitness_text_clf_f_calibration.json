@@ -22,7 +22,7 @@
     "u_hurt": 0,
     "u_hurt_rate": 0.0
   },
-  "model_path": "/home/jqs/projects/clean_DATASET/models/exo_fitness_text_clf_f.pkl",
+  "model_path": "/home/jqs/projects/exo_dataset/models/exo_fitness_text_clf_f.pkl",
   "qc_snapshots": [
     "/home/jqs/tmp/健身训练2_b99edc4e_qc_result.csv",
     "/home/jqs/tmp/健身训练人工1_ea9f482e_qc_result.csv"

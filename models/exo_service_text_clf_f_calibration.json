@@ -36,7 +36,7 @@
       "U": 19
     }
   },
-  "model_path": "/home/jqs/projects/clean_DATASET/models/exo_service_text_clf_f.pkl",
+  "model_path": "/home/jqs/projects/exo_dataset/models/exo_service_text_clf_f.pkl",
   "qc_snapshots": [
     "data/runs/exo_service/machine_0813/03_qc/run06_veto_s44/商业服务_merged_sample_0814_textqc_20260814_084314.csv",
     "data/runs/exo_service/machine_0813/03_qc/run06_veto_s45/商业服务_merged_sample_0814_textqc_20260814_085110.csv"

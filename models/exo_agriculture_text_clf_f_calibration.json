@@ -26,7 +26,7 @@
     "u_hurt": 0,
     "u_hurt_rate": 0.0
   },
-  "model_path": "/home/jqs/projects/clean_DATASET/models/exo_agriculture_text_clf_f.pkl",
+  "model_path": "/home/jqs/projects/exo_dataset/models/exo_agriculture_text_clf_f.pkl",
   "qc_snapshots": [
     "data/runs/exo_agriculture/machine_0814/03_qc/human268_text_plus/exo农业_human_qc.csv"
   ],

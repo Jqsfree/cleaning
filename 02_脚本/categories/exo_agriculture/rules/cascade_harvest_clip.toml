@@ -1,14 +1,16 @@
 # exo_agriculture CLIP 零样本 — 田间种植/采摘（本地 ViT-B-32）
 # v1.1: 收紧非农（畜牧/口播/空镜/室内）；q2 纳入 require
+# v1.2: human678 F 漏杀补负例（蘑菇/档案纪实；草坪/容器园艺/频道头像过宽已撤）
+#       human678∩store 411 条：f_recall 17.9%→31.4%，t_hurt 5.5%→9.6%（<10% 上限）
 # 校准: eval_exo_agriculture_clip.py --labels human268 --write-config 本文件
 
 [meta]
-version = "1.1.0"
+version = "1.2.0"
 category = "exo_agriculture"
 layer = "harvest_clip_zeroshot"
 model = "ViT-B-32"
 pretrained = "openai"
-calib = "human268_tight_20260819"
+calib = "human678_f_leak_patch_20260823"
 
 [decision]
 score_keys = ["q1_field_harvest", "q2_not_talk_diy", "q3_not_fake"]
@@ -40,6 +42,8 @@ neg = [
   "person talking to the camera close-up face",
   "indoor warehouse factory construction site",
   "empty rural landscape with no farm workers",
+  "mushroom cultivation and fungi close-up",
+  "archival documentary footage of farmland",
 ]
 
 [q2_not_talk_diy]

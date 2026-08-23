@@ -21,7 +21,7 @@
     "catch_f": 27,
     "kill_t": 13
   },
-  "model_path": "/home/jqs/projects/clean_DATASET/models/exo_medical_cover_text_lr.pkl",
+  "model_path": "/home/jqs/projects/exo_dataset/models/exo_medical_cover_text_lr.pkl",
   "feature_names": [
     "edge_density",
     "text_cc_area_ratio",
