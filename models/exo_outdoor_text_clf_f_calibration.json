@@ -1,0 +1,43 @@
+{
+  "created_at": "2026-08-20 10:39:05",
+  "task": "title_outdoor_relevance",
+  "encoder": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "feature_fields": [
+    "title",
+    "channel"
+  ],
+  "n_train": 3405,
+  "n_pos_t": 405,
+  "n_neg_text_unrelated": 3000,
+  "max_hard_neg": 3000,
+  "oof_auc": 0.951608230452675,
+  "oof_ap": 0.7402980311030203,
+  "strict": {
+    "drop_threshold": 0.03,
+    "n_drop": 714,
+    "drop_coverage": 0.20969162995594715,
+    "drop_precision": 1.0,
+    "f_caught": 714,
+    "f_recall": 0.238,
+    "t_hurt": 0,
+    "u_hurt": 0,
+    "u_hurt_rate": 0.0
+  },
+  "model_path": "/home/jqs/projects/clean_DATASET/models/exo_outdoor_text_clf_f.pkl",
+  "qc_snapshots": [
+    "/home/jqs/tmp/exo户外探险_975f0137_qc_result.csv",
+    "/home/jqs/tmp/户外探险_979680ae_qc_result.csv"
+  ],
+  "hard_negative_sources": [
+    "/home/jqs/projects/clean_DATASET/data/runs/exo_outdoor/machine_0817/05_clean/run01/户外探险_merged_0817_clean_drop_0817.csv",
+    "/home/jqs/projects/clean_DATASET/data/runs/exo_outdoor/machine_0818/05_clean/run01/户外探险_0818_clean_drop_0819.csv",
+    "/home/jqs/projects/clean_DATASET/data/runs/exo_outdoor/machine_0818/05_clean/run02/户外探险_0818_clean_drop_0819.csv",
+    "/home/jqs/projects/clean_DATASET/data/runs/exo_outdoor/machine_0818/05_clean/run03/户外探险_0818_clean_drop_0819.csv"
+  ],
+  "hard_negative_source_count": 4,
+  "notes": [
+    "正例=人工 T（户外相关标题）；负例=blacklist drop（标题确定非户外）",
+    "不训 POV/画面 F；MiniLM 只排除 title/channel 与户外无关",
+    "title+channel，不含 keyword；宁漏勿杀；ml_score 不当交付 KPI"
+  ]
+}

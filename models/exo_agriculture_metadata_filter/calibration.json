@@ -1,0 +1,11 @@
+{
+  "threshold": 0.3,
+  "expected_positive_recall": 0.93,
+  "expected_positive_reject_rate": 0.07,
+  "max_positive_reject_rate": 0.10,
+  "notes": [
+    "Stage -1 召回优先：省 CLIP 算力，非最终交付判定",
+    "阈值 0.3 时交叉验证约 7% 正样本误杀、约 31% 负样本被滤",
+    "误杀率明显高于 max_positive_reject_rate 时应停全量并复核"
+  ]
+}

@@ -1,0 +1,70 @@
+# exo_outdoor CLIP L1 mild — 相对原 L1 轻度收紧
+# v2 (0.0/0.012/0.025) 弃用：remain 仅约 0.5 万小时，误杀过大
+# mild 全量模拟 ≈ 75,867 / 2.44 万小时；高分脏样交 vision_thumb
+
+[meta]
+version = "1.4.0-mild"
+category = "exo_outdoor"
+layer = "outdoor_clip_zeroshot_mild"
+model = "ViT-B-32"
+pretrained = "openai"
+basis = "0818 run03 keep mild tighten; rollback v2"
+calib = "manual_mild_0820"
+
+[decision]
+score_keys = ["q1_outdoor_adventure", "q2_exo_person", "q3_not_fake"]
+require = ["q1_outdoor_adventure", "q2_exo_person", "q3_not_fake"]
+
+[thresholds]
+q1_outdoor_adventure = -0.005
+q2_exo_person = -0.01
+q3_not_fake = 0.005
+
+[q1_outdoor_adventure]
+pos = [
+  "people hiking or camping in mountains forest wilderness",
+  "rock climbing or backpacking on an outdoor trail in nature",
+  "setting up camp tent in the woods or mountains",
+  "people bushcraft or crossing wilderness on foot",
+  "登山徒步露营 野外自然 森林 雪山 峡谷 有人活动",
+]
+neg = [
+  "indoor gym fitness workout studio room",
+  "kitchen cooking food indoors restaurant",
+  "office meeting podcast interview studio talking head",
+  "shopping mall city street indoor scene",
+  "product review unboxing on a table indoors",
+  "travel vlog airport hotel room interior",
+  "wildlife documentary animals only no people",
+  "children educational cartoon outdoor lesson",
+]
+
+[q2_exo_person]
+pos = [
+  "third person photo showing a person's body hiking or camping outdoors",
+  "full body or half body of a real person visible in a natural landscape",
+  "a climber or hiker seen from the side or behind on a trail",
+  "第三人称能看到人的全身或半身在户外活动",
+]
+neg = [
+  "first person helmet camera POV looking at trail or handlebars",
+  "GoPro view of only hands ground or ski tips",
+  "empty mountain landscape with no person in the frame",
+  "aerial drone scenery nobody visible",
+  "product photo of tent boots backpack with no person using them",
+  "text-only thumbnail or map graphic",
+]
+
+[q3_not_fake]
+pos = [
+  "real live-action photograph of outdoor adventure",
+  "actual people in a natural outdoor environment",
+]
+neg = [
+  "video game outdoor gameplay screenshot",
+  "cartoon anime illustration of hiking",
+  "CGI 3D rendered mountain scene",
+  "movie poster with heavy text overlay",
+  "olympic sports broadcast scoreboard overlay",
+  "children cartoon show like Wild Kratts or Blippi",
+]

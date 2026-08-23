@@ -1,0 +1,63 @@
+# exo_outdoor CLIP L2 — 第一轮 outdoor pass 池上要求人物出现
+# 粗筛：封面可见真人 + 户外探险活动；非空镜/地图/口播
+# 细判（第三人称/中近景）仍交 vision_thumb VLM
+
+[meta]
+version = "1.0.0"
+category = "exo_outdoor"
+layer = "outdoor_clip_person"
+model = "ViT-B-32"
+pretrained = "openai"
+basis = "2026-08-17 clip_pass r1 pool"
+
+[decision]
+score_keys = ["q1_has_person", "q2_real_human", "q3_person_outdoor"]
+require = ["q1_has_person", "q2_real_human", "q3_person_outdoor"]
+
+[thresholds]
+q1_has_person = 0.0
+q2_real_human = 0.0
+q3_person_outdoor = 0.0
+
+[q1_has_person]
+pos = [
+  "a person clearly visible in the photograph",
+  "one or more people shown in the image",
+  "a hiker climber or camper visible in the frame",
+  "人物出现在画面中 有人出镜",
+]
+neg = [
+  "landscape scenery with no people at all",
+  "empty mountain trail or forest with nobody",
+  "aerial drone view of nature without any person",
+  "map route graphic or gear product still life",
+  "text-only thumbnail with no person",
+  "空镜 无人 纯风景",
+]
+
+[q2_real_human]
+pos = [
+  "a real live-action photo of a human outdoors",
+  "a realistic photograph of real people",
+]
+neg = [
+  "cartoon or anime character outdoors",
+  "AI generated face or CGI 3D render",
+  "video game outdoor gameplay character",
+  "drawing illustration or VTuber avatar",
+]
+
+[q3_person_outdoor]
+pos = [
+  "person hiking backpacking or camping in wilderness",
+  "people rock climbing or on an outdoor adventure trail",
+  "person kayaking rafting or doing outdoor sports in nature",
+  "登山徒步 攀岩 露营 野外探险 有人活动",
+]
+neg = [
+  "person talking to camera in a studio indoors",
+  "travel vlog selfie in airport hotel room",
+  "person standing in city street urban scene",
+  "news anchor desk indoor broadcast",
+  "indoor gym fitness workout studio",
+]

@@ -1,0 +1,240 @@
+# Blacklist — exo 农业采摘第三人称（certain-noise only）
+# 只丢标题/频道上「确定不是田间第三人称实拍采摘」的硬噪声。
+# 中间带（田间实拍但标题含 how to 的边界）保留给 text QC / 人工，勿直接 drop。
+# 2026-08-07: v1.0 游戏/影视/音乐/菜谱/娱乐频道
+# 2026-08-07: v1.1 访谈/教学培训/美妆/商业演讲/音乐教学/冲突对抗/运动竞技
+# 2026-08-07: v1.2 text QC 分析：FS 游戏/儿童节目/挤痘医疗/算命/工厂加工/禽畜渔业/园艺教程/丛林求生/剧情短片/农机广告/音乐扩展
+# 2026-08-07: v1.3 text QC F 漏网补强（385 影子：T=0；新增 DIY/菌菇/禽蛋渔获/纪录片/脚病/宗教/签证杂讯等）
+# 2026-08-07: v1.4 七类硬排除「标题命中即丢」：访谈/教学/美妆/商业演讲/音乐教学/冲突/运动竞技
+# 2026-08-07: v1.4.1 teaching 补裸词 course（title04 QC 仅余 2 条漏网）
+# 2026-08-07: v1.5 人工 sb T/U 质检 F 回流（147 标：T79/F68；新规则本批 F 命中且 T=0）
+# 2026-08-07: v1.5.1 剩余人工 F：教程/农场故事/农机作业/电视档案 非交付方向，继续收紧（本批 T=0）
+# 2026-08-07: v1.6.0 title09×1000 文本 QC（T2.8%/F52.6%/U44.6%）F 回流；只加 T=0 且人工 T=0 的短语
+
+[meta]
+version = "1.6.0"
+category = "exo"
+
+# ═══════════════════════════════════════════════════════
+# title_pass2 — 标题黑名单
+# ═══════════════════════════════════════════════════════
+
+[[title_pass2]]
+category = "game_title"
+pattern = "(?i)\\b(gameplay|walkthrough|playthrough|let'?s\\s*play|full\\s*game|gaming|minecraft|roblox|fortnite|valorant|gta\\s*[45v]?|league\\s*of\\s*legends|counter[-\\s]?strike|cs:?go|apex\\s*legends|simulator|FS\\s*\\d{2})\\b"
+
+[[title_pass2]]
+category = "official_music"
+pattern = "(?i)\\b(official\\s*music(\\s*video)?|official\\s*audio|official\\s*mv|lyrics?\\s*video|music\\s*video|full\\s*album|feat\\.\\s*\\w+|nightcore|official\\s*video|dj\\s+\\w+\\s+\"|afrobeat|afro\\s*mix|hd\\s*video\\s*song|video\\s*song|hits\\s+afrobeat|\\(instrumental\\)|album\\s*version)\\b"
+
+[[title_pass2]]
+category = "film_tv_hard"
+pattern = "(?i)\\b(full\\s*episodes?|s\\d{1,2}e\\d{1,2}|full\\s*(hd\\s*)?movie|movie\\s*clip|film\\s*scene|official\\s*trailer|teaser\\s*trailer|dvdrip|tv\\s*serial|tamil\\s*serial|mini\\s*drama|episode\\s+\\d+\\s*\\||fantastic\\s*duo|family\\s*guy\\b)\\b"
+
+[[title_pass2]]
+category = "animation_kids"
+pattern = "(?i)\\b(anime|cartoon|nursery\\s*rhyme|peppa\\s*pig|cocomelon|paw\\s*patrol|animation|teletubbies|aumsum|peekaboo\\s*kidz|dr\\s*binocs|baby\\s*shark|bendy\\s*plush|fnaf\\s*toys|winnie\\s*the\\s*pooh|wildbrain|annoying\\s*orange)\\b"
+
+[[title_pass2]]
+category = "cooking_recipe"
+pattern = "(?i)\\b(recipe|cooking|how\\s*to\\s*cook|how\\s*to\\s*make\\s+\\w+\\s*(juice|soup|cake|cookies?|salad)|kitchen\\s*(hack|gadget|machine|staples|vs\\s+room)|from\\s+our\\s*kitchen|mr\\.?\\s*\\w+\\s*kitchen|tasty\\s*recipe|food\\s*preparation|braised\\s*(fish|chicken|pork|beef)|street\\s*food|canning\\b|cheesecake|cupcakes?|brownies?|birthday\\s*cake|cookie\\s*cake|mini\\s*cheesecakes?|(homemade|making|make)\\b.{0,30}\\b(sauce|soap|cheese|butter|wine|soup|bread|pasta|cheesecake|cupcakes?|brownies?))\\b"
+
+[[title_pass2]]
+category = "interview_talk"
+pattern = "(?i)\\b(interview(s|ed|ing|ers)?|exclusive\\s*interview|sit[\\s-]down\\s*interview|podcast(s|ing|er)?|talk\\s*show|late\\s+(night\\s+)?show|q\\s*&\\s*a(\\s*(session|panel|with))?|fireside(\\s*chat)?|panel\\s*discussion|roundtable|unplugged\\b|in\\s*conversation(\\s*with)?|conversationally\\s*connected|more\\s*meaningful\\s*talk|chat\\s*with\\s+\\w+|asks?\\s+\\w+\\s+about|on\\s*deck\\s+with|cabin\\s*conversations?)\\b|podcast"
+
+[[title_pass2]]
+category = "teaching_training"
+pattern = "(?i)\\b(online\\s*course|\\bcourse\\b|training\\s*(course|session|system|guide|tips?)|webinar|seminar|master\\s*class|masterclass|lecture(s|r)?|classroom|e[-\\s]?learning|certification\\s*course|workshop(s)?|beginner'?s?(\\s*guide|\\s*attacks?|\\s*tips?)?|step\\s*by\\s*step|tutorial(s)?|how\\s*to\\b|tips?\\s+(for|to)\\b|\\bguide\\b|for\\s*beginners?|learn\\s+how|teaching\\s+\\w+|explainer\\b|crash\\s*course|money[-\\s]?making\\s*guide|growing\\s*guide|hardening\\s*off|rigging\\s*course|best\\s+way\\s+to\\b|start\\s+to\\s+finish|compost\\s*pile|top\\s*\\d+\\s+(best|rarest|must|coolest|features?|apps?))\\b|paano\\s+mag\\w*"
+
+[[title_pass2]]
+category = "beauty_skincare"
+pattern = "(?i)\\b(makeup(\\s*(tutorial|review|routine|tips?|haul))?|skincare(\\s*(routine|tutorial|tips?|review))?|beauty\\s*(tutorial|tips?|routine|haul|channel|vlog)|try[-\\s]?on\\s*haul|cosmetic(s)?(\\s*review)?|hair\\s*(tutorial|care|tips?|routine)|glow[-\\s]?up\\b|anti[-\\s]?aging|glowing\\s*skin|remove\\s*dark\\s*spots|shrink\\s*pores|facial\\s*(routine|massage)|derm(atolog|a)|acne\\s*(treatment|routine))\\b"
+
+[[title_pass2]]
+category = "business_speech"
+pattern = "(?i)\\b(tedx\\w*|ted\\s*talk|keynote(s)?|motivational\\s*(speech|speeches|youth\\s*speaker)|commencement\\s*(speech|address)|graduation\\s*speech|business\\s*(talk|speech|keynote|mindset)|conference\\s*(talk|keynote|speech)|pitch\\s*(deck|speech)|sales\\s*presentation|board\\s*meeting|agripreneur\\w*|from\\s+farmer\\s+to\\s+ceo|building\\s+an?\\s+\\w*\\s*mindset|entrepreneur(ship)?\\s*(talk|speech|mindset)|leadership\\s*(talk|speech|keynote)|speechless\\b.{0,40}motivational|best\\s*motivational\\s*speeches?)\\b"
+
+[[title_pass2]]
+category = "music_teaching"
+pattern = "(?i)\\b((guitar|piano|violin|drum|drums|bass|ukulele|flute|saxophone|cello|harmonica)\\s*(lesson|tutorial|course|cover\\s*lesson|for\\s*beginners?)|(singing|vocal|voice)\\s*(lesson|tutorial|course|coach|coaching)|music\\s*(lesson|theory|tutorial|course|class|for\\s*beginners?)|learn\\s*(guitar|piano|violin|drums?|bass|ukulele|singing|to\\s*sing|music)|how\\s*to\\s*(play|sing)\\s+(guitar|piano|violin|drums?|bass)|chord\\s*progression\\s*(lesson|tutorial)|sight[-\\s]?reading\\s*(lesson|tutorial))\\b"
+
+[[title_pass2]]
+category = "conflict_fight"
+pattern = "(?i)\\b(street\\s*fight|fight\\s*(cam|video|night|club)|brutal\\s*fight|knockout(s)?|argument\\s*turns\\s*(violent|physical)|confrontation(s)?|brawl(s)?|vs\\s*fight|police\\s*chase\\s*fight|fist\\s*fight|gang\\s*fight|bar\\s*fight|school\\s*fight|violent\\s*(clash|altercation)|caught\\s*on\\s*camera\\s*fight)\\b"
+
+[[title_pass2]]
+category = "sports_compete"
+pattern = "(?i)\\b(full\\s*match|match\\s*highlights?|live\\s*match|sports?\\s*highlights?|fight\\s*night|ufc\\s*\\d*|boxing(\\s*(match|highlights?|bout))?|wrestling(\\s*match)?|\\bnba\\b|\\bnfl\\b|\\bmlb\\b|\\bnhl\\b|premier\\s*league|champions\\s*league|world\\s*cup(\\s*(final|match|highlights?))?|olympic(s)?(\\s*(games|final|highlights?))?|formula\\s*1|\\bf1\\s*(race|highlights?)|cricket(\\s*(match|highlights?))?|tennis(\\s*(final|match|open))?|marathon(\\s*(race|finish))?|esports?(\\s*(final|tournament))?|learning\\s*to\\s*golf|golf\\s*(cart\\s*tour|lesson|tournament|highlights?)|dude\\s*perfect|highlight\\s*reel|game\\s*winning|championship\\s*(final|game|match))\\b"
+
+[[title_pass2]]
+category = "pimple_medical"
+pattern = "(?i)\\b(pimple\\s*popper|blackhead\\s*(remov|pop|extract)|cyst\\s*(remov|pop|burst|extract)|callous?\\s*remov|comedone\\s*(remov|extract)|foot\\s*(scraper|specialist|treatment|fixer)|miss\\s*foot\\s*fixer|dr\\s*(lee|pimple)\\b|deep\\s*corns?\\s*with\\s*callus|whole\\s*foot\\s*treatment)"
+
+[[title_pass2]]
+category = "fortune_zodiac"
+pattern = "(?i)\\b(tử\\s*vi|horoscope|zodiac\\s*sign|tarot\\s*reading|phong\\s*th[ủu]y|báo\\s*trước|astrology\\s*(reading|prediction))"
+
+[[title_pass2]]
+category = "factory_process"
+pattern = "(?i)\\b(how\\s+\\w+\\s+(is|are)\\s+made(\\s+in(\\s+a)?\\s+factory)?|mass\\s+production\\s+(process|of)|processing\\s+plant|mega\\s*factory|billion\\s*tons?\\s*(of|.*processing)|inside\\s+the\\s+(mega\\s*)?factory|how\\s+\\w+\\s+(is|are)\\s+manufactur|super\\s*factory|is\\s+made\\s+in\\b|m[aá]quinas?\\s+de|garlic\\s+peeler|pelar\\s+ajos)"
+
+[[title_pass2]]
+category = "livestock_farming"
+pattern = "(?i)\\b(pig\\s*farm(ing)?|cattle\\s*(farm(ing)?|business)|poultry\\s*farm(ing)?|chicken\\s*(farm|coop|business)|dairy\\s*farm(ing)?|sheep\\s*(farm(ing)?|industry)|goat\\s*farm(ing)?|livestock\\s*(farm|business)|gau\\s*palan|gopalan|raising\\s+(chicken|pig|duck|cattle|sheep|goat|turkey|wild\\s*boar|new\\s*ducks?)|turkey\\s+(farm|for\\s*meat)|wool\\s+(is\\s*)?produc|silage\\s+for\\s+(cattle|goat)|wild\\s*boar\\s*herds?)"
+
+[[title_pass2]]
+category = "aquaculture_fish"
+pattern = "(?i)\\b(fish\\s*farm(ing)?|aquaculture|fish\\s*pond|catfish\\s*farm|tilapia\\s*farm|shrimp\\s*farm|harvest(ing)?\\s+(fish|catfish|tilapia|shrimp|snake|crab|lobster|clam|mussel|ducks?|chickens?|eggs?)|duck\\s*eggs?|fish(ing)?\\s+(farm|feeder|farmer|cage)|catch(ing)?\\s+(giant\\s+)?fish|feeding\\s+fish\\b|buying\\s+\\d+\\+?\\s*ducks?|truffle\\s*hunting)"
+
+[[title_pass2]]
+category = "home_gardening"
+pattern = "(?i)\\b(how\\s+to\\s+grow\\s+\\w+|tips\\s+for\\s+growing|growing\\s+guide|garden\\s+myths?|gardening\\s+tips?|gardening\\s+(without|hack|trick|update)|garden\\s+(trick|tips?|quickie|hack|maintenance|hoes?)|grow\\s+\\w+\\s+from\\s+seed|home\\s+gardening|container\\s+gardening|raised\\s+bed|vegetable\\s+gardening|garden(ing)?\\s+channel|backyard\\s+gardening|urban\\s+(backyard\\s+)?(container\\s+)?gardening|spring\\s+gardening\\s+update|hydroponic\\s+nutrition|transplant\\s+tomatoes|grow\\s+chrysanthemum|farming\\s+tips?|grafting\\s+techniques?|farm\\s+course\\s*#|bed\\s+styles?\\s+to\\s+grow|garden\\s+isn'?t\\s+a\\s+light\\s+switch|weeds\\s+in\\s+every\\s+garden|actually\\s+edible\\s*&?\\s*delicious|functional\\s+design\\s+part|propagat(e|ing|ion)|by\\s+layering|brassica\\s+cage|hand\\s+tools\\s+for\\s+planting|furrow\\s+cutting|garden\\s+bed|straw\\s+mulch|from\\s+seeds?\\b|soil\\s+making|grow\\s+green\\s+beans|growing\\s+(bougainvillea|great\\s+pumpkins|organic\\s+potatoes)|farming\\s+explained|explained\\s*[–\\-].{0,40}(cultivation|harvesting)|harvesting\\s+and\\s+storing\\s+produce|more\\s+costly\\s+to\\s+grow|neem\\s+oil|runner\\s+secret|garden\\s+centers?\\s+hide)\\b"
+
+[[title_pass2]]
+category = "rainwater_false_harvest"
+pattern = "(?i)\\b(rain\\s*water\\s*harvest(ing)?|rainwater\\s*harvest(ing)?|off[\\s-]?grid.{0,40}harvest(ing)?)\\b"
+
+[[title_pass2]]
+category = "drone_tour_scenic"
+pattern = "(?i)\\b(drone\\s*tour|4k\\s*drone|aerial\\s*tour|drone\\s+(footage|flyover)\\s+of|via\\s+drone)\\b"
+
+[[title_pass2]]
+category = "kill_weeds_lawn"
+pattern = "(?i)\\b(kill\\s*weeds|not\\s*your\\s*grass|weed[\\s-]?and\\s+not\\s+your\\s+grass)\\b"
+
+[[title_pass2]]
+category = "earning_crore_clickbait"
+pattern = "(?i)(earning\\s*crores?|करोडपति| करोड़पति|become\\s+a?\\s*millionaire|1\\s*kg.{0,20}=\\s*\\d+\\s*thousand)"
+
+[[title_pass2]]
+category = "buy_tractor_vlog"
+pattern = "(?i)\\b(we\\s*are\\s*buying\\s*a\\s*tractor|buying\\s*a\\s*tractor|planter\\s+almost\\s+falls|falls?\\s+off\\s+the\\s+delivery\\s+truck)\\b"
+
+[[title_pass2]]
+category = "seedling_timelapse"
+pattern = "(?i)\\b((time[\\s-]?lapse|timelapse).{0,40}(seedling|week\\s*\\d)|(seedling).{0,40}(time[\\s-]?lapse|timelapse))\\b"
+
+[[title_pass2]]
+category = "food_vlog_marker"
+pattern = "(?i)(滇西小哥|homemade\\s*jelly|one\\s*fruit\\s*per\\s*meal|palates\\s*of|the\\s*sweetness\\s*of\\s*winter)"
+
+[[title_pass2]]
+category = "archive_tv_doc"
+pattern = "(?i)(video\\s*vaults?|farm\\s*to\\s*families|unser\\s*land|canal\\s*sur|,\\s*19\\d{2}\\b|co\\.\\s*\\w+,\\s*19\\d{2}|amish\\s+harvest|journey\\s+back\\s+in\\s+time|krummes\\s+gemüse|supermärkte|luxury\\s+perfumes?|high[- ]value\\s+export|agriculture\\s+du\\s+futur|bienvenue\\s+dans\\s+l.?agriculture)"
+
+[[title_pass2]]
+category = "indoor_aromatic_landscape"
+pattern = "(?i)\\b(plantas\\s*aromáticas|aromatic.{0,30}interior|interior\\s*de\\s*casa|potentially\\s*toxic\\s*plants|wholesale\\s*landscap|landscaping\\s*plant)\\b"
+
+[[title_pass2]]
+category = "farm_story_nonlabor"
+pattern = "(?i)\\b(our\\s+story|caretakers?\\s+house|preparation\\s+for\\s+\\w+\\s+farm|new\\s+farmers|high[- ]tech\\s+failed|\\$\\d+k\\s+harvest\\s+saved|farming\\s+technique\\s*-\\s*agriculture\\s+technology|most\\s+amazing\\s+fruits?\\s*&\\s*vegetables\\s+farming\\s+technique)\\b"
+
+[[title_pass2]]
+category = "variety_promo_cjk"
+pattern = "(高抗病害|四季开花|这品种|口感香甜.{0,10}高产|每颗要卖到|按颗卖)"
+
+[[title_pass2]]
+category = "how_farmers_explainer"
+pattern = "(?i)\\b(how\\s+do\\s+farmers\\s+in\\b|legume\\s+nodules|navigating\\s+the\\s+wild\\s+world\\s+of\\s+weather|cold\\s+climate|northern\\s+climate)\\b"
+
+[[title_pass2]]
+category = "nursery_ornamental_soft"
+pattern = "(?i)\\b(hanging\\s+baskets?|bamboo\\s+shelf\\s+design|\\(not\\s+so\\)\\s+amazing|dragon\\s+fruit\\s+plant$|cabbage\\s+farming\\s*\\|\\|)\\b"
+
+[[title_pass2]]
+category = "agri_chem_tips_bn"
+pattern = "(miraculan|প্রয়োগ|মাটি\\s*প্রস্তুত)"
+
+[[title_pass2]]
+category = "content_drama"
+pattern = "(?i)\\b(full\\s*(video|movie)\\s*:?\\s*.{0,30}(single\\s*mom|love\\s*story|abandoned|restoring|helping\\s*the\\s*homeless|alone\\s*in\\s+the|awaken|kneel)|awakens?\\s*god\\s*system|village\\s*beauty\\s*jumps|creditor\\s*came\\s*to|hurt\\s*while\\s*working|drama\\s*finds|mini\\s*drama\\s*#|rush\\s*mini\\s*drama|wild\\s*novels|taarak\\s*mehta|oltah\\s*chashmah)\\b"
+
+[[title_pass2]]
+category = "bushcraft_survival"
+pattern = "(?i)\\b(primitive\\s*(life|survival|technology)|off[\\s-]grid\\s*living|wilderness\\s*cooking|survive\\s+in\\s+the\\s+(forest|jungle|wild)|survive\\s+alone|survival\\s*shelter|sheltering\\s+in\\b|\\d+\\s*days?\\s*alone\\s*in\\s+(the\\s*)?(forest|jungle|wild|mountain)|tiny\\s*house|passive\\s*solar|snow\\s*camping|mobile\\s*home\\s*remodel|shipping\\s*container\\s*home)"
+
+[[title_pass2]]
+category = "tractor_machinery_ad"
+pattern = "(?i)\\b(diesel\\s*engine|tractor\\s+(price|review|for\\s+sale|video\\b|working\\b|skills?\\b|driving\\b|market|bazar|bazaar|cheapest|second\\s*hand)|agriculture\\s*(drone|technology\\s*-|spray(ing)?\\s*drone)|seed(er)?\\s*(drill|machine)|spray(ing)?\\s*drone|harvester\\s+(machine|price|review|video|operator)|farm\\s+equipment\\s+review|heavy\\s*(equipment|machinery)\\s*(machines)?|modern\\s*(machine|agriculture\\s*machine)|agriculture\\s*technology\\s*-\\s*the\\s*engine|mini\\s*trencher|rotavator|antique\\s*tractors?|cultivation\\s+and\\s+harvest\\s+technology|processing\\s+at\\s+the\\s*factory|\\btillage\\s+20\\d{2}\\b|gleaner\\s+s?\\d+|pickett\\s+combines?|kinze\\s+planter|century\\s+of\\s+progress|demolition\\s*(derby|combine)|combine\\s*derby)\\b"
+
+[[title_pass2]]
+category = "pest_herbicide"
+pattern = "(?i)\\b(fungicide|herbicide|pesticide|weed[\\s-]kill(ing)?|crop\\s*protection|bayer\\s*crop|insect\\s*control|rodent\\s*control)\\b"
+
+[[title_pass2]]
+category = "educational_tv"
+pattern = "(?i)\\b(science\\s*in\\s*society|advanced\\s*biology|plant\\s*pathology|pharmacognosy|materials\\s*in\\s*manufacturing|introduction\\s*to\\s+\\w+\\s+\\[year|\\bmtutor\\b|\\bmobile\\s*edu\\b|\\bnuffield\\s*foundation)\\b"
+
+[[title_pass2]]
+category = "diy_craft"
+pattern = "(?i)\\b(\\bdiy\\b|rainbow\\s*loom|crochet|zentangle|life\\s*hacks?|how\\s*to\\s*make\\s+a\\b|screen\\s*printing|bamboo\\s*fence|pvc\\s*pipe\\s+into|tripod\\s*lashing)\\b"
+
+[[title_pass2]]
+category = "mushroom_cult"
+pattern = "(?i)\\b(mushroom\\s*(cultivation|farming|compost|fruiting)|oyster\\s*mushroom|button\\s*mushroom|budidaya\\s*jamur|shiitake\\s*mushroom\\s*(grow|cultiv)|martha\\s*grow\\s*tent)\\b"
+
+[[title_pass2]]
+category = "docu_lifestyle_noise"
+pattern = "(?i)\\b(farming\\s*documentary|full\\s*documentary|so\\s*expensive|business\\s*insider|cost\\s*of\\s*living\\s*crisis|work\\s*visa|childhood\\s*trauma|what\\s*i\\s*eat\\s*in\\s*a\\s*day|dude\\s*perfect|bible\\s*say|neighborhoods?\\s*-\\s*part)\\b"
+
+[[title_pass2]]
+category = "pet_animal_noise"
+pattern = "(?i)\\b(diy\\s*pizza\\s*for\\s*dogs|dog\\s*treats?|tortoiseshell\\s*cats|baby\\s*leo\\s*sleeps|bunny\\s*under\\s*christmas|bernese\\s*mountain\\s*dogs|goat\\s*empire)\\b"
+
+[[title_pass2]]
+category = "asmr_noise"
+pattern = "(?i)\\basmr\\b"
+
+[[title_pass2]]
+category = "clickbait_misc_soft"
+pattern = "(?i)\\b(million\\s*views|one\\s*million\\s*views|secret\\s*santa|killcams?|plastic\\s*eating\\s*worms?|ghost\\s*town\\s*alive|staph\\s*infection|whales?\\s+change\\s+climate|crop\\s*improvement|functional\\s+gene\\s+analysis)\\b|(三輪電動車|电动汽机车|宏佳騰)"
+
+# ═══════════════════════════════════════════════════════
+# channel_pass2 — 频道黑名单
+# ═══════════════════════════════════════════════════════
+
+[[channel_pass2]]
+category = "certain_noise_channel"
+pattern = "(?i)^(Kindly Keyin|Tasty|Vk Vickey Gamer|TinyVerse Studio|Tractor Cambodia|Tom Timelapse|FARMER PLAY|The Engine|Gary Pilarchik \\(The Rusted Garden\\)|The Millennial Gardener|Epic Gardening|Phyllis Stokes and Son|DMX|Will Sparks|HouseOfPainTV|The Front Bottoms|TLC Australia|tlc uk|Peekaboo Kidz|It'?s AumSum Time|Heirloom Reviews|Next Level Gardening|LearnHow2|Rainbow Gardens|North Spore|CoolBeansGardening|MO River Soap|DORIS TV|WildFilmsIndia|Miss Foot Fixer Marion Yau|Khichi Beauty|COROBE POULTRY FARM|HARVEST MOTION|Lucknow Ride|Energy Toys|CGS Tech|5-MINUTE REPAIR|Mashable Deals|BBC News Hindi|Business Insider|Vintage Machines|Forgotten Weapons|DrER\\.tv|Matterhorn Business Development|Labour Law Advisor|HealthNormal|Hanna Daily Life New|NaLac Technique)$"
+
+# ═══════════════════════════════════════════════════════
+# pass2 — 综合黑名单（search_text = title + " " + channel）
+# ═══════════════════════════════════════════════════════
+
+[[pass2]]
+category = "game_search"
+pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|let'?s\\s*play|farming\\s*simulator|FS\\s*\\d{2})\\b"
+
+[[pass2]]
+category = "music_mv"
+pattern = "(?i)\\b(official\\s*music(\\s*video)?|official\\s*audio|lyrics?\\s*video|music\\s*video|nightcore)\\b"
+
+[[pass2]]
+category = "interview_sports_extra"
+pattern = "(?i)\\b(exclusive\\s*interview|makeup\\s*tutorial|piano\\s*lesson|full\\s*match\\s*highlights?)\\b"
+
+[[pass2]]
+category = "kids_extra"
+pattern = "(?i)\\b(nursery\\s*rhyme|peppa\\s*pig|cocomelon|paw\\s*patrol|teletubbies|aumsum|peekaboo\\s*kidz|dr\\s*binocs|baby\\s*shark|wildbrain)\\b"
+
+[[pass2]]
+category = "medical_extra"
+pattern = "(?i)\\b(pimple\\s*popper|blackhead|callous\\s*remov|cyst\\s*(remov|pop|burst)|dr\\.?\\s*(pimple|lee).{0,20}(cyst|pop|blackhead))"
+
+[[pass2]]
+category = "livestock_fish_extra"
+pattern = "(?i)\\b(pig\\s*farm|cattle\\s*farm|poultry\\s*farm|chicken\\s*(farm|coop)|dairy\\s*farm|fish\\s*farm|aquaculture|harvest(ing)?\\s+(fish|duck|chicken|pig|shrimp))"
+
+[[pass2]]
+category = "gardening_extra"
+pattern = "(?i)\\b(how\\s+to\\s+grow\\s+\\w+|gardening\\s+tips?|garden\\s+(trick|tips?|quickie)|grow\\s+\\w+\\s+from\\s+seed|tips\\s+for\\s+growing|farming\\s+tips?|grafting\\s+techniques?|rainwater\\s*harvest|drone\\s*tour|buying\\s*a\\s*tractor)"
+
+[[pass2]]
+category = "seven_hard_exclude"
+pattern = "(?i)\\b(interview|podcast|talk\\s*show|how\\s*to\\b|tutorial|masterclass|webinar|for\\s*beginners?|makeup|skincare|tedx|ted\\s*talk|keynote|guitar\\s*lesson|piano\\s*lesson|street\\s*fight|full\\s*match|match\\s*highlights?|\\bnba\\b|\\bnfl\\b|ufc|learning\\s*to\\s*golf)\\b"
+
+# ═══════════════════════════════════════════════════════
+# r2 — 暂空（留待第二轮）
+# ═══════════════════════════════════════════════════════

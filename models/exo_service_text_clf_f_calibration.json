@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-08-14 16:58:50",
+  "feature_fields": [
+    "title",
+    "description"
+  ],
+  "n_train": 537,
+  "n_f": 487,
+  "n_t": 0,
+  "n_u": 50,
+  "oof_auc_non_f": 0.5990965092402464,
+  "oof_ap_non_f": 0.19267179758861808,
+  "strict": {
+    "drop_threshold": 0.44,
+    "n_drop": 490,
+    "drop_coverage": 0.9124767225325885,
+    "drop_precision": 0.9224489795918367,
+    "f_caught": 452,
+    "f_recall": 0.9281314168377823,
+    "t_hurt": 0,
+    "u_hurt": 38,
+    "u_hurt_rate": 0.76,
+    "keep_rate": 0.08752327746741151
+  },
+  "rounds": {
+    "商业服务_merged_sample_0814_textqc_20260814_084314": {
+      "n": 269,
+      "F": 238,
+      "T": 0,
+      "U": 31
+    },
+    "商业服务_merged_sample_0814_textqc_20260814_085110": {
+      "n": 268,
+      "F": 249,
+      "T": 0,
+      "U": 19
+    }
+  },
+  "model_path": "/home/jqs/projects/clean_DATASET/models/exo_service_text_clf_f.pkl",
+  "qc_snapshots": [
+    "data/runs/exo_service/machine_0813/03_qc/run06_veto_s44/商业服务_merged_sample_0814_textqc_20260814_084314.csv",
+    "data/runs/exo_service/machine_0813/03_qc/run06_veto_s45/商业服务_merged_sample_0814_textqc_20260814_085110.csv"
+  ],
+  "notes": [
+    "否决器：F=DROP，U/T=KEEP_FOR_VISUAL；T 不当交付",
+    "特征只有 title+description，不含 keyword",
+    "只使用新否决题标签；旧 QC F 不进训练"
+  ]
+}

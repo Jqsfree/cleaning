@@ -1,0 +1,65 @@
+# exo_service 配方
+# 机采：quality → L1 文本高精度 DROP → L2 行业路由 candidates
+# → L3 CLIP 三问粗筛 → L4 子类 VLM（仅边界）
+# 勿用旧语义 keep_for_visual / 泛化「是否商业服务」VL 当主路径
+# 勿默认串到 deliver
+
+[meta]
+category = "exo_service"
+has_cleaner = true
+deliver_format = "csv"
+default_qc = "text"
+needs_ge720 = false
+layer1_stop = "rules"
+notes = "四层级联 2026-08-17：L1 certain-noise → L2 industry route → CLIP → 子类 VLM"
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+
+[[flow.machine]]
+id = "cascade_l1_l2"
+kind = "optional_auto"
+depends = ["quality"]
+hint = "tools/run_exo_service_cascade_text.py $QUALITY -o $BATCH/06_tools/cascade_v2/"
+
+[[flow.machine]]
+id = "cascade_l3_clip"
+kind = "optional_auto"
+depends = ["cascade_l1_l2"]
+hint = "tools/run_exo_service_cascade_clip.py $CANDIDATES -o $BATCH/06_tools/cascade_v2/l3_clip/ -n 2000  # 两个人完整入镜 + 一人服务另一人"
+
+[[flow.machine]]
+id = "cascade_l4_vlm"
+kind = "optional_auto"
+depends = ["cascade_l3_clip"]
+hint = "仅子类边界 VLM（hair/beauty、restaurant 等专用 prompt）；勿泛问是否商业服务"
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.machine]]
+id = "text_qc"
+kind = "optional_auto"
+depends = ["sample"]
+hint = "旧 text QC 路径保留对照；主路径改 cascade_l1_l2"
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["text_qc"]
+hint = "旧 blacklist 对照；L1 规则见 rules/cascade_l1_drop.toml"
+
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+depends = ["rules"]
+hint = "旧 cleaner 对照；新 DROP 走 cascade L1"
+
+[[flow.machine]]
+id = "thumb_qc"
+kind = "optional_auto"
+depends = ["clean"]
+hint = "旧泛化 vision_thumb 停用为主路径；改 L4 子类 VLM"

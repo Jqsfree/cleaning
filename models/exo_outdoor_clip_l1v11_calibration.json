@@ -1,0 +1,25 @@
+{
+  "created_at": "2026-08-18 10:35:00",
+  "labels": "/home/jqs/tmp/户外探险_979680ae_qc_result.csv",
+  "n_labels": 269,
+  "n_t": 178,
+  "n_f": 91,
+  "require": ["q1_outdoor_adventure", "q2_exo_person", "q3_not_fake"],
+  "chosen": {
+    "thresholds": {
+      "q1_outdoor_adventure": -0.01,
+      "q2_exo_person": -0.03,
+      "q3_not_fake": 0.0
+    },
+    "t_hurt": 12,
+    "f_caught": 21,
+    "n_drop": 33,
+    "t_recall": 0.933,
+    "pass_rate_on_269": 0.703,
+    "note": "T-hurt=0 只能丢 3 条 F；此点在 recT>=0.93 下把 pass 合格率从 66.2% 提到 70.3%"
+  },
+  "baseline_l1_pass_pool": {
+    "pass_rate": 0.662,
+    "note": "269 抽自旧 L1 clip_pass，旧阈值无法在样本内再丢 F"
+  }
+}

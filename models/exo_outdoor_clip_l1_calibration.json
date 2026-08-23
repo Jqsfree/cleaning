@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-08-17 17:23:31",
+  "labels": "/home/jqs/tmp/户外探险_979680ae_qc_result.csv",
+  "n_labels": 269,
+  "n_t": 178,
+  "n_f": 91,
+  "require": [
+    "q1_outdoor_adventure",
+    "q3_not_fake"
+  ],
+  "strict": null,
+  "thresholds": {
+    "q1_outdoor_adventure": 0.0,
+    "q2_not_indoor_talk": 0.0,
+    "q3_not_fake": 0.0
+  },
+  "note": "无 T 误伤=0 且 F precision≥0.95 的组合；保持 thresholds=0.0，应用前须目视"
+}

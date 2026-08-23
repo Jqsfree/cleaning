@@ -1,0 +1,97 @@
+# Blacklist — exo 医疗实验（certain-noise only）
+# 约定: 只丢标题/频道上可确定的噪声；U/中间带勿进 pass2
+# 硬约束：非真人（游戏/动画/AI/CGI/VTuber）标题能确定则 drop
+# 2026-08-14: v0.3 严禁非真人；只丢确定不是 exo 医疗的标题
+
+[meta]
+version = "0.4.0"
+category = "exo_medical"
+basis = "PDF exo medical-experiment + R2人工F题材桶(adjacent/admin) + text QC 270"
+
+[[pass2]]
+category = "exam_study_guide"
+pattern = "(?i)(online\\s*study\\s*guide|study\\s*guide|\\bccma\\b|\\brma\\b|\\bnclex\\b|\\bati\\s*teas\\b|\\bneet\\s*(pg|ug|\\d+)|\\bnha\\s*cpt\\b|medical\\s*assistant\\s*certification|exam\\s*prep|exam\\s*guide|practice\\s*test\\s*questions?|how\\s*to\\s*pass\\s*(the\\s*)?(ccma|rma|nclex))"
+
+[[pass2]]
+category = "lecture_webinar_course"
+pattern = "(?i)(\\bwebinar\\b|\\bonline\\s*course\\b|full\\s*course\\b|lecture\\s*\\d+|recorded\\s*lecture|powerpoint\\s*(presentation|lecture)|\\bppt\\s*lecture)"
+
+[[pass2]]
+category = "talking_head_interview"
+pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night|q\\s*&\\s*a\\s*with|ask\\s*me\\s*anything|\\bama\\b\\s*:)"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\babc\\s*news\\b|\\bbbc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|eyewitness\\s*news|breaking\\s*news|news\\s*conference)"
+
+[[pass2]]
+category = "gaming_animation"
+pattern = "(?i)(\\bgameplay\\b|lets?\\s*play|\\bminecraft\\b|\\bfortnite\\b|\\broblox\\b|\\bgta\\s*[45v]\\b|cities\\s*skylines|game\\s*grumps|\\banime\\b|\\bcartoon\\b|3d\\s*animation|cgi\\b)"
+
+[[pass2]]
+category = "music_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|music\\s*video|lyrics\\s*video|official\\s*trailer|teaser\\s*trailer)"
+
+[[pass2]]
+category = "screen_recording_paper"
+pattern = "(?i)(screen\\s*recording|paper\\s*explanation|reading\\s*research\\s*paper|pdf\\s*explained)"
+
+[[pass2]]
+category = "beauty_cooking_unbox"
+pattern = "(?i)(\\bmukbang\\b|recipe\\s*tutorial|unboxing|haul\\b|skincare\\s*routine|makeup\\s*tutorial)"
+
+[[pass2]]
+category = "non_real_ai_virtual"
+pattern = "(?i)(ai\\s*generated|#ai\\b|midjourney|\\bsora\\b|runway\\s*ml|deepfake|\\bvtuber\\b|virtual\\s*youtuber|hololive|ai\\s*short\\s*drama|cgi\\s*character|3d\\s*virtual)"
+
+[[pass2]]
+category = "vlog_not_exo"
+pattern = "(?i)\\bvlog\\b"
+
+[[pass2]]
+category = "ai_short_drama"
+pattern = "(?i)(\\[/?ai\\s*drama\\]|ai\\s*drama|reborn as |rural girl bump|人人嘲笑他是)"
+
+[[pass2]]
+category = "asmr_not_hands"
+pattern = "(?i)\\basmr\\b"
+
+[[pass2]]
+category = "kids_song"
+pattern = "(?i)(alphabet song|nursery\\s*rhymes?|abc\\s*train\\s*baby)"
+
+[[pass2]]
+category = "cpap_sleep_device"
+pattern = "(?i)(\\bcpap\\b|\\bbipap\\b|resmed|fisher\\s*(and|&)?\\s*paykel|sleep\\s*apnea\\s*mask|compliance\\s*data\\s*on\\s*the\\s*resmed)"
+
+[[pass2]]
+category = "biomedical_waste"
+pattern = "(?i)(biomedical\\s*waste|bio[- ]?medical\\s*waste|regulated\\s*medical\\s*waste)"
+
+[[pass2]]
+category = "radiology_ct_scan"
+pattern = "(?i)(\\bcect\\b|\\bct\\s+abdomen|\\bct\\s+scan|computed\\s*tomography.*scan|radiologyte)"
+
+[[pass2]]
+category = "gait_orthotics_injury_clinic"
+pattern = "(?i)(gait\\s*analysis|custom\\s*orthotic|pain\\s*and\\s*injury\\s*clinic|hiking\\s*mistake.*knee)"
+
+[[pass2]]
+category = "hospice_admin_flow"
+pattern = "(?i)(hospice\\s*(admission|referral)|referral\\s*process)"
+
+[[pass2]]
+category = "day_in_life_pediatrics"
+pattern = "(?i)(day\\s*in\\s*the\\s*life|kids\\s*story\\s*about)"
+
+[[pass2]]
+category = "dental_monitoring_product"
+pattern = "(?i)(dental\\s*monitoring|like\\s*a\\s*dentist\\s*-\\s*kids\\s*story)"
+
+[[pass2]]
+category = "explained_promo_edu"
+pattern = "(?i)(mistakes\\s*:.*explained|tunnel\\s*dissection\\s*mistakes|destroying\\s*your\\s*knees)"
+
+[[r2]]
+category = "pure_theory_no_hands"
+pattern = "(?i)(complete\\s*theory\\s*class|anatomy\\s*lecture\\s*only|pharmacology\\s*lecture)"

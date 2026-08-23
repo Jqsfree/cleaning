@@ -1,0 +1,6 @@
+{
+  "picked_min_person_area": 0.08,
+  "human_n": 536,
+  "cover_topic_person_remain_pass_rate": 0.6644,
+  "note": "536=R1+R2 union; cover+topic+person on human labels"
+}

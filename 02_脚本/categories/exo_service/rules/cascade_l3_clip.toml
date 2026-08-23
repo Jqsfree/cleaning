@@ -1,0 +1,55 @@
+# L3 CLIP — 用 human239（VL 双过池）校准后
+# 硬 AND「完整两个人」会误杀大量真服务特写（客户头/手占满封面）
+# 两人数仍打分，但不进合取；合取 = 不像口播/产品 + 像在给顾客做服务
+
+[meta]
+version = "1.2.0"
+category = "exo_service"
+layer = "l3_clip_zeroshot"
+model = "ViT-B-32"
+pretrained = "openai"
+calib = "human239_vl_both_pass_5c6d23c7"
+
+[decision]
+score_keys = ["q1_two_people", "q2_not_talk_diy", "q3_serving"]
+require = ["q3_serving"]
+
+[thresholds]
+q1_two_people = 0.0
+q2_not_talk_diy = 0.0
+q3_serving = 0.0
+
+[q1_two_people]
+pos = [
+  "a photo of two people together",
+  "two persons visible in the same photograph",
+]
+neg = [
+  "a photo of only one person",
+  "a selfie of a single person",
+  "a photo with no people",
+]
+
+[q2_not_talk_diy]
+pos = [
+  "hands performing salon, spa, or kitchen service work",
+  "a worker actively treating a customer in a shop",
+]
+neg = [
+  "a person talking to the camera about beauty products",
+  "a DIY skincare recipe at home",
+  "a product advertisement or makeup still life",
+  "a classroom beauty course or workshop lecture",
+]
+
+[q3_serving]
+pos = [
+  "a customer receiving a haircut, massage, or makeup from a worker",
+  "one person providing a personal service to another person",
+]
+neg = [
+  "two friends posing for a photo",
+  "home cooking recipe with no customer service",
+  "hair transplant before-after comparison graphic",
+  "unboxing or reviewing beauty products",
+]

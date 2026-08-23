@@ -1,0 +1,63 @@
+# exo_livestock CLIP 零样本 — 渔业/畜牧劳作（本地 ViT-B-32）
+# 粗筛：封面像第三人称捕鱼/放牧/挤奶喂饲；非料理口播/游戏/直播摄像头
+# 细判（中近景）交 vision_thumb VLM
+
+[meta]
+version = "1.0.0"
+category = "exo_livestock"
+layer = "livestock_clip_zeroshot"
+model = "ViT-B-32"
+pretrained = "openai"
+basis = "2026-08-18 merged clean keep 渔业牧业_merged_0818.csv"
+
+[decision]
+score_keys = ["q1_fish_livestock_labor", "q2_exo_person", "q3_not_fake"]
+require = ["q1_fish_livestock_labor", "q3_not_fake"]
+
+[thresholds]
+q1_fish_livestock_labor = 0.0
+q2_exo_person = 0.0
+q3_not_fake = -0.02
+
+[q1_fish_livestock_labor]
+pos = [
+  "fishermen casting a net or catching fish by hand from a boat",
+  "farmer milking cows or herding cattle sheep goats in a pasture",
+  "people feeding livestock in a barn or collecting eggs",
+  "渔民撒网捕鱼 捡捕 船上劳作",
+  "放牧挤奶喂饲 圈养操作 第三人称劳作",
+]
+neg = [
+  "cooking fish recipe mukbang in a kitchen",
+  "fishing tournament broadcast scoreboard stadium crowd",
+  "product unboxing of fishing gear hat sunglasses on a table",
+  "cute pet otter puppy play indoor",
+  "webcam livestream city plaza western wall no farm work",
+  "relaxing music thumbnail piano nature sounds",
+]
+
+[q2_exo_person]
+pos = [
+  "third person photo showing a person's body working with fish or livestock",
+  "full body or half body of a real fisher or herder visible",
+  "第三人称能看到人的全身或半身在渔牧劳作",
+]
+neg = [
+  "first person helmet camera POV looking at water or fishing rod tip",
+  "empty pasture or ocean landscape with nobody",
+  "product photo of nets boots feed bags with no person",
+  "text-only thumbnail or map graphic",
+]
+
+[q3_not_fake]
+pos = [
+  "real live-action photograph of fishing or livestock farm work",
+  "actual people doing farm or fishing labor outdoors",
+]
+neg = [
+  "video game fishing gameplay screenshot",
+  "cartoon farm animals children's DVD cover",
+  "anime illustration of fishing",
+  "CGI 3D rendered farm scene",
+  "movie poster with heavy text overlay",
+]
