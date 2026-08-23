@@ -1,5 +1,5 @@
 # exo_agriculture 配方
-# 机采：quality → sample → text_qc → rules（停在文本边界）→ 再 vision_thumb
+# 机采：quality → [stage0 技术深筛] → sample → text_qc → rules（停在文本边界）→ 再 vision_thumb
 # 勿默认串到 deliver；clean 仅 certain-noise 且须规则依据
 
 [meta]
@@ -14,6 +14,12 @@ notes = "PDF 五.exo 农业种植采摘；教程口播游戏 certain-noise"
 [[flow.machine]]
 id = "quality"
 kind = "auto"
+
+[[flow.machine]]
+id = "stage0_tech_filter"
+kind = "optional_auto"
+depends = ["quality"]
+hint = "技术深筛（分辨率≥1080p/假横屏/抖动/有效时长，逐条抓帧慢）：stage0_cleaning.py $SUBSET out.csv --id-col video_id --cookies-from-browser chrome；只对抽样/子集（万级以下），勿全量百万行"
 
 [[flow.machine]]
 id = "sample"
