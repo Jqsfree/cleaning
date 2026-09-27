@@ -1,0 +1,73 @@
+# Blacklist — exo 农业采摘第三人称（certain-noise only）
+# 只丢标题/频道上「确定不是田间第三人称实拍采摘」的硬噪声。
+# 中间带（田间实拍但标题含 how to 的边界）保留给 text QC / 人工，勿直接 drop。
+# 2026-08-07: v1.0 游戏/影视/音乐/菜谱/娱乐频道
+# 2026-08-07: v1.1 访谈/教学培训/美妆/商业演讲/音乐教学/冲突对抗/运动竞技
+
+[meta]
+version = "1.1"
+category = "exo"
+
+[[title_pass2]]
+category = "game_title"
+pattern = "(?i)\\b(gameplay|walkthrough|playthrough|let'?s\\s*play|full\\s*game|gaming|minecraft|roblox|fortnite|valorant|gta\\s*[45v]?|league\\s*of\\s*legends|counter[-\\s]?strike|cs:?go|apex\\s*legends|simulator)\\b"
+
+[[title_pass2]]
+category = "official_music"
+pattern = "(?i)\\b(official\\s*music(\\s*video)?|official\\s*audio|official\\s*mv|lyrics?\\s*video|music\\s*video|full\\s*album|feat\\.\\s*\\w+)\\b"
+
+[[title_pass2]]
+category = "film_tv_hard"
+pattern = "(?i)\\b(full\\s*episodes?|s\\d{1,2}e\\d{1,2}|full\\s*(hd\\s*)?movie|movie\\s*clip|film\\s*scene|official\\s*trailer|teaser\\s*trailer|dvdrip)\\b"
+
+[[title_pass2]]
+category = "animation_kids"
+pattern = "(?i)\\b(anime|cartoon|nursery\\s*rhyme|peppa\\s*pig|cocomelon|paw\\s*patrol|animation)\\b"
+
+[[title_pass2]]
+category = "cooking_recipe"
+pattern = "(?i)\\b(recipe|cooking|how\\s*to\\s*cook|how\\s*to\\s*make\\s+\\w+\\s*(juice|soup|cake|cookies?|salad)|kitchen\\s*hack|tasty\\s*recipe)\\b"
+
+[[title_pass2]]
+category = "interview_talk"
+pattern = "(?i)\\b(interview\\s*(with|clip)?|exclusive\\s*interview|sit[\\s-]down\\s*interview|podcast(\\s*episode)?|talk\\s*show|late\\s+(night\\s+)?show|q\\s*&\\s*a\\s*(session|panel)?|fireside\\s*chat|panel\\s*discussion|roundtable)\\b"
+
+[[title_pass2]]
+category = "teaching_training"
+pattern = "(?i)\\b(online\\s*course|training\\s*course|training\\s*session|webinar|seminar|master\\s*class|masterclass|lecture\\s*(series|hall)?|classroom\\s*(lesson|training)|e[-\\s]?learning|certification\\s*course|workshop\\s*(video|training)|beginner'?s?\\s*guide|step\\s*by\\s*step\\s*(tutorial|guide|lesson)|tutorial\\s*(video|guide)|how\\s*to\\s*(learn|teach|train))\\b"
+
+[[title_pass2]]
+category = "beauty_skincare"
+pattern = "(?i)\\b(makeup\\s*(tutorial|review|routine|tips?)|skincare\\s*(routine|tutorial|tips?)|beauty\\s*(tutorial|tips?|routine|haul)|try[-\\s]?on\\s*haul|cosmetic\\s*review|hair\\s*(tutorial|care\\s*tips?))\\b"
+
+[[title_pass2]]
+category = "business_speech"
+pattern = "(?i)\\b(tedx|ted\\s*talk|keynote(\\s*speech)?|motivational\\s*speech|commencement\\s*(speech|address)|graduation\\s*speech|business\\s*(talk|speech|keynote)|conference\\s*(talk|keynote|speech)|pitch\\s*(deck|speech)|sales\\s*presentation|board\\s*meeting)\\b"
+
+[[title_pass2]]
+category = "music_teaching"
+pattern = "(?i)\\b(guitar\\s*(lesson|tutorial|course)|piano\\s*(lesson|tutorial|course)|violin\\s*(lesson|tutorial)|drum\\s*(lesson|tutorial)|bass\\s*(lesson|tutorial)|ukulele\\s*(lesson|tutorial)|singing\\s*(lesson|tutorial|course)|vocal\\s*(lesson|coach|tutorial)|music\\s*(lesson|theory\\s*lesson|tutorial|course)|learn\\s*(guitar|piano|violin|drums?|singing|to\\s*sing))\\b"
+
+[[title_pass2]]
+category = "conflict_fight"
+pattern = "(?i)\\b(street\\s*fight|fight\\s*cam|fight\\s*video|brutal\\s*fight|knockout\\s*fight|argument\\s*turns\\s*(violent|physical)|confrontation\\s*(caught|video)|brawl\\s*(breaks?\\s*out|video)|vs\\s*fight|police\\s*chase\\s*fight)\\b"
+
+[[title_pass2]]
+category = "sports_compete"
+pattern = "(?i)\\b(full\\s*match|match\\s*highlights?|live\\s*match|fight\\s*night|ufc\\s*\\d*|boxing\\s*(match|highlights?)|wrestling\\s*match|\\bnba\\b|\\bnfl\\b|\\bmlb\\b|premier\\s*league|champions\\s*league|world\\s*cup\\s*(final|match|highlights?)|olympic\\s*(games|final|highlights?)|formula\\s*1|\\bf1\\s*race|cricket\\s*(match|highlights?)|tennis\\s*(final|match)|marathon\\s*(race|finish)|esports?\\s*(final|tournament))\\b"
+
+[[channel_pass2]]
+category = "certain_noise_channel"
+pattern = "(?i)^(Kindly Keyin|Tasty|Vk Vickey Gamer|TinyVerse Studio)$"
+
+[[pass2]]
+category = "game_search"
+pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|let'?s\\s*play)\\b"
+
+[[pass2]]
+category = "music_mv"
+pattern = "(?i)\\b(official\\s*music(\\s*video)?|official\\s*audio|lyrics?\\s*video|music\\s*video)\\b"
+
+[[pass2]]
+category = "interview_sports_extra"
+pattern = "(?i)\\b(exclusive\\s*interview|makeup\\s*tutorial|piano\\s*lesson|full\\s*match\\s*highlights?)\\b"

@@ -1,0 +1,45 @@
+{
+  "created_at": "2026-08-19 12:38:00",
+  "labels": "data/runs/exo_agriculture/machine_0814/03_qc/human268_thumb_v2_plus/exo农业_human_qc.csv",
+  "n_labels": 268,
+  "n_t": 188,
+  "n_f": 80,
+  "require": [
+    "q1_field_harvest",
+    "q2_not_talk_diy",
+    "q3_not_fake"
+  ],
+  "strict": {
+    "thresholds": {
+      "q1_field_harvest": -0.05,
+      "q2_not_talk_diy": -0.05,
+      "q3_not_fake": -0.02
+    },
+    "n_drop": 1,
+    "f_caught": 1,
+    "f_recall": 0.0125,
+    "drop_precision": 1.0,
+    "t_hurt": 0,
+    "t_hurt_rate": 0.0
+  },
+  "chosen": {
+    "name": "visual_tight_q1_0",
+    "thresholds": {
+      "q1_field_harvest": 0.0,
+      "q2_not_talk_diy": -0.02,
+      "q3_not_fake": -0.02
+    },
+    "n_drop": 36,
+    "f_caught": 20,
+    "f_recall": 0.25,
+    "t_hurt": 16,
+    "t_hurt_rate": 0.085,
+    "note": "human268 的 T 含鱼/鸡/猪/生存；这些被丢掉符合田间采摘口径"
+  },
+  "thresholds": {
+    "q1_field_harvest": 0.0,
+    "q2_not_talk_diy": -0.02,
+    "q3_not_fake": -0.02
+  },
+  "note": "t_hurt=0 网格仍只能丢 1 条 F（标签与非农不对齐）；收紧采用 q1=0 目视档"
+}

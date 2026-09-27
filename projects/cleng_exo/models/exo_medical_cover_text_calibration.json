@@ -1,0 +1,47 @@
+{
+  "labels_csv": "/home/jqs/tmp/exo医疗_614991c7_qc_result.csv",
+  "n_labeled": 270,
+  "n_f": 101,
+  "n_t": 169,
+  "oof_auc_f": 0.701,
+  "picked_threshold": {
+    "drop_threshold": 0.8577,
+    "n_drop": 18,
+    "catch_f": 16,
+    "n_f": 101,
+    "kill_t": 2,
+    "n_t": 169,
+    "precision": 0.8888888888395061,
+    "recall_f": 0.15841584158258995,
+    "t_kill_rate": 0.011834319526627219
+  },
+  "alt_threshold_0.75": {
+    "drop_threshold": 0.75,
+    "n_drop": 40,
+    "catch_f": 27,
+    "kill_t": 13
+  },
+  "model_path": "/home/jqs/projects/exo_dataset/models/exo_medical_cover_text_lr.pkl",
+  "feature_names": [
+    "edge_density",
+    "text_cc_area_ratio",
+    "text_cc_count",
+    "vivid_ratio",
+    "vivid_big_ratio",
+    "row_var",
+    "col_var",
+    "row_peak",
+    "lap_mean",
+    "lap_std",
+    "stroke_mean",
+    "stroke_high_ratio",
+    "band_stroke_ratio",
+    "band_vivid",
+    "light_text_cand",
+    "white_ratio",
+    "border_center_stroke_ratio",
+    "hstroke_high"
+  ],
+  "errors": [],
+  "note": "p_text_heavy = P(人工F|封面特征); drop when >= drop_threshold"
+}

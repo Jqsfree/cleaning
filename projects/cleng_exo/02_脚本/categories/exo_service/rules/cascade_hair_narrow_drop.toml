@@ -1,0 +1,17 @@
+# 理发池 certain-noise 文本 DROP（经 human261 验证）
+# tutorial/how-to 误杀高，禁止进此表
+# 仅 self_cut + 跟练扎发 DIY 标题（本样本 F 精度 100%）
+
+[meta]
+version = "1.0.0"
+category = "exo_service"
+layer = "hair_narrow_drop"
+basis = "human261 hair_clip_c90; tutorial/how-to rejected (Fprec 19%)"
+
+[[drop]]
+category = "self_haircut"
+pattern = "(?i)self\\s*haircut|cut\\s*your\\s*own\\s*hair|自己剪|自己剪发"
+
+[[drop]]
+category = "diy_hair_style"
+pattern = "(?i)快手扎|简单易学|扎发教程|高马尾跟练|懒人棒球帽发型|分享一款快手"

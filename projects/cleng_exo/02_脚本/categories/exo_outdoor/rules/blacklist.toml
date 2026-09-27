@@ -1,0 +1,301 @@
+# Blacklist — exo 户外探险（certain-noise only）
+# 依据:
+#   R1: text_qc 270（T2/F80/U181）→ v0.1
+#   R2: clean keep 抽 1000 text_qc（T4/F319/U672）→ v0.2 增补
+# 约定: 只丢「标题/频道上可确定」的噪声；U/中间带勿进 pass2
+# 匹配字段: title_channel（与 film_tv cleaner 一致）
+
+[meta]
+version = "0.5.0"
+category = "exo_outdoor"
+basis = "text_qc_20260810_134712 + text_qc_20260811_054953 + PDF exo outdoor + machine_0818 text_qc x3 (384+384+384)"
+
+# ═══════════════════ pass2: 高置信非目标 ═══════════════════
+
+[[pass2]]
+category = "pov_first_person"
+pattern = "\\b(helmet\\s*cam|\\bpov\\b|first\\s*person|chest\\s*mount|\\bfpv\\b)\\b"
+
+[[pass2]]
+category = "gear_review_unbox"
+pattern = "\\b(unboxing|buyer'?s?\\s*guide|gear\\s*guide|must[\\s-]?have\\s+\\w+|tent\\s*review|after\\s*one\\s*year)\\b"
+
+[[pass2]]
+category = "competition_broadcast"
+pattern = "\\b(x\\s*games|full\\s*competition|full\\s*match|match\\s*highlights?|race\\s*highlights?)\\b"
+
+[[pass2]]
+category = "gaming"
+pattern = "\\b(spintires|\\bgameplay\\b|\\bminecraft\\b|\\bfortnite\\b|lets?\\s*play|gta\\s*[45v]?|\\broblox\\b|fallout\\s*\\d+|prince\\s*of\\s*persia|\\bwalkthrough\\b|rc\\s*crawler|rc\\s*cars?)\\b"
+
+[[pass2]]
+category = "reality_tv"
+pattern = "\\b(north\\s*woods\\s*law)\\b"
+
+[[pass2]]
+category = "product_helmet_ad"
+pattern = "\\b(helmet\\s*introduction|motorcycle\\s*superstore|bell\\s*moto-\\d|samger\\s*dot\\s*adult|smart\\s*helmets?|helmets?\\s*\\(huds?\\)|helmet\\s*(review|buy|scam))\\b"
+
+[[pass2]]
+category = "rv_vehicle_ad"
+pattern = "\\b(forest\\s*river\\s*rv|\\d{4}\\s+ram\\s+1500\\s+trx)\\b"
+
+[[pass2]]
+category = "best_under_price"
+pattern = "\\bbest\\s+\\w+.*under\\s*\\$\\d"
+
+[[pass2]]
+category = "howto_podcast_hard"
+pattern = "\\b(the\\s*nice\\s*knit\\s*podcast|podcast\\s*\\|\\s*ep\\.?\\s*\\d+|\\bpodcast\\b|\\binterview\\b)\\b"
+
+[[pass2]]
+category = "official_audio_mv"
+pattern = "\\b(official\\s*(audio|video|mv)|music\\s*video)\\b"
+
+[[pass2]]
+category = "news_hard"
+pattern = "\\b(abc\\s*news|bbc\\s*news|breaking\\s*news)\\b"
+
+[[pass2]]
+category = "camp_gadgets_review"
+pattern = "\\b(camp\\s*kitchen\\s*review|genius\\s*camping\\s*gadgets|camping\\s*gadgets?\\s+that)\\b"
+
+[[pass2]]
+category = "how_to_pack_install"
+pattern = "\\b(how\\s*to\\s*pack|how\\s*to\\s*corner|how\\s*i\\s*pack|steps?\\s*to\\s*install|install\\s*your)\\b"
+
+[[pass2]]
+category = "things_wish_buying"
+pattern = "\\b(\\d+\\s*things\\s*i\\s*wish|before\\s*buying|before\\s*you\\s*hit\\s*the\\s*trail)\\b"
+
+[[pass2]]
+category = "outdoor_cooking_food"
+pattern = "\\b(grill\\s*chicken|steak\\s*cooked|outdoor\\s*cooking|cooked\\s*on\\s*a\\s*hot\\s*stone|chuck\\s*wagon\\s*meals)\\b"
+
+[[pass2]]
+category = "horror_stories"
+pattern = "\\b(horror\\s*stories|fishing\\s*horror\\s*stories)\\b"
+
+[[pass2]]
+category = "comedy_standup"
+pattern = "\\b(nate\\s*bargatze|stand[\\s-]?up\\s*comedy)\\b"
+
+[[pass2]]
+category = "overland_listicle"
+pattern = "\\b(\\d+\\s*(best|reliable|awesome)\\s+.*(vehicles?|camp\\s*spots?|slide[\\s-]?out|camping\\s*boxes))\\b"
+
+[[pass2]]
+category = "remote_start_ad"
+pattern = "\\b(start\\s*your\\s*car\\s*remotely|get\\s*your\\s*slot\\s*now)\\b"
+
+[[pass2]]
+category = "kids_song"
+pattern = "\\b(nursery\\s*rhyme|cocomelon|kids?\\s*songs?)\\b"
+
+[[pass2]]
+category = "winch_product_install"
+pattern = "\\b(winch\\s*with\\s*.*install|throttle\\s*controller)\\b"
+
+[[pass2]]
+category = "ebike_buying"
+pattern = "\\b(before\\s*buying\\s*an\\s*e[\\s-]?bike|electric\\s*bicycle\\s*info)\\b"
+
+[[pass2]]
+category = "tree_kit_howto"
+pattern = "\\b(tree\\s*climbing\\s*kit|monkey\\s*hardware)\\b"
+
+[[pass2]]
+category = "built_ultimate_truck"
+pattern = "\\b(how\\s*we\\s*built|ultimate\\s*rock\\s*bouncer)\\b"
+
+[[pass2]]
+category = "fishing_rodeo"
+pattern = "\\b(fishing\\s*rodeo)\\b"
+
+[[pass2]]
+category = "accident_clickbait"
+pattern = "\\b(crash\\s*lands|insane\\s*accident)\\b"
+
+[[pass2]]
+category = "top5_hiking_shoes"
+pattern = "\\b(top\\s*\\d+\\s+hiking\\s*shoes|hiking\\s*shoes\\s*20\\d{2})\\b"
+
+[[pass2]]
+category = "celebrity_networth"
+pattern = "\\b(net\\s*worth|wife\\s*\\|\\s*age)\\b"
+
+[[pass2]]
+category = "film_official_trailer"
+pattern = "\\b(official\\s*trailer|movie\\s*trailer|film\\s+trailer)\\b"
+
+# ═══════════════════ r2: 次级（仍偏确定噪声；命中即 drop）═══════════════════
+
+[[r2]]
+category = "cooking_howto_series"
+pattern = "\\b(cowboy\\s*campfire\\s*cooking|campfire\\s*cooking\\s*series|how[\\s-]?to\\s+make\\s+soup)\\b"
+
+[[r2]]
+category = "camera_showdown_ad"
+pattern = "\\b(travel\\s*camera\\s*showdown|gopro\\s*hero\\s*\\d+\\s*(black|under\\s*water))\\b"
+
+[[r2]]
+category = "outdoor_cleaning_diy"
+pattern = "\\b(outdoor\\s*cleaning|new\\s*fire\\s*pit\\s*#)\\b"
+
+[[r2]]
+category = "subaru_antilag_fun"
+pattern = "\\b(anti[\\s-]?lag|mountain\\s*pass\\s*fun)\\b"
+
+# ═══════════════ v0.3.0 新增（machine_0818 text_qc 384 F 样本）═══════════════
+
+[[pass2]]
+category = "anime_cartoon"
+pattern = "\\b(anime|baki\\b|baki\\s*hanma|tobot|gummy\\s*bear|chipmunks|roblox\\s*doors|puss\\s*n\\s*boots|pokemon\\s*firered|journey\\s*to\\s*the\\s*west|西游记|西遊記|cocomelon)\\b"
+
+[[pass2]]
+category = "kids_birthday_vlog"
+pattern = "\\b(birthday!!|grwm\\b|day\\s*in\\s*the\\s*life|family\\s*(comedy|challenge)|the\\s*.*\\s*family\\s*life)\\b"
+
+[[pass2]]
+category = "music_relaxation"
+pattern = "\\b(copyright\\s*free\\s*music|bossa\\s*nova\\s*(instrumental|for\\s*work)|relaxing\\s*ocean\\s*waves|relaxing\\s*music\\s*for|good\\s*mood\\s*jazz|official\\s*audio)\\b"
+
+[[pass2]]
+category = "tutorial_howto_hard"
+pattern = "\\b(how\\s*to\\s*make\\s*(ceramic|concrete|tile)|disassembly.*repair|setting[s]?\\s*tutorial|create\\s*a\\s*recurring\\s*invoice|zoho\\s*books|cypress\\s*(test|runner)|superposition\\s*theorem)\\b"
+
+[[pass2]]
+category = "motivational_speech"
+pattern = "\\b(motivational\\s*(speech|tips|video)|goal\\s*setting\\s*in\\s*your|life\\s*motivational)\\b"
+
+[[pass2]]
+category = "drama_series_episode"
+pattern = "\\b(full\\s*episode\\s*\\||season\\s*\\d+\\s*full\\s*episode|ep\\.?\\s*\\d+\\s*\\||kulfi\\s*the\\s*singing|forever\\s*and\\s*ever\\s*iQIYI|deewangi\\s*episode|going\\s*seventeen)\\b"
+
+[[pass2]]
+category = "esports_gaming_hard"
+pattern = "\\b(state\\s*of\\s*survival|reservoir\\s*raid|roblox|pokemon\\s+firered|enigmatis)\\b"
+
+[[pass2]]
+category = "medical_cyst_removal"
+pattern = "\\b(cyst\\s*removal|infected\\s*cyst)\\b"
+
+[[r2]]
+category = "aerobics_indoor_workout"
+pattern = "\\b(step\\s*aerobics\\s*workout|\\d+\\s*min\\s*.*disco|bpm\\s*#\\d+)\\b"
+
+[[r2]]
+category = "storm_chasing_hype"
+pattern = "\\b(tornado[es]*\\s*explained|sculpted\\s*supercell|mega\\s*lightning)\\b"
+
+[[r2]]
+category = "camera_product_review"
+pattern = "\\b(nikon\\s*d\\d+\\s*(lowlight|low\\s*light)|kodak\\s*pixpro|wyze\\s*cam|live\\s*view\\s*display.*setting)\\b"
+
+[[r2]]
+category = "history_military_helmet"
+pattern = "\\b(stahlhelm|german\\s*helmets?\\s*in\\s*ww2)\\b"
+
+# ═══════════════ v0.4.0 新增（machine_0818 run02_keep text_qc 384 F 样本）═══════════════
+
+[[pass2]]
+category = "drama_series_episode_hard"
+pattern = "\\b(full\\s*episode\\s*\\d+|ep\\.?\\s*\\d+\\s*[-–|]|prima\\s*donnas|batang\\s*quiapo|mere\\s*sai|kulfi|lazaro\\s*y\\s*el|oka\\s*tokat|tokat\\b|romance\\s*of\\s*the\\s*condor|condor\\s*heroes|jeepney\\s*tv|fpj.?s\\b)\\b"
+
+[[pass2]]
+category = "horror_thriller_film"
+pattern = "\\b(horror\\s*(short\\s*film|movie|footage)|thriller\\s*movie|full\\s*(action|mystery|thriller)\\s*movie|banned\\s*footage|haunted\\s*cabin|demon\\s*caught|ghost\\s*adventures|creepypasta|jump\\s*scares)\\b"
+
+[[pass2]]
+category = "knife_welding_tool_tutorial"
+pattern = "\\b(tig\\s*welding|walking\\s*the\\s*cup|learn\\s*how\\s*to\\s*sharpen|sharpen.*episode|western\\s*knives|weld\\s*stainless)\\b"
+
+[[pass2]]
+category = "drone_buying_guide"
+pattern = "\\b(drone\\s*buying\\s*guide|best\\s*drone\\s*for\\s*beginners|quadcopter\\s*review)\\b"
+
+[[pass2]]
+category = "nature_relaxation_ambient"
+pattern = "\\b(nature\\s*relax(ation)?\\s*(experience|video|film)|rain\\s*lullaby|sleep\\s*in\\s*a\\s*cozy|white\\s*noise.*natural\\s*sounds|cozy\\s*fire|soul\\s*centered\\s*photo)\\b"
+
+[[pass2]]
+category = "sports_car_race_highlight"
+pattern = "\\b(career\\s*highlight\\s*(mix|reel)|chris\\s*godwin|penn\\s*state\\s*wr|runningLane|ferr[a]ri\\s*enzo\\s*vs)\\b"
+
+[[pass2]]
+category = "ted_talk_motivational"
+pattern = "\\b(tedx?\\s*talk|tedx\\w*|your\\s*brain\\s*will\\s*not\\s*be\\s*the\\s*same\\s*\\|\\s*lara\\s*boyd|after\\s*watching\\s*this.*brain)\\b"
+
+[[pass2]]
+category = "indoor_workout_treadmill"
+pattern = "\\b(treadmill\\s*workout\\s*plan|paddle\\s*board\\s*yoga|workout\\s*video\\s*:)\\b"
+
+[[pass2]]
+category = "cartoon_kids_show_hard"
+pattern = "\\b(boonie\\s*bears|spidey\\s*and\\s*his\\s*amazing\\s*friends|max\\s*&\\s*ruby|diana\\s*(ajuda|uczy|bringt)|harry\\s*potter.*goblet|my\\s*sweet\\s*lord\\s*\\(2009\\)|toca\\s*(boca|life)|poppy\\s*playtime|sonic\\s*3d)\\b"
+
+[[pass2]]
+category = "crafts_diy_woodwork"
+pattern = "\\b(woodworking\\s*tips|superior\\s*accuracy\\s*in\\s*woodworking|diy\\s*(desk\\s*organizer|grinder|sewing)|sewing\\s*technique|grinder\\s*storage|angle\\s*grinder\\s*holder)\\b"
+
+[[pass2]]
+category = "wedding_family_vlog"
+pattern = "\\b(wedding\\s*vlog|brian\\s*and\\s*ling.?s\\s*wedding|mehndi\\s*vlog|sangeet\\s*night|filipina\\s*indian\\s*(family|couple)|day\\s*in\\s*(life|the\\s*life).*dubai)\\b"
+
+[[r2]]
+category = "glacier_scenic_4k"
+pattern = "\\b(glacial\\s*voyage.*4k|perito\\s*moreno\\s*glacier|nature\\s*relaxation)\\b"
+
+[[r2]]
+category = "adobe_premiere_tutorial"
+pattern = "\\b(adobe\\s*premiere\\s*pro.*amharic|premiere\\s*pro.*tutorial|one\\s*click.*audio\\s*fades.*premiere|convert\\s*3d\\s*360.*premiere)\\b"
+
+[[r2]]
+category = "extreme_truck_haul"
+pattern = "\\b(heavy\\s*truck.*mud\\s*cliff|near[\\s-]vertical\\s*mud|extreme\\s*haul)\\b"
+
+# ═══════════════ v0.5.0 新增（machine_0818 run03_keep text_qc 384 F 样本）═══════════════
+
+[[pass2]]
+category = "music_song_cover"
+pattern = "\\b(lo[\\s-]?fi\\b|type\\s*beat|full\\s*album|soulful\\s*flute\\s*cover|lyric\\s*video|cover\\)\\s*lyrics|gregorian\\s*chants|official\\s*lyric|mood\\s*off\\s*music|ft\\.\\s*\\w+.*prod\\.)\\b"
+
+[[pass2]]
+category = "meditation_ambient_music"
+pattern = "\\b(meditation\\s*music|yoga\\s*music|soaking\\s*worship|ambient\\s*music.*background|chill\\s*(morning|beat).*lo[\\s-]?fi|space\\s*ambient|healing.*study.*yoga|sleep.*relaxing\\s*music)\\b"
+
+[[pass2]]
+category = "gaming_hard_v2"
+pattern = "\\b(palworld\\b|\\bskyrim\\b|digimon\\b|red\\s*dead\\s*redemption|alien\\s*isolation|\\bdark\\s*souls\\b|death\\s*stranding|schoolboy\\s*runaway)\\b"
+
+[[pass2]]
+category = "sports_highlight_competition_hard"
+pattern = "\\b(ibjjf\\b|ifsc\\s*world\\s*champion|\\bsmackdown\\b|\\bbjj\\b|wwe\\s*(raw|event)|supercross\\s*track)\\b"
+
+[[pass2]]
+category = "camera_photography_tutorial_hard"
+pattern = "\\b(nikon\\s*z[f89]\\d*\\b|camera\\s*raw\\s*v\\d|lightroom\\s*(vs\\b|classic)|outdoor.*flash.*tutorial|\\bspeedlight\\b|nikon\\s*zf\\b)\\b"
+
+[[pass2]]
+category = "kids_education_hard_v2"
+pattern = "\\b(meridians\\s*of\\s*longitude|diana\\s*(dan\\s*roma|e\\s*roma)|diana\\s*and\\s*roma|\\d+\\s*sea\\s*animals|red\\s*day\\s*craft|florida\\s*for\\s*kids)\\b"
+
+[[pass2]]
+category = "tutorial_craft_diy_hard_v2"
+pattern = "\\b(how\\s*to\\s*split\\s*firewood|treble\\s*crochet|omnitrix\\b|cutscene.*obby|pvc\\s*(fishing|hacks?)|thank\\s*you\\s*(card|greeting\\s*card)|pottery\\s*handle|how\\s*to\\s*(make|tie).*knot\\b|improved\\s*clinch\\s*knot)\\b"
+
+[[pass2]]
+category = "cooking_food_recipe_hard"
+pattern = "\\b(salmon\\s*baits?|egg\\s*curing|\\bbrisket\\b|frying\\s*curry|clay\\s*pot\\s*recipe|harvesting\\s*rice.*cooking|cast\\s*net.*recipe|curry\\s*canned\\s*fish)\\b"
+
+[[r2]]
+category = "driving_car_moto_hard"
+pattern = "\\b(turbo\\s*(civic|supra)\\s*vs|kawasaki\\s*ninja.*clutch|grave\\s*digger.*trucks|single\\s*turbo\\s*supra)\\b"
+
+[[r2]]
+category = "reality_news_talk_hard"
+pattern = "\\b(active\\s*self\\s*protection|weekly\\s*wrap[\\s-]?up|devious\\s*licks|jewelry\\s*store.*prepared|silver\\s*price.*frank\\s*holmes)\\b"
+
+[[r2]]
+category = "gear_product_review_hard_v2"
+pattern = "\\b(big\\s*agnes\\b|\\bviktos\\b|\\bmecool\\b|inkee\\s*benbox|benbox\\b|gopro.*packs\\s*more\\s*pixels|nikon\\s*z[89f].*better\\s*than\\s*expected)\\b"

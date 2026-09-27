@@ -1,0 +1,57 @@
+# 理发 L3 CLIP — human261 校准（2026-08-17）
+# q1/q2 仅排除无真人/卡通；合取 q3 判「店内给顾客做头发」
+# q3>=0.004 → 261 人标 pass 91.4%（116/261）；优于仅 q1+q2 的 67%
+
+[meta]
+version = "1.1.0"
+category = "exo_service"
+layer = "l3_clip_hair_person_serving"
+model = "ViT-B-32"
+pretrained = "openai"
+calib = "human261_hair_clip_c90_e4585263"
+
+[decision]
+score_keys = ["q1_has_person", "q2_real_human", "q3_hair_serving"]
+require = ["q1_has_person", "q2_real_human", "q3_hair_serving"]
+
+[thresholds]
+q1_has_person = 0.0
+q2_real_human = 0.0
+q3_hair_serving = 0.004
+
+[q1_has_person]
+pos = [
+  "a photograph of a real person",
+  "a person visible in the photo",
+]
+neg = [
+  "a photo with no people",
+  "an empty room or product still life",
+  "text-only thumbnail with no person",
+]
+
+[q2_real_human]
+pos = [
+  "a real live-action photo of a human",
+  "a realistic photograph of a person",
+]
+neg = [
+  "cartoon or anime character",
+  "AI generated face or CGI 3D render",
+  "drawing illustration or VTuber",
+  "video game character screenshot",
+]
+
+[q3_hair_serving]
+pos = [
+  "a barber cutting a customer hair in a salon",
+  "a hairstylist coloring or styling a client in a barber shop",
+  "hands cutting or blow drying another person hair in a salon",
+]
+neg = [
+  "a person talking to camera about hair products",
+  "a DIY hairstyle tutorial at home with no salon customer",
+  "hair transplant before and after comparison graphic",
+  "a cartoon anime or illustration about hair",
+  "a product bottle advertisement with no haircut happening",
+]

@@ -1,0 +1,32 @@
+# Blacklist — exo 渔业牧业（certain-noise only）
+# v0.1.0: 共享硬噪声（非真人/MV/新闻/儿歌）
+# v0.2.0: 加 mukbang_recipe（round1 样本 4F 0T 0U）；不加 geographic（过宽）
+
+[meta]
+version = "0.2.0"
+category = "exo_livestock"
+basis = "shared hard-noise + eval_text_boundary round1 mukbang_recipe"
+
+[[pass2]]
+category = "gameplay"
+pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|lets?\\s*play|valorant|gta\\s*[45v]?)\\b"
+
+[[pass2]]
+category = "anime_cartoon_kids"
+pattern = "(?i)(\\banime\\b|\\bcartoon\\b|cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song)"
+
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news)"
+
+[[pass2]]
+category = "non_real_ai"
+pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake)"
+
+[[pass2]]
+category = "mukbang_recipe"
+pattern = "(?i)(\\bmukbang\\b|how\\s*to\\s*cook|\\brecipe\\b|#cooking\\b)"
