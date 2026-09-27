@@ -1,0 +1,25 @@
+{
+  "target": "cleaning",
+  "default_branch": "main",
+  "visibility": "public",
+  "base": "6ae8435be013d02b67b02c34597c06035154a391",
+  "branch": "consolidate/final-organization",
+  "sources": [
+    {
+      "name": "tiyu_project",
+      "branch": "main",
+      "prefix": "projects/tiyu_project",
+      "id": 1252217551,
+      "commit": "7f6f5a5c3c8232059417f48afe17a309b7fd0839",
+      "tree": "0305a45a954e227c26ca3feb23af8e8449bf9643",
+      "files": 82,
+      "refs": [
+        {
+          "source_ref": "refs/heads/main",
+          "target_ref": "refs/tags/imported/tiyu_project/heads/main",
+          "sha": "7f6f5a5c3c8232059417f48afe17a309b7fd0839"
+        }
+      ]
+    }
+  ]
+}
