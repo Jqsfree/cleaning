@@ -1,0 +1,375 @@
+# Entity rules
+
+sports = [
+  "rowing",  # @shared
+  "regatta",  # @shared
+  "boat race",  # @shared
+  "henley",  # @shared
+  "oxford cambridge",  # @shared
+  "surfing",  # @shared
+  "surf",  # @shared
+  "wsl",  # @shared
+  "big wave",  # @shared
+  "pickleball",  # @shared
+  "ppa",  # @shared
+  "app tour",  # @shared
+  "skiing",  # @shared
+  "alpine",  # @shared
+  "slalom",  # @shared
+  "downhill",  # @shared
+  "super-g",  # @shared
+  "athletics",  # @shared
+  "track and field",  # @shared
+  "high jump",  # @athletics
+  "long jump",  # @athletics
+  "sprint",  # @athletics
+  "fencing",  # @shared
+  "epee",  # @shared
+  "foil",  # @shared
+  "sabre",  # @shared
+  "taekwondo",  # @shared
+  "tkd",  # @shared
+  "sanda",  # @shared
+  "wushu",  # @shared
+  "snooker",  # @shared
+  "billiards",  # @shared
+  "pool",  # @shared
+  "basketball",  # @shared
+  "nba",  # @shared
+  "ncaa basketball",  # @shared
+  "football",  # @shared
+  "soccer",  # @shared
+  "fifa",  # @shared
+  "premier league",  # @shared
+  "champions league",  # @shared
+  "tennis",  # @shared
+  "atp",  # @shared
+  "wta",  # @shared
+  "wimbledon",  # @shared
+  "roland garros",  # @shared
+  "volleyball",  # @shared
+  "beach volleyball",  # @shared
+  "rugby",  # @shared
+  "cricket",  # @shared
+  "baseball",  # @shared
+  "mlb",  # @shared
+  "hockey",  # @shared
+  "nhl",  # @shared
+  "ice hockey",  # @shared
+  "golf",  # @shared
+  "pga",  # @shared
+  "lpga",  # @shared
+  "boxing",  # @shared
+  "mma",  # @shared
+  "ufc",  # @shared
+  "wrestling",  # @shared
+  "cycling",  # @shared
+  "tour de france",  # @shared
+  "swimming",  # @shared
+  "diving",  # @shared
+  "gymnastics",  # @shared
+  "badminton",  # @shared
+  "table tennis",  # @shared
+  "squash",  # @shared
+  "asian games",  # @shared
+  "olympics",  # @shared
+  "olympic",  # @shared
+  "paralympic",  # @shared
+  "world cup",  # @shared
+  "diamond league",  # @shared
+  "grand prix",  # @shared
+  "cross country",  # @shared
+  "marathon",  # @shared
+  "triathlon",  # @shared
+  "motorsport",  # @shared
+  "formula 1",  # @shared
+  "f1",  # @shared
+  "motogp",  # @shared
+  "nascar",  # @shared
+  "lacrosse",  # @shared
+  "handball",  # @shared
+  "water polo",  # @shared
+  "judo",  # @shared
+  "karate",  # @shared
+  "bjj",  # @shared
+  "grappling",  # @shared
+  "indoor bowls",  # @sport: unknown
+  "bowls",  # @sport: unknown
+  "lawn bowls",  # @sport: unknown
+  "squash tv",  # @sport: unknown
+  "glass court",  # @sport: unknown
+  "nine-ball",  # @sport: unknown
+  "10-ball",  # @sport: unknown
+  "8-ball",  # @sport: unknown
+  "chinese pool",  # @sport: unknown
+  "nll",  # @sport: unknown
+  "buffalo bandits",  # @sport: unknown
+  "box lacrosse",  # @sport: unknown
+  "horse racing",  # @sport: unknown
+  "turfway park",  # @sport: unknown
+  "keeneland",  # @sport: unknown
+  "cheltenham",  # @sport: unknown
+  "darts",  # @sport: unknown
+  "pdc",  # @sport: unknown
+  "world darts",  # @sport: unknown
+  "floorball",  # @sport: unknown
+  "unihockey",  # @sport: unknown
+  "salibandy",  # @sport: unknown
+  "bowling",  # @sport: unknown
+  "pba",  # @sport: unknown
+  "tenpin",  # @sport: unknown
+  "weightlifting",  # @sport: unknown
+  "iwf",  # @sport: unknown
+  "climbing",  # @climbing
+  "sprint",  # @athletics
+  "hurdles",  # @athletics
+  "long jump",  # @athletics
+  "high jump",  # @athletics
+  "triple jump",  # @athletics
+  "pole vault",  # @athletics
+  "steeplechase",  # @athletics
+  "race walk",  # @athletics
+  "relay race",  # @athletics
+  "world athletics",  # @athletics
+  "european championships",  # @athletics
+  "ncaa track",  # @athletics
+  "usatf",  # @athletics
+  "iaaf",  # @athletics
+  "ifsc",  # @climbing
+  "sport climbing",  # @climbing
+  "netball",  # @sport: unknown
+  "netball world cup",  # @sport: unknown
+  "ultimate",  # @sport: unknown
+  "wfdf",  # @sport: unknown
+  "ultimate frisbee",  # @sport: unknown
+  "american football",  # @american_football
+  "nfl",  # @american_football
+  "cfb",  # @american_football
+  "super bowl",  # @american_football
+  "World Table Tennis",  # @sport: unknown
+  "ttlondon2012",  # @sport: unknown
+  "NBC Sports",  # @sport: unknown
+  "Paralympic Games",  # @sport: unknown
+  "CurlingZone",  # @sport: unknown
+  "Curling Clips",  # @sport: unknown
+  "TNT Sports",  # @sport: unknown
+  "SPFL",  # @sport: unknown
+  "Western Hockey League",  # @sport: unknown
+  "KHL",  # @ice_hockey
+  "Kontinental Hockey League",  # @ice_hockey
+  "IIHF",  # @ice_hockey
+  "IIHF World Championship",  # @ice_hockey
+  "GOJHL",  # @ice_hockey
+  "OHL",  # @ice_hockey
+  "WHL",  # @ice_hockey
+  "QMJHL",  # @ice_hockey
+  "SPORTSNET",  # @ice_hockey
+  "TSN",  # @ice_hockey
+  "FEI",  # @equestrian
+  "equestrian",  # @equestrian
+  "dressage",  # @equestrian
+  "show jumping",  # @equestrian
+  "eventing",  # @equestrian
+  "Hickstead",  # @equestrian
+  "Kentucky Three-Day",  # @equestrian
+  "Badminton Horse Trials",  # @equestrian
+  "Spruce Meadows",  # @equestrian
+  "CHIO",  # @equestrian
+  "CSIO",  # @equestrian
+  "Global Champions Tour",  # @equestrian
+  "Longines",  # @equestrian
+  "Aachen",  # @equestrian
+  "Calgary Stampede",  # @equestrian
+  "short track",  # @shorttrack
+  "short track speed skating",  # @shorttrack
+  "speed skating",  # @shorttrack
+  "Milan Cortina",  # @shorttrack
+  "PyeongChang",  # @shorttrack
+  "Beijing 2022",  # @shorttrack
+  "ISU",  # @shorttrack
+  "ISU World Cup",  # @shorttrack
+  "ISU World Championships",  # @shorttrack
+]
+
+[synonyms]
+"rowing" = ["rowing", "rower", "regatta", "scull", "crew", "boat race", "hocr"]
+"surfing" = ["surfing", "surf", "wsl", "wave", "surfer"]
+"pickleball" = ["pickleball", "ppa", "dink", "kitchen"]
+"skiing" = ["skiing", "ski", "alpine", "slalom", "downhill", "super-g", "giant slalom"]
+"athletics" = ["athletics", "track", "field", "sprint", "hurdles", "decathlon"]  # @athletics
+"fencing" = ["fencing", "epee", "foil", "sabre", "fencer"]
+"taekwondo" = ["taekwondo", "tkd", "kicking"]
+"sanda" = ["sanda", "sanshou", "wushu"]
+"snooker" = ["snooker", "billiards", "147"]
+"basketball" = ["basketball", "nba", "dunk", "hoops"]
+"football" = ["football", "soccer", "fifa", "premier league", "mls", "gridiron", "pigskin", "nfl", "super bowl", "touchdown", "college football"]  # @american_football
+"tennis" = ["tennis", "atp", "wta", "wimbledon"]
+"asian games" = ["asian games", "asiad", "hangzhou", "jakarta"]
+"olympics" = ["olympic", "olympics", "paris 2024", "tokyo 2020", "beijing 2022"]
+"hockey" = ["hockey", "nhl", "flames", "canadiens", "bruins", "rangers", "khl", "iihf", "gojhl", "ohl", "whl", "qmjhl", "sportsnet", "tsn", "lightning", "coyotes", "flyers", "penguins", "red wings", "blackhawks", "oilers", "maple leafs", "senators", "jets", "canucks", "kings", "sharks", "ducks", "blues", "stars", "predators", "avalanche", "hurricanes", "blue jackets", "wild", "panthers", "golden knights", "kraken"]
+"squash" = ["squash", "squash tv", "glass court", "boast"]
+"lacrosse" = ["lacrosse", "nll", "box lacrosse", "bandits"]
+"indoor bowls" = ["indoor bowls", "bowls", "lawn bowls", "lawn green"]
+"darts" = ["darts", "pdc", "bullseye"]
+"floorball" = ["floorball", "unihockey", "salibandy"]
+"american football" = ["nfl", "cfb", "super bowl", "touchdown"]
+"cricket" = ["cricket", "ipl", "bcci", "wicket"]
+"equestrian" = ["equestrian", "fei", "dressage", "show jumping", "eventing", "hickstead", "horse", "equestrianism"]
+
+[[channel_whitelist]]
+# 命中黑名单但确认为真实体育的频道/赛事名，黑名单豁免
+# 来源：run02 FN 分析，step1_blacklist 误杀样本
+terms = [
+  # -- @equestrian (来自 equestrian_one DROP FN 分析) --
+  "FEI",
+  "HITS Ocala",
+  "FIE Fencing",
+  "Northern Ireland Open",
+  "Dressage",
+  # -- @archery (来自 archery_one DROP FN 分析, 共65频道) --
+  "World Archery",
+  "FIBA3x3",
+  "FIFA",
+  "College Championships",
+  "Jomboy Media",
+  "World Gymnastics Channel",
+  "World Table Tennis",
+  "Paralympic Games",
+  "NBC Sports",
+  "Sky Sports",
+  "Newcastle United",
+  "Crewe Alexandra",
+  "WNBA",
+  "FISU",
+  "British Pathé",
+  "American Football International",
+  "Kerala Olympic",
+  "Go Beyond Sports",
+  "ISSF",
+  "Fencing Vision",
+  "Amplified",
+  "Not Just Every Four Years",
+  "rhythmic gymnastics club",
+  "Tom Daugherty",
+  "Fight Mentality",
+  "Gabriel Medeiros",
+  "RED",
+  "Türkiye Voleybol Federasyonu",
+  "Illinois DNR",
+  "nicoleclarke116",
+  "Pac-12",
+  "FIBA Basketball",
+  "Wimbledon",
+  "Wanda Diamond League",
+  "United World Wrestling",
+  "runnerspace",
+  "Sound Running",
+  "Big Ten Football",
+  "EUROLEAGUE BASKETBALL",
+  "ESCRIME TV",
+  "NFL Throwback",
+  "Sport Kite",
+  "Entertainment - Mediacorp",
+  "Shore Shot Archery",
+  "The Brotherhood of North Dakota",
+  "Archery Connection",
+  "Kenzo Fernandes",
+  "Cricket Wricket",
+  "markosparko78",
+  "Top Bins Football",
+  "Dorking Wanderers",
+  "Minnesota Gophers",
+  "Mehak Shahid",
+  "IKF Africa",
+  "nausch01",
+  "stance",
+  "Hockey Trend",
+  "Muay Thai Galaxy",
+  "N1 Media Consultancy",
+  "Chess Guru",
+  # -- @american_football (来自 american_football_one DROP FN 分析) --
+  "SW561",
+  "MJSIII",
+  "cflvideo1964",
+  "SteelBuck 6",
+  "Neion Vintage NFL",
+  "rtsportsuploads",
+  "All Highlights",
+  "Comrade Dobler",
+  "Lafayette Cathey",
+  "Tim McCartney",
+  "The Man Cave TV",
+  "Highlight Castle",
+  "jeff yeaple",
+]
+action = "skip_blacklist"
+category = "verified_sport"
+
+[channel_whitelist_regex]
+pattern = "(?i)\\b(FEI|HITS\\s*Ocala|FIE\\s*Fencing|Northern\\s*Ireland\\s*Open|Dressage|World\\s*Archery|FIBA3x3|FIFA|College\\s*Championships|Jomboy\\s*Media|World\\s*Gymnastics\\s*Channel|World\\s*Table\\s*Tennis|Paralympic\\s*Games|NBC\\s*Sports|Sky\\s*Sports|Newcastle\\s*United|Crewe\\s*Alexandra|WNBA|FISU|British\\s*Pathé|American\\s*Football\\s*International|Kerala\\s*Olympic|Go\\s*Beyond\\s*Sports|ISSF|Fencing\\s*Vision|Amplified|Not\\s*Just\\s*Every\\s*Four\\s*Years|rhythmic\\s*gymnastics\\s*club|Tom\\s*Daugherty|Fight\\s*Mentality|Gabriel\\s*Medeiros|RED|Türkiye\\s*Voleybol\\s*Federasyonu|Illinois\\s*DNR|nicoleclarke116|Pac-12|FIBA\\s*Basketball|Wimbledon|Wanda\\s*Diamond\\s*League|United\\s*World\\s*Wrestling|runnerspace|Sound\\s*Running|Big\\s*Ten\\s*Football|EUROLEAGUE\\s*BASKETBALL|ESCRIME\\s*TV|NFL\\s*Throwback|Sport\\s*Kite|Entertainment\\s*-\\s*Mediacorp|Shore\\s*Shot\\s*Archery|The\\s*Brotherhood\\s*of\\s*North\\s*Dakota|Archery\\s*Connection|Kenzo\\s*Fernandes|Cricket\\s*Wricket|markosparko78|Top\\s*Bins\\s*Football|Dorking\\s*Wanderers|Minnesota\\s*Gophers|Mehak\\s*Shahid|IKF\\s*Africa|nausch01|stance|Hockey\\s*Trend|Muay\\s*Thai\\s*Galaxy|N1\\s*Media\\s*Consultancy|Chess\\s*Guru|SW561|MJSIII|cflvideo1964|SteelBuck\\s*6|Neion\\s*Vintage\\s*NFL|rtsportsuploads|All\\s*Highlights|Comrade\\s*Dobler|Lafayette\\s*Cathey|Tim\\s*McCartney|The\\s*Man\\s*Cave\\s*TV|Highlight\\s*Castle|jeff\\s*yeaple)\\b"
+
+weak_entities = [
+  "analysis",
+  "best",
+  "breakdown",
+  "broadcast",
+  "champion",
+  "champions",
+  "clip",
+  "clips",
+  "club",
+  "comment",
+  "commentary",
+  "competition",
+  "contest",
+  "coverage",
+  "episode",
+  "event",
+  "events",
+  "faceoff",
+  "final",
+  "finals",
+  "full",
+  "game",
+  "games",
+  "goal",
+  "goals",
+  "hd",
+  "highlight",
+  "highlights",
+  "league",
+  "live",
+  "match",
+  "matches",
+  "play",
+  "player",
+  "players",
+  "playing",
+  "prelim",
+  "race",
+  "racing",
+  "recap",
+  "review",
+  "running",
+  "score",
+  "scoring",
+  "season",
+  "semi",
+  "series",
+  "showdown",
+  "sport",
+  "sports",
+  "stream",
+  "streams",
+  "team",
+  "teams",
+  "top",
+  "tournament",
+  "tourney",
+  "versus",
+  "video",
+  "videos",
+  "vs",
+  "win",
+  "winner",
+]

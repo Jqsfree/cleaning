@@ -1,0 +1,11 @@
+data/runs/
+data/raw/
+data/archive/
+datasets/
+__pycache__/
+*.pyc
+.venv/
+.env
+*.bak_*
+.DS_Store
+.idea/

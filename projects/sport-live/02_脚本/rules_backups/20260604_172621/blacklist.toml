@@ -1,0 +1,857 @@
+# Blacklist rules
+# 29 pass2 + 73 r2
+
+[meta]
+version = "2.0"
+
+[[pass2]]
+category = "kpop_fan"
+pattern = "\\b(fmv|fan\\s*cam|fanmeet|fan\\s*meet)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(k[\\s-]?pop|kpop|snsd|taeyeon|taeny|bts\\b|blackpink|twice\\b|exo\\b|nct\\b|stray\\s*kids)\\b"
+
+[[pass2]]
+category = "gaming"
+pattern = "\\b(minecraft|roblox|fortnite|gameplay|let'?s\\s*play|walkthrough|mod\\s*apk)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(peppa\\s*pig|cartoon|anime\\b|nursery\\s*rhyme|kids\\s*channel)\\b"
+
+[[pass2]]
+category = "religion"
+pattern = "\\b(worship|sermon|prayer|bible|gospel|pastor|church\\s*service)\\b"
+
+[[pass2]]
+category = "food_lifestyle"
+pattern = "\\b(recipe|cooking|mukbang|asmr\\b|eat\\s*with\\s*me)\\b"
+
+[[pass2]]
+category = "shopping_beauty"
+pattern = "\\b(unboxing|haul\\b|try\\s*on|makeup\\s*tutorial)\\b"
+
+[[pass2]]
+category = "vlog_entertainment"
+pattern = "\\b(prank|vlog\\b|daily\\s*vlog|mukbang)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(podcast|talk\\s*show|stand\\s*up\\s*comedy|comedy\\s*special)\\b"
+
+[[pass2]]
+category = "movie_tv"
+pattern = "\\b(netflix|love\\s*is\\s*blind|movieclips|official\\s*trailer|teaser\\s*trailer)\\b"
+
+[[pass2]]
+category = "life_event"
+pattern = "\\b(graduation|wedding\\s*recap|birthday\\s*party)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(how\\s*to\\b|tutorial\\b|training\\s*tips|workout\\s*routine)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(reaction\\s*video|reacts?\\s*to)\\b"
+
+[[pass2]]
+category = "music"
+pattern = "\\b(lofi|chill\\s*beats|music\\s*video|official\\s*audio|lyrics\\s*video)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(naruto|one\\s*piece|dragon\\s*ball|demon\\s*slayer)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(la\\s*la\\s*land|suicide\\s*squad|movie\\s*scene)\\b"
+
+[[pass2]]
+category = "wwe_wrestling"
+pattern = "\\b(wwe|smackdown|wwe\\s*raw|wrestlemania)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(john\\s*cena|undertaker)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(subway\\s*surfers|street\\s*fighter|mario\\s*kart|starcraft|free\\s*fire|garena)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(call\\s*of\\s*duty|\\bcod\\b|black\\s*ops|\\bmlg\\b)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(pga\\s*tour\\s*2k|pro\\s*yakyuu\\s*spirits|alpine\\s*ski\\s*racing\\s*20\\d|nba\\s*2k|nhl\\s*2k|madden\\s*nfl|full\\s*game\\s*movie)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(lol\\s*esports|blink\\s*esports|gaming\\s*mason|all\\s*nintendo\\s*music|esports\\s*vod)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(rap\\s*battle|url\\s*rap|chess\\s*vs|stickman\\s*vs|stick\\s*figure\\s*vs)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(drum\\s*battle|percussion\\s*vs|food\\s*vs|lego\\s*vs|animal\\s*vs|caucasian\\s*shepherd\\s*vs|wolf\\s*vs|20\\s*women\\s*vs)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(drag\\s*race.*(rupaul|crave|tongue\\s*pop))\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(ford\\s*explorer\\s*vs\\s*dodge|gtr\\s*vs\\s*z06|suv\\s*drag\\s*race|car\\s*vs\\s*car)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(snowboard\\s*ski\\s*goggles\\s*comparison|helmet\\s*vs|goggle\\s*vs|gear\\s*comparison)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(surf\\s*photography|wave\\s*pool\\s*review|surf\\s*skate|old\\s*and\\s*rare\\s*footage|historical\\s*footage|50\\s*years\\s*of)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(chairlift\\s*goodness|steilsten\\s*skipisten|deadliest\\s*waves)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(women\\s*of\\s*wrestling|wow\\s*women)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(ai\\s*bubble|dot\\.com\\s*bubble|economic\\s*collapse)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(did\\s*you\\s*know|fun\\s*fact|dr\\.\\s*berg)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(hades\\s*ii|chronos|boss\\s*fight|roguelike)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(wc3\\b|warcraft\\s*iii|dota\\s*2|rws\\s*asia)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(pes\\s*simulation|fifa\\s*simulation|nba\\s*2k\\s*simulation)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(ad\\s*finem|the\\s*summit\\s*\\d|european\\s*qualifier.*dota)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(full\\s*inside\\s*the\\s*nba|chuck\\s*&\\s*shaq|nba\\s*talk\\s*show)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(grid\\s*tonight|hots\\s*and\\s*nots|formula\\s*1\\s*podcast)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(hotels.*olympic|skipping.*olympic\\s*village)\\b"
+
+
+[[pass2]]
+category = "phase6_fp_fix"
+pattern = "\\b(prediction|predict|will\\s*beat)\\b.*\\b(match|game|final|championship)\\b"
+
+
+[[pass2]]
+category = "pingpong_keep_qc_fp"
+pattern = "\\b(backhand\\s*comparison|forehand\\s*analysis|technique\\s*analysis)\\b"
+
+
+[[pass2]]
+category = "pingpong_keep_qc_fp"
+pattern = "\\b(what\\s*you\\s*should\\s*not|what\\s*not\\s*to\\s*do)\\b.*\\b(tennis|ping\\s*pong|table\\s*tennis)"
+
+
+[[pass2]]
+category = "pingpong_keep_qc_fp"
+pattern = "\\b(mtg\\s*arena|magic\\s*the\\s*gathering|historic\\s*brawl)\\b"
+
+
+[[pass2]]
+category = "pingpong_keep_qc_fp"
+pattern = "\\b(card\\s*game|trading\\s*card|deck\\s*building)\\b"
+
+
+[[pass2]]
+category = "pingpong_keep_qc_fp"
+pattern = "\\b(actors\\s*vs|vs.*real\\s*criminal|vs.*average\\s*joe)\\b"
+
+
+[[pass2]]
+category = "pingpong_keep_qc_fp"
+pattern = "\\b(jannabi|for\\s*lovers\\s*who\\s*hesitate|kpop\\s*mv)\\b"
+
+
+[[pass2]]
+category = "pingpong_keep_qc_fp"
+pattern = "\\b(LegenVD|PlayYourCourt)\\b"
+
+
+[[pass2]]
+category = "keep_qc_v2_fp"
+pattern = "\\b(CTA\\s*Cup)\\b"
+
+
+[[pass2]]
+category = "keep_qc_v2_fp"
+pattern = "\\b(VGBootCamp|Hot\\s*Games\\s*Unlimited|Top\\s*Best\\s*Games|World\\s*of\\s*Tanks)\\b"
+
+
+[[pass2]]
+category = "keep_qc_v2_fp"
+pattern = "\\b(xCatG\\s*Gaming|GloomyGeek|BLASIANDaTroll|Saganek)\\b"
+
+
+[[pass2]]
+category = "keep_qc_v2_fp"
+pattern = "\\b(Genshin\\s*Impact|Danganronpa|Ultra\\s*Despair\\s*Girls)\\b"
+
+
+[[pass2]]
+category = "keep_qc_v2_fp"
+pattern = "\\b(paso\\s*a\\s*paso|circuito\\s*escalera|electricista\\s*en\\s*casa)\\b"
+
+
+[[pass2]]
+category = "keep_qc_v2_fp"
+pattern = "\\b(keto\\s*gofry|recipes?\\s*for\\s*you|cloves\\s*with\\s*ginger)\\b"
+
+
+[[pass2]]
+category = "keep_qc_v2_fp"
+pattern = "\\b(area\\s*51|secret\\s*bunker|chuck\\s*norris|fire\\s*department\\s*engine)\\b"
+
+
+[[pass2]]
+category = "keep_qc_v2_fp"
+pattern = "\\b(background\\s*crowd\\s*cheering|crowd\\s*noise\\s*sound\\s*effect)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_fp"
+pattern = "\\b(juggalo\\s*championship\\s*wrestling|jcw\\b|true\\s*wrestling)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_fp"
+pattern = "\\b(dylan\\s*lydy|chase\\s*gallik|arm\\s*wrestling)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_fp"
+pattern = "\\b(slippery\\s*slope|disappearing\\s*ledges|survive\\s*the)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_fp"
+pattern = "\\b(team\\s*edge|game\\s*challenge|challenge\\s*game)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_fp"
+pattern = "\\b(scotland.*world\\s*cup|qualifying.*world\\s*cup)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_fp"
+pattern = "\\b(steroid\\s*women|average\\s*joe.*arm\\s*wrestling)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_fp"
+pattern = "\\b(Psychopathic\\s*Records|Jesse\\s*James\\s*West)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_r4_esports_channels"
+pattern = "\\b(Beyond\\s*the\\s*Summit|HLTVorg|Valorant\\s*Champions\\s*Tour|MrHeroGamer319|Basetradetv\\s*Archives)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_r4_gaming_channels"
+pattern = "\\b(Daisy.*Mario\\s*Princess|Tyrese.*Megastar|Rebirth\\s*of\\s*Football|W2S\\b|Team\\s*Edge)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_r4_media_channels"
+pattern = "\\b(CBC\\s*News|The\\s*Herd\\s*with|Round\\s*Box\\s*Machinery|Edittim|True\\s*Recap)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_r4_mario_olympics"
+pattern = "\\b(Mario\\s*&\\s*Sonic\\s*at\\s*the\\s*Olympic|Sochi\\s*2014.*Olympic.*Game|Vancouver\\s*2010.*Olympic.*Game|Olympic\\s*Winter\\s*Games.*Nintendo|Olympic\\s*Winter\\s*Games.*Wii)\\b"
+
+
+[[pass2]]
+category = "curling_keep_qc_r4_soccer_sim"
+pattern = "\\b(Portugal\\s*vs.*FIFA\\s*World\\s*Cup.*Simulat|European\\s*Qualifiers.*FIFA.*Simulat|EXTREME\\s*FORFEIT\\s*FOOTBALL)\\b"
+
+
+[[pass2]]
+category = "handball_fp"
+pattern = "\\b(Betting\\s*Weekly|SourceForge|Championship\\s*Product)\\b"
+
+
+[[pass2]]
+category = "handball_fp"
+pattern = "\\b(All\\s*Elite\\s*Wrestling|AEW\\s*Collision|WPHLiveTV|West\\s*Ham\\s*Fan\\s*TV)\\b"
+
+
+[[pass2]]
+category = "handball_fp"
+pattern = "\\b(Got7_nice|Enigma\\s*Path|LostNUnbound|Colin\\s*Hay)\\b"
+
+
+[[pass2]]
+category = "handball_fp"
+pattern = "\\b(iPad\\s*Pro\\s*vs|which\\s*should\\s*you\\s*buy)\\b"
+
+
+[[pass2]]
+category = "handball_fp"
+pattern = "\\b(volleyball|French\\s*Open.*Prediction|Djokovic|Zverev)\\b.*\\b(handball)\\b"
+
+
+[[pass2]]
+category = "handball_fp"
+pattern = "\\b(FIFA.*Messi|Messi.*World\\s*Cup|AFL\\s*Grand\\s*Final)\\b"
+
+
+[[pass2]]
+category = "handball_fp"
+pattern = "\\b(Warriors\\s*vs\\s*Thunder|Burnley.*West\\s*Ham|football\\s*fan\\s*TV)\\b"
+
+
+[[pass2]]
+category = "handball_fp_r2"
+pattern = "\\b(hima\\s*handball\\s*training|iCoach\\s*Handball|Examsdaily)\\b"
+
+
+[[pass2]]
+category = "handball_fp_r2"
+pattern = "\\b(PokerStars|PokerStars\\s*Caribbean|UKF\\s*Dubstep)\\b"
+
+
+[[pass2]]
+category = "handball_fp_r2"
+pattern = "\\b(BBC\\s*Sport|GOAL\\s*TEVE|ESPN\\s*FC|On\\s*The\\s*Bench)\\b"
+
+
+[[pass2]]
+category = "handball_fp_r2"
+pattern = "\\b(HUSBAND\\s*VS\\s*WIFE|NBA\\s*2K\\d|brother\\s*vs\\s*brother)\\b"
+
+
+[[pass2]]
+category = "handball_fp_r2"
+pattern = "\\b(Banned\\s*Commercials|Nike\\s*-\\s*Soccer\\s*vs\\s*ninjas)\\b"
+
+
+[[pass2]]
+category = "handball_fp_r2"
+pattern = "\\b(Daily\\s*hot\\s*trends|RickRunGood|StaxMontana|doobie96|TPS\\b)\\b"
+
+
+[[pass2]]
+category = "handball_fp_r2"
+pattern = "\\b(핵유얼타임|HackYourTime|Jerome127\\s*Kwasniowsk)\\b"
+
+
+[[pass2]]
+category = "volleyball_audit_channel"
+pattern = "\\b99\\.9\\s+The\\s+Fan\\b"
+
+
+[[pass2]]
+category = "volleyball_audit_channel"
+pattern = "\\bSBS\\s+South\\s+Asian\\b"
+
+
+[[pass2]]
+category = "volleyball_audit_channel"
+pattern = "\\bW\\s+TV\\b"
+
+
+[[pass2]]
+category = "volleyball_audit_channel"
+pattern = "\\bForbes\\b"
+
+
+[[pass2]]
+category = "volleyball_audit_channel"
+pattern = "\\bThePrint\\b"
+
+
+[[pass2]]
+category = "climbing_fp"
+pattern = "\\b(VGBootCamp|FIRSTRoboticsCompetition)\\b"
+
+
+[[pass2]]
+category = "climbing_fp"
+pattern = "\\b(LCK\\s*Global|WVU\\s*Smash|Tampa\\s*Smash|Georgia\\s*Melee|Ramapo\\s*Smash\\s*Club|shadypenguinn)\\b"
+
+
+[[pass2]]
+category = "climbing_fp"
+pattern = "\\b(GMHikaru|UNTV\\s*News\\s*and\\s*Rescue|NBC\\s*News)\\b"
+
+
+[[pass2]]
+category = "climbing_fp"
+pattern = "\\b(robotique|robotics|frc\\b|first\\s*robotics)\\b"
+
+
+[[pass2]]
+category = "shorttrack_fp"
+pattern = "\\b(Mario\\s*And\\s*Sonic\\s*Gaming|Tyrese\\s*The\\s*Megastar|Daisy\\s*The\\s*Super\\s*Mario\\s*Princess)\\b"
+
+
+[[pass2]]
+category = "shorttrack_fp"
+pattern = "\\b(Nico\\s*SuperSonic\\s*Gamer|Sonic'?s?\\s*Mixtapes|MrHeroGamer\\d+|WiiLikeToPlay|LeviTheHyperLegend)\\b"
+
+
+[[pass2]]
+category = "shorttrack_fp"
+pattern = "\\b(ViviVGM|YTSunny|shadowmetalmario|Epic\\s*Dude\\s*Plays|TheOlympicsHD|SneakerDude\\d+)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(walkthrough|let'?s\\s*play|gameplay\\s*part\\s*\\d+)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(mod\\s*apk|apk\\s*mod|hack\\s*tool|cheat\\s*engine)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(gta\\s*[45v]|grand\\s*theft\\s*auto|cyberpunk)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(dota\\s*2|league\\s*of\\s*legends|valorant|overwatch)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(minecraft\\s*(server|survival|bedwars|skyblock))\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(official\\s*trailer|teaser\\s*trailer)\\b.*\\b(movie|film|hd)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(full\\s*episode\\s*(season|episode)?\\s*\\d+)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(behind\\s*the\\s*scenes|making\\s*of|bloopers?)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(official\\s*(music\\s*)?video|lyrics?\\s*video|audio\\s*only)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(lofi|chill\\s*(beats|hop|mix)|relaxing\\s*music)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(bible\\s*study|sermon\\s*series|worship\\s*(night|live))\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(crash\\s*course|full\\s*course|masterclass\\b|bootcamp\\b)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(press\\s*conference|white\\s*house|presidential|election)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(wwe\\s*(smackdown|raw|raw\\s*\\d+)|kenny\\s*omega|bryan\\s*danielson|ring\\s*of\\s*honor|roh\\s*bound)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(pga\\s*tour\\s*2k|nhl\\s*2k|alpine\\s*ski\\s*racing\\s*20\\d|pro\\s*yakyuu\\s*spirits|nba\\s*2k|madden\\s*nfl|mlb\\s*the\\s*show|ea\\s*sports\\s*fc)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(fifa\\s*\\d+|fifa\\s*(ultimate|career|manager))\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(barstool\\s*sports|theflightmike|fullridenation|baseball\\s*isn'?t\\s*boring|sunday\\s*supplement)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(sparring\\s*session|sparring\\s*&?\\s*discussion|pro\\s*boxing\\s*sparring|follow\\s*along\\s*rowing|fairway\\s*woods\\s*and\\s*hybrids)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(golf\\s*lessons|wisdom\\s*in\\s*golf|fighttips|rowalong)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(lol\\s*esports|blink\\s*esports|gaming\\s*mason|all\\s*nintendo\\s*music|esports\\s*vod)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(closing\\s*ceremony|opening\\s*ceremony|ceremonial\\s*weigh[\\s-]?in|big\\s*wave\\s*awards)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(50\\s*years\\s*of\\s*title\\s*ix|entry\\s*of\\s*the\\s*year)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(what\\s*is\\s*(henley|the\\s*[a-z]+\\s*(royal|regatta|championship|grand|world)))\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(din\\s*djarin\\s*vs|loki\\s*vs\\s*russell|ippo\\s*vs\\s*sendo|dashie\\s*vs\\s*lamarr)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(tongue\\s*pop\\s*by|sub\\s*focus\\s*&?\\s*wilkinson\\s*vs|drum\\s*&?\\s*bass\\s*vs)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(ford\\s*explorer\\s*vs\\s*dodge|gtr\\s*vs\\s*z06|suv\\s*drag\\s*race)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(shawn\\s*clement'?s?\\s*wisdom|clement'?s?\\s*wisdom\\s*in\\s*golf)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(cess\\s*talks\\s*sports|the\\s*athletic\\s*nba|nba\\s*news\\s*24h|frankly\\s*hockey|letsrun|oneturf\\s*universe)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(pga\\s*dfs|inside\\s*the\\s*ropes|dfs\\s*&\\s*betting|fantasy\\s*football|sports\\s*betting|swot\\s*analysis|post-match\\s*analysis.*nukta)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(talksports?\\s*golf|run\\s*pure\\s*sports|fanatics\\s*view|unfiltered\\s*w\\b|barstool\\s*sports)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b\\w+-\\s*Topic\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(dj\\s*mag|dj\\s*set|extended\\s*mix|official\\s*audio.*music|music\\s*video)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(wuxia\\s*fantasy|dashing\\s*youth|star\\s*jalsha|gma\\s*network|youku\\s*english)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(full\\s*story.*episode\\s*\\d+|episode\\s*\\d+.*part\\s*\\d|season\\s*\\d+.*episode\\b)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(red\\s*bull\\s*dance|dance\\s*your\\s*style|tahitian\\s*dance\\s*competition)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(bullpen\\s*battle|2livecrew\\s*vs|streetrunnaz|officialmemphisjookin|waackxxxy\\s*vs)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(rap\\s*battle.*league|battle\\s*league.*rap|battle.*politics|arson\\s*vs)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(simple\\s*history|topt\\s*enz|archaic\\s*arms|legends\\s*of\\s*the\\s*green)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(most\\s*underrated\\s*ancient|terrible\\s*examples\\s*of\\s*human|yakuza.*mafia)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(cohhcarnage|fuzzfinger\\s*gaming|mcduffy\\s*gaming|stayplation\\s*gaming|epic\\s*tabs|harleen\\s*quinzel)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(final\\s*fantasy\\s*(xii|xiii|xiv|xv|xvi|union)|baldur'?s\\s*gate|wii\\s*sports\\s*resort|star\\s*wars.*clone\\s*wars)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(clash\\s*of\\s*clans|clash\\s*royale|totally\\s*accurate\\s*battle|king\\s*of\\s*fighters\\s*xv)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(trials\\s*of\\s*osiris|destiny\\s*2|flawless\\s*pov|boss\\s*fight|esper\\s*boss|starcraft.*alpha)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(sakshi\\s*tv|aaradhya\\s*ras\\s*academy|narendra\\s*modi|daiwik\\s*funtime|mayor\\s*sylvester\\s*turner)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(scammers\\s*looting|upi\\s*scammers|rajasthan\\s*history|gk\\s*gs|bol\\s*network|game\\s*show\\s*aisay)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(first\\s*person\\s*view\\s*gopro|boise\\s*river\\s*surf|winter\\s*sesh|rough\\s*cut)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(let'?s\\s*ski!|gopro\\s*(ski|surf|snow)|campfire\\s*at\\s*sunset|4k\\s*12h|alpine.*peak\\s*to\\s*peaks|sunset\\b)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(olympic\\s*rings\\s*in\\s*kew|gymnastics\\s*gala\\s*performance|throwback\\s*thursday|paralympic.*torch)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(dishwasher\\s*for\\s*beginners|install\\s*dishwasher|clay\\s*making|diy\\s*replace)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(treasure\\s*coast\\s*house\\s*hunters|colton\\s*crump\\s*diy|real\\s*estate.*home\\s*beats)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(donald\\s*trump\\s*skipped|pm\\s*modi\\s*live|mann\\s*ki\\s*baat|women\\s*protest\\s*for)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(protaekwondo\\s*en\\s*santa|alto\\s*impacto\\s*marcial|gun.*firing|hk\\s*gmg|mk19)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(funker\\s*530|warleaks|military\\s*blog|combat\\s*footage|veteran\\s*community|ukrainain\\s*forces)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(all\\s*elite\\s*wrestling|aew\\s*dynamite|owen\\s*cup|aew\\b.*wrestling)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(willow\\s*nightingale|mariah\\s*may|#\\s*aew|#\\s*aew\\s*dynamite)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(kill\\s*tony|jamar\\s*neighbors|brian\\s*moses|overtime\\s*with\\s*matt\\s*moscona)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(game\\s*grumps|arekkz\\s*gaming|decathlon\\s*gamer|bilsavage|races\\s*and\\s*fun)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(mario\\s*&\\s*sonic\\s*at\\s*the\\s*olympic|olympic\\s*games\\s*tokyo\\s*2020.*gamer)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(golf\\s*clash|mlbb\\b|m3\\s*world|mobile\\s*legends|hot\\s*wheels.*race|matchbox\\s*tournament)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(pcm\\s*yeti|cycling.*game.*ep\\s*\\d+|metal\\s*gear\\s*solid|mother\\s*base)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(hk\\s*models.*review|b17g\\s*review|model\\s*kit.*\\d+/\\d+)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(beijing\\s*2022.*torch|olympic\\s*torch|paris\\s*olympic.*bronze\\s*medal.*news)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(manu\\s*bhaker|dehradun\\s*connection|jai\\s*bharat\\s*tv)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(viking\\s*pickleball\\s*paddles|now\\s*on\\s*sale.*pickleball|\\$\\d+\\s*vs\\s*\\$\\d+\\s*karate)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(karate\\s*gi|martial\\s*arts.*equipment|pickleball\\s*warehouse)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(ski\\s*prep|ankle\\s*flexion|c.mo\\s*guardar\\s*los\\s*esqu.s|session\\s*de\\s*surf\\s*en)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(surf\\s*outside.*restaurant|best\\s*watched\\s*on\\s*hd|beach\\s*house\\s*restaurant)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(motor\\s*trend\\s*channel|roadkill\\s*garage|cheap\\s*upgrades\\s*on\\s*our)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(remote\\s*control\\s*your\\s*computer|teamviewer|android\\s*device.*remote)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(asian\\s*kung-fu\\s*generation|haruka\\s*kanata|official\\s*youtube.*band)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(tournament\\s*lessons.*every\\s*shot\\s*counts|postgame\\s*comments\\s*u18|usa\\s*hockey.*postgame)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(qatar\\s*sentenced.*indians|spying\\s*on\\s*israel|adeel\\s*azhar)\\b"
+
+[[r2]]
+category = "r2_extended"
+pattern = "\\b(remote\\s*control\\s*your|florida\\s*state.*it\\s*starts\\s*here|bowserfsu)\\b"
+
+[[pass2]]
+category = "round1_gaming_channels"
+pattern = "\\b(CoryxKenshin|Ryan'?s\\s*World|Slogo|2G[Gg]aming|Tekken\\s*8)\\b"
+
+[[pass2]]
+category = "round1_esports_channels"
+pattern = "\\b(ESL\\s*Archives|joinDOTA|StarLadder|CS2\\s*Highlights)\\b"
+
+[[pass2]]
+category = "round1_gaming_titles"
+pattern = "\\b(obby|stream\\s*highlights|UNINSTALLING|CS\\s*1\\.6|CPU\\s*TOURNAMENT|MVP'?S\\s*That)\\b"
+
+[[pass2]]
+category = "round1_non_sport_titles"
+pattern = "\\b(post[-\\s]match\\s*(thoughts|reaction|interview)|Princess\\s*Diana|looks\\s*forward\\s*to|NEVER\\s*Won)\\b"
+
+[[pass2]]
+category = "round2_fake_sports"
+pattern = "\\b(Johnny\\s*Mac'?s?\\s*Stadium|Played\\s*n\\s*Faved|Sound\\s*Effects.*Stock\\s*Footage|Friesian\\s*Horses)\\b"
+
+[[pass2]]
+category = "round2_gaming_titles"
+pattern = "\\b(FIFA\\s*\\d+|PACK\\s*OPENINGS|SQUAD\\s*BATTLES|Hades\\s*II|Super\\s*Smash\\s*Bros|NHL\\s*\\d+\\s*HUT|All\\s*Deaths\\s*&\\s*Mutations)\\b"
+
+[[pass2]]
+category = "round2_misc_non_sports"
+pattern = "\\b(Officer[-\\s]Involved\\s*Shooting|Arabian\\s*Horse|Earth\\s*has\\s*TILTED|Homemade\\s*Dessert|tired\\s*of\\s*eating|Honky\\s*Tonk\\s*Women)\\b"
+
+[[pass2]]
+category = "round3_curling_esports"
+pattern = "\\b(Dota|ESEA|VCT\\s*\\d{4}|IEM\\s*Dallas|DreamLeague|Rocket\\s*League\\s*Tournament|WC3\\s*-|PES20|PESWC)\\b"
+
+[[pass2]]
+category = "round3_media_scrum"
+pattern = "\\b(Media\\s*Scrum|Press\\s*Conference.*Olympic|looks\\s*forward\\s*to\\s*sleep|Olympic.*Press\\s*Conference)\\b"
+
+[[pass2]]
+category = "round3_simulation_games"
+pattern = "\\b(Simulation\\b.*FIFA|PES\\s*20|EA\\s*Sports\\s*FC\\s*\\d+)\\b"
+
+[[pass2]]
+category = "hockey_r1_religious_tv"
+pattern = "\\b(Madani\\s*Channel|StarPlus\\b|Radio-Canada|Flashback\\s*FM)\\b"
+
+[[pass2]]
+category = "hockey_r1_gaming_ch"
+pattern = "\\b(Yewy\\s*Bear\\s*Gaming|2BCProductions2BC|QuinnBoysTV|Nordic97)\\b"
+
+[[pass2]]
+category = "hockey_r1_religious_ti"
+pattern = "\\b(Quran|Darul\\s*Ifta|Ahl\\s*e\\s*Sunnat|Tafseer|Mission\\s*Vikram|Diya\\s*Aur)\\b"
+
+[[pass2]]
+category = "hockey_r1_podcast_ch"
+pattern = "\\b(Locked\\s*On\\s*(Leafs|Canadiens|NHL|Senators|Bruins|Flames|Oilers|Jets|Canucks|Penguins)|The\\s*Hockey\\s*Guy|Hockey\\s*Fan\\s*Network|Picks\\s*&\\s*Parlays|The\\s*Hockey\\s*Writers)\\b"
+
+[[pass2]]
+category = "hockey_r1_nhl_game"
+pattern = "\\b(NHL\\s*(15|13)\\b|GM\\s*Mode|Shootout\\s*Commentary|KNEE\\s*HOCKEY\\s*GAME|FUN\\s*HOCKEY\\s*GAME)\\b"
+
+[[pass2]]
+category = "hockey_r2_olympic_vault"
+pattern = "\\b(The\\s*Olympic\\s*Vault)\\b"
+
+[[pass2]]
+category = "hockey_r2_betting"
+pattern = "\\b(WagerTalk|Sports\\s*Parlay\\s*Picks|Picks\\s*&\\s*Parlays)\\b"
+
+[[pass2]]
+category = "hockey_r2_indian_tv"
+pattern = "\\b(Zee\\s*Ganga|News18\\s*Tamil|Taurus\\s*Sicherheitstechnik|SportPassion)\\b"
+
+[[pass2]]
+category = "hockey_r2_playthrough"
+pattern = "\\b(ChampOfChaos|Casual\\s*Playthroughs|PJStock20|Hockey\\s*Heroes\\s*TV)\\b"
+
+[[pass2]]
+category = "hockey_r2_nhl_game"
+pattern = "\\b(NHL\\s*\\d{2}\\b|NHL\\s*15\\b|NHL\\s*13\\b|Shootout\\s*Commentary|KNEE\\s*HOCKEY|FUN\\s*HOCKEY|EA\\s*Sports\\s*NHL|GM\\s*Mode\\s*Commentary)\\b"
+
+[[pass2]]
+category = "marathon_fp_motorsport_podcast"
+pattern = "\\b(Dale\\s*Earnhardt|Dirty\\s*Mo\\s*Media|The\\s*360\\s*Commentary|Beatdown\\s*Racing)\\b"
+
+[[pass2]]
+category = "marathon_fp_news_entertainment"
+pattern = "\\b(V6\\s*News\\s*Telugu|Divorce\\s*Court|Sun\\s*Bangla|ABS-CBN\\s*Entertainment|SnapFlash)\\b"
+
+[[pass2]]
+category = "marathon_fp_gaming_channels"
+pattern = "\\b(PanbanRichard|Creative\\s*Coconut\\s*Games|Miaw\\s*Gaming|ROBO46|Aztecross|berleezy|CosmoSpeedruns|Mined\\s*Voice\\s*Gaming|Wimzor\\s*The\\s*Great|Matty\\s*Hills|TeamFourStar|MadMorph|Rick\\s*VencesC)\\b"
+
+[[pass2]]
+category = "marathon_fp_sim_racing"
+pattern = "\\b(F1\\s*2[0-3]\\s*-\\s*Career|MotoGP\\s*2[0-5]\\s*\\|\\s*Career|F1\\s*2016|100%\\s*Race|Crash\\s*Team\\s*Racing|Kimi\\s*World\\s*Champion|Let'?s\\s*Make\\s*Kimi)\\b"
+
+[[pass2]]
+category = "marathon_fp_gaming_titles"
+pattern = "\\b(Full\\s*Game\\s*Campaign|Glitched\\s*All\\s*Medallions|Game\\s*Playthrough|Machinabridged|MEME\\s*TWAB|Speedrun)\\b"
+
+[[pass2]]
+category = "marathon_fp_ceremony_interview"
+pattern = "\\b(Opening\\s*Ceremony.*Olympic\\s*Games|Exclusive\\s*Interview|Press\\s*Briefing|Press\\s*Conference|\\bceremony\\b.*olympic)\\b"
+
+[[pass2]]
+category = "marathon_fp_espn_talk"
+pattern = "\\b(ESPN\\s*Weeding|ESPN.*WOKE|Dan\\s*Dakich)\\b"
+
+[[pass2]]
+category = "marathon_r2_top_offenders"
+pattern = "\\b(GMA\\s*Network|Sky\\s*News|CBS\\s*(Boston|News)|ESR\\s*Academy|John\\s*Barnett\\s*Online|Drag\\s*Tea\\s*Served|PowerfulJRE|Two\\s*Girls\\s*One\\s*Ticket|Digitaler\\s*Architekt|Danny\\s*Radio|SmokeScreenCentral|Tritemios|Jordan\\s*Matter|Braycoe|Bandy\\b|Maiyegun'?s?\\s*Diary)\\b"
+
+[[pass2]]
+category = "marathon_r2_gaming_channel"
+pattern = "\\b(Miaw\\s*Gaming|Dattrax\\s*Gaming|AddictionToGaming|ZiggyD\\s*Gaming|It\\s*Tastes\\s*Different\\s*Gaming|Tarun\\s*gaming|GreenHorn\\s*Gaming|night\\s*gaming|SourceCode\\s*Gaming|RON\\s*GAMING|NoLogic\\s*Gamer|Shrouded\\s*Gaming)\\b"
+
+[[pass2]]
+category = "marathon_r2_sim_racing_channel"
+pattern = "\\b(Tiametmarduk|aarava|RealRadman|Lightning\\s*Bottle\\s*Racing|DreadSpeed|Andromalic_Cars|SimusMagnus|Seth\\s*James\\s*DeMoor|Dani\\s*Lozano\\s*GG|ShiryuGL)\\b"
+
+[[pass2]]
+category = "marathon_r2_media_education"
+pattern = "\\b(StudyIQ\\s*IAS|Online\\s*Teaching|Insider\\s*and\\s*Business\\s*Insider|Vox\\b|HISTORY\\b|The\\s*Telegraph|WBUR\\b|WCVB\\s*Channel|My\\s*Wokingham|Pelo\\s*Buddy|TheTriGuy|High\\s*Performance|Bankless|UKRAINE\\s*TODAY)\\b"

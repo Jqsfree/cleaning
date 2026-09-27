@@ -1,0 +1,288 @@
+# Blacklist rules (v003 - 3档权重)
+# 6 A类 hard filter + 9 B类 r2
+
+[meta]
+version = "3.0"
+
+[[pass2]]
+category = "kpop_fan"
+pattern = "\\b(fmv|fan\\s*cam|fanmeet|fan\\s*meet)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(k[\\s-]?pop|kpop|snsd|taeyeon|taeny|bts\\b|blackpink|twice\\b|exo\\b|nct\\b|stray\\s*kids)\\b"
+
+[[pass2]]
+category = "religion"
+pattern = "\\b(worship|sermon|prayer|bible|gospel|pastor|church\\s*service)\\b"
+
+[[pass2]]
+category = "shopping_beauty"
+pattern = "\\b(unboxing|haul\\b|try\\s*on|makeup\\s*tutorial)\\b"
+
+[[pass2]]
+category = "vlog_entertainment"
+pattern = "\\b(prank|vlog\\b|daily\\s*vlog|mukbang)\\b"
+
+[[pass2]]
+category = "life_event"
+pattern = "\\b(graduation|wedding\\s*recap|birthday\\s*party)\\b"
+
+[[r2]]
+category = "gaming"
+pattern = "\\b(minecraft|roblox|fortnite|gameplay|let'?s\\s*play|walkthrough|mod\\s*apk)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(podcast|talk\\s*show|stand\\s*up\\s*comedy|comedy\\s*special)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(how\\s*to\\b|tutorial\\b|training\\s*tips|workout\\s*routine)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(reaction\\s*video|reacts?\\s*to)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(naruto|one\\s*piece|dragon\\s*ball|demon\\s*slayer)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(subway\\s*surfers|street\\s*fighter|mario\\s*kart|starcraft|free\\s*fire|garena)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(call\\s*of\\s*duty|\\bcod\\b|black\\s*ops|\\bmlg\\b)\\b"
+
+[[r2]]
+category = "smash_bros_game"
+pattern = "\\b(smash\\s*bros\\.?|super\\s*smash|ssbu|ssb4|melee\\s*tournament)\\b"
+
+[[r2]]
+category = "marble_simulation"
+pattern = "\\b(marble\\s*rac(e|ing)|plinko|algodoo|marbl(e|es)\\s*(league|run|world))\\b"
+
+# ===== 共享频道黑名单 (FP跨数据集分析, 2026-06-06) =====
+# 55 个纯非体育频道, ≥2 数据集覆盖, 零体育内容
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(WNST)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MMTO Official)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Sky News Australia)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Saturday Night Live)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(ABS-CBN Entertainment)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Fubeca's Marble Runs)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MeidasTouch)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(highlightsmatchole)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(The Late Show with Stephen Colbert)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(The Young Turks)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(LeviTheHyperLegendSpeed04)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(IGN)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(SET India)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Movieclips)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(WatchMojo\\.com)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(NepentheZ)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Fox News)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Slate)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(CoryxKenshin)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(BETNetworks)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Sony SAB)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Linkin Park)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(HAR PAL GEO)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(bateson87)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(TED-Ed)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MKIceAndFire)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(LoL Esports)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(SUNARI VFX)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(East vs West Armwrestling)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Mario Truong)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Cocomelon - Nursery Rhymes)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Nancy Today)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(SuperSonicWolf7263)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Loudwire)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MadFit)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Caroline Girvan)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Throneful)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(M&H Racing)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(ScottHermanFitness)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(womenbeauty1)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Super Simple Songs - Kids Songs)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Improvement Pill)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(ATHLEAN-X)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Chris Brown)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MsMojo)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Maestros TV)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(TmarTn2)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Sydney Cummings Houdyshell)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(DisneyMusicVEVO)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(CrashCourse)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Unisport)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(RubyandBonnie)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(packattack04082)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Tomorrowland)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Johnny Mac's Stadium Ambience)\\b"

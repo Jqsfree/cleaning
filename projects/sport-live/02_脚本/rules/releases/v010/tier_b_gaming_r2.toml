@@ -1,0 +1,69 @@
+# ===== B类实验第二步: 通用游戏/电竞词 → 共享 r2 =====
+# 来源: promote_generic_rules.py 全量扫描 + classify_promote.py B类分析
+# 原则: 仅游戏内容类型词 (排除频道名), 避开已有共享规则
+# 生成: 2026-06-08
+
+# ── 核心电竞游戏 (net new, 不重叠已有 minecraft/smash/starcraft 等) ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(dota\\s*2|league\\s*of\\s*legends|valorant|overwatch|brawlhalla)\\b"
+
+# ── GTA 系列 + Cyberpunk ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(gta\\s*[45v]|grand\\s*theft\\s*auto|cyberpunk)\\b"
+
+# ── Warcraft / CS / 竞技射击 ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(wc3\\b|warcraft\\s*iii|cs\\s*1\\.6|cs2\\s*highlights)\\b"
+
+# ── 其他跨运动游戏 (≥6 运动稳定命中) ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(genshin\\s*impact|danganronpa|tekken\\s*8|hades\\s*ii|roguelike|boss\\s*fight)\\b"
+
+# ── SSBM/SSBB (Smash 系列补全, ssbu/ssb4 已在共享) ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(ssbm|ssbb|noob\\s*vs\\s*pro|ravenfield|rivals\\s*2|lucky\\s*blocks)\\b"
+
+# ── FIFA/EA 游戏模式通用词 ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(squad\\s*battles|pack\\s*openings|obby|retro\\s*bowl|stream\\s*highlights|uninstalling)\\b"
+
+# ── 电竞联赛/赛事 ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(\\bLCK\\b|LCK\\s*CUP|LCK\\s*Spring|LCK\\s*Summer)\\b"
+
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(ESL\\s*Archives|ESEA|IEM\\s*Dallas|VCT\\s*\\d{4}|DreamLeague|StarLadder|joinDOTA)\\b"
+
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(Rocket\\s*League\\s*Tournament|Esports\\s*World\\s*Cup|StarCraft\\s*Esports|eSportCOD)\\b"
+
+
+# ══════════════════════════════════════════════════════════════
+# ⚠️ 高风险体育游戏 — 需附加上下文验证后再启用
+# 这些词和真实体育有重叠 (FIFA=足球, NHL=冰球 等)
+# 启用前需在 final keep 中验证 TP 命中率
+# ══════════════════════════════════════════════════════════════
+
+# [[r2]]
+# category = "gaming_sports_sim"
+# # 启用条件: 验证在 keep 中不误杀真实足球视频
+# pattern = "\\b(FIFA\\s*\\d+|FIFA\\s*(ultimate|career|manager)|PES\\s*20|PES20|PESWC|EA\\s*Sports\\s*FC\\s*\\d+)\\b"
+
+# [[r2]]
+# category = "gaming_sports_sim"
+# # 启用条件: 验证在 keep 中不误杀真实冰球视频
+# pattern = "\\b(NHL\\s*\\d{2}|NHL\\s*\\d+\\s*HUT|EA\\s*Sports\\s*NHL|GM\\s*Mode\\s*Commentary|Shootout\\s*Commentary|KNEE\\s*HOCKEY|FUN\\s*HOCKEY)\\b"
+
+# [[r2]]
+# category = "gaming_sports_sim"
+# # 启用条件: 验证不误杀真实体育
+# pattern = "\\b(Simulation\\b.*(FIFA|NHL|NBA)|PGA\\s*Tour\\s*2k|Pro\\s*Yakyuu\\s*Spirits|Alpine\\s*Ski\\s*Racing\\s*20\\d|Madden\\s*NFL|NBA\\s*2k|NHL\\s*2k|MLB\\s*The\\s*Show)\\b"
