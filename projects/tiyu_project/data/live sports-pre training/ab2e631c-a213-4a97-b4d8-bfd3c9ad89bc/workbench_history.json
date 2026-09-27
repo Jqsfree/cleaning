@@ -1,0 +1,9 @@
+{
+  "intent": [
+    "需要大量且精准在YouTube上可以找到跆拳道比赛直播解说的视频关键词，麻烦帮我按提示词匹配精准合适的英文关键词以及按排除词去生成会影响我精准找到符合要求的关键词\n提示词：Olympic taekwondo commentary，World Taekwondo Championships commentary，World Taekwondo live commentary，Asian Games taekwondo commentary，Grand Prix taekwondo commentary，WT Grand Slam commentary，World Cup taekwondo commentary，national taekwondo championship commentary，international taekwondo tournament commentary，professional taekwondo commentary，elite taekwondo competition commentary，Olympic taekwondo full match commentary，World Taekwondo Championships live broadcast，Asian Games taekwondo replay commentary，Grand Prix taekwondo finals commentary，taekwondo live stream，taekwondo full event replay，taekwondo full broadcast，taekwondo championship replay，taekwondo competition livestream，taekwondo event full coverage，taekwondo tournament full stream，taekwondo long play commentary，taekwondo official live broadcast，taekwondo event archive\n排除词：AI，animation，animated，simulator，simulation，video game，VR，tutorial，highlights，shorts，game，gaming，simulation，3D，roblox，minecraft",
+    "需要大量且精准在YouTube上可以找到跆拳道比赛直播解说的视频关键词，麻烦帮我按提示词匹配精准合适的英文关键词以及按排除词去生成会影响我精准找到符合要求的关键词\n提示词：taekwondo match commentary，taekwondo competition commentary，taekwondo live commentary，taekwondo tournament commentary，taekwondo broadcast commentary，taekwondo match live stream replay，taekwondo full match commentary，taekwondo official competition commentary，taekwondo championship commentary，taekwondo sports commentary，taekwondo event commentary，taekwondo play by play commentary，taekwondo analyst commentary，taekwondo announcer commentary，taekwondo commentator voice\n排除词：AI，animation，animated，simulator，simulation，video game，VR，tutorial，highlights，shorts，game，gaming，simulation，3D，roblox，minecraft"
+  ],
+  "qc_prompt": [
+    "请判断视频内容是否属于 / 符合跆拳道比赛直播解说或相关内容，仅输出结果 T 或 F"
+  ]
+}
