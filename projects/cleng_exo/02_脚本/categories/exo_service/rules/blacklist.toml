@@ -1,0 +1,141 @@
+# Blacklist — exo 商业服务/餐饮（certain-noise only）
+# PDF 五.exo 服务业不收：对话访谈、教学培训、美妆护理讲解、商业演讲、音乐教学、
+# 冲突对抗、运动竞技、远景转播、成片剪辑
+# 只丢标题/频道上可确定的噪声；U/中间带勿进 pass2
+
+[meta]
+version = "0.6.0"
+category = "exo_service"
+basis = "PDF exo service + text QC F rounds 0814; v0.5 add 减肥/瘦身/减脂 (10F/0TU cumulative, not salon 护肤)"
+
+[[pass2]]
+category = "talking_head_interview"
+pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night|sit[-\\s]?down\\s*interview|split\\s*screen|对话访谈)"
+
+[[pass2]]
+category = "teaching_course"
+pattern = "(?i)(\\bwebinar\\b|\\bonline\\s*course\\b|full\\s*course\\b|recorded\\s*lecture|powerpoint|\\bppt\\b|english\\s*for\\s*(cashiers?|waiters?|staff)|零基础英语|听懂英语|study\\s*guide|how\\s*to\\s+pass)"
+
+[[pass2]]
+category = "howto_tutorial"
+pattern = "(?i)(\\bhow\\s*to\\b|\\btutorial\\b|step\\s*by\\s*step|beginner'?s?\\s*guide|干货分享|萃取思路|萃取常见|萃取比例|包教包会|教你三招|剪发教程|造型教學)"
+
+[[pass2]]
+category = "beauty_skincare_talk"
+pattern = "(?i)(makeup\\s*tutorial|skincare\\s*routine|skin\\s*care\\s*routine|grwm|get\\s*ready\\s*with\\s*(me|us)|美妆教程|护肤步骤|护肤分享|护肤心得|口红试色|试色|妆教|妆容分享|今日妆容|新手化妆|纯欲妆|黑头|粉刺|伪素颜|隔离霜|植[髮发]|微整形|玻尿酸|凸嘴|嘟嘟唇|bad\\s*makeup|best\\s*makeup|nail\\s*art|美甲教學|指甲油大盘点|粉底液|甜杏妆|隨手化妝|makeup look|美妆好物|彩妆双胞胎|整形醫美|削骨|臉部取脂)"
+
+[[pass2]]
+category = "business_speech"
+pattern = "(?i)(\\btedx?\\b|ted\\s*talks?|keynote\\s*speech|商业演讲|motivational\\s*speech)"
+
+[[pass2]]
+category = "music_teaching"
+pattern = "(?i)(piano\\s*lesson|guitar\\s*lesson|music\\s*lesson|音乐教学|学钢琴|学吉他)"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\babc\\s*news\\b|\\bbbc\\s*news\\b|breaking\\s*news|news\\s*conference|tvbs\\s*新聞|\\bsbs中文\\b|三立新聞|民視新聞)"
+
+[[pass2]]
+category = "gaming_animation"
+pattern = "(?i)(\\bgameplay\\b|\\bminecraft\\b|\\bfortnite\\b|\\broblox\\b|lets?\\s*play|\\banime\\b|\\bcartoon\\b|cafe\\s*staff\\s*simulator|#gaming|校园模拟器|cinema\\s*simulator|wobbly\\s*life|garry'?s\\s*mod|\\bsims\\s*4\\b|the sims|slime\\s*rancher|和平精英|吃鸡|mario kart|just\\s*dance|舞力全開)"
+
+[[pass2]]
+category = "music_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|music\\s*video|official\\s*trailer|teaser\\s*trailer|lyric\\s*video)"
+
+[[pass2]]
+category = "conflict_war_sport"
+pattern = "(?i)(complete\\s*war\\s*highlights|\\bvs\\.?\\s+united\\s*states|full\\s*match|match\\s*highlights|black\\s*belt\\s*challenges|friendly\\s*spar)"
+
+[[pass2]]
+category = "ai_short_drama"
+pattern = "(?i)(billionaire\\s*yells|billionaire\\s*fires|millionaire\\s*invites|doesn'?t\\s*know\\s*he'?s\\s*the\\s*owner|ceo'?s\\s*daughter|\\b#ai\\b|ai\\s*generated|短剧|#cdrama|完结文|恶毒女配|故事分享|#正能量|#打脸|\\b爽文\\b|#重生|#末世|#小說|冷漠薄情的總裁|#情感|#出軌故事|#故事頻道)"
+
+[[pass2]]
+category = "screen_recording"
+pattern = "(?i)(screen\\s*recording|zoom\\s*lecture|google\\s*meet\\s*class)"
+
+[[pass2]]
+category = "unbox_haul_mukbang"
+pattern = "(?i)(\\bmukbang\\b|\\bunboxing\\b|\\bhaul\\b|开箱网称|开箱實測|what'?s\\s*in\\s*my\\s*bag|盘点旅行|#购物分享)"
+
+[[pass2]]
+category = "fitness_yoga_talk"
+pattern = "(?i)(\\byoga\\b|瑜伽|尊巴|\\bzumba\\b|健身干货|开肩美背|消副乳|glute\\s*exercise|pre-workout|普拉提|广场舞|瘦身食譜|易瘦体质|科学减脂|减肥日记|减肥日常vlog|减肥|瘦身|减脂)"
+
+[[pass2]]
+category = "life_vlog_tag"
+pattern = "(?i)(#日常vlog|#记录真实生活|夫妻日常|weeklyvlog|day in my life|morning routine|working from home)"
+
+[[pass2]]
+category = "home_recipe"
+pattern = "(?i)(\\brecipe\\b|家常菜|#cooking\\b|减脂主食|空气炸|baking with|cake decorating|cake design|蛋糕卷做法)"
+
+[[pass2]]
+category = "horror_film_clickbait"
+pattern = "(?i)(恐怖電影|悬疑武侠|run away fast|微電影|mystery movie|movie review)"
+
+[[pass2]]
+category = "language_course"
+pattern = "(?i)(新概念英语|日文聽力|英式口音|大学课程|職能發展系列課程|上海话教程|台灣手語)"
+
+[[pass2]]
+category = "home_massage_howto"
+pattern = "(?i)(如何在家中按摩|小儿推拿)"
+
+[[pass2]]
+category = "religion_devotion"
+pattern = "(?i)(daily\\s*bible|daily\\s*breath|道德經|masihi\\s*geet)"
+
+[[pass2]]
+category = "real_estate_listing"
+pattern = "(?i)(楼盘|樓盤|吉隆坡房产|美国买房|美国投资)"
+
+[[pass2]]
+category = "asmr_talk_not_shop"
+pattern = "(?i)(asmr (makeup|skincare|tapping|true crime|whisper|电台|garden)|writing and talking asmr|声控助眠)"
+
+[[pass2]]
+category = "tcm_wellness_talk"
+pattern = "(?i)(中醫養生|黃帝內經|倪海廈|养生堂)"
+
+[[pass2]]
+category = "foodie_tan_dian"
+pattern = "(?i)(#探店)"
+
+[[pass2]]
+category = "beauty_biz_course"
+pattern = "(?i)(广告投产比|经营管理)"
+
+[[pass2]]
+category = "home_tour"
+pattern = "(?i)(\\bhome tour\\b)"
+
+[[pass2]]
+category = "generic_tutorial_review"
+pattern = "(?i)(教程|课程|課程|测评|測評|開箱|购物分享|購物分享)"
+
+[[pass2]]
+category = "fashion_outfit"
+pattern = "(?i)(穿搭|ootd)"
+
+[[pass2]]
+category = "movie_music_performance"
+pattern = "(?i)(电影解说|電影解說|movie review|演唱会|演唱會|动态歌词|動態歌詞)"
+
+[[pass2]]
+category = "game_commentary"
+pattern = "(?i)(游戏解说|遊戲解說|游戏实况|遊戲實況|游戏项目|遊戲項目|游戏机台|遊戲機台)"
+
+[[pass2]]
+category = "non_real_ai_virtual"
+pattern = "(?i)(\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake|cgi\\s*character)"
+
+[[pass2]]
+category = "kids_show"
+pattern = "(?i)(\\bcocomelon\\b|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song)"
+
+[[r2]]
+category = "clickbait_owner_prank"
+pattern = "(?i)(waiter\\s*insults|random\\s*customer|owner\\s*of\\s*the\\s*restaurant|arrives\\s*like\\s*a\\s*queen)"

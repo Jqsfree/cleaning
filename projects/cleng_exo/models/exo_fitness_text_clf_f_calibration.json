@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-08-19 12:31:33",
+  "encoder": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "feature_fields": [
+    "title",
+    "channel"
+  ],
+  "n_train": 540,
+  "n_f": 151,
+  "n_t": 389,
+  "n_u": 0,
+  "oof_auc_non_f": 0.842319412996476,
+  "oof_ap_non_f": 0.9291159083973488,
+  "strict": {
+    "drop_threshold": 0.15,
+    "n_drop": 12,
+    "drop_coverage": 0.022222222222222223,
+    "drop_precision": 1.0,
+    "f_caught": 12,
+    "f_recall": 0.07947019867549669,
+    "t_hurt": 0,
+    "u_hurt": 0,
+    "u_hurt_rate": 0.0
+  },
+  "model_path": "/home/jqs/projects/exo_dataset/models/exo_fitness_text_clf_f.pkl",
+  "qc_snapshots": [
+    "/home/jqs/tmp/健身训练2_b99edc4e_qc_result.csv",
+    "/home/jqs/tmp/健身训练人工1_ea9f482e_qc_result.csv"
+  ],
+  "notes": [
+    "监督=人工 T/F；黑板讲解与非真人为 F",
+    "title+channel，不含 keyword",
+    "宁漏勿杀；ml_score 不当交付 KPI"
+  ]
+}

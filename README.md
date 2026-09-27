@@ -1,5 +1,17 @@
 # clean_DATASET
 
+## 合并后的仓库入口
+
+本仓库集中维护通用清洗、体育清洗和 EXO 专项清洗。各流程保留自己的运行目录和配置：
+
+- 通用清洗：本仓库根目录，生产入口仍是 `02_脚本/`。
+- 体育清洗：[projects/sport-live/README.md](projects/sport-live/README.md)。先 `cd projects/sport-live`，再按该项目 README 运行。
+- EXO 专项清洗：先 `cd projects/cleng_exo`，再使用该目录中的 `02_脚本/`；规则和校准参数按该版本保留。
+- 早期体育流程：[legacy/sport_event/README.md](legacy/sport_event/README.md)。用于旧批次复现。
+
+迁移来源、提交和验证方式见 [docs/REPOSITORY_CONSOLIDATION.md](docs/REPOSITORY_CONSOLIDATION.md)。
+本次只合并仓库，尚未统一各版本的算法、依赖或测试环境。
+
 YouTube 视频元数据清洗管道（Python 3.13+ / DuckDB）。  
 生产入口：`02_脚本/`。环境：`conda activate data_cleaning`。
 

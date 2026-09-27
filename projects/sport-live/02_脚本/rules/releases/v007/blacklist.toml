@@ -1,0 +1,456 @@
+# Blacklist rules (v003 - 3档权重)
+# 6 A类 hard filter + 9 B类 r2
+
+[meta]
+version = "3.0"
+
+[[pass2]]
+category = "kpop_fan"
+pattern = "\\b(fmv|fan\\s*cam|fanmeet|fan\\s*meet)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(k[\\s-]?pop|kpop|snsd|taeyeon|taeny|bts\\b|blackpink|twice\\b|exo\\b|nct\\b|stray\\s*kids)\\b"
+
+[[pass2]]
+category = "religion"
+pattern = "\\b(worship|sermon|prayer|bible|gospel|pastor|church\\s*service)\\b"
+
+[[pass2]]
+category = "shopping_beauty"
+pattern = "\\b(unboxing|haul\\b|try\\s*on|makeup\\s*tutorial)\\b"
+
+[[pass2]]
+category = "vlog_entertainment"
+pattern = "\\b(prank|vlog\\b|daily\\s*vlog|mukbang)\\b"
+
+[[pass2]]
+category = "life_event"
+pattern = "\\b(graduation|wedding\\s*recap|birthday\\s*party)\\b"
+
+[[r2]]
+category = "gaming"
+pattern = "\\b(minecraft|roblox|fortnite|gameplay|let'?s\\s*play|walkthrough|mod\\s*apk)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(podcast|talk\\s*show|stand\\s*up\\s*comedy|comedy\\s*special)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(how\\s*to\\b|tutorial\\b|training\\s*tips|workout\\s*routine)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(reaction\\s*video|reacts?\\s*to)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(naruto|one\\s*piece|dragon\\s*ball|demon\\s*slayer)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(subway\\s*surfers|street\\s*fighter|mario\\s*kart|starcraft|free\\s*fire|garena)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(call\\s*of\\s*duty|\\bcod\\b|black\\s*ops|\\bmlg\\b)\\b"
+
+[[r2]]
+category = "smash_bros_game"
+pattern = "\\b(smash\\s*bros\\.?|super\\s*smash|ssbu|ssb4|melee\\s*tournament)\\b"
+
+[[r2]]
+category = "marble_simulation"
+pattern = "\\b(marble\\s*rac(e|ing)|plinko|algodoo|marbl(e|es)\\s*(league|run|world))\\b"
+
+# ===== 共享频道黑名单 (FP跨数据集分析, 2026-06-06) =====
+# 55 个纯非体育频道, ≥2 数据集覆盖, 零体育内容
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(WNST)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MMTO Official)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Sky News Australia)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Saturday Night Live)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(ABS-CBN Entertainment)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Fubeca's Marble Runs)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MeidasTouch)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(highlightsmatchole)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(The Late Show with Stephen Colbert)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(The Young Turks)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(LeviTheHyperLegendSpeed04)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(IGN)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(SET India)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Movieclips)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(WatchMojo\\.com)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(NepentheZ)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Fox News)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Slate)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(CoryxKenshin)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(BETNetworks)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Sony SAB)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Linkin Park)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(HAR PAL GEO)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(bateson87)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(TED-Ed)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MKIceAndFire)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(LoL Esports)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(SUNARI VFX)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(East vs West Armwrestling)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Mario Truong)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Cocomelon - Nursery Rhymes)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Nancy Today)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(SuperSonicWolf7263)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Loudwire)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MadFit)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Caroline Girvan)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Throneful)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(M&H Racing)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(ScottHermanFitness)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(womenbeauty1)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Super Simple Songs - Kids Songs)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Improvement Pill)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(ATHLEAN-X)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Chris Brown)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(MsMojo)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Maestros TV)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(TmarTn2)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Sydney Cummings Houdyshell)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(DisneyMusicVEVO)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(CrashCourse)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Unisport)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(RubyandBonnie)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(packattack04082)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Tomorrowland)\\b"
+
+[[r2]]
+category = "non_sports_channel"
+pattern = "\\b(Johnny Mac's Stadium Ambience)\\b"
+
+# ===== 集中推广 A类 (2026-06-08) =====
+# 21 条通用内容类型规则
+# 来源: promote_generic_rules.py 全量扫描 16数据集
+# 标准: 明显跨领域, ≥8运动命中, 不依赖具体运动
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(First\\s*Things\\s*First|The\\s*Athletic\\s*Football\\s*Show|The\\s*IDP\\s*Show|First\\s*And\\s*Ten|Cincinnati\\s*Bengals\\s*Talk|KTC\\s*Broadcasting|Men\\s*of\\s*a\\s*Certain\\s*X|The\\s*KnightWing|Halftime\\s*Productions|MuscleSport\\s*TV|Inside\\s*the\\s*Pylon|Clemson\\s*Kickoff|A\\s*Drink\\s*of\\s*Wisdom|Jim\\s*Powell|Pointer\\s*Studios|Ben\\s*Silk\\s*Sports|Another\\s*Sports\\s*Channel|Sports\\s*Right\\s*Now|UrinatingTree|AlphaWhiskeySix|Manosphere\\s*Highlights)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(CandyCute\\s*Channel|Toca\\s*(Life|Boca)|Marble\\s*Race\\s*King|SuperMii\\s*84|SIKANA\\s*English|My\\s*Funny\\s*Games\\s*Builder)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(Madani\\s*Channel|StarPlus\\b|Radio-Canada|Flashback\\s*FM)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(Quran|Darul\\s*Ifta|Ahl\\s*e\\s*Sunnat|Tafseer|Mission\\s*Vikram|Diya\\s*Aur)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(V6\\s*News\\s*Telugu|Divorce\\s*Court|Sun\\s*Bangla|ABS-CBN\\s*Entertainment|SnapFlash)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(StudyIQ\\s*IAS|Online\\s*Teaching|Insider\\s*and\\s*Business\\s*Insider|Vox\\b|HISTORY\\b|The\\s*Telegraph|WBUR\\b|WCVB\\s*Channel|My\\s*Wokingham|Pelo\\s*Buddy|TheTriGuy|High\\s*Performance|Bankless|UKRAINE\\s*TODAY)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(keto\\s*gofry|recipes?\\s*for\\s*you|cloves\\s*with\\s*ginger)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b99\\.9\\s+The\\s+Fan\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\bW\\s+TV\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\bForbes\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\bThePrint\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(KARE\\s*11|DRM\\s*News|euronews|9NEWS|NEWS\\s*CENTER\\s*Maine|Clevver\\s*News|CNN|WKYC\\s*Channel\\s*3|CCTV\\s*Video\\s*News|English\\s*Broadcasting\\s*Company)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(Prada\\s*West|Rock\\s*Channel\\s*Curling|Pressplay\\s*Media|Ghostface\\s*Killah|Rizzoo\\s*Rizzoo|fliptopbattles|Curry\\s*Edits\\s*30|Chris\\s*Brown|Young\\s*Thug|The\\s*Rolling\\s*Stones)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(peppa\\s*pig|cartoon|anime\\b|nursery\\s*rhyme|kids\\s*channel)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(recipe|cooking|mukbang|asmr\\b|eat\\s*with\\s*me)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(netflix|love\\s*is\\s*blind|movieclips|official\\s*trailer|teaser\\s*trailer)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(lofi|chill\\s*beats|music\\s*video|official\\s*audio|lyrics\\s*video)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(lofi|chill\\s*(beats|hop|mix)|relaxing\\s*music)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(bible\\s*study|sermon\\s*series|worship\\s*(night|live))\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(Daily\\s*Faceoff|Hockey\\s*Nation\\s*Live|OVIES\\s*&\\s*GIGLIO|The\\s*Sota\\s*Pod|RBLR\\s*Sports|Nasher\\b|104\\.3\\s*WQAM|Pittsburgh\\s*Hockey\\s*Now|MojosLive|Captain\\s*Avalanche\\s*Fancast|Dolynny\\s*TV)\\b"
+
+[[r2]]
+category = "generic_content"
+pattern = "\\b(SKOR\\s*North|The\\s*Voice\\s*of\\s*College\\s*Foot|519\\s*Sports\\s*Online|Local\\s*Big\\s*Time|triple\\s*j|Smoking\\s*Girl\\s*Live|The\\s*Rink\\s*Live|Mike\\s*Matthews|kjohanh|Hockey\\s*In\\s*Context|Riley\\s*Cioffi|Elite\\s*Goal\\s*Horns)\\b"
+
+
+# ===== B类实验: VGBootCamp 硬过滤 (2026-06-08) =====
+# 纯游戏频道, climbing keep_high 51.6% 命中, 70K+ baseline 行
+# 来源: promote_generic_rules.py 全量扫描
+[[pass2]]
+category = "gaming_channel"
+pattern = "\\b(VGBootCamp)\\b"
+
+
+# ===== B类实验第二步: 通用游戏/电竞词 → 共享 r2 =====
+# 来源: promote_generic_rules.py 全量扫描 + classify_promote.py B类分析
+# 原则: 仅游戏内容类型词 (排除频道名), 避开已有共享规则
+# 生成: 2026-06-08
+
+# ── 核心电竞游戏 (net new, 不重叠已有 minecraft/smash/starcraft 等) ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(dota\\s*2|league\\s*of\\s*legends|valorant|overwatch|brawlhalla)\\b"
+
+# ── GTA 系列 + Cyberpunk ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(gta\\s*[45v]|grand\\s*theft\\s*auto|cyberpunk)\\b"
+
+# ── Warcraft / CS / 竞技射击 ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(wc3\\b|warcraft\\s*iii|cs\\s*1\\.6|cs2\\s*highlights)\\b"
+
+# ── 其他跨运动游戏 (≥6 运动稳定命中) ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(genshin\\s*impact|danganronpa|tekken\\s*8|hades\\s*ii|roguelike|boss\\s*fight)\\b"
+
+# ── SSBM/SSBB (Smash 系列补全, ssbu/ssb4 已在共享) ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(ssbm|ssbb|noob\\s*vs\\s*pro|ravenfield|rivals\\s*2|lucky\\s*blocks)\\b"
+
+# ── FIFA/EA 游戏模式通用词 ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(squad\\s*battles|pack\\s*openings|obby|retro\\s*bowl|stream\\s*highlights|uninstalling)\\b"
+
+# ── 电竞联赛/赛事 ──
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(\\bLCK\\b|LCK\\s*CUP|LCK\\s*Spring|LCK\\s*Summer)\\b"
+
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(ESL\\s*Archives|ESEA|IEM\\s*Dallas|VCT\\s*\\d{4}|DreamLeague|StarLadder|joinDOTA)\\b"
+
+[[r2]]
+category = "gaming_esports"
+pattern = "\\b(Rocket\\s*League\\s*Tournament|Esports\\s*World\\s*Cup|StarCraft\\s*Esports|eSportCOD)\\b"
+
+
+# ══════════════════════════════════════════════════════════════
+# ⚠️ 高风险体育游戏 — 需附加上下文验证后再启用
+# 这些词和真实体育有重叠 (FIFA=足球, NHL=冰球 等)
+# 启用前需在 final keep 中验证 TP 命中率
+# ══════════════════════════════════════════════════════════════
+
+# [[r2]]
+# category = "gaming_sports_sim"
+# # 启用条件: 验证在 keep 中不误杀真实足球视频
+# pattern = "\\b(FIFA\\s*\\d+|FIFA\\s*(ultimate|career|manager)|PES\\s*20|PES20|PESWC|EA\\s*Sports\\s*FC\\s*\\d+)\\b"
+
+# [[r2]]
+# category = "gaming_sports_sim"
+# # 启用条件: 验证在 keep 中不误杀真实冰球视频
+# pattern = "\\b(NHL\\s*\\d{2}|NHL\\s*\\d+\\s*HUT|EA\\s*Sports\\s*NHL|GM\\s*Mode\\s*Commentary|Shootout\\s*Commentary|KNEE\\s*HOCKEY|FUN\\s*HOCKEY)\\b"
+
+# [[r2]]
+# category = "gaming_sports_sim"
+# # 启用条件: 验证不误杀真实体育
+# pattern = "\\b(Simulation\\b.*(FIFA|NHL|NBA)|PGA\\s*Tour\\s*2k|Pro\\s*Yakyuu\\s*Spirits|Alpine\\s*Ski\\s*Racing\\s*20\\d|Madden\\s*NFL|NBA\\s*2k|NHL\\s*2k|MLB\\s*The\\s*Show)\\b"

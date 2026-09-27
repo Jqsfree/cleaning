@@ -1,0 +1,39 @@
+{
+  "target": "Jqsfree/cleaning",
+  "base_commit": "1ea0e773aee6ab1af49216538998ab186dae686f",
+  "sources": [
+    {
+      "repository": "Jqsfree/sport_event",
+      "branch": "main",
+      "commit": "fc1665d3d11e554a3b4e425aff1e5eabc3e7f51b",
+      "tree": "0d6faae4883838f454a2882f1577623d632f3a01",
+      "prefix": "legacy/sport_event",
+      "files": 12,
+      "refs": [
+        "fc1665d3d11e554a3b4e425aff1e5eabc3e7f51b refs/heads/main"
+      ]
+    },
+    {
+      "repository": "Jqsfree/sport-live",
+      "branch": "master",
+      "commit": "00ac02d3bf4a77996f3db5b69a42538dc50229e0",
+      "tree": "911fa99ff318283691e8bbf680af8f2937475924",
+      "prefix": "projects/sport-live",
+      "files": 113,
+      "refs": [
+        "00ac02d3bf4a77996f3db5b69a42538dc50229e0 refs/heads/master"
+      ]
+    },
+    {
+      "repository": "Jqsfree/cleng_exo",
+      "branch": "main",
+      "commit": "2efeb127b05f6bc850db563b6d8f0fcf3e2b3363",
+      "tree": "9a95a53c7769c2497bfeb1746e991e260d2139ee",
+      "prefix": "projects/cleng_exo",
+      "files": 167,
+      "refs": [
+        "2efeb127b05f6bc850db563b6d8f0fcf3e2b3363 refs/heads/main"
+      ]
+    }
+  ]
+}

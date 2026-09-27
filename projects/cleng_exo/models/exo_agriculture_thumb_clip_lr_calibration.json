@@ -1,0 +1,58 @@
+{
+  "created_at": "2026-08-22 14:55:42",
+  "labels_csv": "/home/jqs/projects/exo_dataset/data/runs/exo_agriculture/machine_0814/03_qc/human270_v04_1be48617/exo农业_human_qc.csv",
+  "extra_labels_csv": "/home/jqs/projects/exo_dataset/data/runs/exo_agriculture/machine_0814/03_qc/human678_merged/labeled.csv",
+  "embedding_store": "/home/jqs/projects/exo_dataset/data/assets/embeddings/exo_agriculture_0814_semantic_remain",
+  "n_primary": 262,
+  "n_extra": 678,
+  "n_train": 673,
+  "n_t": 379,
+  "n_f": 294,
+  "n_groups": 562,
+  "oof_auc": 0.748,
+  "oof_ap": 0.7705,
+  "drop_threshold": 7.387892401311547e-05,
+  "threshold_pick": {
+    "drop_threshold": 7.387892401311547e-05,
+    "drop_n": 41,
+    "drop_precision": 0.9512,
+    "t_hurt": 2,
+    "t_hurt_rate": 0.0488,
+    "f_caught": 39,
+    "f_recall": 0.2532,
+    "method": "target_met"
+  },
+  "eval_primary_1be": {
+    "n": 262,
+    "n_t": 108,
+    "n_f": 154,
+    "drop_threshold": 7.387892401311547e-05,
+    "drop_n": 41,
+    "drop_precision": 0.9512,
+    "t_hurt": 2,
+    "t_hurt_rate": 0.0185,
+    "f_caught": 39,
+    "f_recall": 0.2532
+  },
+  "eval_combined": {
+    "n": 673,
+    "n_t": 379,
+    "n_f": 294,
+    "drop_threshold": 7.387892401311547e-05,
+    "drop_n": 56,
+    "drop_precision": 0.8571,
+    "t_hurt": 8,
+    "t_hurt_rate": 0.0211,
+    "f_caught": 48,
+    "f_recall": 0.1633
+  },
+  "model_path": "/home/jqs/projects/exo_dataset/models/exo_agriculture_thumb_clip_lr.pkl",
+  "calibration_path": "/home/jqs/projects/exo_dataset/models/exo_agriculture_thumb_clip_lr_calibration.json",
+  "out_dir": "/home/jqs/projects/exo_dataset/data/runs/exo_agriculture/machine_0814/06_tools/clip_lr_v1",
+  "elapsed_sec": 4.4,
+  "notes": [
+    "冻结 CLIP embedding store + balanced LR",
+    "闸门=高置信 drop only（p<=drop_threshold）",
+    "阈值在 primary(1be) OOF 上选：T误伤≤2%且drop precision≥0.9"
+  ]
+}

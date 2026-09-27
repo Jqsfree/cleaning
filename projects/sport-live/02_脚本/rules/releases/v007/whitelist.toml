@@ -1,0 +1,233 @@
+# Whitelist / scoring rules
+
+strong_sport_title_pattern = "\\b(match|final|semi[\\s-]?final|quarter[\\s-]?final|highlights|full\\s*(match|game|race|replay|coverage)|vs\\.?|\\svs\\s|versus|championship|tournament|olympic|world\\s*cup|grand\\s*prix|diamond\\s*league|commentary|play[\\s-]?by[\\s-]?play|broadcast|live\\s*stream|round\\s*\\d|bout|regatta|grand\\s*final|shootout|overtime|national\\s*games|varsity|campeonato|@\\s*\\w+|flames|canadiens|lakers|celtics)\\b"
+
+[meta]
+rules_version = "2026.06.05-1"
+version = "2.0"
+keep_score = 35
+gray_score_low = 15
+medium_min_score = 15
+playlist_min_samples = 5
+playlist_min_hit_rate = 0.10
+
+[[positive]]
+category = "match_event"
+pattern = "\\b(full\\s*)?(match|game|race|replay|coverage)\\b"
+score = 25
+
+[[positive]]
+category = "highlight"
+pattern = "\\b(highlights?|extended\\s*highlights)\\b"
+score = 20
+
+[[positive]]
+category = "other"
+pattern = "\\b(live\\s*stream|live\\s*broadcast|\\blive\\b)\\b"
+score = 18
+
+[[positive]]
+category = "broadcast_type"
+pattern = "\\b(commentary|play[\\s-]?by[\\s-]?play|broadcast)\\b"
+score = 22
+
+[[positive]]
+category = "competition_level"
+pattern = "\\b(final|semi[\\s-]?final|quarter[\\s-]?final)\\b"
+score = 20
+
+[[positive]]
+category = "competition_level"
+pattern = "\\b(championship|tournament|cup\\b|league\\b|open\\b)\\b"
+score = 15
+
+[[positive]]
+category = "major_event"
+pattern = "\\b(olympic|asian\\s*games|world\\s*cup|diamond\\s*league)\\b"
+score = 20
+
+[[positive]]
+category = "other"
+pattern = "\\b(vs\\.?|\\svs\\s|versus)\\b"
+score = 18
+
+[[positive]]
+category = "other"
+pattern = "\\b(round\\s*\\d|set\\s*\\d|period\\s*\\d|heat\\s*\\d|final\\s*[a-z])\\b"
+score = 12
+
+[[positive]]
+category = "sport_action"
+pattern = "\\b(score|goal|touchdown|home\\s*run|knockout|bout)\\b"
+score = 12
+
+[[positive]]
+category = "sport_name"
+pattern = "\\b(regatta|rowing|surfing|pickleball|skiing|athletics|fencing|taekwondo|sanda|snooker)\\b"
+score = 15
+
+[[positive]]
+category = "league_org"
+pattern = "\\b(nba|nfl|mlb|nhl|fifa|atp|wta|wsl|ppa\\b|ncaa)\\b"
+score = 18
+
+[[positive]]
+category = "other"
+pattern = "\\b(recap|highlights?\\s*reel)\\b"
+score = 10
+
+[[positive]]
+category = "match_structure"
+pattern = "\\b(shootout|overtime|extra\\s*time|penalty\\s*shoot)\\b"
+score = 15
+
+[[positive]]
+category = "sport_name"
+pattern = "\\b(squash|indoor\\s*bowls|\\bbowls\\b)\\b"
+score = 15
+
+[[positive]]
+category = "competition_level"
+pattern = "\\b(quarterfinals?|bronze\\s*playoff|A[-\\s]?Final|B[-\\s]?Final|C[-\\s]?Final)\\b"
+score = 12
+
+[[positive]]
+category = "rowing"
+pattern = "\\b(sculls?|sweep\\s*oar|coxed|coxless)\\b"
+score = 10
+
+[[positive]]
+category = "other"
+pattern = "\\b(HS\\b|high\\s*school)\\b.*\\b(boys|girls|basketball|football|volleyball|soccer|hockey|lacrosse|wrestling|baseball|softball)\\b"
+score = 12
+
+[[positive]]
+category = "youth_sport"
+pattern = "\\b(varsity|junior\\s*varsity|\\bjv\\b)\\b.*\\b(match|game|final|championship|team|vs)\\b"
+score = 12
+
+[[positive]]
+category = "other"
+pattern = "\\b(boys'?|girls'?|junior)\\b.*\\b(basketball|football|volleyball|hockey|championship|final|match|game)\\b"
+score = 10
+
+
+[[positive]]
+category = "fn_fix"
+pattern = "\\b(Olympics)\\b"
+score = 20
+
+[[positive]]
+category = "fn_fix"
+pattern = "\\b(CBC\\s*Sports|Team\\s*USA)\\b"
+score = 10
+[[negative]]
+category = "non_sport_context"
+pattern = "\\b(documentary|behind\\s*the\\s*scenes|interview|press\\s*conference)\\b"
+score = -12
+
+[[negative]]
+category = "other"
+pattern = "\\b(training\\s*session|practice\\s*drill|warm[\\s-]?up)\\b"
+score = -10
+
+[[negative]]
+category = "trailer_preview"
+pattern = "\\b(trailer|teaser|preview)\\b"
+score = -15
+
+[[negative]]
+category = "other"
+pattern = "\\b(compilation|best\\s*of|top\\s*10)\\b"
+score = -8
+
+[[negative]]
+category = "other"
+pattern = "\\b(gear\\s*review|equipment\\s*review)\\b"
+score = -12
+
+[[negative]]
+category = "other"
+pattern = "\\b(sparring\\s*session|sparring\\s*&?\\s*discussion)\\b"
+score = -10
+
+[[negative]]
+category = "ceremony"
+pattern = "\\b(ceremony|closing\\s*ceremony|opening\\s*ceremony|weigh[\\s-]?in)\\b"
+score = -12
+
+[[negative]]
+category = "other"
+pattern = "\\b(podcast|talk\\s*show|sunday\\s*supplement)\\b"
+score = -15
+
+[[negative]]
+category = "other"
+pattern = "\\b(drag\\s*race)\\b(?!.*(nascar|nhra|f1\\b|formula|motorsport))"
+score = -15
+
+[[weak_titles]]
+category = "weak_title"
+pattern = "^(untitled|no\\s*title|video\\s*\\d+|clip\\s*\\d+)$"
+
+[[weak_titles]]
+category = "weak_title"
+pattern = "^(stream\\s*\\d+|live\\s*\\d+|broadcast\\s*\\d+)$"
+
+[[weak_titles]]
+category = "weak_title"
+pattern = "^[A-Za-z0-9_\\-]{1,8}$"
+
+[[weak_channels]]
+category = "weak_channel"
+pattern = "\\b(user|channel|account|page)\\b"
+
+[[weak_channels]]
+category = "weak_channel"
+pattern = "\\b(temp|test|demo|sample)\\b"
+
+
+[[negative]]
+category = "gaming_context"
+score = -5
+pattern = "\\b(minecraft|roblox|fortnite|gameplay|let'?s\\s*play|walkthrough|mod\\s*apk)\\b"
+
+[[negative]]
+category = "anime_context"
+score = -5
+pattern = "\\b(naruto|one\\s*piece|dragon\\s*ball|demon\\s*slayer)\\b"
+
+[[negative]]
+category = "game_title_context"
+score = -5
+pattern = "\\b(subway\\s*surfers|street\\s*fighter|mario\\s*kart|starcraft|free\\s*fire|garena|call\\s*of\\s*duty|\\bcod\\b|black\\s*ops|\\bmlg\\b)\\b"
+
+[[negative]]
+category = "smash_bros_context"
+score = -5
+pattern = "\\b(smash\\s*bros\\.?|super\\s*smash|ssbu|ssb4|melee\\s*tournament)\\b"
+
+[[negative]]
+category = "marble_context"
+score = -5
+pattern = "\\b(marble\\s*rac(e|ing)|plinko|algodoo|marbl(e|es)\\s*(league|run|world))\\b"
+
+# ===== 非赛事格式负向信号 (2026-06-06) =====
+# 来源: SPORTSNET 全量QC — 43条F中~18条为谈话节目, ~10条为采访/发布会
+# 命中频道含 SPORTSNET, NBC Sports, ESPN, CBC Sports 等体育媒体
+# 这些频道出产赛事集锦(应保留)和谈话节目(应惩罚), title级区分
+
+[[negative]]
+category = "non_event_talk"
+score = -20
+pattern = "\\b(Kyper|Bourne|32\\s*Thoughts|After\\s*Hours|Hockey\\s*Central|Saturday\\s*Headlines|Morning\\s*Catch-Up|Power\\s*Rankings|Trade\\s*Deadline\\s*Reaction|Deadline\\s*Winners|Real\\s*Kyper|The\\s*Process\\s*Behind|Cap\\s*Situation\\s*Looking|Home\\s*Stand\\s*Slump)\\b"
+
+[[negative]]
+category = "non_event_interview"
+score = -20
+pattern = "\\b(\\w+\\s+discusses\\s+|jokes\\s+about\\s+|reflects\\s+on\\s+|Speaks\\s+Following|Gotta\\s*Hear\\s*It.*jokes|Full\\s*Episode|Behind\\s*the\\s*Scenes|GamePlus|Address.*Struggles)\\b"
+
+[[negative]]
+category = "non_event_news"
+score = -20
+pattern = "\\b(Who\\s*(Says|Are|Really)|What\\s*(Makes|Are)|Is\\s*It\\s*Time|Could.*Be|Salary\\s*Cap|off-season.*celebrating|Christmas\\s*Debates|Biggest\\s*Part\\s*Of|Welcome\\s*To\\s*The|Hockey\\s*Day\\s*In|Coaching\\s*Brothers|Coaching\\s*The)\\b"

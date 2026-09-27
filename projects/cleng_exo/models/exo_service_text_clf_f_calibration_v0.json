@@ -1,0 +1,47 @@
+{
+  "created_at": "2026-08-14 12:26:24",
+  "feature_fields": [
+    "title",
+    "channel"
+  ],
+  "n_train": 519,
+  "n_f": 429,
+  "n_t": 1,
+  "n_u": 89,
+  "oof_auc_non_f": 0.6801864801864802,
+  "oof_ap_non_f": 0.364179103608291,
+  "strict": {
+    "drop_threshold": 0.21,
+    "n_drop": 15,
+    "drop_coverage": 0.028901734104046242,
+    "drop_precision": 1.0,
+    "f_caught": 15,
+    "f_recall": 0.03496503496503497,
+    "t_hurt": 0,
+    "u_hurt": 0,
+    "u_hurt_rate": 0.0
+  },
+  "rounds": {
+    "商业服务_merged_sample_0814_textqc_20260814_024504": {
+      "n": 259,
+      "F": 216,
+      "T": 1,
+      "U": 42
+    },
+    "商业服务_merged_sample_0814_textqc_20260814_030633": {
+      "n": 260,
+      "F": 213,
+      "T": 0,
+      "U": 47
+    }
+  },
+  "model_path": "/home/jqs/projects/exo_dataset/models/exo_service_text_clf_f.pkl",
+  "qc_snapshots": [
+    "data/runs/exo_service/machine_0813/03_qc/商业服务_merged_sample_0814_textqc_20260814_024504.csv",
+    "data/runs/exo_service/machine_0813/03_qc/run02/商业服务_merged_sample_0814_textqc_20260814_030633.csv"
+  ],
+  "notes": [
+    "F 是弱标签；独立新鲜 LLM 样本过门后才可全量 drop",
+    "T/U 都是保留类；ERROR 不参与训练"
+  ]
+}

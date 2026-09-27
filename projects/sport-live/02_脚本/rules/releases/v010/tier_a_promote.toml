@@ -1,0 +1,109 @@
+# ===== 集中推广 — A类通用内容类型规则 =====
+# 数量: 21 条
+# 标准: 明显跨领域内容类型 (kids/anime/media/podcast/religion/lifestyle)
+# 来源: promote_generic_rules.py 全量扫描 16数据集x207pattern
+
+# podcast_talk (11 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(First\\s*Things\\s*First|The\\s*Athletic\\s*Football\\s*Show|The\\s*IDP\\s*Show|First\\s*And\\s*Ten|Cincinnati\\s*Bengals\\s*Talk|KTC\\s*Broadcasting|Men\\s*of\\s*a\\s*Certain\\s*X|The\\s*KnightWing|Halftime\\s*Productions|MuscleSport\\s*TV|Inside\\s*the\\s*Pylon|Clemson\\s*Kickoff|A\\s*Drink\\s*of\\s*Wisdom|Jim\\s*Powell|Pointer\\s*Studios|Ben\\s*Silk\\s*Sports|Another\\s*Sports\\s*Channel|Sports\\s*Right\\s*Now|UrinatingTree|AlphaWhiskeySix|Manosphere\\s*Highlights)\\b"
+
+# kids_cartoon (11 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(CandyCute\\s*Channel|Toca\\s*(Life|Boca)|Marble\\s*Race\\s*King|SuperMii\\s*84|SIKANA\\s*English|My\\s*Funny\\s*Games\\s*Builder)\\b"
+
+# media_network (10 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(Madani\\s*Channel|StarPlus\\b|Radio-Canada|Flashback\\s*FM)\\b"
+
+# religion (8 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(Quran|Darul\\s*Ifta|Ahl\\s*e\\s*Sunnat|Tafseer|Mission\\s*Vikram|Diya\\s*Aur)\\b"
+
+# media_network (10 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(V6\\s*News\\s*Telugu|Divorce\\s*Court|Sun\\s*Bangla|ABS-CBN\\s*Entertainment|SnapFlash)\\b"
+
+# media_network (13 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(StudyIQ\\s*IAS|Online\\s*Teaching|Insider\\s*and\\s*Business\\s*Insider|Vox\\b|HISTORY\\b|The\\s*Telegraph|WBUR\\b|WCVB\\s*Channel|My\\s*Wokingham|Pelo\\s*Buddy|TheTriGuy|High\\s*Performance|Bankless|UKRAINE\\s*TODAY)\\b"
+
+# lifestyle_entertainment (2 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(keto\\s*gofry|recipes?\\s*for\\s*you|cloves\\s*with\\s*ginger)\\b"
+
+# media_network (5 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b99\\.9\\s+The\\s+Fan\\b"
+
+# media_network (4 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\bW\\s+TV\\b"
+
+# media_network (10 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\bForbes\\b"
+
+# media_network (7 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\bThePrint\\b"
+
+# media_network (13 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(KARE\\s*11|DRM\\s*News|euronews|9NEWS|NEWS\\s*CENTER\\s*Maine|Clevver\\s*News|CNN|WKYC\\s*Channel\\s*3|CCTV\\s*Video\\s*News|English\\s*Broadcasting\\s*Company)\\b"
+
+# lifestyle_entertainment (9 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(Prada\\s*West|Rock\\s*Channel\\s*Curling|Pressplay\\s*Media|Ghostface\\s*Killah|Rizzoo\\s*Rizzoo|fliptopbattles|Curry\\s*Edits\\s*30|Chris\\s*Brown|Young\\s*Thug|The\\s*Rolling\\s*Stones)\\b"
+
+# kids_cartoon (8 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(peppa\\s*pig|cartoon|anime\\b|nursery\\s*rhyme|kids\\s*channel)\\b"
+
+# lifestyle_entertainment (9 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(recipe|cooking|mukbang|asmr\\b|eat\\s*with\\s*me)\\b"
+
+# media_network, lifestyle_entertainment (6 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(netflix|love\\s*is\\s*blind|movieclips|official\\s*trailer|teaser\\s*trailer)\\b"
+
+# lifestyle_entertainment (7 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(lofi|chill\\s*beats|music\\s*video|official\\s*audio|lyrics\\s*video)\\b"
+
+# lifestyle_entertainment (6 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(lofi|chill\\s*(beats|hop|mix)|relaxing\\s*music)\\b"
+
+# religion (4 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(bible\\s*study|sermon\\s*series|worship\\s*(night|live))\\b"
+
+# podcast_talk (8 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(Daily\\s*Faceoff|Hockey\\s*Nation\\s*Live|OVIES\\s*&\\s*GIGLIO|The\\s*Sota\\s*Pod|RBLR\\s*Sports|Nasher\\b|104\\.3\\s*WQAM|Pittsburgh\\s*Hockey\\s*Now|MojosLive|Captain\\s*Avalanche\\s*Fancast|Dolynny\\s*TV)\\b"
+
+# podcast_talk (10 sports)
+[[r2]]
+category = "generic_content"
+pattern = "\\b(SKOR\\s*North|The\\s*Voice\\s*of\\s*College\\s*Foot|519\\s*Sports\\s*Online|Local\\s*Big\\s*Time|triple\\s*j|Smoking\\s*Girl\\s*Live|The\\s*Rink\\s*Live|Mike\\s*Matthews|kjohanh|Hockey\\s*In\\s*Context|Riley\\s*Cioffi|Elite\\s*Goal\\s*Horns)\\b"

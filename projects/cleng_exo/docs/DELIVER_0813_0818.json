@@ -1,0 +1,115 @@
+{
+  "batches_0813_0818": [
+    {
+      "category": "exo_fitness",
+      "batch": "machine_0814",
+      "n": 208278,
+      "hours": 53126.1,
+      "wan_hours": 5.3126,
+      "csv": "data/runs/exo_fitness/machine_0814/06_tools/text_semantic/fitness_clip_v11_rerun8_minilm_hardkeep_0819.csv",
+      "note": ""
+    },
+    {
+      "category": "exo_agriculture",
+      "batch": "machine_0814",
+      "n": 1833767,
+      "hours": 534703.5,
+      "wan_hours": 53.4703,
+      "csv": "data/runs/exo_agriculture/machine_0814/05_clean/run02/农业采集_clean_0814.csv",
+      "note": ""
+    },
+    {
+      "category": "exo_agriculture",
+      "batch": "machine_0817",
+      "n": 76331,
+      "hours": 26011.4,
+      "wan_hours": 2.6011,
+      "csv": "data/runs/exo_agriculture/machine_0817/05_clean/run01/农业采集_0817_clean_0817.csv",
+      "note": ""
+    },
+    {
+      "category": "exo_agriculture",
+      "batch": "machine_0818",
+      "n": 1890723,
+      "hours": 553504.5,
+      "wan_hours": 55.3504,
+      "csv": "data/runs/exo_agriculture/machine_0818/05_clean/run01/农业采集_clean_0818.csv",
+      "note": ""
+    },
+    {
+      "category": "exo_factory",
+      "batch": "machine_0814",
+      "n": 4416,
+      "hours": 898.6,
+      "wan_hours": 0.0899,
+      "csv": "data/runs/exo_factory/machine_0814/05_clean/run01/工厂生产_clean_0814.csv",
+      "note": ""
+    },
+    {
+      "category": "exo_livestock",
+      "batch": "machine_0814",
+      "n": 676890,
+      "hours": 200188.3,
+      "wan_hours": 20.0188,
+      "csv": "data/runs/exo_livestock/machine_0814/05_clean/run03/渔业牧业_merged_0813-0818_clean_0818.csv",
+      "note": ""
+    },
+    {
+      "category": "exo_outdoor",
+      "batch": "machine_0817",
+      "n": 93788,
+      "hours": 27319.6,
+      "wan_hours": 2.732,
+      "csv": "data/runs/exo_outdoor/machine_0817/05_clean/run01/户外探险_merged_0817_clean_0817.csv",
+      "note": ""
+    },
+    {
+      "category": "exo_outdoor",
+      "batch": "machine_0818",
+      "n": 433326,
+      "hours": 131983.0,
+      "wan_hours": 13.1983,
+      "csv": "data/runs/exo_outdoor/machine_0818/05_clean/run02/户外探险_0818_clean_0819.csv",
+      "note": ""
+    },
+    {
+      "category": "exo_service",
+      "batch": "machine_0813",
+      "n": 2053644,
+      "hours": 472381.4,
+      "wan_hours": 47.2381,
+      "csv": "data/runs/exo_service/machine_0813/05_clean/run06/商业服务_merged_clean_0814.csv",
+      "note": ""
+    },
+    {
+      "category": "exo_medical",
+      "batch": "machine_0813",
+      "n": 590,
+      "hours": 79.2,
+      "wan_hours": 0.0079,
+      "csv": "data/runs/exo_medical/machine_0813/07_deliver/0813_deliver_stack_thumbT_0817.csv",
+      "note": ""
+    },
+    {
+      "category": "parent_child",
+      "batch": "machine_0818_lt50",
+      "n": 8537528,
+      "hours": 2347037.9,
+      "wan_hours": 234.7038,
+      "csv": "data/runs/parent_child/machine_0818_lt50/05_clean/run01/亲子互动_<50%_clean_0818.csv",
+      "note": ""
+    },
+    {
+      "category": "parent_child",
+      "batch": "machine_0818_ge50",
+      "n": 9343,
+      "hours": 2658.7,
+      "wan_hours": 0.2659,
+      "csv": "data/runs/parent_child/machine_0818_ge50/05_clean/run01/亲子互动_≥50%_clean_0818.csv",
+      "note": ""
+    }
+  ],
+  "total_videos": 15818624,
+  "total_hours": 4349892.2,
+  "total_wan_hours": 434.9892
+}

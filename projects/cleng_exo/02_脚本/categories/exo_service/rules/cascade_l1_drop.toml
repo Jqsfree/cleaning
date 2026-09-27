@@ -1,0 +1,41 @@
+# L1 — 文本高精度 DROP（certain-noise only）
+# 只删标题/频道上可确定的非目标；不做行业判断、不判合格。
+# 风险词 commercial/review/tour：词边界；误杀高再收紧。
+
+[meta]
+version = "1.0.0"
+category = "exo_service"
+layer = "l1_certain_noise_drop"
+basis = "2026-08-17 four-layer cascade redesign"
+
+[[drop]]
+category = "podcast"
+pattern = "(?i)\\bpodcasts?\\b"
+
+[[drop]]
+category = "interview"
+pattern = "(?i)\\binterviews?\\b|sit[-\\s]?down\\s*interview|对话访谈"
+
+[[drop]]
+category = "ceo_business"
+pattern = "(?i)\\bceo\\b|business\\s*tips?|\\bmarketing\\b|\\bstart[-\\s]?ups?\\b|company\\s*profile"
+
+[[drop]]
+category = "commercial_ad"
+pattern = "(?i)\\bcommercials?\\b|\\badvertisements?\\b|\\badverts?\\b"
+
+[[drop]]
+category = "review"
+pattern = "(?i)\\breviews?\\b|产品评测|开箱评测"
+
+[[drop]]
+category = "tour_doc_news"
+pattern = "(?i)\\btours?\\b|\\bdocumentaries?\\b|\\bdocumentary\\b|\\bnews\\b|breaking\\s*news"
+
+[[drop]]
+category = "lecture_conf"
+pattern = "(?i)\\blectures?\\b|\\bconferences?\\b|\\bwebinars?\\b|how\\s*to\\s*start\\b"
+
+[[drop]]
+category = "talking_head_panel"
+pattern = "(?i)talking\\s*heads?|panel\\s*discussions?|\\bpresentations?\\b|keynote\\s*speech|\\btedx?\\b"

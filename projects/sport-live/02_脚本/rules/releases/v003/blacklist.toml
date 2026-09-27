@@ -1,0 +1,65 @@
+# Blacklist rules (v003 - 3档权重)
+# 6 A类 hard filter + 9 B类 r2
+
+[meta]
+version = "3.0"
+
+[[pass2]]
+category = "kpop_fan"
+pattern = "\\b(fmv|fan\\s*cam|fanmeet|fan\\s*meet)\\b"
+
+[[pass2]]
+category = "other"
+pattern = "\\b(k[\\s-]?pop|kpop|snsd|taeyeon|taeny|bts\\b|blackpink|twice\\b|exo\\b|nct\\b|stray\\s*kids)\\b"
+
+[[pass2]]
+category = "religion"
+pattern = "\\b(worship|sermon|prayer|bible|gospel|pastor|church\\s*service)\\b"
+
+[[pass2]]
+category = "shopping_beauty"
+pattern = "\\b(unboxing|haul\\b|try\\s*on|makeup\\s*tutorial)\\b"
+
+[[pass2]]
+category = "vlog_entertainment"
+pattern = "\\b(prank|vlog\\b|daily\\s*vlog|mukbang)\\b"
+
+[[pass2]]
+category = "life_event"
+pattern = "\\b(graduation|wedding\\s*recap|birthday\\s*party)\\b"
+
+[[r2]]
+category = "gaming"
+pattern = "\\b(minecraft|roblox|fortnite|gameplay|let'?s\\s*play|walkthrough|mod\\s*apk)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(podcast|talk\\s*show|stand\\s*up\\s*comedy|comedy\\s*special)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(how\\s*to\\b|tutorial\\b|training\\s*tips|workout\\s*routine)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(reaction\\s*video|reacts?\\s*to)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(naruto|one\\s*piece|dragon\\s*ball|demon\\s*slayer)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(subway\\s*surfers|street\\s*fighter|mario\\s*kart|starcraft|free\\s*fire|garena)\\b"
+
+[[r2]]
+category = "other"
+pattern = "\\b(call\\s*of\\s*duty|\\bcod\\b|black\\s*ops|\\bmlg\\b)\\b"
+
+[[r2]]
+category = "smash_bros_game"
+pattern = "\\b(smash\\s*bros\\.?|super\\s*smash|ssbu|ssb4|melee\\s*tournament)\\b"
+
+[[r2]]
+category = "marble_simulation"
+pattern = "\\b(marble\\s*rac(e|ing)|plinko|algodoo|marbl(e|es)\\s*(league|run|world))\\b"

@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 密钥 / 环境
+cookies.txt
+.env
+
+# 缓存
+qc_thumb_cache/
+.rule_hits_cache.json
+
+# 大数据不入 git（批次产物与嵌入）
+raw/
+data/runs/
+!data/runs/**/README.md
+data/assets/embeddings/
+data/assets/models/
+
+# 模型权重（calibration json / blocklist 等配置保留）
+models/**/*.pkl
+models/**/*.joblib
+models/**/*.pth

@@ -1,0 +1,66 @@
+[meta]
+category = "exo"
+has_cleaner = true
+deliver_format = "parquet"
+default_qc = "text"
+notes = "农业蔬菜采摘第三人称；机采 quality→标题分析/规则初筛→sample→text QC→rules"
+
+[[flow.human]]
+id = "quality"
+kind = "auto"
+
+[[flow.human]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.human]]
+id = "human_qc"
+kind = "external"
+depends = ["sample"]
+hint = "人工质检结果放入 03_qc/"
+
+[[flow.human]]
+id = "deliver"
+kind = "auto"
+tool = "copy_pass"
+depends = ["human_qc"]
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+
+[[flow.machine]]
+id = "title_screen"
+kind = "optional_auto"
+depends = ["quality"]
+hint = "tools/analyze_exo_titles.py INPUT -o $BATCH/ --apply-rules"
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+depends = ["title_screen"]
+
+[[flow.machine]]
+id = "text_qc"
+kind = "optional_auto"
+depends = ["sample"]
+hint = "qc/text.py --category exo"
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["text_qc"]
+hint = "04_rules/NOTES.md + 迭代 blacklist.toml；再 --rules-ready clean"
+
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+depends = ["rules"]
+gate = "rules_ready"
+
+[[flow.machine]]
+id = "deliver"
+kind = "auto"
+tool = "copy_keep"
+depends = ["clean"]
