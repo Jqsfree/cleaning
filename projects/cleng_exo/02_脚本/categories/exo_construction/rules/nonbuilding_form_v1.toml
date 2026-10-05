@@ -1,0 +1,24 @@
+[meta]
+version = "0.1.0"
+category = "exo_construction"
+scope = "Non-building craft/model objects and machine-only title forms"
+
+[[rules]]
+id = "decorative_cement_objects"
+label = "水泥装饰小物"
+pattern = '(?i)\b(?:flower pots?|cement pots?|concrete pots?|planters?|mason jars?|dioramas?|terrariums?|decorative statues?|cement sculptures?|wall hangings?|showpieces?)\b|\b(?:cement|concrete|plaster)\b.{0,50}\b(?:craft ideas?|artwork|ornaments?|sculptures?|statues?|home decor|decorations? ideas?)\b|\b(?:craft ideas?|artwork|ornaments?|sculptures?|statues?|home decor|decorations? ideas?)\b.{0,50}\b(?:cement|concrete|plaster)\b'
+
+[[rules]]
+id = "scale_model_railway"
+label = "微缩模型及铁路模型"
+pattern = '(?i)\b(?:scale model|miniature model|model house|model villa|model railway|model railroad|model RR|diy model|construction model|building model|HO model RR)\b|微型别墅|微缩建筑|模型铁路|建筑模型'
+
+[[rules]]
+id = "factory_machine_showcase"
+label = "工厂生产线及机器展示"
+pattern = '(?i)\b(?:production line|fully automatic (?:assembling|welding|plastering|brick|rebar)|automatic (?:welding|plastering|rebar threading|steel bar bending|roll forming)|(?:roof tile|scaffolding|formwork|brick|rebar) (?:making|welding|bending|threading) machine|plastering machine (?:working principle|review|demo|new model|upgrade)|machine production line|CNC (?:cutting|machining) machine|robot(?:ic)? (?:bricklaying|masonry|construction))\b'
+
+[[rules]]
+id = "template_not_site"
+label = "模板文件和范例"
+pattern = '(?i)\b(?:concrete mix design template|formwork template machine|construction (?:estimate|schedule|invoice) template|building design template|roofing website template)\b'

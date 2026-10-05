@@ -1,4 +1,4 @@
-#!/home/jqs/miniconda3/envs/data_cleaning/bin/python
+#!/usr/bin/env python3
 """
 初筛脚本 — 对原始 CSV 做质量过滤 + 批内去重 + 时长过滤，不涉及任何内容规则。
 

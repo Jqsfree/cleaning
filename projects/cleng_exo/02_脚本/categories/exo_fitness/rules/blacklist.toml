@@ -1,36 +1,147 @@
-# Blacklist — exo 健身训练（certain-noise only）
-# v0.1.0: round1 271（T29/F196/U38）
-# 不加 how_to/tutorial：跟练片标题常带 How to squat，会误杀
+# Blacklist — exo 健身训练（certain-noise / 非真人 + 金标 F 串台）
+# v0.1.0: round1 271
+# v0.2.0: machine_0814 text QC
+# v0.3.0: 非真人主题（动画/新闻/影视剧等）
+# v0.4.0: 五批金标 union（T=1002 / F=345，合格率 74.4%）
+#         title 主 / channel 辅；去掉裸 \banimation\b（误杀 MV「Animation」）；
+#         金标 T_hurt=0 增量：健身 BGM、ASMR、装备评测拆修、口播鸡汤、病毒杂片等；
+#         channel_pass2 仅明显非健身纯 F（n_f≥2：Ozzy / Kenny Guitar / DC Rainmaker）
+# 禁止裸 how_to/tutorial/episode/season/news/drama（跟练分集与口播易误杀）
 
 [meta]
-version = "0.2.0"
+version = "0.4.0"
 category = "exo_fitness"
-basis = "machine_0814 text QC round1; skip how_to; keep music/game/MV"
+basis = "gold Downloads/健身 ×5 union 2026-09-24; T_hurt=0"
 
+# ── channel 辅：精确锚点（^\s*…\s*$）──
+[[channel_pass2]]
+category = "ch_ozzy_man_reviews"
+pattern = "(?i)^\\s*Ozzy Man Reviews\\s*$"
+
+[[channel_pass2]]
+category = "ch_kenny_guitar"
+pattern = "(?i)^\\s*Kenny'?s Guitar & Ukulele\\s*$"
+
+[[channel_pass2]]
+category = "ch_dc_rainmaker"
+pattern = "(?i)^\\s*DC Rainmaker\\s*$"
+
+# ── 游戏 / 模拟器 / AI 虚拟 ──
 [[pass2]]
 category = "instrumental_mix"
 pattern = "(?i)\\binstrumental\\b"
 
 [[pass2]]
 category = "gameplay"
-pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|lets?\\s*play|valorant|gta\\s*[45v]?)\\b"
+pattern = "(?i)(\\bgameplay\\b|\\bminecraft\\b|\\broblox\\b|\\bfortnite\\b|lets?\\s*play|\\bvalorant\\b|gta\\s*[45v]?|\\bgenshin\\b|原神|和平精英|吃鸡|#gaming|游戏实况|遊戲實況|游戏解说|遊戲解說)"
 
 [[pass2]]
-category = "official_mv_trailer"
-pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
-
-[[pass2]]
-category = "anime_cartoon_kids"
-pattern = "(?i)(\\banime\\b|\\bcartoon\\b|cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song)"
-
-[[pass2]]
-category = "news_hard"
-pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news)"
+category = "generic_simulator"
+pattern = "(?i)\\b(flight\\s+simulator|truck\\s+simulator|farm(?:ing)?\\s*simulator|\\bfs22\\b|\\bfs25\\b|\\bsims\\s*4\\b|the\\s+sims|garry'?s\\s*mod)\\b"
 
 [[pass2]]
 category = "non_real_ai"
-pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake)"
+pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake|cgi\\s*character|ai\\s*short\\s*drama)"
 
+# ── 动画 / 动漫 / 少儿卡通（勿裸 animation → 误杀 MV 标题）──
+[[pass2]]
+category = "anime_cartoon_kids"
+pattern = "(?i)(\\banime\\b|\\bcartoon\\b|animated\\s*(?:short|film|series|movie)|动漫|動漫|动画片|動畫|二次元|アニメ|manga\\b|ghibli|naruto|one\\s*piece|dragon\\s*ball|bleach|demon\\s*slayer|jujutsu|attack\\s*on\\s*titan|my\\s*hero\\s*academia|spy\\s*x\\s*family|pok[eé]mon|digimon|yugioh|sailor\\s*moon|gumball|tom\\s*&\\s*jerry|spongebob|doraemon|crayon\\s*shin|\\bchibi\\b|cartoon\\s*network|nickelodeon|disney\\s*j(?:r|unior)|\\bpogo\\b|cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song|baby\\s*shark|paw\\s*patrol|ninjago|play\\s*doh\\s*cartoons|babybus|videogyan|kids?\\s*cartoon|儿歌)"
+
+# ── 音乐发行 / 预告片 ──
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer|movie\\s*trailer|film\\s*trailer)"
+
+# ── 新闻台 / 时政（勿裸词 news）──
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bnbc\\s*news\\b|\\bcbs\\s*news\\b|\\bfox\\s*news\\b|\\bsky\\s*news\\b|\\bctv\\s*news\\b|\\bcbc\\s*news\\b|\\bndtv\\b|\\bcnn\\b|breaking\\s*news|eyewitness\\s*news|al\\s+jazeera|reuters|cctv\\s+video\\s+news|tvbs\\s*新聞|三立新聞|民視新聞|華視新聞|即新聞|formosa\\s*news|taiwan\\s*news|news\\s*conference|press\\s*conference|weather\\s*forecast|election\\s*result)"
+
+[[pass2]]
+category = "news_channels"
+pattern = "(?i)(channel\\s*\\d+\\s*news|24\\s*news\\s*hd|\\bnews\\s*hd\\b|v6\\s*news|lahore\\s*news|zee\\s*news|dw\\s*news|gma\\s*news|新聞挖挖哇|民視英語新聞)"
+
+# ── 电视剧 / 连续剧 / 影视剧 / 短剧（勿裸 episode/season）──
+[[pass2]]
+category = "tv_drama_serial"
+pattern = "(?i)(电视剧|電視劇|连续剧|連續劇|影视剧|影視劇|日剧|韓劇|韩剧|台劇|内地剧|web\\s*series|tv\\s*drama|tv\\s*serial|daily\\s*soap|\\btelecast\\b|drama\\s*serial|drama\\s*episode|tamil\\s+serial|sun\\s+tv\\s+serial|vijay\\s*television|episode\\s*preview)"
+
+[[pass2]]
+category = "short_drama_film"
+pattern = "(?i)(短剧|#cdrama|完结文|恶毒女配|\\b爽文\\b|#重生|#末世|#正能量|#打脸|真情劇場)"
+
+[[pass2]]
+category = "movie_film_recap"
+pattern = "(?i)(电影解说|電影解說|movie\\s*clip|movieclips|mystery\\s+movie|恐怖電影|悬疑武侠|喜剧影片|經典喜劇|coming\\s*soon|film\\s*recap|movie\\s*recap|movie\\s*review)"
+
+[[pass2]]
+category = "crime_patrol"
+pattern = "(?i)\\bcrime\\s+patrol\\b"
+
+# ── 综艺 / 访谈口播（非跟练实拍）──
 [[pass2]]
 category = "podcast_interview"
 pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night)"
+
+[[pass2]]
+category = "variety_reality_tv"
+pattern = "(?i)(真人秀|综艺|綜藝|pinoy\\s*big\\s*brother|\\bpbb\\b|big\\s*brother|the\\s*voice\\s*of|2\\s*Days\\s*&\\s*1\\s*Night|ink\\s*master)"
+
+# ── 纪录片台标 ──
+[[pass2]]
+category = "doc_tv_brands"
+pattern = "(?i)(national\\s+geographic|\\bnat\\s*geo\\b|animal\\s+planet|discovery\\s+channel|bbc\\s+earth|history\\s+channel)"
+
+# ── v0.4 金标 title 主（T_hurt=0）──
+[[pass2]]
+category = "gym_bgm_music"
+pattern = "(?i)(#gymmusic|gymmusic|\\bgym\\s*music\\b|fitness\\s*radio\\s*mix|radio\\s*mix\\s*gym|workout\\s*playlist|running\\s*music\\s*\\d{4}|best\\s*gym\\s*music|hip\\s*hop,?\\s*trap,?\\s*motivational\\s*music|edm\\s*workout\\s*mix|motivational\\s*mix\\s*for|ultimate\\s*workout\\s*remix|\\(workout\\s*(?:mix|remix)\\)|zumba\\s*party\\s*mix|\\s-\\s*topic\\b)"
+
+[[pass2]]
+category = "asmr"
+pattern = "(?i)\\basmr\\b"
+
+[[pass2]]
+category = "gear_review_unbox"
+pattern = "(?i)(try\\s*on\\s*haul|unboxing\\s*and\\s*overview|full\\s*review\\s*\\+|-\\s*full\\s*review|field\\s*test|fitting\\s*guide|asics\\s*gel-|xero\\s*shoes|shimano\\s+ultegra|ktm\\s*\\d+|hayabusa|removing\\s*a\\s*wheel\\s*with|disc\\s*brakes|front\\s*derailleur|braze\\s*on|china\\s*e-?bike\\s*review|bowflex\\s*t9\\s*treadmill\\s*review|top\\s*10\\s*best\\s*value\\s*trail\\s*bikes|top\\s*5\\s*-\\s*toughest\\s*cycling\\s*climbs)"
+
+[[pass2]]
+category = "massage_clinic"
+pattern = "(?i)(spinal\\s*decompression|massage\\s*gun\\s*un)"
+
+[[pass2]]
+category = "talk_clickbait"
+pattern = "(?i)(can\\s*you\\s*really|don['’]?t\\s*work!?\\s*what\\s*to\\s*do\\s*instead|does\\s*cardio\\s*burn|how\\s*long\\s*should\\s*you\\s*hold|pump\\s*testosterone|autophagy\\s*activation|cold\\s*exposure\\s*starter|stop\\s*running\\s*for\\s*wrestling|which\\s*is\\s*more\\s*effective\\s*bjj|ranking\\s*rutinas|episode\\s*\\d+\\s*-\\s*my\\s*ten\\s*best\\s*training\\s*tips)"
+
+[[pass2]]
+category = "viral_nonfit"
+pattern = "(?i)(karens?\\s+who\\s+got|audit\\s*the\\s*audit|forces\\s*entry\\s*without|human\\s*tetris|immersive\\s*interactive\\s*warm\\s*up\\s*game|moments\\s*leading\\s*up\\s*to\\s*killing|man\\s*secretly\\s*records)"
+
+[[pass2]]
+category = "face_diet_nontrain"
+pattern = "(?i)(face\\s*fat\\s*loss|free\\s*diet\\s*plan|drinking\\s*my\\s*breakfast)"
+
+[[pass2]]
+category = "spiritual_mantra"
+pattern = "(?i)(shiva\\s*mantras?|bija\\s*mantra|chakra\\s*chanting|mahakatha|terapia\\s*de\\s*relajaci[oó]n)"
+
+[[pass2]]
+category = "edu_english_news"
+pattern = "(?i)(6\\s*minute\\s*english|bbc\\s*learning\\s*english)"
+
+[[pass2]]
+category = "mil_security"
+pattern = "(?i)(firearms?\\s*permit|medical\\s*simulation\\s*training\\s*center|army\\s*reserve\\s*medical)"
+
+[[pass2]]
+category = "nonfit_event_media"
+pattern = "(?i)(cycling\\s*tour|okayama\\s*castle|rigging\\s*basics\\s*for\\s*rowing|london\\s*2012\\s*olympics|heptathlon\\s*gold|magpakailanman|playstation.?move|e3\\s*sizzle|dog\\s*training\\s*fundamentals|52\\s*super\\s*series|supremacy\\s*mma|alfa\\s*romeo\\s*4c|mtb\\s*citybike|yoga\\s*competition\\s*\\|)"
+
+[[pass2]]
+category = "vlog_day_life"
+pattern = "(?i)(day\\s*in\\s*the\\s*life\\s*\\|\\s*how\\s*i\\s*eat|productive\\s*day\\s*in\\s*life|bryan\\s*johnson)"
+
+[[pass2]]
+category = "ch_aux_reviewers"
+pattern = "(?i)(ozzy\\s*man\\s*reviews|kenny'?s\\s*guitar|dc\\s*rainmaker|guitar\\s*&\\s*ukulele)"

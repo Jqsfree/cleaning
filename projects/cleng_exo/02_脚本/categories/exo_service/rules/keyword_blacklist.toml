@@ -1,0 +1,22 @@
+# 采集词整词闸门（金标 n≥3 且 100% F；不作模型特征）
+# 仅匹配 keyword 列精确相等（去首尾空白）
+
+keywords = [
+  "沉浸式 理发造型",
+  "关于 面部护理 的",
+  "barista customer service",
+  "沉浸式 美甲定制",
+  "关于 足部护理 的",
+  "处理顾客投诉",
+  "老人理发服务",
+  "体验 美甲设计",
+  "外卖打包出餐",
+  "深度解析 医美体验",
+  "面馆制作面条",
+]
+
+[meta]
+version = "1.1.0"
+category = "exo_service"
+layer = "keyword_blacklist"
+basis = "2026-09-16 dual gold: G4 + textkeep keyword pass_rate=0 (n>=3)"

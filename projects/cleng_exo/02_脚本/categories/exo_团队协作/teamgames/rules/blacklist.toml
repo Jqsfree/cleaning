@@ -1,0 +1,215 @@
+# Blacklist — exo_团队协作 · 团队游戏（非真人团队游戏/协作挑战闸门）
+# v0.1.0: 人标 团游_2afdc86b → 纯 F 频道 + 电竞/电子游戏 + 赛事全过滤 + 卡通/考研/选秀
+# v0.2.0: keep 审计 → 电竞手游/综艺影视/体育转播/儿童卡通/考试课 正则扩闸（title+channel）
+# v0.3.0: +新闻/体育新闻台（title+channel）
+# v0.4.0: 非真人全过滤——卡通/动漫 + 课程/网课/考试班（title+channel）
+# v0.4.1: 课程扩闸——SSC/RRB/PSC/Bank 等考试班 + Class-N 句式 + 考试频道
+# v0.4.2: +OSSC/UGC NET/Reasoning mock/video tutorials 残余课程
+# v0.5.0: n100 串台
+# v0.6.0: 电子游戏扩名 + 动画/迪士尼/SFM
+# 禁止裸词：team / competition / challenge / game / relay（机采主题词）
+
+[meta]
+version = "0.6.0"
+category = "exo_团队协作"
+sport = "teamgames"
+basis = "videogame+animation expand; 2026-09-24"
+
+# ── 金标纯 F 频道 ──
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_teamgames_01"
+pattern = "^(?:PolarisZenKai’s\\ Amiibo\\ Fights!|Desbug|Fisher\\-Price®|BEATBOX\\ BATTLE®|Cash\\ Banooka|Chainsaw100|DMRegister|DasVanjen|Duncan|EA\\ SPORTS\\ FC\\ ESPAÑA|Farmer\\ Sythe|FeroYias|HOK\\ Replay|Hipkari\\-Lovkari|Ink\\ Master|Josephine\\ Medina|Kerala\\ State\\ Tug\\ Of\\ War\\ AssociationSPORTS\\ CHANNEL|Lahore\\ News\\ HD|Movie\\ Play|Nathaniel\\ Barlam)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_teamgames_02"
+pattern = "^(?:Ngọc\\ Vinh\\ Đoàn|OUTBURST\\ LIMITED|Penny\\ Zenker\\ Keynote\\ Speaker|PokéTrainer\\ Riku|Quick\\ Tricks\\ By\\ Sahil\\ Sir|StarlightBoys|Steven\\ Universe|TBNRFrags|Team\\ Spooky|Tewtiy|The\\ Amazing\\ World\\ of\\ Gumball|The\\ Prakash\\ Mudgal|The\\ Voice\\ of\\ Nepal|Threefold|Tug\\ of\\ war\\ Sri\\ lanka|VHS\\&DVDsRips|Worco\\ Entertainment)$"
+
+# ── title 闸门 ──
+
+[[pass2]]
+category = "esports_videogame_v01"
+pattern = "(?i)\\b(?:league\\s*of\\s*legends|\\blol\\b|dota\\s*2?|cs:?\\s*go|counter[\\s-]*strike|valorant|fortnite|overwatch|pubg|free\\s*fire|mobile\\s*legends|roblox|minecraft|genshin|brawlhalla|call\\s*of\\s*duty|\\bcod\\b|warzone|apex\\s*legends|fifa\\s*\\d*|ea\\s*sports?\\s*fc|nba\\s*2k|madden|rocket\\s*league|clash\\s*(?:of\\s*clans|royale)|pokemon\\s*(?:go|unite|black|sword|stadium)|smash\\s*bros|street\\s*fighter|tekken|mortal\\s*kombat|age\\s*of\\s*empires|farm(?:ing)?\\s*simulator|\\bfs22\\b|\\bfs25\\b|amiibo|gameplay|lets?\\s*play|speedrun|walkthrough|clan\\s*war|cwl\\b|th1[0-9]\\b|gregtech|survival\\s*gamess?|endgame\\s*now|s-?plus\\s*rank)\\b"
+
+[[pass2]]
+category = "sports_events_all_v01"
+pattern = "(?i)(?:\\b(?:world\\s*cup|olympics?|olympic\\s*games|championships?|championship|grand\\s*slam|premier\\s*league|la\\s*liga|serie\\s*a|bundesliga|champions\\s*league|nba\\s*finals?|\\bnfl\\b|\\bnba\\b|\\bmlb\\b|\\bnhl\\b|super\\s*bowl|wimbledon|us\\s*open|french\\s*open|australian\\s*open|davis\\s*cup|fifa\\b|uefa\\b|ncaa\\b|march\\s*madness|tournament|tournoi|турнир|finals?\\b|semi-?finals?|quarter-?finals?|playoffs?|match\\s*day|full\\s*match|full\\s*game|match\\s*highlights?|game\\s*highlights?|extended\\s*highlights?|european\\s*champio\\w*|intercollegiate|drake\\s*relays|赛事|锦标赛|联赛|总决赛|半决赛|四分之一决赛|奥运|世界杯|淘汰赛)\\b)"
+
+[[pass2]]
+category = "cartoon_kids_v01"
+pattern = "(?i)\\b(?:bob\\s*the\\s*builder|steven\\s*universe|gumball|cartoon\\s*network|peppa\\s*pig|cocomelon|fisher[\\s-]*price|nursery\\s*rhymes?|cartoons?\\s+for\\s+kids)\\b"
+
+[[pass2]]
+category = "exam_prep_v01"
+pattern = "(?i)\\b(?:ssc\\s*cgl|rrb\\s*ntpc|pyq\\s*analysis|maths?\\s*classes|practice\\s*set|55\\s*day\\s*target)\\b"
+
+[[pass2]]
+category = "talent_variety_v01"
+pattern = "(?i)\\b(?:the\\s*voice\\s*of|beatbox\\s*battle|ink\\s*master|starlight\\s*boys|goodnight\\s*letters)\\b"
+
+[[pass2]]
+category = "arm_wrestling_v01"
+pattern = "(?i)\\b(?:arm\\s*wrestl\\w*|армрестлинг)\\b"
+
+[[pass2]]
+category = "keynote_talk_v01"
+pattern = "(?i)\\b(?:keynote|customer\\s*experience|human\\s*connection\\s+with)\\b"
+
+[[pass2]]
+category = "art_exhibit_v01"
+pattern = "(?i)\\b(?:art\\s*exhibition|illustrated)\\b"
+
+# ── v0.2 keep 审计污染闸门（电竞手游/综艺/体育转播/卡通/考试课）──
+
+[[channel_pass2]]
+category = "ch_gaming_v02"
+pattern = "(?i)(gaming|game\\s*show|warcraft|esport|omnigamer|free\\s*glo|ar12gaming|miaw\\s*gaming|aventador\\s*fh5|nerf\\s*guns|yukizgames|bullkia|elite\\s*idiot|unfolded\\s*gamers|joe\\s*mama\\s*69|kan\\s*gaming|strategic\\s*game|ltt\\s*game)"
+
+[[channel_pass2]]
+category = "ch_sports_media_v02"
+pattern = "(?i)^(nbc\\s*sports|espn|fox\\s*sports|sky\\s*sports)$"
+
+[[channel_pass2]]
+category = "ch_variety_v02"
+pattern = "(?i)(pinoy\\s*big\\s*brother|abs[\\s-]*cbn|set\\s*india|hum\\s*tv|kurulus\\s*osman|dc\\s*kids)"
+
+[[channel_pass2]]
+category = "ch_exam_v02"
+pattern = "(?i)(ssc\\s*lab|vidyagram|raman\\s*sir\\s*classes|competitive\\s*exam)"
+
+# title
+
+[[pass2]]
+category = "esports_mobile_v02"
+pattern = "(?i)\\b(?:pvz|plants?\\s*vs\\.?\\s*zombies?|warcraft|world\\s*of\\s*warcraft|\\bwow\\b|forza(?:\\s*horizon)?|\\bfh5\\b|planet\\s*zoo|loomian|pok[eé]mon|nerf\\s*guns?|super\\s*mario|mario\\s*party|roblox|minecraft|fortnite|valorant|league\\s*of\\s*legends|\\blol\\b|dota|cs:?\\s*go|overwatch|pubg|free\\s*fire|mobile\\s*legends|genshin|brawlhalla|call\\s*of\\s*duty|\\bcod\\b|warzone|apex(?:\\s*legends)?|fifa\\s*\\d*|ea\\s*fc|nba\\s*2k|madden|rocket\\s*league|clash\\s*(?:of\\s*clans|royale)|smash\\s*bros|street\\s*fighter|tekken|mortal\\s*kombat|age\\s*of\\s*empires|farm(?:ing)?\\s*simulator|\\bfs1[89]\\b|\\bfs22\\b|\\bfs25\\b|amiibo|gameplay|lets?\\s*play|speedrun|walkthrough|obby\\b|gacha|booster\\s*packs?|twilight\\s*masquerade|shiny\\s*gold|color\\s*ball\\s*sorting|brain\\s*game\\s*theater|pad\\s*puzzle)\\b"
+
+[[pass2]]
+category = "variety_drama_v02"
+pattern = "(?i)\\b(?:pinoy\\s*big\\s*brother|\\bpbb\\b|big\\s*brother|abs[\\s-]*cbn|ang\\s*probinsyano|fpj\\'?s|suno\\s*chanda|hum\\s*tv|set\\s*india|kurulus\\s*osman|ink\\s*master|the\\s*voice\\s*of|beatbox\\s*battle|starlight\\s*boys|teen\\s*titans|batwheels|drama\\s*episode|full\\s*episode|tv\\s*drama|综艺|电视剧|真人秀)\\b"
+
+[[pass2]]
+category = "sports_broadcast_v02"
+pattern = "(?i)\\b(?:nbc\\s*sports|espn\\b|fox\\s*sports|sky\\s*sports|diamond\\s*league|steeplechase|shot\\s*put|world\\s*record\\s*holder|athletics\\b|track\\s*(?:and|&)\\s*field|full\\s*match|match\\s*highlights?|game\\s*highlights?|extended\\s*highlights?|tournament|championships?|championship|world\\s*cup|olympics?|olympic\\s*games|premier\\s*league|champions\\s*league|\\bnfl\\b|\\bnba\\b|\\bmlb\\b|\\bnhl\\b|super\\s*bowl|wimbledon|fifa\\b|uefa\\b|ncaa\\b|finals?\\b|semi-?finals?|playoffs?|赛事|锦标赛|联赛|总决赛|半决赛|奥运|世界杯)\\b"
+
+[[pass2]]
+category = "cartoon_kids_v02"
+pattern = "(?i)\\b(?:bob\\s*the\\s*builder|steven\\s*universe|gumball|cartoon\\s*network|peppa\\s*pig|cocomelon|fisher[\\s-]*price|nursery\\s*rhymes?|cartoons?\\s+for\\s+kids|toys?\\s+and\\s+colors|funlings|equestria\\s*girls|dc\\s*kids|kids?\\s*cartoons?|pilchard|thomas\\s*(?:&\\s*)?friends)\\b"
+
+[[pass2]]
+category = "exam_class_v02"
+pattern = "(?i)\\b(?:ssc\\s*cgl|ssc\\s*chsl|ssc\\s*mts|rrb\\s*(?:ntpc|group\\s*d)|pyq|maths?\\s*classes|practice\\s*set|reasoning\\s+for|competitive\\s*exams?|raftaar\\s*reasoning|vidyagram|raman\\s*sir|prakash\\s*sir|sahil\\s*sir|uppcl|网课|考研|公考)\\b"
+
+
+# ── v0.3 新闻 / 体育新闻 ──
+
+[[channel_pass2]]
+category = "news_ch_v03"
+pattern = "(?i)(\\bnews\\b|新闻|報導|报道|newsweek|zee\\s*news|cbc\\s*news|cbs\\s*evening\\s*news|dw\\s*news|gma\\s*news|bbc\\s*news|cnn\\b|ndtv\\b|ptv\\b|basketnews|newsflare|iligan\\s*news|invideo\\s*news)"
+
+[[pass2]]
+category = "news_hard_v03"
+pattern = "(?i)\\b(?:breaking\\s*news|bbc\\s*news|cnn\\b|nbc\\s*news|abc\\s*news|fox\\s*news|sky\\s*news|cbs\\s*news|cbc\\s*news|al\\s*jazeera|reuters|news\\s*(?:&\\s*)?notes|news\\s*&\\s*rumors|daily\\s+.+\\s+news|news\\s*bulletin|新闻|報導|报道)\\b"
+
+# ── v0.4 非真人：卡通/动漫 + 课程全过滤 ──
+
+[[channel_pass2]]
+category = "ch_cartoon_anime_v04"
+pattern = "(?i)(cartoon|anime|动画|动漫|kids\\s*tv|funlings|toys?\\s*and\\s*colors|dc\\s*kids|nickelodeon|disney\\s*jr|gumball|peppa|cocomelon|toontime|dokkan|sailor\\s*moon)"
+
+[[channel_pass2]]
+category = "ch_course_v04"
+pattern = "(?i)(classes?|academy|tutors?|coaching|vidyagram|ssc\\s*lab|raman\\s*sir|\\bedu\\b|education|adda247|winners?\\s*institute|railway\\s*exams?|网课|考研|公考|名师|institute)"
+
+[[pass2]]
+category = "cartoon_anime_v04"
+pattern = "(?i)\\b(?:cartoon|anime|漫画|动漫|动画片|アニメ|ghibli|naruto|one\\s*piece|dragon\\s*ball|bleach|demon\\s*slayer|jujutsu|attack\\s*on\\s*titan|my\\s*hero\\s*academia|spy\\s*x\\s*family|pok[eé]mon|digimon|yugioh|yu[\\s-]*gi[\\s-]*oh|sailor\\s*moon|gumball|peppa(?:\\s*pig)?|cocomelon|paw\\s*patrol|bob\\s*the\\s*builder|steven\\s*universe|teen\\s*titans|batwheels|equestria|funlings|toys?\\s+and\\s+colors|dc\\s*kids|kids?\\s*cartoons?|cartoon\\s*network|nickelodeon|disney\\s*junior|pilchard|thomas\\s*(?:&\\s*)?friends|spongebob|doraemon|crayon\\s*shin|\\bchibi\\b|vtuber|gacha\\s*life|gacha\\s*club|amiibo|super\\s*mario|mario\\s*party|dokkan\\s*battle)\\b"
+
+[[pass2]]
+category = "course_class_v04"
+pattern = "(?i)\\b(?:online\\s*course|video\\s*course|crash\\s*course|masterclass|tutorial|lecture|webinar|mooc|udemy|coursera|skillshare|class\\s*\\d+|grade\\s*\\d+|curriculum|homeschool|lesson\\s*\\d+|day\\s*\\d+\\s*(?:class|batch)|batch\\s*by|classes?\\s*(?:by|for|on)|maths?\\s*classes?|reasoning\\s+(?:for|class|classes)|competitive\\s*exams?|ssc\\s*(?:cgl|chsl|mts)|rrb\\s*(?:ntpc|group\\s*d)|bssc\\b|pyq|practice\\s*set|jee\\s*(?:main|advanced)?|neet\\b|upsc\\b|gate\\s*exam|ielts|toefl|foundation\\s*\\d{4}|网课|课程|课件|讲义|考研|公考|教辅|名师|直播课|训练营|系统班)\\b"
+
+# ── v0.4.1 课程/考试班扩闸 ──
+
+[[channel_pass2]]
+category = "ch_exam_institute_v041"
+pattern = "(?i)(ssc\\b|rrb\\b|mpsc|tnpsc|hssc|uppcs|appsc|tgpsc|bank\\s*(?:po|clerk)|testbook|utkarsh|adda247|rojgar|wallah|sure\\s*shot|gk\\s*trick|winners?\\s*institute|railway\\s*exams?|psc\\b|exam\\s*prep)"
+
+[[pass2]]
+category = "course_exam_v041"
+pattern = "(?i)(?:\\b(?:ssc|rrb|mpsc|tnpsc|hssc|uppcs|appsc|tgpsc|bssc|neet|upsc|ielts|toefl)\\b|\\b(?:bank\\s*(?:po|clerk)|railway\\s*exams?|exam\\s*preparation|competitive\\s*exam|marathon\\s*(?:class|by)|vocab\\s+of\\s+ssc|figure\\s*counting|coding\\s*(?:and|&)\\s*decoding|blood\\s*relations?|profit\\s*&\\s*loss|mental\\s*ability|indian\\s*polity|fundamental\\s*(?:rights?|duties)|lecturette)\\b|class\\s*[- ]*\\d+|classes?\\s*\\+|free\\s*class|\\bday\\s*\\d+\\s*\\|)"
+
+# ── v0.4.2 课程残余 ──
+
+[[channel_pass2]]
+category = "ch_course_residual_v042"
+pattern = "(?i)(infinity\\s*lectures|ssb\\b|cheernastics)"
+
+[[pass2]]
+category = "course_residual_v042"
+pattern = "(?i)\\b(?:ossc|osssc|ugc\\s*net|\\bjrf\\b|reasoning\\s*(?:mock|revision|part|made\\s*easy)|inequality\\s*reasoning|puzzle\\s*(?:and\\s*)?seating|video\\s*tutorials?|tutorials?\\s*series|infinity\\s*lectures|expected\\s*questions\\s*for\\s*(?:upcoming\\s*)?exams?)\\b"
+
+# ── v0.5 n100 串台扩闸 ──
+
+[[channel_pass2]]
+category = "ch_dj_v05"
+pattern = "(?i)\\bdj\\b"
+
+[[channel_pass2]]
+category = "ch_game_extra_v05"
+pattern = "(?i)(h2b\\s*family\\s*games|gedfootball|pixelated\\s*apollo|cs2\\s*analysis|nater\\s*baiter|brawl\\s*stars|joel\\s*rpg|pad\\s*clutch|domtendo|freya\\s*demise|discriminating\\s*gamer|booboobay)"
+
+[[channel_pass2]]
+category = "ch_drama_music_v05"
+pattern = "(?i)(tabii|hum\\s*tv|schnuffel|hybe\\s*labels|\\bwwe\\b|top\\s*gear|keep\\s*running|smosh|jkt48|aayu\\s*and\\s*pihu|masterchef|^\\s*m2\\s*$|tbs$)"
+
+# title
+
+[[pass2]]
+category = "games_more_v05"
+pattern = "(?i)\\b(?:smurfs?|the\\s*smurfs|team\\s*fortress|\\btf2\\b|counter[\\s-]*strike|\\bcs2\\b|\\bcs:?go\\b|total\\s*war|rome\\s*2|esl\\s*pro\\s*league|jrpg|hidden\\s*gems\\s*you\\s*need\\s*to\\s*play|crash\\s*team\\s*racing|team\\s*sonic\\s*racing|hill\\s*climb\\s*racing|driveclub|bomber\\s*friends|starcraft|brawl\\s*stars|war\\s*selection|lethal\\s*company|swtor|mario\\s*(?:&\\s*)?luigi|dream\\s*team\\s*bros|パズドラ|puzzle\\s*&\\s*dragons|blaze\\s*black|pokestar|motorsport\\s*manager|no\\s*man.?s\\s*land|arkham\\s*horror|invincible:\\s*the\\s*hero|tekken|oilshock|racing\\s*extreme|spiderman\\s*team|color\\s*ball\\s*puzzle|ball\\s*puzzle\\s*challenge|ninja\\s*kidz|mini\\s*game\\s*challenge|wrong\\s*heads|dame\\s*tu\\s*cosita|dragonheir|continental\\s*challenge\\s*boss|cacturne|gen\\s*3\\s*ou|coop\\b.{0,20}mutation|weekly\\s*mutation|fsx\\s*multiplayer|playthrough|adventure\\s*mode\\s*\\d)\\b"
+
+[[pass2]]
+category = "tv_drama_v05"
+pattern = "(?i)\\b(?:ertugrul|ghazi|kurulus\\s*osman|suno\\s*chanda|ang\\s*probinsyano|fpj\\'?s|episode\\s*#?\\d+|season\\s*\\d+|full\\s*episode|tv\\s*drama|drama\\s*serial|ep\\s*\\d+|电视剧|连续剧)\\b"
+
+[[pass2]]
+category = "dj_music_v05"
+pattern = "(?i)\\b(?:\\bdj\\b|tabla\\s*sound|siren\\s*dj|sound\\s*check|remix\\b|beatbox|karaoke|official\\s*(?:music\\s*)?video|lyrics?|snuggle\\s*song|theme\\s*song|\\bost\\b|soundtrack|릴레이댄스|relay\\s*dance|that\\s*that|given[\\s-]*taken|fearless|love\\s*shack|klaviers?wettbewerb|samba\\s*competition|freestyle\\s*solo)\\b"
+
+[[pass2]]
+category = "academic_math_v05"
+pattern = "(?i)\\b(?:group\\s*theory|semi[\\s-]*group|monoid|abelian|discrete\\s*mathematics|abstract\\s*algebra|linear\\s*algebra|calculus|topology|number\\s*theory|social\\s*psychology\\s*lecture|action\\s*research\\s*title|probability\\s*(?:tips|tricks)|analogy\\s*or\\s*similarity|topic\\s*wise\\s*reasoning)\\b"
+
+[[pass2]]
+category = "talk_variety_v05"
+pattern = "(?i)\\b(?:misery\\s*index|talk\\s*show|stand[\\s-]*up|\\btbs\\b|masterchef|keep\\s*running|sidemen|mrbeast|smosh\\s*pit|reading\\s*reddit|mixed\\s*match\\s*challenge|\\bwwe\\b|top\\s*gear|usa\\s*muscle\\s*car)\\b"
+
+[[pass2]]
+category = "sim_tactics_v05"
+pattern = "(?i)\\b(?:táctica|tactica|tactics?\\s*defens|gedfootball|football\\s*manager|\\bfm\\s*2[0-9]\\b|microsoft\\s*teams|shared\\s*channel)\\b"
+
+[[pass2]]
+category = "kids_toy_show_v05"
+pattern = "(?i)\\b(?:thomas\\s*(?:and|&|\\s+or)\\s*(?:friends|james)|surprise\\s*toys|jelly\\s*belly|santa\\s*spotters|vania\\s*mania|superheroes\\s*smash|toy\\s*store|firebuds)\\b"
+
+[[pass2]]
+category = "kpop_idol_v05"
+pattern = "(?i)\\b(?:알유넥스트|final\\s*round|special\\s*stage|jkt48|alpha\\s*drive|happy\\s*birthday\\s*sangwon|hybe)\\b"
+
+# ── v0.6 电子游戏扩 + 动画/迪士尼 ──
+
+[[channel_pass2]]
+category = "ch_videogame_v06"
+pattern = "(?i)(arabian\\s*commander|taleofthetoaster|sinow|muselk|stampylonghead|70s\\s*gamer|iamdalibor|squallsnake|greenmatius|4goks|battle\\s*universe|krauzzee|resisurfer|piemations|group\\s*m\\s*pro)"
+
+[[channel_pass2]]
+category = "ch_animation_v06"
+pattern = "(?i)(disney|piemations|wilsney|cartoon|anime|animation|toontime|nickelodeon)"
+
+[[pass2]]
+category = "videogame_v06"
+pattern = "(?i)\\b(?:c(?:ounter)?[\\s&]*c\\s*generals?|zero\\s*hour|darkwater|inazuma\\s*eleven|gran\\s*turismo|\\bgt7\\b|psvr2?|blue\\s*archive|huntsman\\s*hacks?|\\b2fort\\b|\\bsfm\\b|source\\s*filmmaker|meet\\s*the\\s*(?:heavy|scout|medic|soldier|pyro|spy|sniper|engineer|demoman)|team\\s*fortress|\\btf2\\b|mega\\s*man|\\bnioh\\b|donkey\\s*kong|thehunter|the\\s*hunter|slay\\s*the\\s*spire|\\bnerf\\b|core\\s*destruction|stampylonghead|\\bmuselk\\b|roblox|minecraft|fortnite|valorant|genshin|pok[eé]mon|blaze\\s*black|gameboy|\\bgba\\b|\\bps2\\b|\\bps4\\b|\\bps5\\b|gamecube|xbox|nintendo\\s*switch|playthrough|gameplay|lets?\\s*play|walkthrough|flatscreen\\s*racing|control\\s*point\\s*hero|hacker\\s*wars|hunter\\s*vs\\s*prey|gen1:\\s*water\\s*team|vs\\s*champion\\s*blue|java\\s*vs\\s*gameboy|crash\\s*team\\s*racing|team\\s*sonic\\s*racing|hill\\s*climb|total\\s*war|\\bcs2\\b|tekken|dokkan|plants?\\s*vs\\.?\\s*zombies?|\\bpvz\\b|war\\s*selection|starcraft|brawl\\s*stars|\\bjrpg\\b|جنرال|زيرو\\s*أور)\\b"
+
+[[pass2]]
+category = "animation_v06"
+pattern = "(?i)\\b(?:disney|tangled\\s*adventure|rapunzel|piemations|animation|animated\\s*(?:short|film|series)|cartoon|anime|rob\\s*the\\s*robot|preschool\\s*learning|smurfs?|source\\s*filmmaker|\\bsfm\\b|cosplay\\s*team\\s*battle|ghibli|sailor\\s*moon|dragon\\s*ball|naruto|spiderman|deadpool|thomas\\s*(?:and|&|\\s+or)\\s*(?:friends|james|trains)|动画|动漫|动画片|アニメ)\\b"

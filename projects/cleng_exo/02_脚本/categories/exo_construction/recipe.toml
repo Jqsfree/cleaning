@@ -1,0 +1,56 @@
+# exo_construction 配方
+# 机采：quality → sample → text_qc → human_qc/rules → clean → clip_filter
+# 视觉 Stage 为可选（CLIP 缩略图风险模型），默认停在文本边界；勿默认串到 deliver
+
+[meta]
+category = "exo_construction"
+has_cleaner = true
+deliver_format = "csv"
+default_qc = "text"
+needs_ge720 = false
+layer1_stop = "rules"
+notes = """
+PDF 六.exo 建筑施工（工地/结构/装修施工实拍）。
+文本三层：黑名单（频道闸 + 纯 F 频道/keyword/pass2 硬闸）→ MiniLM（像人标 T，τ=0.45）→ 人工；
+视觉层（可选）：CLIP 缩略图风险模型判「有没有真人现场作业」。
+规则依据 04_rules/NOTES.md；治理文档 docs/exo_construction_text_governance_v1.md。
+"""
+
+[[flow.machine]]
+id = "quality"
+kind = "auto"
+
+[[flow.machine]]
+id = "sample"
+kind = "auto"
+depends = ["quality"]
+
+[[flow.machine]]
+id = "text_qc"
+kind = "optional_auto"
+depends = ["sample"]
+hint = "qc/text.py $SAMPLE --category exo_construction -w 20 -o $BATCH/03_qc/"
+
+[[flow.machine]]
+id = "human_qc"
+kind = "optional_auto"
+depends = ["text_qc"]
+hint = "tools/ingest_human_qc.py <labels.csv> -o $BATCH/ --category exo_construction --source machine --batch 0923"
+
+[[flow.machine]]
+id = "rules"
+kind = "external"
+depends = ["human_qc"]
+hint = "按人标收紧 rules/blacklist.toml（certain-noise only）并写 04_rules/NOTES.md；金标须 T_hurt=0"
+
+[[flow.machine]]
+id = "clean"
+kind = "gated"
+depends = ["rules"]
+hint = "直接调 categories.exo_construction.cleaner（05_clean/run0N_v0M）；勿无 NOTES 就全量 clean"
+
+[[flow.machine]]
+id = "clip_filter"
+kind = "optional_auto"
+depends = ["clean"]
+hint = "tools/run_exo_construction_clip_filter.py $KEEP -o $BATCH/06_tools/clip_v0N/；只丢高风险，review 另行复核"

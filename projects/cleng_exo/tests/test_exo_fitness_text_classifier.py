@@ -17,8 +17,8 @@ def test_build_text_skips_keyword():
         "keyword": "cardio playlist",
     })
     text = clf.build_text(row)
-    assert "Barbell squat session" in text
-    assert "GymReal" in text
+    assert text == "Barbell squat session"
+    assert "GymReal" not in text
     assert "cardio playlist" not in text
 
 

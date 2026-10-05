@@ -16,6 +16,7 @@ PROJECT_LOG = Path(__file__).resolve().parent.parent.parent / "项目记录.md"
 
 # 脚本阶段短名 → 中文说明（仅日志标题，不是强制 SOP）
 STAGE_LABELS = {
+    "merge": "合并",
     "quality": "初筛",
     "normalize": "规范化（遗留）",
     "clean": "规则清洗",

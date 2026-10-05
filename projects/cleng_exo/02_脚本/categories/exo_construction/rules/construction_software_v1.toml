@@ -1,0 +1,14 @@
+[meta]
+version = "0.1.0"
+category = "exo_construction"
+scope = "Construction design, BIM, modeling, rendering and takeoff software titles"
+
+[[rules]]
+id = "named_design_software"
+label = "设计建模软件名"
+pattern = '(?i)\b(?:revit|autocad|sketchup|etabs|staad(?:\.pro)?|sap2000|tekla|archicad|civil 3d|3ds max|lumion|rhino|grasshopper|navisworks|bentley microstation|microstation|allplan|vectorworks|chief architect|twinmotion|enscape|v-ray|vray|blender|fusion 360|solidworks|abaqus|primavera|bluebeam|plan ?swift|dialux|prota|robot structural|risa|midas civil|tedds|spcolumn|d5 render|rhino3d|autodesk|bim 360|revizto|solibri)\b'
+
+[[rules]]
+id = "digital_modeling_training"
+label = "数字建模渲染教学"
+pattern = '(?i)\b(?:3d model(?:ing|ling)?|bim model(?:ing|ling)?|building information model(?:ing|ling)?|structural model(?:ing|ling)?|parametric design|virtual construction|digital twin|floor plan design|house design tutorial|building design software|3d architectural (?:model|visualization)|photorealistic render(?:ing)?)\b|\b(?:CAD|BIM|DWG|DXF|IFC)\b.{0,50}\b(?:tutorial|course|lecture|model|design|drawing|render|software|training)\b'

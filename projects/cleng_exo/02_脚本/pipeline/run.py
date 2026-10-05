@@ -1,4 +1,4 @@
-#!/home/jqs/miniconda3/envs/data_cleaning/bin/python
+#!/usr/bin/env python3
 """
 pipeline/run.py — 按采集来源薄编排（默认仅 quality，不自动 clean）
 
@@ -155,7 +155,7 @@ def main() -> None:
             reinit=args.reinit_manifest,
         )
     except Exception as e:
-        log(f"manifest init 跳过: {e}", level="WARN")
+        raise SystemExit(f"[ERROR] manifest init: {e}") from e
 
     keep_path: Path | None = None
     ran_quality = False

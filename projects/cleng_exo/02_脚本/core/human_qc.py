@@ -37,6 +37,18 @@ TRAIN_OPTIONAL_FIELDS = (
     "thumb_path",
 )
 
+# v1 §2 字段（可选；农业 v1 人工复核表）
+AGRI_V1_OPTIONAL_FIELDS = (
+    "human_present",
+    "human_synthetic",
+    "crop_interaction",
+    "mechanized_only",
+    "action_free_text",
+    "scene_type",
+    "qc_confidence",
+    "valid_v1",
+)
+
 REJECT_TAG_CANDIDATES = (
     "reject_tags",
     "reject_tag",
@@ -247,6 +259,21 @@ def normalize_frame(
                     out[col] = df[alt]
                     break
 
+    # v1 §2 农业字段（若存在则保留；归一化由 agri_v1_schema 负责）
+    try:
+        from core.agri_v1_schema import normalize_agri_v1_frame
+
+        v1_cols = [c for c in AGRI_V1_OPTIONAL_FIELDS if c in df.columns]
+        if v1_cols:
+            v1_part = normalize_agri_v1_frame(df, id_col=id_col)
+            for c in AGRI_V1_OPTIONAL_FIELDS:
+                if c in v1_part.columns:
+                    out[c] = v1_part[c].values
+    except ImportError:
+        for col in AGRI_V1_OPTIONAL_FIELDS:
+            if col in df.columns:
+                out[col] = df[col]
+
     n_before = len(out)
     out = out[out["human_label"].notna()].copy()
     out = out[out["video_id"] != ""].copy()
@@ -276,9 +303,9 @@ def split_pass_fail(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def train_export_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """导出训练友好子集：规范字段 + 可选文本/缩略图列。"""
+    """导出训练友好子集：规范字段 + 可选文本/缩略图列 + v1 字段。"""
     cols = [c for c in CANONICAL_FIELDS if c in df.columns]
-    for c in TRAIN_OPTIONAL_FIELDS:
+    for c in (*TRAIN_OPTIONAL_FIELDS, *AGRI_V1_OPTIONAL_FIELDS):
         if c in df.columns and c not in cols:
             cols.append(c)
     return df[cols].copy()

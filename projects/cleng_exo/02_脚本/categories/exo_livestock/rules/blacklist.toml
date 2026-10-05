@@ -1,32 +1,298 @@
-# Blacklist — exo 渔业牧业（certain-noise only）
+# Blacklist — exo 渔业牧业（非渔牧主题闸门）
 # v0.1.0: 共享硬噪声（非真人/MV/新闻/儿歌）
-# v0.2.0: 加 mukbang_recipe（round1 样本 4F 0T 0U）；不加 geographic（过宽）
+# v0.2.0: 加 mukbang_recipe（round1 样本 4F 0T 0U）
+# v0.3.0: keep 文本审计扩规则 — 共享非农串台 + 渔牧 certain-noise
+# v0.4.0: srs_v03_c90 人标 F（T43/F227）挖 certain-noise；金标 T_hurt=0
+# v0.5.0: v1.1 验收 F（休闲渔具/fillet/综艺）certain-noise；双金标 T_hurt=0
 
 [meta]
-version = "0.2.0"
+version = "0.5.0"
 category = "exo_livestock"
-basis = "shared hard-noise + eval_text_boundary round1 mukbang_recipe"
+basis = "v0.4 + v11_accept_c90 F certain-noise; T_hurt=0 on v0.1∪v1.1; 2026-09-16"
 
+# ── 烹饪 / 吃播 ──
+[[pass2]]
+category = "mukbang_recipe"
+pattern = "(?i)(\\bmukbang\\b|how\\s*to\\s*cook|\\brecipe\\b|#cooking\\b)"
+
+[[pass2]]
+category = "catch_and_cook"
+pattern = "(?i)(catch\\s*(and|&)\\s*cook|catching\\s+.{0,40}cook(?:ing)?|cooking\\s+for\\s+(puppies|dogs?|lu)|go\\s+to\\s+market\\s+sell.{0,40}cook)"
+
+[[pass2]]
+category = "street_food"
+pattern = "(?i)\\bstreet\\s+food\\b"
+
+[[pass2]]
+category = "dessert_recipes"
+pattern = "(?i)(dessert\\s+recipes?|\\bso\\s+yummy\\b)"
+
+[[pass2]]
+category = "canning_sauce_cook"
+pattern = "(?i)(making\\s+&\\s+canning|canning\\s+the|spaghetti\\s+sauce|\\bketo\\b|food\\s+wishes)"
+
+# ── 游戏 / 模拟器 / 非真人 ──
 [[pass2]]
 category = "gameplay"
 pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|lets?\\s*play|valorant|gta\\s*[45v]?)\\b"
 
 [[pass2]]
-category = "anime_cartoon_kids"
-pattern = "(?i)(\\banime\\b|\\bcartoon\\b|cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song)"
+category = "generic_simulator"
+pattern = "(?i)\\b(flight\\s+simulator|truck\\s+simulator|farm(?:ing)?\\s*simulator|farm\\s+sim|grass\\s+simulator|flesh\\s+simulator|space\\s+simulator|\\bfs22\\b|\\bfs25\\b)\\b"
 
 [[pass2]]
-category = "official_mv_trailer"
-pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
-
-[[pass2]]
-category = "news_hard"
-pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news)"
+category = "idle_game"
+pattern = "(?i)(\\bidle\\s+slayer\\b|#idleslayer\\b)"
 
 [[pass2]]
 category = "non_real_ai"
 pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake)"
 
 [[pass2]]
-category = "mukbang_recipe"
-pattern = "(?i)(\\bmukbang\\b|how\\s*to\\s*cook|\\brecipe\\b|#cooking\\b)"
+category = "anime_cartoon_kids"
+pattern = "(?i)(\\banime\\b|\\bcartoon\\b|cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song|ninjago|play\\s*doh\\s*cartoons)"
+
+# ── 音乐 / 娱乐 / 综艺 / 新闻 ──
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
+
+[[pass2]]
+category = "instrumental_track"
+pattern = "(?i)original\\s+instrumental"
+
+[[pass2]]
+category = "podcast_interview"
+pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night)"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news|\\baaj\\s+news\\b|al\\s+jazeera|cctv\\s+video\\s+news)"
+
+[[pass2]]
+category = "full_episode_tv"
+pattern = "(?i)full\\s+episode"
+
+[[pass2]]
+category = "tv_serial_episode"
+pattern = "(?i)(sun\\s+tv\\s+serial|tamil\\s+serial|\\bepisode\\s+\\d+\\b.{0,40}\\b(serial|sun\\s+tv|funny\\s+videos))"
+
+[[pass2]]
+category = "documentary_episode"
+pattern = "(?i)(\\bdocumentary\\b|national\\s+geographic|animal\\s+planet|the\\s+land\\s+before\\s+time)"
+
+[[pass2]]
+category = "crime_patrol"
+pattern = "(?i)\\bcrime\\s+patrol\\b"
+
+[[pass2]]
+category = "asmr"
+pattern = "(?i)\\basmr\\b"
+
+[[pass2]]
+category = "dubsmash"
+pattern = "(?i)\\bdubsmash\\b"
+
+[[pass2]]
+category = "edm_festival_live"
+pattern = "(?i)(live\\s+at\\s+luminosity|luminosity\\s+beach\\s+festival)"
+
+[[pass2]]
+category = "kbs_2d1n"
+pattern = "(?i)2\\s*Days\\s*&\\s*1\\s*Night"
+
+# ── 手工 / DIY / 儿童 / 串台 ──
+[[pass2]]
+category = "minute_crafts"
+pattern = "(?i)(5[\\s-]?minute\\s*crafts|\\bminute\\s*crafts\\b)"
+
+[[pass2]]
+category = "diy_crafts_part"
+pattern = "(?i)(DIY\\s+Crafts\\b|Plastic\\s+Bottle\\s+Recycle\\s+DIY)"
+
+[[pass2]]
+category = "unboxing"
+pattern = "(?i)\\bunboxing\\b"
+
+[[pass2]]
+category = "kids_learn_songs"
+pattern = "(?i)(kids?\\s*\\+?\\s*children\\s*learn|learn\\s+english\\s+songs|calendar\\s+song)"
+
+[[pass2]]
+category = "kids_essay"
+pattern = "(?i)(few\\s+lines\\s+essay|essay\\s+on\\s+my\\s+favorite|essay\\s+in\\s+english)"
+
+# ── 渔牧品类 certain-noise（审计 0916）──
+[[pass2]]
+category = "fishing_gear_review"
+pattern = "(?i)(before\\s+you\\s+buy|best\\s+\\d+\\s+(rod|reel|lure|bait)|fishing\\s+(rod|reel|lure)\\s+review|(rod|reel|lure)\\s+review|flat\\s+pack\\s+grill)"
+
+[[pass2]]
+category = "fisherman_hat_gear"
+pattern = "(?i)(sun\\s+protection\\s+hats?|fishing\\s+hat\\s+review|protective\\s+gear\\s+rubber\\s+boots)"
+
+[[pass2]]
+category = "aquarium_pet"
+pattern = "(?i)(fish\\s+tank|\\baquarium\\b|\\bbetta\\b|goldfish\\s+care|adorable\\s+(puppy|kitten|lion\\s+cubs?)|cute\\s+kittens?|pet\\s+rescue)"
+
+[[pass2]]
+category = "fishing_tournament_sport"
+pattern = "(?i)(bass\\s+masters?|fishing\\s+tournament|\\bnba\\b|\\bufc\\b|cricket\\s+(tournament|team)|warriors\\s+parade)"
+
+[[pass2]]
+category = "farm_crop_agri"
+pattern = "(?i)(harvesting\\s+(watermelons?|cassava|melons?|ripe\\s+melons)|paddy\\s+rice\\s+cutter|rice\\s+harvesting\\s+machine|agriculture\\s+family|primitive\\s+farming)"
+
+[[pass2]]
+category = "study_edu"
+pattern = "(?i)(\\bstudyiq\\b|ap\\s+world\\s+history|explained\\s*\\[ap)"
+
+[[pass2]]
+category = "channel_news_edu_noise"
+pattern = "(?i)(\\bCNA\\b|SET\\s+India|Roland\\s+S\\.\\s+Martin|Release\\s*-\\s*Topic|ABS-CBN\\s+Entertainment|Mazhavil\\s+Manorama|StudyIQ\\s+IAS)"
+
+[[pass2]]
+category = "travel_hotel_vlog"
+pattern = "(?i)(travel\\s+vlog|tourist\\s+town|carnival\\s+hotel|survival\\s+vacation)"
+
+[[pass2]]
+category = "plumber_diy_noise"
+pattern = "(?i)(change\\s+drain\\s+elbow|connect\\s+pex\\s+to\\s+copper|milwaukee\\s+m18\\s+grinder)"
+
+# ── v0.4.0：srs_v03_c90 人标 F certain-noise（金标 T_hurt=0）──
+[[pass2]]
+category = "movie_clip_coming"
+pattern = "(?i)(movie\\s*clip|movieclips|coming\\s*soon)"
+
+[[pass2]]
+category = "bbq_food_cook"
+pattern = "(?i)(\\bbbq\\b|food\\s+network|cheeseburger|how\\s+to\\s+grill|cheese\\s+bomb|jerk-style|fried\\s+stew|cooking\\s+grilled\\s+rat|nigerian\\s+fried)"
+
+[[pass2]]
+category = "hoa_story_vlog"
+pattern = "(?i)(hoa\\s+karen|storage\\s+unit|active\\s+shooter|young\\s+mom\\s+goes\\s+missing)"
+
+[[pass2]]
+category = "kids_edu_noise"
+pattern = "(?i)(dr\\s+binocs|peekaboo\\s+kidz|how\\s+blood\\s+pressure)"
+
+[[pass2]]
+category = "game_comic_noise"
+pattern = "(?i)(no\\s+mans?\\s+sky|among\\s+us|gravity\\s+falls\\s+comic)"
+
+[[pass2]]
+category = "music_song_noise"
+pattern = "(?i)(bootsy\\s+collins|umbrella\\s+academy|eric\\s+faria|soundtrack\\s*\\(|jallikattu\\s+sad\\s+song|mind\\s+blowing\\s+dance\\s+song|expressed\\s+in\\s+a\\s+song|mata\\s+bhajan)"
+
+[[pass2]]
+category = "wildlife_doc_noise"
+pattern = "(?i)(uncontacted\\s+tribe|gopro:\\s*to\\s+climb|climb\\s+an\\s+iceberg|dingos?\\s+of\\s+fraser|trapdoor\\s+spider|swimming\\s+with\\s+pike\\s+cichlids|monster\\s+waves\\s+caught)"
+
+[[pass2]]
+category = "diy_edu_misc"
+pattern = "(?i)(scythe\\s+for\\s+cutting\\s+grass|engineer\\s+salaries|nt\\s+wright|cheapest\\s+sax|alto\\s+saxophone|please\\s+run\\s+as\\s+fast|live\\s+editing\\s+sessions|rural\\s+sketch\\s+course|epic\\s+in\\s+the\\s+morning\\s+show|episode\\s+\\d+:\\s*new\\s+shed|arms\\s+license|lower\\s+cortisol|luffa\\s+sponges|earthship|neon\\s+smooth\\s+stars|motion\\s+background|indiegogo)"
+
+[[pass2]]
+category = "travel_garment"
+pattern = "(?i)(must-see\\s+attractions|kyushu|ladies\\s+garments\\s+wholesale|print\\s+lawn\\s+shirt|mother.?s\\s+day\\s+vlog|red\\s+rhino)"
+
+[[pass2]]
+category = "vivarium_cosplay"
+pattern = "(?i)(rainforest\\s+vivarium|halloween\\s+cosplay|funkee\\s+bunch)"
+
+[[pass2]]
+category = "air_rifle_hunting"
+pattern = "(?i)air\\s+rifle\\s+hunting"
+
+[[pass2]]
+category = "shark_pool_pond"
+pattern = "(?i)pool\\s+pond\\s+gets\\s+shark"
+
+[[pass2]]
+category = "harvest_wild_ducks"
+pattern = "(?i)harvesting\\s+a\\s+lot\\s+of\\s+wild\\s+ducks"
+
+[[pass2]]
+category = "dwarf_log_house"
+pattern = "(?i)dwarf\\s+family\\s+constructs"
+
+[[pass2]]
+category = "trawler_talk"
+pattern = "(?i)trawler\\s+talk\\s+live"
+
+[[pass2]]
+category = "nike_air_max"
+pattern = "(?i)nike\\s+air\\s+max"
+
+[[pass2]]
+category = "turkey_feather_blanket"
+pattern = "(?i)turkey\\s+feather\\s+blanket"
+
+[[pass2]]
+category = "odoa_surah"
+pattern = "(?i)one\\s+day\\s+one\\s+surah"
+
+[[pass2]]
+category = "minnie_moskowitz"
+pattern = "(?i)minnie\\s+and\\s+moskowitz"
+
+[[pass2]]
+category = "tree_bacon_beaver"
+pattern = "(?i)eating\\s+tree\\s+bacon"
+
+[[pass2]]
+category = "creek_hopping"
+pattern = "(?i)creek\\s+hopping"
+
+[[pass2]]
+category = "slow_motion_backdraft"
+pattern = "(?i)slow\\s+motion\\s+backdraft"
+
+[[pass2]]
+category = "p80_ejection"
+pattern = "(?i)p80\\s+ejection"
+
+[[pass2]]
+category = "wakanda_among_us"
+pattern = "(?i)wakanda.?s\\s+among\\s+us"
+
+# ── v0.5.0：v1.1 验收 F certain-noise（双金标 T_hurt=0；不钉宽泛 bass/how to）──
+[[pass2]]
+category = "fillet_freeze_howto"
+pattern = "(?i)(how\\s+to\\s+fillet|fillet\\s+and\\s+freeze|fillet\\s+a\\s+fish)"
+
+[[pass2]]
+category = "bbq_crawfish_howto"
+pattern = "(?i)(\\bhowtobbqright\\b|how\\s+to\\s+boil\\s+crawfish)"
+
+[[pass2]]
+category = "diy_kayak_phone"
+pattern = "(?i)(diy\\s+kayak\\s+video\\s+phone|kayak\\s+video\\s+phone\\s+mount|\\bkayak\\s+hacks\\s+fishing\\b)"
+
+[[pass2]]
+category = "bass_challenge_game"
+pattern = "(?i)(1v1\\s+big\\s+bass|big\\s+bass\\s+fishing\\s+challenge|budget\\s+fishing\\s+challenge|walmart\\s+1v1)"
+
+[[pass2]]
+category = "meals_a_day_tv"
+pattern = "(?i)(3\\s*meals\\s*a\\s*day|삼시세끼|\\btvn\\s+joy\\b)"
+
+[[pass2]]
+category = "icast_tackle_show"
+pattern = "(?i)(\\bicast\\s+20\\d{2}\\b|fishing\\s+tackle\\s+show|\\bafta\\s+20\\d{2}\\b|\\boutdoor\\s+channel\\b)"
+
+[[pass2]]
+category = "tackle_rig_app"
+pattern = "(?i)(smartphone\\s+fishing\\s+app|most\\s+effective\\s+rods?,?\\s*reels?|how\\s+to\\s+rig\\s+the\\s+most|ultra\\s+light\\s+tackle|best\\s+lure\\s+for\\s+ponds)"
+
+[[pass2]]
+category = "catch_clean_feed_show"
+pattern = "(?i)(catch\\s+and\\s+clean\\s+freshwater\\s+drum|cooking\\s+your\\s+catch|mantis\\s+shrimp\\s+vs\\s+invasive\\s+crayfish|underwater\\s+bass\\s+fishing\\s+footage)"
+
+[[pass2]]
+category = "cow_asmr_tech"
+pattern = "(?i)(peaceful\\s+cow\\s+feeding|modern\\s+farming\\s+cow\\s+feeding\\s+technology)"
+
+[[pass2]]
+category = "lures_spillway_brag"
+pattern = "(?i)lost\\s+a\\s*lot\\s+of\\s+lures"

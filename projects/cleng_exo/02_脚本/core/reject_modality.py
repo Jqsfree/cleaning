@@ -5,7 +5,10 @@ core/reject_modality.py — 模态映射与置信带辅助
 
 from __future__ import annotations
 
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11
+    import tomli as tomllib
 from pathlib import Path
 from typing import Any
 

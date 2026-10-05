@@ -1,40 +1,147 @@
 {
-  "created_at": "2026-08-17 14:07:34",
+  "created_at": "2026-09-15 18:47:22",
   "encoder": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
-  "method": "harvest_prototype_contrast",
+  "method": "mini_lm_lr",
+  "task": "agriculture_farm_action",
   "feature_fields": [
-    "title",
-    "channel"
+    "title"
   ],
-  "tau": 0.08,
-  "n_train": 268,
-  "n_keep_prototypes": 107,
-  "n_drop_prototypes": 37,
-  "n_eval_t": 106,
-  "n_eval_f": 25,
-  "n_eval_u": 137,
-  "oof_auc_non_f": 0.9075471698113209,
-  "oof_ap_non_f": 0.9745567770781451,
+  "n_train": 2145,
+  "n_t": 881,
+  "n_f": 1264,
+  "oof_auc": 0.778049073980948,
+  "oof_ap": 0.7214827242998375,
+  "t_score_quantiles": {
+    "p5": 0.2379854622331229,
+    "p10": 0.33777139106409204,
+    "p25": 0.4658610866050561,
+    "p50": 0.632681514284626,
+    "p75": 0.7695775267664071,
+    "p90": 0.8605999749856895,
+    "p95": 0.8830731318339322
+  },
+  "policy": "文本治理v2：黑名单=非农；MiniLM=像T排序；τ越高越像T（默认 t_like）",
+  "recall": {
+    "drop_threshold": 0.19,
+    "n_drop": 332,
+    "drop_coverage": 0.1547785547785548,
+    "drop_precision": 0.9216867469879518,
+    "f_caught": 306,
+    "f_recall": 0.24208860759493672,
+    "t_hurt": 26,
+    "u_hurt": 0,
+    "u_hurt_rate": 0.0,
+    "t_hurt_rate": 0.029511918274687854,
+    "t_coverage": 0.9704880817253121,
+    "grid": "OOF；默认保住 T（t_hurt_rate≤3.2%）内最大化 f_recall",
+    "note": "默认 apply；更激进见 recall_aggressive（t_hurt≤10%）"
+  },
+  "recall_aggressive": {
+    "drop_threshold": 0.25,
+    "n_drop": 460,
+    "drop_coverage": 0.21445221445221446,
+    "drop_precision": 0.9021739130434783,
+    "f_caught": 415,
+    "f_recall": 0.32832278481012656,
+    "t_hurt": 45,
+    "u_hurt": 0,
+    "u_hurt_rate": 0.0,
+    "t_hurt_rate": 0.0510783200908059,
+    "t_coverage": 0.9489216799091941,
+    "grid": "OOF；t_hurt_rate≤10% 内最大化 f_recall",
+    "note": "可选更激进阈值；非默认 apply"
+  },
   "strict": {
-    "drop_threshold": 0.39,
-    "n_drop": 14,
-    "drop_coverage": 0.10687022900763359,
+    "drop_threshold": 0.08,
+    "n_drop": 81,
+    "drop_coverage": 0.03776223776223776,
     "drop_precision": 1.0,
-    "f_caught": 14,
-    "f_recall": 0.56,
+    "f_caught": 81,
+    "f_recall": 0.06408227848101265,
     "t_hurt": 0,
     "u_hurt": 0,
     "u_hurt_rate": 0.0
   },
-  "model_path": "/home/jqs/projects/exo_dataset/models/exo_agriculture_text_clf_f.pkl",
+  "model_path": "/Users/muse/code/datacleng/cleng_exo/cleng_exo/models/exo_agriculture_text_clf_f.pkl",
   "qc_snapshots": [
-    "data/runs/exo_agriculture/machine_0814/03_qc/human268_text_plus/exo农业_human_qc.csv"
+    "/Users/muse/code/datacleng/cleng_exo/cleng_exo/data/runs/exo_agriculture/machine_0814/03_qc/human_downloads_0915/labeled.csv",
+    "/Users/muse/code/datacleng/cleng_exo/cleng_exo/data/runs/exo_agriculture/machine_0818/03_qc/srs_tau040_0915/exo_agriculture_sample_0915_qc_result.csv"
   ],
   "notes": [
-    "原型对比而非人工 T/F 的 LR；任务=丢非农业采摘",
-    "校准闸门只用作物采摘标题 vs 确定非采摘标题",
+    "监督=人工 T/F；口径=农业相关动作（非仅采摘/种植）",
     "title+channel，不含 keyword",
-    "ml_score=P(采摘)；score<drop_threshold 才自动丢",
-    "ml_score 不当交付 KPI"
-  ]
+    "标签解析对齐唱跳：startswith T/F；同 video_id keep=last",
+    "默认 recall：t_hurt≤旧基线3.2% 内最大化 f_recall（保住人标 T）",
+    "recall_aggressive：t_hurt≤10% 上限内最大化 f_recall",
+    "t_coverage=1-t_hurt_rate；strict 为宁漏勿杀对照；ml_score 不当交付 KPI",
+    "2026-09-15：合并 srs_tau040_0915 重训；对上一轮 keep 用 stage2 τ=0.49 回滤",
+    "2026-09-16 text_gov_v2：blacklist v0.6 非农闸门；默认阈值改 t_like",
+    "2026-09-16 text_gov_v2：blacklist v0.6 非农；默认阈值 t_like=0.49（可上调）",
+    "2026-09-21: 特征改为仅 title；须重训权重后分数才与标定一致"
+  ],
+  "updated_at": "2026-09-16 11:18:08",
+  "stage2_on_keep": {
+    "drop_threshold": 0.49,
+    "basis": "srs_tau040_0915 ∩ text_gov_v06；默认在 t_hurt≈10% 内抬 pass，尽量保留 T",
+    "estimated_pass_rate": 0.5084745762711864,
+    "t_hurt_rate": 0.1,
+    "f_recall": 0.3958333333333333
+  },
+  "t_like": {
+    "drop_threshold": 0.49,
+    "basis": "srs_tau040_0915 ∩ text_gov_v06；默认在 t_hurt≈10% 内抬 pass，尽量保留 T",
+    "estimated_pass_rate": 0.5084745762711864,
+    "t_hurt_rate": 0.1,
+    "f_recall": 0.3958333333333333,
+    "remain_T": 90,
+    "remain_F": 87,
+    "note": "默认 apply。要更纯可加 τ（见 presets / tau_grid）；越高越像人标 T",
+    "presets": {
+      "0.40": {
+        "tau": 0.4,
+        "remain_T": 100,
+        "remain_F": 123,
+        "remain": 223,
+        "estimated_pass_rate": 0.4484304932735426,
+        "t_hurt_rate": 0.0,
+        "f_recall": 0.14583333333333334
+      },
+      "0.49": {
+        "tau": 0.49,
+        "remain_T": 90,
+        "remain_F": 87,
+        "remain": 177,
+        "estimated_pass_rate": 0.5084745762711864,
+        "t_hurt_rate": 0.1,
+        "f_recall": 0.3958333333333333
+      },
+      "0.55": {
+        "tau": 0.55,
+        "remain_T": 75,
+        "remain_F": 55,
+        "remain": 130,
+        "estimated_pass_rate": 0.5769230769230769,
+        "t_hurt_rate": 0.25,
+        "f_recall": 0.6180555555555556
+      },
+      "0.60": {
+        "tau": 0.6,
+        "remain_T": 66,
+        "remain_F": 37,
+        "remain": 103,
+        "estimated_pass_rate": 0.6407766990291263,
+        "t_hurt_rate": 0.34,
+        "f_recall": 0.7430555555555556
+      },
+      "0.64": {
+        "tau": 0.64,
+        "remain_T": 60,
+        "remain_F": 27,
+        "remain": 87,
+        "estimated_pass_rate": 0.6896551724137931,
+        "t_hurt_rate": 0.4,
+        "f_recall": 0.8125
+      }
+    }
+  }
 }

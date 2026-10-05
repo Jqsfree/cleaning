@@ -19,6 +19,34 @@ def _file_exists(path: Path) -> bool:
     return path.is_file()
 
 
+def _manifest_stage_done(root: Path, sid: str) -> bool:
+    """品类自定义阶段（如 clip_filter）：以 manifest stages[sid].paths 的产物是否存在为准。
+
+    manifest 里登记的多为仓库相对路径，故同时按 仓库根 / 批次根 解析。
+    """
+    from core.run_manifest import load_manifest
+
+    try:
+        entry = ((load_manifest(root).get("stages") or {}).get(sid) or {})
+    except (OSError, ValueError):
+        return False
+    recorded = entry.get("paths") or {}
+    if not recorded:
+        return False
+    repo_root = Path(__file__).resolve().parents[2]
+    for value in recorded.values():
+        if not value:
+            continue
+        p = Path(str(value))
+        if p.is_absolute():
+            if p.is_file():
+                return True
+            continue
+        if (repo_root / p).is_file() or (root / p).is_file():
+            return True
+    return False
+
+
 def stage_done(batch_root: Path, stage: Stage, paths: dict[str, str]) -> bool:
     """根据 stage id 与批次目录判断是否已完成。"""
     sid = stage.get("id") or ""
@@ -37,8 +65,8 @@ def stage_done(batch_root: Path, stage: Stage, paths: dict[str, str]) -> bool:
     }
     rel = mapping.get(sid)
     if rel is None:
-        # 未知 id：看 manifest stages
-        return False
+        # 未知 id：按 manifest stages 里登记的产物路径判定（如 clip_filter / vision_* 等品类自定义阶段）
+        return _manifest_stage_done(root, sid)
 
     target = root / rel
     if sid in ("human_qc", "text_qc", "thumb_qc", "storyboard_qc"):
@@ -53,6 +81,23 @@ def stage_done(batch_root: Path, stage: Stage, paths: dict[str, str]) -> bool:
             return False
         return any(target.rglob("*.csv")) or any(target.rglob("*.parquet"))
     if sid == "deliver":
+        from core.run_manifest import load_manifest
+        manifest = load_manifest(root)
+        if str(manifest.get("category", "")).startswith("exo"):
+            import json
+            from core.data_profile import file_hash
+            release_path = ((manifest.get("stages") or {}).get("deliver") or {}).get("paths", {}).get("release")
+            if not release_path: return False
+            try:
+                from core.metadata_acceptance import verified_release
+                release = verified_release(Path(release_path).parent)
+                data_path = Path(manifest.get("deliver_path") or "")
+                return (release.get("status") == "released" and release.get("category") == manifest["category"]
+                        and data_path.is_file() and file_hash(data_path) == release["data_sha256"]
+                        and bool(manifest.get("input")) and Path(manifest["input"]).is_file()
+                        and file_hash(manifest["input"]) == release.get("input_sha256"))
+            except (OSError, ValueError, KeyError):
+                return False
         return _dir_nonempty(target)
     return _dir_nonempty(target)
 
@@ -184,7 +229,7 @@ def _argv_hint(
     if sid == "quality":
         return "pipeline/run.py <raw.csv> --category {cat} --source {src} -o $BATCH/"
     if sid == "sample":
-        return "pipeline/03_sample.py $BATCH/01_quality/*quality*.csv -o $BATCH/02_sample/ -n 385"
+        return "tools/batch_ops/sample_qc.py $BATCH/01_quality/*quality*.csv -o $BATCH/02_sample/ -n 385"
     if sid == "human_qc":
         return "tools/ingest_human_qc.py labels.csv -o $BATCH/ --category {cat} --source {src} --batch <id>"
     if sid == "text_qc":

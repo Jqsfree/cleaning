@@ -1,0 +1,26 @@
+{
+  "category": "exo_parent",
+  "version": "1.0-candidate",
+  "definition": "亲子互动（边界以本品类metadata人标T/F为准）",
+  "related_patterns": [
+    {
+      "id": "topic_anchor_candidate",
+      "pattern": "\\b(parent|parenting|family|mother|father|mom|dad|kids)\\b|亲子|育儿|父子|母女"
+    }
+  ],
+  "unrelated_patterns": [
+    {
+      "id": "game",
+      "pattern": "\\b(gameplay|minecraft|roblox|fortnite)\\b"
+    },
+    {
+      "id": "music",
+      "pattern": "\\b(official music video|lyrics video|lyric video)\\b"
+    },
+    {
+      "id": "cartoon",
+      "pattern": "\\b(nursery rhymes|peppa pig|cocomelon)\\b"
+    }
+  ],
+  "note": "Anchor rules are bootstrap candidates only; human-calibrated model governs every non-empty title when supplied. No keyword/channel veto. Fresh human evaluation required."
+}

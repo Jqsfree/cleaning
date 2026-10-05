@@ -89,6 +89,9 @@ def prepare_deliver(
         raise ValueError(f"method 须为 {sorted(ALLOWED_METHODS)}")
 
     root = Path(batch_root)
+    manifest = load_manifest(root)
+    if str(manifest.get("category", "")).startswith("exo"):
+        raise ValueError("exo pending lots cannot enter 07_deliver; use topic_loop run/evaluate/release")
     lot_path = Path(lot_csv)
     if not lot_path.is_file():
         raise FileNotFoundError(f"lot 不存在: {lot_path}")

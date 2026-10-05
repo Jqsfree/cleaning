@@ -1,4 +1,4 @@
-#!/home/jqs/miniconda3/envs/data_cleaning/bin/python
+#!/usr/bin/env python3
 """
 缩略图视觉 QC — 直接从 i.ytimg.com 下载缩略图 + Qwen VL 判断
 用法:
@@ -6,7 +6,14 @@
   python3 qc_vision_thumb.py input.csv --category ego_repair --resume -t 8
 """
 
-import csv, os, sys, time, base64, signal, threading, random, tomllib
+from __future__ import annotations
+
+import csv, os, sys, time, base64, signal, threading, random
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11
+    import tomli as tomllib
 from datetime import datetime
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -20,11 +27,17 @@ from core.io import resolve_output_dir
 from core.progress import ThrottledProgress, mark_done
 from core.sop import write_run_log
 from core.adaptive_api import AdaptiveConcurrencyGate
+from core.dotenv_load import load_project_env
+
+load_project_env()
 
 # ============================================================
 CONFIG = {
-    "api_base": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-    "model": "qwen3-vl-flash",
+    "api_base": os.getenv(
+        "DASHSCOPE_BASE_URL",
+        "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    ).rstrip("/"),
+    "model": os.getenv("DASHSCOPE_VL_MODEL", "qwen3-vl-flash"),
     "api_timeout": 30,
     "threads": 12,
     "http_retries": 3,

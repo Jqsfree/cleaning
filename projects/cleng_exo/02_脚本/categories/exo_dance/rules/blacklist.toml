@@ -1,0 +1,306 @@
+# Blacklist — exo 单人舞蹈（品类闸门 v0.2.1）
+# 数据源: exo单人舞蹈-机采1.csv 50 个舞蹈 playlist 关键词
+#   62,282 → 初筛 55,577（空标题/零时长 −3,075，时长<60s 或 >4h −3,630）→ v0.1 闸 keep 48,399
+#   人标金标: kpop_0df26300_qc_result.csv（269 行 SRS 分层样本，T=117 / F=149 / U=3）
+#
+# 口径（依人标金标 0df26300 校准）：本品类 = 「单人舞蹈（教学/练习向）」。
+#   F（剔除）: 观看向舞蹈（练习室 dance practice / 舞台·直拍 / KPOP IN PUBLIC 公开舞 /
+#              BE ORIGINAL / MV），双人·多人舞（ballroom/couple/line dance/团体 kpop），
+#              非舞蹈健身康复（posture/glutes/mobility），宗教·其它主题串台。
+#   保留: 单人教学/讲解/分解/基本功/慢练（"How to…"/tutorial/lesson/breakdown/drills），
+#              单人肚皮舞·flamenco·tribal 表演与即兴。
+#   「像不像 T」的细筛交 MiniLM。keyword 列 50 个查询词全是舞蹈，故不设 keyword 闸门。
+#
+# 闸门分层（见 core/certain_noise_clean.py）:
+#   [[channel_pass2]]  硬闸：整频道（金标纯 F 频道 / 乐器台 / 电视台 / 无版权音乐台…）
+#   [[pass2]]          软闸：标题级串台；命中 [[rescue]] 的舞蹈标题豁免
+#   [[r2]]             硬闸：标题级、不可豁免（游戏实况、观看向舞蹈、双人舞…）
+#   [[rescue]]         豁免：本品类强信号（有舞蹈词就不算串台），仅对 pass2 生效
+#
+# 已知残余噪声（交 MiniLM / 人标）: 日韩葡西音译标题的 solo 直拍、单人舞台表演、
+#   健身与舞蹈边界（"dancer workout"）、民俗舞团体演示。
+# 验证状态: 金标 0df26300（269 行）上 T_hurt=0/117、F_caught=61/148（41.2%）；
+#   规则逐条断言 T_hurt=0（work/exo_dance_0924/gold_0df26300/build_rules.py）。
+#   扩规则前仍须按 SOP 抽样人标（tools/batch_ops/sample_qc.py）。
+
+[meta]
+version = "0.2.1"
+category = "exo_dance"
+category_label = "单人舞蹈"
+basis = "人标金标 kpop_0df26300_qc_result.csv（269 行分层抽样 → 有效 265 行，T=117 / F=148，人工合格率 44.2%）；池 data/runs/exo_dance/machine_0923/05_clean/run01_v013/（48,399 行）"
+notes = """
+channel_pass2 = 金标纯 F 频道 11 个（n_f>=2，锚定精确匹配）+ 原有 14 组主题频道闸。
+pass2 为可豁免软闸（17 组串台主题），r2 为不可豁免硬闸（游戏/beat/观看向舞蹈/双人舞）。
+v0.1.1: keep 侧复盘补 dance_music_ch（Bboy Music / NewStyleBeat / Poppin' G Funk 是配乐台）、
+        kids "songs for kids"、misc（应援口播/呼啦圈）。
+v0.1.2: "type beat / no copyright / NCS" 升为 r2 硬闸——rescue 里的 afrobeat 会放行
+        "Afrobeat Type Beat" 配乐（首轮 keep 侧实测 179 行泄漏），加硬闸后仅余 43 行
+        「芭蕾/肚皮舞伴奏音乐」类边界残留。
+v0.2.0 (人标校准): 金标显示本品类口径 =「单人舞蹈（教学/练习向）」——观看向舞蹈
+        （dance practice / 舞台·直拍 / KPOP IN PUBLIC / BE ORIGINAL / MV）、双人·多人舞
+        （ballroom/couple/line dance/团体 kpop）、非舞蹈健身康复 均判 F。
+        → 新增 [[channel_pass2]] gold_pure_f_ch 与 11 条 r2 观看向/双人/健身硬闸。
+        金标验收: T_hurt = 0/117（加权 0.00%），F_caught = 140/149（94.0%）。
+v0.2.1: 按「薄支撑不立闸」原则剔除 116 个仅 1 条人标支撑的频道（原 n=127 → n=11，
+        池内频道闸 drop 3,485 → 1,209 行）。代价显著：整闸金标 F 召回 94.0% → 41.2%
+        （T_hurt 仍为 0），keep 39,687 → 41,367 行 / 6,094.1 h。
+        残余 F 以韩日葡西音译的观看向标题为主（직캠 / 안무영상 / 댄스커버 / 페이스캠 / Dança）
+        与「有 T 有 F」的混合频道（ADTC Dance Camps / Kiseki Mirrored Dances /
+        Marius & Elena Official / M2），标题正则已到极限——改由 MiniLM 排序兜底（下一步）。
+        本次仅回收 T_hurt=0 且 F 支撑 >=2 的 CJK 式观看向词：view_performance 并入 퍼포먼스。
+未覆盖的 F 长尾：吉他比赛/英语语法/圣经/羽毛球/美发教程等一次性串台（约占残余 1/3）。
+MiniLM v0.1（experiments/exo_dance_text_classifier.py）: n=265，OOF AUC 0.668（keep 池子集 0.691）
+        —— 本品类**标题层已到极限**：教学词在 T/F 两侧都出现（T 39.3% / F 15.5%），
+        同频道同格式标签相反（M2 的 MPD직캠 SOMI=T / Jungkook=F；Marius & Elena 的 salsa
+        教学 T/F 各一），OOF 低分区 T/F 完全交错。故默认 apply τ=0.26（keep 40,125 /
+        5,986.8 h；金标 T_hurt=0/117，分层加权 drop 精度 0.86、池内 F 召回仅 3.4%）；
+        通用 t_like τ=0.542 会砍掉 30% 金标 T，已降级为 --legacy-t-like。
+        另：5 个「T=0（n_f>=2）」的抽样 keyword 经「τ0.26 留存率 vs 池基准 97.0%」审计后
+        全部拒绝（会砍 3,395 行 / 441.6 h 正样本）——本品类 keyword 杠杆不成立。
+        实际产物核对（work/exo_dance_0924/gold_end2end_eval.py）：规则∪MiniLM 端到端
+        T_hurt=0/117、F_caught=68/148（46.0%），drop 精度 1.00（加权同为 1.00，零 T 误伤）；
+        τ=0.26 实际丢的 1,242 行以打歌台直拍（M2/KBS/SBS/MBC）与 camera-facing 练习室为主。
+        出货池按此重抽 02_sample/text_gov_v01_ml_c90_strat（269 条，盲标模板）。
+        详见 docs/exo_dance_text_governance_v1.md。
+批次: data/runs/exo_dance/machine_0923/05_clean/run03_v021/（构建脚本 work/exo_dance_0924/gold_0df26300/build_rules.py）
+"""
+
+# ── 乐器 / 乐理 / 音乐制作频道 ──
+[[channel_pass2]]
+category = "music_instrument_ch"
+pattern = '(?i)^\s*(Kush\ Plays|Marin\ Music\ Center|GuitarZero2Hero|Drum\ Loop\ Nexus|Gaither\ Music\ TV|Leading\ Worship\ Well|DrVictorMusic|Ginger\ Jesus\ Guitar|swiftlessons|Slap\ Kop|Everything\ Bass|London\ Contemporary\ School\ of\ Piano|Marty\ Music|Christian\ Fuchs|JTC\ Guitar|Guido\ Bungenstock|麦口罩撩吉他|好豪彈吉他|Game\ Guitarist|Soul\ Factory|I\ AM\ RAZA|Studio\ Iqaat|Musicians\ On\ A\ Budget|Queen\ Instrumentals|Dr\.SaxLove|kaliakra8|EhnaRivekan|Original\ Melody\ Music|Dharmesh\ prajapati\ official)\s*$'
+
+# ── 无版权音乐 / 背景音乐 频道 ──
+[[channel_pass2]]
+category = "nocopyright_music_ch"
+pattern = '(?i)^\s*(Infraction.*|Inaudio\ /.*|Mojo\ Soundtrack.*)\s*$'
+
+# ── 平台自动生成的音乐人频道（"xxx - Topic"，实为音源/专辑） ──
+[[channel_pass2]]
+category = "topic_auto_music_ch"
+pattern = '(?i)^\s*[^|]+-\s*Topic\s*$'
+
+# ── 电视频道 / 连续剧台中 ──
+[[channel_pass2]]
+category = "tv_serial_ch"
+pattern = '(?i)^\s*(Sun\ TV|Dangal\ TV\ Channel|Zee\ TV|Colors\ TV|Star\ Plus|StarPlus|Sony\ SAB|Sab\ TV)\s*$'
+
+# ── 非舞蹈健身 / 柔韧 / 体态 ──
+[[channel_pass2]]
+category = "fitness_nondance_ch"
+pattern = '(?i)^\s*(Anna\ McNulty|Yuuka\ Sagawa|FitnessBlender)\s*$'
+
+# ── 视频剪辑教学 ──
+[[channel_pass2]]
+category = "video_editing_ch"
+pattern = '(?i)^\s*(Himel\ 356|Wandering\ DP)\s*$'
+
+# ── 英语/学科教学 ──
+[[channel_pass2]]
+category = "edu_grammar_ch"
+pattern = '(?i)^\s*(Dear\ Sir)\s*$'
+
+# ── 游乐/游戏频道（真实机采里为游戏实况台）──
+[[channel_pass2]]
+category = "gaming_ch"
+pattern = '(?i)^\s*(Calamity_Jane|Avocado\ PIZZA)\s*$'
+
+[[channel_pass2]]
+category = "calisthenics_ch"
+pattern = '(?i)^\s*(Max\ Immature\ Zarin)\s*$'
+
+# ── 足球花式 ──
+[[channel_pass2]]
+category = "sport_freestyle_ch"
+pattern = '(?i)^\s*(PersianBall\ Drills)\s*$'
+
+# ── 心理科普口播 ──
+[[channel_pass2]]
+category = "talk_health_ch"
+pattern = '(?i)^\s*(DissociaDID)\s*$'
+
+# ── 儿童歌曲 ──
+[[channel_pass2]]
+category = "kids_music_ch"
+pattern = '(?i)^\s*(The\ Kiboomers.*)\s*$'
+
+# ── 舞蹈配乐/节拍 mixtape 台（是音乐不是舞蹈；标题多含 dance/battle 词） ──
+[[channel_pass2]]
+category = "dance_music_ch"
+pattern = "(?i)^\\s*(NewStyleBeat|Bboy\\ Music|Poppin'\\ G\\ Funk)\\s*$"
+
+# ── 金标纯 F 频道（n_f>=2，T_hurt=0 by construction）──
+# 来源 kpop_0df26300_qc_result.csv（265 有效行）。只保留 n_f>=2 的 11 个频道（池内 1,209 行）：
+# 116 个仅 1 条人标支撑的频道已全部剔除（core/rule_validation.py 口径：零 T 只是回归检查，
+# 不是精度保证；1 条人标不足以支撑整频道硬闸），待复标后再决定是否回收。
+# 一律锚定 ^...$ 精确匹配：未锚定时 milk/MIKA/NCT/iKON/VERSUS 等会误伤同名片段频道。
+[[channel_pass2]]
+category = "gold_pure_f_ch"
+pattern = '''(?i)^\s*(?:BLACK\s*CAT|BodyKinect\s*by\s*Kendall|Country\s*Dance\s*X|Duet\s*Dance\s*Studio|Egils\s*Smagris|Family\s*Friendly\s*Gaming|ITZY|Irloni\s*\&\s*Iris\s*Tribe|KIDZ\s*BOP|STUDIO\s*CHOOM\s*\[스튜디오\s*춤\]|mirrorHD)\s*$'''
+
+
+# ── pass2（软闸；命中 rescue 则豁免）──
+
+# 乐器教学 / 演奏（keyword 里的 solo 被吉他 solo 劫持）
+[[pass2]]
+category = "music_instrument_lesson"
+pattern = '(?i)((guitar|bass|piano|ukulele|violin|sax|sitar|banjo|mandolin)s?\s*(lesson|lessons|tutorial|tutorials|cover|tabs?|chords?|riffs?|licks?|scales?|backing\s*track|technique|arrangement|progressions?|strumming)|fingerstyle|fingerpicking|strumming|how\s*to\s*play\s+(the\s+)?(guitar|piano|bass|ukulele|violin)|chord\s+(progression|shape)|\blearn\s+(the\s+)?guitar|double\s*stop|soloing|guitar\s+gear|guitar\s+(neck|build|setup|tone|amp|pedal)|drum\s+(loops?|kit|cover|fill|beats?|lesson|tutorial)|tabla\s+loop|tapping\s+technique|backing\s+track)'
+
+# 纯音乐曲目 / 伴奏（"type beat" 等强信号见 r2 硬闸）
+[[pass2]]
+category = "music_nocopyright"
+pattern = '(?i)(deep\s*house|instrumental|background\s*music)'
+
+# 音乐制作（DAW / 混音 / 插件）
+[[pass2]]
+category = "music_production"
+pattern = '(?i)(fl\s*studio|fruity\s*loops|ableton|logic\s*pro|music\s*production|mixing\s*(and|&)\s*mastering|sample\s*pack|vst\s*plugin|autotune|beat\s*making|sidechain|de-ess)'
+
+# 影视连续剧 / 电视节目
+[[pass2]]
+category = "tv_serial"
+pattern = '(?i)(\bserial\b|full\s*episode|daily\s*soap|\btelecast\b|web\s*series)'
+
+# 剧集集数编号（舞蹈练习的 "EP.7" 由 rescue 豁免）
+[[pass2]]
+category = "tv_episode_code"
+pattern = '(?i)\bep\.?\s*\d+\b'
+
+# 足球花式 / 过人教学
+[[pass2]]
+category = "freestyle_football"
+pattern = '(?i)(freestyle\s*football|football\s*freestyle|juggling\s*football|football\s*(tutorial|drills|skills)|soccer\s*(freestyle|tutorial|drills)|futsal\s*(tutorial|drills)|dribbling\s*(tutorial|drills))'
+
+# 非舞蹈健身 / 体态 / 柔韧
+[[pass2]]
+category = "fitness_nondance"
+pattern = '(?i)(\byoga\b|pilates|physiotherap|physical\s*therapy|bodybuilding|muscle\s*(gain|building)|weight\s*loss|fat\s*burn|\bhiit\b|cardio\s*(workout|exercise)|abs\s*workout|glute\s*(workout|exercise)|posture\s*(correction|improve)|stretching\s*(routine|exercise|for)|flexibility\s*(training|routine|for)|calisthenics|jump\s*rope|pull\s*ups?\s*tutorial)'
+
+# 美妆 / 吃播 / 生活
+[[pass2]]
+category = "beauty_food"
+pattern = '(?i)(\bmakeup\b|mukbang|skincare|\bgrwm\b|get\s*ready\s*with\s*me|\bhaul\b|\brecipe\b|cooking\s*tutorial|nail\s*art|hair\s*tutorial)'
+
+# 非舞蹈技能教程（绘画 / 剪辑 / 编程）
+[[pass2]]
+category = "skill_tutorial"
+pattern = '(?i)(how\s*to\s*draw|drawing\s*tutorial|video\s*editing|after\s*effects|premiere\s*pro|photoshop|\bcanva\b|capcut|learn\s*excel|\bpython\b|programming\s*tutorial|coding\s*tutorial|\bblender\b|sculpting)'
+
+# 新闻 / 政治 / 天气
+[[pass2]]
+category = "news_politics"
+pattern = '(?i)(breaking\s*news|election\s*result|parliament|press\s*conference|weather\s*forecast)'
+
+# 助眠 / 灵修 / 占卜
+[[pass2]]
+category = "asmr_sleep"
+pattern = '(?i)(\basmr\b|sleep\s*music|meditation\s*music|horoscope|astrology|\blottery\b)'
+
+# 播客 / 访谈口播
+[[pass2]]
+category = "podcast_talkshow"
+pattern = '(?i)(\bpodcast\b|talk\s*show|podcast\s*episode)'
+
+# Vlog / 花絮 / 开箱 / 整蛊（"dance vlog" 等由 rescue 保留）
+[[pass2]]
+category = "vlog_unbox_prank"
+pattern = '(?i)(\bvlog\b|behind\s*the\s*scenes|\bunboxing\b|\bprank\b|reaction\s*video)'
+
+# 游戏（真机实况类；"Fortnite Dances In Real Life" 等真人复刻由 rescue 保留）
+[[pass2]]
+category = "game_misc"
+pattern = '(?i)(\bminecraft\b|\broblox\b|\bfortnite\b|\bgta\s*[45v]?\b|valorant|free\s*fire|among\s*us|subway\s*surf|brawlhalla|simulator)'
+
+# 儿童歌曲 / 儿童内容
+[[pass2]]
+category = "kids_songs"
+pattern = '(?i)(nursery\s*rhymes?|cocomelon|peppa\s*pig|kids?\s*songs?|songs?\s*for\s*(kids|children)|bedtime\s*stories|story\s*for\s*kids)'
+
+# 非舞蹈杂项（应援口播 / 呼啦圈等才艺演示）
+[[pass2]]
+category = "misc_nondance"
+pattern = '(?i)(fan\s*chant|cheering\s*guide|hula\s*hoop|hula\s*hooping)'
+
+# 卡通 / 动画
+[[pass2]]
+category = "cartoon_anime"
+pattern = '(?i)(\bcartoon\b|\banime\b|animation\s*movie)'
+
+
+# ── r2（硬闸；不可豁免）──
+
+# 视频游戏实况（"Just Dance"/"Fortnite" 等游戏，标题含 dance 也是游戏）
+[[r2]]
+category = "video_gameplay"
+pattern = '(?i)(gameplay|playthrough|walkthrough|speedrun|character\s*simulator)'
+
+[[r2]]
+category = "justdance_game"
+pattern = '(?i)just\s*dance'
+
+# 音乐 beat / 无版权曲目（标题常带 dance/afrobeat 等体裁词，故不可豁免）
+[[r2]]
+category = "music_beat_hard"
+pattern = '(?i)(type\s*beat|\bbeat\s*store\b|free\s*beat|no\s*copyright|royalty[\s-]*free|nocopyrightsounds|\bncs\b|\binfraction\b)'
+
+# ── v0.2.0 金标 F 侧「观看向 / 双人舞 / 健身康复」硬闸（逐条断言 T_hurt=0）──
+# 人标金标（0df26300）显示：观看向舞蹈（标题含 dance/practice 等词）仍属 F，
+# 故不能用 pass2（会被 rescue 的 dance 信号放行），一律走 r2 不可豁免硬闸。
+
+# 观看向练习室 / 镜面练习视频（金标 22 行全 F；池内 3,786 行）
+[[r2]]
+category = "view_dance_practice"
+pattern = '(?i)(dance\s*practic|practic\w*\s*(?:video|mirrored|ver))'
+
+# 观看向 K-pop 舞台系列
+[[r2]]
+category = "view_be_original"
+pattern = '(?i)(be\s*original)'
+
+[[r2]]
+category = "view_performance"
+pattern = '(?i)(\bperformances?\b|퍼포먼스)'
+
+[[r2]]
+category = "view_dance_along"
+pattern = '(?i)(dance\s*along)'
+
+[[r2]]
+category = "view_official_video"
+pattern = '(?i)(official\s*(?:hd\s*)?video)'
+
+[[r2]]
+category = "view_busking"
+pattern = '(?i)(\bbusking\b)'
+
+# 双人 / 多人舞（ballroom·couple·line dance）
+[[r2]]
+category = "partner_couple"
+pattern = '(?i)(\bcouples?\b|two[\s\-]?step|oversway|underarm\s+turn|\bduet\b)'
+
+[[r2]]
+category = "partner_line_dancers"
+pattern = '(?i)(line\s*dancers?\b)'
+
+# 非舞蹈健身 / 康复（体态·臀腿·活动度）
+[[r2]]
+category = "fitness_rehab"
+pattern = '(?i)(\bglutes\b|scapula|range\s+of\s+motion|improve\s+your\s+posture|\bmobility\b|\brehab\b|seated\s+dance)'
+
+# 音乐发行 / 曲目（remix·西语 letra）
+[[r2]]
+category = "music_release"
+pattern = '(?i)(\bremix\b|letra)'
+
+# 宗教敬拜（非舞蹈）
+[[r2]]
+category = "misc_worship"
+pattern = '(?i)(\bworship\b)'
+
+
+# ── rescue（豁免；仅对 pass2 生效）──
+
+# 舞蹈信号：命中则 pass2 不生效（channel_pass2 / r2 照常生效）
+[[rescue]]
+category = "dance_signal"
+pattern = '(?i)(danc(e|es|ed|ing|er|ers)\b|choreograph|choreo\b|안무|댄스|춤|バレエ|ダンス|舞蹈|跳舞|舞者|ballet|ballroom|tango|salsa|bachata|waack|vogueing|\bvogue\b|krump|poppin|lockin|shimmy|zumba|flamenco|waltz|rumba|bollywood|hip\s*-?\s*hop|k\s*-?\s*pop|tap\s*dance|line\s*dance|lindy|\bshag\b|charleston|latin\s*dance|afrobeat|break\s*danc|breakdanc|\bbb?oy\b|lyrical|samba|cha\s*-?\s*cha|belly\s*dance|bellydance|mirrored?\b|twerk)'

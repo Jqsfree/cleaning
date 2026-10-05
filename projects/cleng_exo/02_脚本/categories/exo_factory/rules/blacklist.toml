@@ -3,9 +3,9 @@
 # 不加裸 how to / press brake / electrical：产线实拍标题常带这些词
 
 [meta]
-version = "0.1.0"
+version = "0.2.0"
 category = "exo_factory"
-basis = "machine_0814 text QC round1; tutorial/interview/MV only"
+basis = "machine_0814 text QC round1 + 0922 三批人标纯F频道(803条/n_t=0/427ch)"
 
 [[pass2]]
 category = "tutorial_course"
@@ -18,3 +18,45 @@ pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night)"
 [[pass2]]
 category = "official_mv_trailer"
 pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyric\\s*video|teaser\\s*trailer)"
+
+# ── v0.2.0: 三批金标纯 F 频道（channel_pass2；n_t=0）──
+# 来源: v1.1(268) + v1.3(269) + v02(268) 人标, 803 条 / 724 频道
+# 规则: 该频道全部人标均为 F（n_t=0）→ 整频道丢弃；金标 T_hurt=0（按构造）
+# 清单: rules/channel_blacklist_pure_f.csv（427 个；含 n_f>=2 高置信 7 个）
+# 提示: 421/427 仅 1 条人标支撑；保守档见 csv 中 n_f>=2 子集
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v2_01"
+pattern = "^(?:\\#dchigherground|A\\ Quilty\\ Channel|AMACO\\ Brent|ANTFACTORY\\ Woodworking|AVmake|Against\\ The\\ Wrist|Agravat\\ Vishal|Agro\\ Factory\\ Tech|Al\\.mustafa\\ wal\\.Murtaza\\ engineering\\ works|AlTerreNative\\ Céline\\ Laurent|All\\ Tapestry\\ Crochet|All\\ Things\\ Shun|Almost\\ Perfect\\ Restoration|American\\ Piledriving\\ Equipment|Andrew\\ Camarata|Andy\\ Cui\\ \\-\\ LaserMen|Arcflash\\ Labs|Artistry\\ Photography|Arul\\ Doss\\ Wood\\ Work|Ashford\\ Wheels\\ and\\ Looms|Assemble\\ Model|AtienzaLouie|Auto\\ Care\\ Association|AutoGen\\ Process|AutodeskIndia|Automate\\ CNC|BARI\\ ENGINEERING\\ \\|\\ Steel\\ Racks\\ Manufacturer|BCH\\ Washington|BCtruck,\\ BC\\ Blades|BE\\ AMAZED|BEIER\\ Group|Baron\\ Leather\\ Craft|Barry\\ Turner|Become\\ a\\ Woodcrafting\\ Wizard|Beth\\ Ramsden|BetterCNC|Birk\\ Arn\\ Bjørnø|BrandonBilliardGuy|Bruce\\ Barclay|Build\\ Studio|Bushcraft412|Business\\ Insider|CBS\\ Sunday\\ Morning|CM\\ NEXT|CSLdesigns|Canal\\ Sur\\ Turismo|Carving\\ is\\ Fun|Casual\\ DIY|Cerámicas\\ Huasimanta|Challenge\\ Clay\\ Craft)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v2_02"
+pattern = "^(?:Charles\\ Whitlock|Chess\\ House|Chestnut_nag|Chief\\ Architect|China\\ Tissue\\ Paper\\ Making\\ Machine\\ Manufacturer|Chris\\ Psypher|Cindy\\ Drozda|Colleypit\\ Pottery|Convoy\\ Archives|Craevings|Craig\\ Dabler\\ \\-\\ The\\ DIY\\ Castings\\ Guy|Craigslist\\ Hunter|Cray\\ Birkenwald|Crazy\\ Workshop|Creative\\ Craft|Creative\\ Craft\\ Studio|Creator\\ Qi|Crochet\\ With\\ Samina|CubanCurlzz|Cuero,\\ Sogas\\ y\\ Lonjas\\.\\ \\ Albano\\ Altamirano\\ Artesano|CÉSAR\\ DE\\ OLIVEIRA|DAPU\\&RKM\\ Machinery|DIY\\ /\\ Рукоделие|DIY\\ Hub|DOT\\ Electronics|DYE\\ LEATHER\\ GOODS|Dan\\ Harrison|Dash|Dave\\ Merc\\ Productions|Dave's\\ Craft\\ Room|David's\\ Woodturning|Days\\ of\\ Machines|DazeCars|Design\\ Innovation\\ Lab\\ @\\ ECB|Die\\ Reise\\ Oldies|Diesel\\ Creek|Doris\\-Wity\\ Machinery|Dormac\\ CNC\\ Solutions|Dr\\.\\ Bob's\\ Last\\ Chance\\ Garage|Dylan\\ Iwakuni|EASY\\ MAKE|EW\\ \\-\\ INDUSTRY\\ SOLUTIONS|Earth\\ Work\\ KH|EasyGuidesAustralia|EdibleAcres|EducationalTVGreece|Electrical\\ Dost|Eli\\ Home|Elñapas|Enduring\\ Charm\\ LLC)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v2_03"
+pattern = "^(?:EnergyTrainingResLLC|Eugenio\\ Monesma\\ \\-\\ Documentales|Everyday\\ Home\\ Repairs|Everyman\\ Driver|Eye\\ Film|F\\-Knives:\\ Custom\\ Blades\\ And\\ Handles|FACTORY\\ INSIDE|FMD\\ RC\\ Construction|FRONTLINE\\ PBS\\ \\|\\ Official|Faisal\\ Crafts|Fall\\ Line\\ Ridge|FarmCraft101|Fashion\\ School|Finalwe\\ Machinery|Finix\\ Cnc\\ Skills|Fire\\ Mountain\\ Gems\\ and\\ Beads|Flex\\ Innovations|Fluctus|Food\\ Process|Fordsforge|Fts\\-Deep\\ Dive|GDTECH|GIẢI\\ PHÁP\\ CÔNG\\ NGHỆ\\ ĐIỆN\\ TỬ\\ TIN\\ HỌC\\ AIO\\ VIỆT\\ NAM|GMP\\ GUIDE\\ \\|\\ Your\\ Career\\ Guide|GPV\\ Photography|Garage4Knife|Garrett\\ Lee,\\ Luthier|Gelgoog\\ Fruit\\&Vegetable\\ Machinery|Gentleman\\ Scholar\\ Signs|GiftsHQ|Glasgow\\ Silversmithing\\ \\&\\ Jewellery|Glen\\ GS\\ Tongs|Good\\ Mythical\\ Morning|GreBec\\ Knives\\ \\&\\ More|GregJames\\ Designs|H\\.R\\.I\\.\\ services\\ llc\\ Ricky\\ Hembel|HD\\ Calcs|HamRadioConcepts|Harvest\\ Life|Heads\\ of\\ Estate\\ \\&\\ Renovation|Hen\\ House\\ Studios|Henan\\ Eternalwin\\ Machinery\\ Co,ltd|Hens\\-n\\-Chicks\\ Fiber\\ Arts|Hercules\\ Knives\\ Inc\\.|Hey\\ look\\ over\\ there\\ !|Hobart®|Hobby\\ Story|How\\ It's\\ Made|How\\ to\\ Automotive|Hyde\\ Tools)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v2_04"
+pattern = "^(?:Hùng\\ chế\\ Vlog|IPG\\ Photonics|Iana\\ L\\.|In\\ The\\ Shop\\ With\\ Doc|InVisibleTechTV|Industrial\\ Machines\\ Life|Insider\\ Food|Inventor\\ 101|IronTrap\\ Garage|It's\\ Binh\\ \\(Been\\)\\ Repaired\\ \\&\\ Everything\\ Reviewed|Itchy\\ Boots|JIMBO'S\\ GARAGE|JKT\\ Reviews|JM\\ Hardware®|Jack\\ Houweling|Jake's\\ Custom\\ Knives|Jason\\ Thanh|Jay\\ Leno's\\ Garage|Jennifer\\ McGuire\\ Ink|Jerame\\ Guenther|Jinan\\ Routerstar\\ Cnc\\ Machinery\\ Co|Joe\\ Rice|Jonathan\\ W|Jongonga\\ Contractors|Joylin\\ Hall|Jukai\\ Machinery|Julia\\ Stylecnc|Julian\\ Smith|Junkyard\\ \\-\\ Origin\\ of\\ Creativity|KB\\ Looms|KK\\ Furniture|Keith\\ Gudger|Kelly\\ Barlow\\ Creations|Kelly\\ Casanova|Ken\\ the\\ Sheet\\ Metal\\ Dude|Kiehi\\ Craft|King\\ Food\\ 킹푸드|Kintsugi|KrossUSA|Kuhaj\\ Zdravo|Kənd\\ Həyatı|LALSHOW|LTA\\ ai|Lady\\ of\\ Faewood|Lanes\\ Jewellery|Lanning\\ Long\\ Arm\\ Mowing\\ LLC|Live\\ Insaan|LizSews|Loosertribe|Loquesemeocurra)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v2_05"
+pattern = "^(?:Love\\ Bonsai|Lowe's\\ Home\\ Improvement|MAD\\ LAB|MAXGE|MLID\\ \\-\\ MLR\\ Institute\\ of\\ Technology|Made\\ and\\ Making|Magnet\\ Balls|Mahdee\\ Hassain\\ Momo|Mana\\ creative\\ corner|Mario\\ Budowlaniec|Mark\\ Presling|Martin\\ Beneš|Mas\\ et\\ Cottage|Master\\ Kenji|Mastercraft\\ Spirit|Matao\\ Outdoors|Mateusz\\ Turek|Matt\\ Davis|Matt's\\ 1791\\ Garage|Matt's\\ Off\\ Road\\ Recovery|MatthiasWandel|Maya\\ Feliz|MeisterDemant|Michael\\ Parkes|Michaels\\ Stores|Mighty\\ Builds|Mike\\ Haduck\\ Masonry|Mike\\ Pailliotet|Milescraft|Mill\\ Brook\\ Railroad|Minakshi\\ Biswas|Mindstix\\ Foundation\\ Trust|Miracle\\ Process|Misaki\\ Sewing|ModBot|Moriah\\ Elizabeth|Mr\\ Innovative|Mr\\.\\ DiGG|Ms\\.\\ weld|MyChipCarving|NDT\\ /\\ WELDING\\ /COATING\\ ENGINEERS/INSPECTORS|NPTEL\\ IIT\\ Kharagpur|Nathans\\ BMW\\ Workshop|Negosyante|NewsCraft|Nicholas\\ Tomihama|Nick\\ Stylecnc|Nik\\ MechTech|Noal\\ Farm|Northern\\ New\\ York\\ Parts\\ \\-\\ Small\\ Engine\\ Repairs)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v2_06"
+pattern = "^(?:Northwest\\ Carriage\\ Museum|Nuso\\ Makes|Núi\\ Rừng\\ Vùng\\ Cao|OldThingsFactory|OmniMind|P\\ Process|PF\\ Woodturning\\ \\(PF\\ Woodturning\\)|PHARMA\\ TIMES|PJPottery|PK\\ Bladesmith|PRINTO\\ PACKMACHINES|Pacific\\ Northwest\\ Garden\\ Supply|Part\\ Gurus|Parts\\ Repairing|Pilsen\\ Machine\\ Tools|Pittsburgh\\ Robotics\\ Network|PottedHistory|Potteries\\ Author\\ \\-\\ David\\ W\\.\\ Smith,\\ OBE|Quilt\\ with\\ Aimee!|RAW\\ Industry\\ Manufacturing|RPMConsultants|Ray\\ Goodwin|Razvi\\ Exports|Recording\\ Studio\\ Rockstars|Reeling\\ With\\ Robby|ResinWoodArt\\ \\-\\ jedrek29t|Restoration\\ DIY|Restoration\\ of\\ Everything|Rex\\ Krueger|Richard\\ Benedict\\ Crawford|Ricko\\ MadeirArte|Ritesh\\ Vlogs2|RiverGate\\ Church\\ Tulsa|RogueGrainCo|SCFE\\ Fashiondesign|SET\\ India|SLAVIK\\ TELY|Saiful's\\ Classroom|Sailrite|Sailrite\\ Workbench|Salome\\ 0086\\ 18615518611\\ DG\\ Extrusion\\ Food\\ Machinery|Sam\\ Alfano|Sanny|Sarada\\ Chaudhuri|Sat\\ Gold\\ ®|Scot\\ Forge\\ Company|Selhozmaster|Sew\\ Anastasia|SewVeryEasy|Shanaya\\ Repairing\\ Practical\\ class\\ Institute\\ Nimta)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v2_07"
+pattern = "^(?:She's\\ Crafty\\ and\\ She\\ Knows\\ It|Shop\\ Nation|Siemens\\ Mobility|Simple\\ Concepts\\ Explained|SkilloGraphy|Sky\\ Creative\\ HD|Sotheby's|Source\\ Intelligence|SouthdaleSupply|Sri\\ Vinayaga\\ Cnc|Star\\ Enterprises\\ furniture|Steve\\ Bootonceramics|Supercar\\ FAILS|SysconRobotics\\(시스콘로보틱스\\)|SÒPHIA\\ HIGH\\ TECH|Sáo\\ Trúc\\ Cao\\ Định|TECNALIA|TEMAS\\ VARIADOS\\ CON\\ SUBLIARTF\\&F|THD\\ TV|TOY'S\\ KG|TSW\\ Woodworking|TechZone|Technical\\ Piping|Tennessee\\ Gun|Teresa\\ DownUnder|Textile\\ Magazine|That\\ Works|The\\ B1M|The\\ Business\\ of\\ Apparel|The\\ Futur|The\\ Hemp\\ Foundation|The\\ Idea\\ Canvas|The\\ Legionnaire|The\\ Stitch\\ Sisters|The\\ Top\\ Ten|The\\ Why\\ Files|The\\ Wood\\ Whisperer|TheRykerDane\\ Reviews|TheUltimateMungoMan|Thimble\\ Storm|Thread\\ Life\\ With\\ Belle|Titan\\ Assembly|Todd\\ Koch|Toms\\ Techniques|TopSaw|Tramar\\ Industries|Travelers|Triggered\\ Insaan|TruckUtv|Two\\ Way\\ Trauma)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v2_08"
+pattern = "^(?:UDAI\\ KUSHWAHA\\ \\(CNC\\ \\&\\ VMC\\)|Umut\\ Sakarya|Universe\\ Factory|V\\&V\\ Sewing\\ Craft|VCG\\ Construction|VVG\\ Restoration\\ Station|VibeIQ\\ Media|VidVulture|Vishal\\ Bhojane|Vistek|WS\\ Leather\\ Works|Walter\\ Sorrells|Welcome\\ to\\ the\\ Woods|Welderman|Weldwisdom|Weltverborgen|WelwynWatches|Whiplash\\ Engines\\ and\\ Machine|Winner\\ cnc|Wood\\ and\\ Shop|Wood\\ is\\ good|Woodcraft|Woodcraft\\ of\\ Spokane|Woodworker\\ Anonymous|Woodworking\\ India|Woodworking\\ Tools\\ TV|WoodworkingisBullshit|Workshop\\ From\\ Scratch|Worthy\\ Tools|Wrenches\\ and\\ Boards\\ Homesteading|bavafa\\ studio|bookhou|cosmincosmin11|donyboy73|doublewide6\\ Repairs\\ LLC|dumbbell33|dustin\\ penner|fiona\\ pattison|garryg163|hpiguys\\ Workshop|king\\ process\\ shorts|konic\\ gearbox|lufolk\\ crafts|majeed\\ khan|milanmastracci|monirul\\ islam\\ iqra|mr\\.\\ IQ\\ homemade\\ DIY|mrpete222|mukesh\\ chandra\\ gond|my\\ mechanics)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v2_09"
+pattern = "^(?:myshare|oxtoolco|pudhidhai\\ oru\\ thedal\\ புதிதாய்\\ ஒரு\\ தேடல்|rpeek|seejanedrill|skearadek|stairbuilding|theanswerladyknits|theresalwaysnextyear|uenokigata|watch\\&Learn|world\\ boat\\ skiff\\ \\(Skiffbuilder\\)|yangyang\\ tian|Богдан\\ Брацлавець\\ B\\.S\\.Motorservice|Вячеслав\\ Надеин|Кладка\\ печей\\ в\\ Ижевске|Основательный\\ Подход|Самоделки\\ DIY|Сергей\\ Серебряков\\ \\(Serbik\\)|санчес|បងប៊ី\\ ណា\\ ស្ទូឌី\\ យោ\\ ឥន្រ្ទីខ្មៅ|ᵂᴼᴼᴰ\\-\\ ᴾˢᵞᶜᴴᴱ|啟夢教育|宗翔|普段着の馳走帖|能作台灣|지화자공작소Zihwaza\\ Workshop)$"

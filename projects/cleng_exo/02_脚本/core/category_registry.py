@@ -14,6 +14,8 @@ from typing import Callable
 CLEANER_MODULES: dict[str, str] = {
     "exo": "categories.exo.cleaner",
     "exo_agriculture": "categories.exo_agriculture.cleaner",
+    "exo_construction": "categories.exo_construction.cleaner",
+    "exo_dance": "categories.exo_dance.cleaner",
 }
 
 # 无 cleaner；勿对 02_clean --category

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-exo_service 文本语义否决器：title + description 的 TF-IDF + LR。
+exo_service 文本语义否决器：仅 title 的 TF-IDF + LR。
 
     y=0: F（文本明显非 PDF 目标 → DROP）
     y=1: U/T（KEEP_FOR_VISUAL；T 不当交付）
@@ -29,16 +29,13 @@ PROJECT = Path(__file__).resolve().parent.parent
 MODEL_PATH = PROJECT / "models/exo_service_text_clf_f.pkl"
 CALIB_PATH = PROJECT / "models/exo_service_text_clf_f_calibration.json"
 RANDOM_SEED = 42
-FEATURE_FIELDS = ("title", "description")
+FEATURE_FIELDS = ("title",)
 
 
 def build_text(row: pd.Series) -> str:
-    """只拼 title + description；禁止采集词 keyword。"""
+    """仅 title；禁止 description / keyword。"""
     title = str(row.get("title", "") or "") if pd.notna(row.get("title")) else ""
-    desc = str(row.get("description", "") or "") if pd.notna(row.get("description")) else ""
-    if len(desc) > 800:
-        desc = desc[:800]
-    return re.sub(r"\s+", " ", f"{title} {desc}".strip())
+    return re.sub(r"\s+", " ", title.strip())
 
 
 def load_training_frame(paths: Iterable[str | Path]) -> pd.DataFrame:

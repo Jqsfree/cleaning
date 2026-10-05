@@ -1,0 +1,34 @@
+[meta]
+version = "0.1.0"
+category = "exo_construction"
+scope = "Off-scene titles remaining after positive human-work title gate"
+
+[[rules]]
+id = "technical_drawing_detail"
+label = "图纸绘制读图与钢筋详图"
+pattern = '(?i)\b(?:drawing|draw|drawings|sketch|detailing|drafting|autocad|librecad|cad)\b.{0,70}\b(?:reinforcement|rebar|concrete|beam|column|wall|slab|roof|foundation|stairs?|formwork)\b|\b(?:reinforcement|rebar|concrete|beam|column|wall|slab|roof|foundation|stairs?|formwork)\b.{0,70}\b(?:drawing|drawings|drafting|autocad|librecad|cad)\b|\b(?:how to read|drawing reading)\b.{0,55}\b(?:reinforcement|rebar|formwork|shuttering|roof|beam|column|slab)\b'
+
+[[rules]]
+id = "mason_name_craft"
+label = "Mason人名及罐子手工"
+pattern = '(?i)\b(?:mason jar|mason money jar|mary b mason|mason studio|mason bee|mason mount|mason school|miss mason)\b|\b(?:mason|masonry)\b.{0,35}\b(?:studio tour|art demo|mixed media|painting class|watercolor|watercolour)\b'
+
+[[rules]]
+id = "roofing_insurance_business"
+label = "屋顶行业保险销售经营"
+pattern = '(?i)\b(?:roof(?:er|ing)s?|masonry|contractors?)\b.{0,65}\b(?:insurance|claims?|supplement|business|marketing|sales|profit|pricing|fraud|ads|website|branding)\b|\b(?:insurance|claims?|supplement|marketing|sales)\b.{0,65}\b(?:roof(?:er|ing)s?|masonry|contractors?)\b'
+
+[[rules]]
+id = "material_quantity_cost"
+label = "材料用量造价计算"
+pattern = '(?i)\b(?:quantity|quantities|how much|estimate|estimation|calculate|calculation|cost)\b.{0,70}\b(?:cement|sand|plaster|concrete|mortar|rebar|steel|formwork|shuttering|bricks?)\b|\b(?:cement|sand|plaster|concrete|mortar|rebar|steel|formwork|shuttering|bricks?)\b.{0,55}\b(?:quantity|quantities|calculation|cost estimate)\b|(?:कितना|कैसे निकाले).{0,60}(?:सीमेंट|बालू|प्लास्टर)'
+
+[[rules]]
+id = "geo_service_seo"
+label = "地名重复堆叠服务广告"
+pattern = '(?i)\bconcrete staircase formwork construction (?:in )?sydney\b|\b(?:trusted|top|reliable|expert|best|quality)\b.{0,50}\b(?:roofing|masonry|concrete|plastering|construction) services?\b|\b(?:roofing|masonry|concrete|plastering|construction) services?\b.{0,50}\b(?:near me|call us|contact us|free quote)\b'
+
+[[rules]]
+id = "remaining_talk_training"
+label = "安全培训和非现场讲解"
+pattern = '(?i)\b(?:falls in construction|construction material market rates|mode of measurement of formwork|how to use safety net at construction site|safety net types|occupational safety scaffolding)\b|\b(?:construction|roofing|plastering|bricklaying)\b.{0,50}\b(?:market rates|price list|insurance companies|building code education)\b'

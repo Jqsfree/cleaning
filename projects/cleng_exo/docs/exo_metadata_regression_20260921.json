@@ -1,0 +1,1357 @@
+{
+  "date": "2026-09-21",
+  "evidence_scope": "retrospective historical human experiment; not production acceptance",
+  "gold_total": 4643,
+  "test_total": 926,
+  "split": "existing channel-grouped train/calibration/test; IDs/titles/channels checked disjoint",
+  "methods": [
+    "word_char_tfidf_plus_LR",
+    "frozen_multilingual_MiniLM_plus_LR"
+  ],
+  "feature_ablation": [
+    "title",
+    "title+channel"
+  ],
+  "experimental_target": 0.95,
+  "threshold_rule": "90% Wilson lower bound on calibration, minimum 20; no fallback",
+  "production_models_replaced": false,
+  "e5": "not cached; not downloaded or tested",
+  "results": {
+    "exo_cook": {
+      "reference_rules": {
+        "reference_rows": 255,
+        "input_labels": {
+          "F": 165,
+          "T": 90
+        },
+        "pools": {
+          "keep": {
+            "n": 121,
+            "labels": {
+              "F": 73,
+              "T": 48
+            }
+          },
+          "drop": {
+            "n": 0,
+            "labels": {}
+          },
+          "review": {
+            "n": 134,
+            "labels": {
+              "T": 42,
+              "F": 92
+            }
+          }
+        },
+        "keep_precision_known": 0.39669421487603307,
+        "keep_T_rate_including_U": 0.39669421487603307,
+        "keep_T_ci90": [
+          0.32656985730109417,
+          0.471337339887066
+        ],
+        "T_drop_rate": 0.0,
+        "F_removed_rate": 0.0,
+        "drop_T_share": null,
+        "T_keep_coverage": 0.5333333333333333,
+        "T_review_rate": 0.4666666666666667,
+        "review_rate": 0.5254901960784314
+      },
+      "models": {
+        "tfidf": {
+          "auc": 0.6028282828282827,
+          "ap": 0.449822138078725,
+          "seconds": 0.10458537499999998,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 255,
+            "input_labels": {
+              "F": 165,
+              "T": 90
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 255,
+                "labels": {
+                  "F": 165,
+                  "T": 90
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          },
+          "diagnostic_at_0_5": {
+            "reference_rows": 255,
+            "input_labels": {
+              "F": 165,
+              "T": 90
+            },
+            "pools": {
+              "keep": {
+                "n": 65,
+                "labels": {
+                  "F": 35,
+                  "T": 30
+                }
+              },
+              "drop": {
+                "n": 190,
+                "labels": {
+                  "F": 130,
+                  "T": 60
+                }
+              },
+              "review": {
+                "n": 0,
+                "labels": {}
+              }
+            },
+            "keep_precision_known": 0.46153846153846156,
+            "keep_T_rate_including_U": 0.46153846153846156,
+            "keep_T_ci90": [
+              0.3634091603549376,
+              0.5627416428892602
+            ],
+            "T_drop_rate": 0.6666666666666666,
+            "F_removed_rate": 0.7878787878787878,
+            "drop_T_share": 0.3157894736842105,
+            "T_keep_coverage": 0.3333333333333333,
+            "T_review_rate": 0.0,
+            "review_rate": 0.0
+          }
+        },
+        "embedding": {
+          "auc": 0.6713131313131312,
+          "ap": 0.5137766274470636,
+          "seconds": 5.391738208,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 255,
+            "input_labels": {
+              "F": 165,
+              "T": 90
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 255,
+                "labels": {
+                  "F": 165,
+                  "T": 90
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          },
+          "diagnostic_at_0_5": {
+            "reference_rows": 255,
+            "input_labels": {
+              "F": 165,
+              "T": 90
+            },
+            "pools": {
+              "keep": {
+                "n": 115,
+                "labels": {
+                  "F": 63,
+                  "T": 52
+                }
+              },
+              "drop": {
+                "n": 140,
+                "labels": {
+                  "F": 102,
+                  "T": 38
+                }
+              },
+              "review": {
+                "n": 0,
+                "labels": {}
+              }
+            },
+            "keep_precision_known": 0.45217391304347826,
+            "keep_T_rate_including_U": 0.45217391304347826,
+            "keep_T_ci90": [
+              0.3778076359160289,
+              0.5287388216491583
+            ],
+            "T_drop_rate": 0.4222222222222222,
+            "F_removed_rate": 0.6181818181818182,
+            "drop_T_share": 0.2714285714285714,
+            "T_keep_coverage": 0.5777777777777777,
+            "T_review_rate": 0.0,
+            "review_rate": 0.0
+          }
+        }
+      },
+      "title_channel": {
+        "tfidf": {
+          "auc": 0.5786531986531986,
+          "ap": 0.46736625295685696,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "calibration_support": {
+              "T": 58,
+              "F": 160,
+              "U": 0
+            },
+            "best_possible_bound_given_class_count": {
+              "T": 0.9554316904165218,
+              "F": 0.9833715348803791
+            },
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 255,
+            "input_labels": {
+              "F": 165,
+              "T": 90
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 255,
+                "labels": {
+                  "F": 165,
+                  "T": 90
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          }
+        },
+        "embedding": {
+          "auc": 0.6737373737373737,
+          "ap": 0.5387440177207443,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "calibration_support": {
+              "T": 58,
+              "F": 160,
+              "U": 0
+            },
+            "best_possible_bound_given_class_count": {
+              "T": 0.9554316904165218,
+              "F": 0.9833715348803791
+            },
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 255,
+            "input_labels": {
+              "F": 165,
+              "T": 90
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 255,
+                "labels": {
+                  "F": 165,
+                  "T": 90
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          }
+        }
+      }
+    },
+    "exo_parent": {
+      "reference_rules": {
+        "reference_rows": 303,
+        "input_labels": {
+          "F": 129,
+          "T": 174
+        },
+        "pools": {
+          "keep": {
+            "n": 63,
+            "labels": {
+              "F": 17,
+              "T": 46
+            }
+          },
+          "drop": {
+            "n": 2,
+            "labels": {
+              "F": 2
+            }
+          },
+          "review": {
+            "n": 238,
+            "labels": {
+              "F": 110,
+              "T": 128
+            }
+          }
+        },
+        "keep_precision_known": 0.7301587301587301,
+        "keep_T_rate_including_U": 0.7301587301587301,
+        "keep_T_ci90": [
+          0.6301124686503758,
+          0.8112505956435918
+        ],
+        "T_drop_rate": 0.0,
+        "F_removed_rate": 0.015503875968992248,
+        "drop_T_share": 0.0,
+        "T_keep_coverage": 0.26436781609195403,
+        "T_review_rate": 0.735632183908046,
+        "review_rate": 0.7854785478547854
+      },
+      "models": {
+        "tfidf": {
+          "auc": 0.6098413971308919,
+          "ap": 0.670400250538413,
+          "seconds": 0.13232424999999992,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 303,
+            "input_labels": {
+              "F": 129,
+              "T": 174
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 303,
+                "labels": {
+                  "F": 129,
+                  "T": 174
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          },
+          "diagnostic_at_0_5": {
+            "reference_rows": 303,
+            "input_labels": {
+              "F": 129,
+              "T": 174
+            },
+            "pools": {
+              "keep": {
+                "n": 151,
+                "labels": {
+                  "F": 54,
+                  "T": 97
+                }
+              },
+              "drop": {
+                "n": 152,
+                "labels": {
+                  "F": 75,
+                  "T": 77
+                }
+              },
+              "review": {
+                "n": 0,
+                "labels": {}
+              }
+            },
+            "keep_precision_known": 0.6423841059602649,
+            "keep_T_rate_including_U": 0.6423841059602649,
+            "keep_T_ci90": [
+              0.5762385516315924,
+              0.7035171359883667
+            ],
+            "T_drop_rate": 0.4425287356321839,
+            "F_removed_rate": 0.5813953488372093,
+            "drop_T_share": 0.506578947368421,
+            "T_keep_coverage": 0.5574712643678161,
+            "T_review_rate": 0.0,
+            "review_rate": 0.0
+          }
+        },
+        "embedding": {
+          "auc": 0.6062550120288693,
+          "ap": 0.6588783370171567,
+          "seconds": 4.1913497500000005,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 303,
+            "input_labels": {
+              "F": 129,
+              "T": 174
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 303,
+                "labels": {
+                  "F": 129,
+                  "T": 174
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          },
+          "diagnostic_at_0_5": {
+            "reference_rows": 303,
+            "input_labels": {
+              "F": 129,
+              "T": 174
+            },
+            "pools": {
+              "keep": {
+                "n": 157,
+                "labels": {
+                  "F": 54,
+                  "T": 103
+                }
+              },
+              "drop": {
+                "n": 146,
+                "labels": {
+                  "F": 75,
+                  "T": 71
+                }
+              },
+              "review": {
+                "n": 0,
+                "labels": {}
+              }
+            },
+            "keep_precision_known": 0.6560509554140127,
+            "keep_T_rate_including_U": 0.6560509554140127,
+            "keep_T_ci90": [
+              0.5915231297861157,
+              0.7152915175970178
+            ],
+            "T_drop_rate": 0.40804597701149425,
+            "F_removed_rate": 0.5813953488372093,
+            "drop_T_share": 0.4863013698630137,
+            "T_keep_coverage": 0.5919540229885057,
+            "T_review_rate": 0.0,
+            "review_rate": 0.0
+          }
+        }
+      },
+      "title_channel": {
+        "tfidf": {
+          "auc": 0.6209346876949122,
+          "ap": 0.6796164013908479,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "calibration_support": {
+              "T": 152,
+              "F": 163,
+              "U": 0
+            },
+            "best_possible_bound_given_class_count": {
+              "T": 0.9825116579943483,
+              "F": 0.983672583320395
+            },
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 303,
+            "input_labels": {
+              "F": 129,
+              "T": 174
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 303,
+                "labels": {
+                  "F": 129,
+                  "T": 174
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          }
+        },
+        "embedding": {
+          "auc": 0.6170364430188007,
+          "ap": 0.6767558723660476,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "calibration_support": {
+              "T": 152,
+              "F": 163,
+              "U": 0
+            },
+            "best_possible_bound_given_class_count": {
+              "T": 0.9825116579943483,
+              "F": 0.983672583320395
+            },
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 303,
+            "input_labels": {
+              "F": 129,
+              "T": 174
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 303,
+                "labels": {
+                  "F": 129,
+                  "T": 174
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          }
+        }
+      }
+    },
+    "exo_livestock": {
+      "reference_rules": {
+        "reference_rows": 107,
+        "input_labels": {
+          "F": 74,
+          "T": 33
+        },
+        "pools": {
+          "keep": {
+            "n": 41,
+            "labels": {
+              "T": 22,
+              "F": 19
+            }
+          },
+          "drop": {
+            "n": 0,
+            "labels": {}
+          },
+          "review": {
+            "n": 66,
+            "labels": {
+              "F": 55,
+              "T": 11
+            }
+          }
+        },
+        "keep_precision_known": 0.5365853658536586,
+        "keep_T_rate_including_U": 0.5365853658536586,
+        "keep_T_ci90": [
+          0.41023092098224606,
+          0.6584102572964532
+        ],
+        "T_drop_rate": 0.0,
+        "F_removed_rate": 0.0,
+        "drop_T_share": null,
+        "T_keep_coverage": 0.6666666666666666,
+        "T_review_rate": 0.3333333333333333,
+        "review_rate": 0.616822429906542
+      },
+      "models": {
+        "tfidf": {
+          "auc": 0.8271908271908271,
+          "ap": 0.7236438458950568,
+          "seconds": 0.0399560000000001,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 107,
+            "input_labels": {
+              "F": 74,
+              "T": 33
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 107,
+                "labels": {
+                  "F": 74,
+                  "T": 33
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          },
+          "diagnostic_at_0_5": {
+            "reference_rows": 107,
+            "input_labels": {
+              "F": 74,
+              "T": 33
+            },
+            "pools": {
+              "keep": {
+                "n": 35,
+                "labels": {
+                  "T": 24,
+                  "F": 11
+                }
+              },
+              "drop": {
+                "n": 72,
+                "labels": {
+                  "F": 63,
+                  "T": 9
+                }
+              },
+              "review": {
+                "n": 0,
+                "labels": {}
+              }
+            },
+            "keep_precision_known": 0.6857142857142857,
+            "keep_T_rate_including_U": 0.6857142857142857,
+            "keep_T_ci90": [
+              0.5473228185410467,
+              0.7974540712504198
+            ],
+            "T_drop_rate": 0.2727272727272727,
+            "F_removed_rate": 0.8513513513513513,
+            "drop_T_share": 0.125,
+            "T_keep_coverage": 0.7272727272727273,
+            "T_review_rate": 0.0,
+            "review_rate": 0.0
+          }
+        },
+        "embedding": {
+          "auc": 0.8460278460278461,
+          "ap": 0.7552057219784909,
+          "seconds": 1.5913115000000015,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 107,
+            "input_labels": {
+              "F": 74,
+              "T": 33
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 107,
+                "labels": {
+                  "F": 74,
+                  "T": 33
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          },
+          "diagnostic_at_0_5": {
+            "reference_rows": 107,
+            "input_labels": {
+              "F": 74,
+              "T": 33
+            },
+            "pools": {
+              "keep": {
+                "n": 40,
+                "labels": {
+                  "T": 23,
+                  "F": 17
+                }
+              },
+              "drop": {
+                "n": 67,
+                "labels": {
+                  "F": 57,
+                  "T": 10
+                }
+              },
+              "review": {
+                "n": 0,
+                "labels": {}
+              }
+            },
+            "keep_precision_known": 0.575,
+            "keep_T_rate_including_U": 0.575,
+            "keep_T_ci90": [
+              0.4457311196833381,
+              0.6947658630198431
+            ],
+            "T_drop_rate": 0.30303030303030304,
+            "F_removed_rate": 0.7702702702702703,
+            "drop_T_share": 0.14925373134328357,
+            "T_keep_coverage": 0.696969696969697,
+            "T_review_rate": 0.0,
+            "review_rate": 0.0
+          }
+        }
+      },
+      "title_channel": {
+        "tfidf": {
+          "auc": 0.8714168714168714,
+          "ap": 0.7657938936867521,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "calibration_support": {
+              "T": 50,
+              "F": 60,
+              "U": 0
+            },
+            "best_possible_bound_given_class_count": {
+              "T": 0.9486668142137298,
+              "F": 0.9568532014067297
+            },
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 107,
+            "input_labels": {
+              "F": 74,
+              "T": 33
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 107,
+                "labels": {
+                  "F": 74,
+                  "T": 33
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          }
+        },
+        "embedding": {
+          "auc": 0.8558558558558559,
+          "ap": 0.762684060291471,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "calibration_support": {
+              "T": 50,
+              "F": 60,
+              "U": 0
+            },
+            "best_possible_bound_given_class_count": {
+              "T": 0.9486668142137298,
+              "F": 0.9568532014067297
+            },
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 107,
+            "input_labels": {
+              "F": 74,
+              "T": 33
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 107,
+                "labels": {
+                  "F": 74,
+                  "T": 33
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          }
+        }
+      }
+    },
+    "exo_service": {
+      "reference_rules": {
+        "reference_rows": 261,
+        "input_labels": {
+          "F": 140,
+          "T": 121
+        },
+        "pools": {
+          "keep": {
+            "n": 58,
+            "labels": {
+              "F": 17,
+              "T": 41
+            }
+          },
+          "drop": {
+            "n": 0,
+            "labels": {}
+          },
+          "review": {
+            "n": 203,
+            "labels": {
+              "F": 123,
+              "T": 80
+            }
+          }
+        },
+        "keep_precision_known": 0.7068965517241379,
+        "keep_T_rate_including_U": 0.7068965517241379,
+        "keep_T_ci90": [
+          0.6011389717661298,
+          0.7942120725441549
+        ],
+        "T_drop_rate": 0.0,
+        "F_removed_rate": 0.0,
+        "drop_T_share": null,
+        "T_keep_coverage": 0.33884297520661155,
+        "T_review_rate": 0.6611570247933884,
+        "review_rate": 0.7777777777777778
+      },
+      "models": {
+        "tfidf": {
+          "auc": 0.7010920897284534,
+          "ap": 0.6539525177252629,
+          "seconds": 0.11453362499999997,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 261,
+            "input_labels": {
+              "F": 140,
+              "T": 121
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 261,
+                "labels": {
+                  "F": 140,
+                  "T": 121
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          },
+          "diagnostic_at_0_5": {
+            "reference_rows": 261,
+            "input_labels": {
+              "F": 140,
+              "T": 121
+            },
+            "pools": {
+              "keep": {
+                "n": 108,
+                "labels": {
+                  "F": 33,
+                  "T": 75
+                }
+              },
+              "drop": {
+                "n": 153,
+                "labels": {
+                  "F": 107,
+                  "T": 46
+                }
+              },
+              "review": {
+                "n": 0,
+                "labels": {}
+              }
+            },
+            "keep_precision_known": 0.6944444444444444,
+            "keep_T_rate_including_U": 0.6944444444444444,
+            "keep_T_ci90": [
+              0.6175235195020716,
+              0.7618612763226784
+            ],
+            "T_drop_rate": 0.38016528925619836,
+            "F_removed_rate": 0.7642857142857142,
+            "drop_T_share": 0.3006535947712418,
+            "T_keep_coverage": 0.6198347107438017,
+            "T_review_rate": 0.0,
+            "review_rate": 0.0
+          }
+        },
+        "embedding": {
+          "auc": 0.7559031877213696,
+          "ap": 0.727916885425753,
+          "seconds": 4.918841166000002,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 261,
+            "input_labels": {
+              "F": 140,
+              "T": 121
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 261,
+                "labels": {
+                  "F": 140,
+                  "T": 121
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          },
+          "diagnostic_at_0_5": {
+            "reference_rows": 261,
+            "input_labels": {
+              "F": 140,
+              "T": 121
+            },
+            "pools": {
+              "keep": {
+                "n": 119,
+                "labels": {
+                  "F": 40,
+                  "T": 79
+                }
+              },
+              "drop": {
+                "n": 142,
+                "labels": {
+                  "F": 100,
+                  "T": 42
+                }
+              },
+              "review": {
+                "n": 0,
+                "labels": {}
+              }
+            },
+            "keep_precision_known": 0.6638655462184874,
+            "keep_T_rate_including_U": 0.6638655462184874,
+            "keep_T_ci90": [
+              0.5896968568769505,
+              0.7307486946825799
+            ],
+            "T_drop_rate": 0.34710743801652894,
+            "F_removed_rate": 0.7142857142857143,
+            "drop_T_share": 0.29577464788732394,
+            "T_keep_coverage": 0.6528925619834711,
+            "T_review_rate": 0.0,
+            "review_rate": 0.0
+          }
+        }
+      },
+      "title_channel": {
+        "tfidf": {
+          "auc": 0.7046635182998819,
+          "ap": 0.6742006272449922,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "calibration_support": {
+              "T": 155,
+              "F": 156,
+              "U": 0
+            },
+            "best_possible_bound_given_class_count": {
+              "T": 0.9828443351144286,
+              "F": 0.9829524325665537
+            },
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 261,
+            "input_labels": {
+              "F": 140,
+              "T": 121
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 261,
+                "labels": {
+                  "F": 140,
+                  "T": 121
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          }
+        },
+        "embedding": {
+          "auc": 0.7429752066115702,
+          "ap": 0.7194915112728097,
+          "thresholds": {
+            "keep": null,
+            "drop": null,
+            "target": 0.95,
+            "minimum_calibration_rows": 20,
+            "calibration_support": {
+              "T": 155,
+              "F": 156,
+              "U": 0
+            },
+            "best_possible_bound_given_class_count": {
+              "T": 0.9828443351144286,
+              "F": 0.9829524325665537
+            },
+            "selection": "90% Wilson lower bound on calibration; exploratory selection, not batch acceptance"
+          },
+          "metrics": {
+            "reference_rows": 261,
+            "input_labels": {
+              "F": 140,
+              "T": 121
+            },
+            "pools": {
+              "keep": {
+                "n": 0,
+                "labels": {}
+              },
+              "drop": {
+                "n": 0,
+                "labels": {}
+              },
+              "review": {
+                "n": 261,
+                "labels": {
+                  "F": 140,
+                  "T": 121
+                }
+              }
+            },
+            "keep_precision_known": null,
+            "keep_T_rate_including_U": null,
+            "keep_T_ci90": [
+              null,
+              null
+            ],
+            "T_drop_rate": 0.0,
+            "F_removed_rate": 0.0,
+            "drop_T_share": null,
+            "T_keep_coverage": 0.0,
+            "T_review_rate": 1.0,
+            "review_rate": 1.0
+          }
+        }
+      }
+    }
+  },
+  "cook_rule_replay": {
+    "test_rows": 255,
+    "keep": 121,
+    "keep_T": 48,
+    "keep_F": 73,
+    "keep_precision": 0.39669421487603307,
+    "review": 134,
+    "status": "retrospective_replay_not_acceptance",
+    "quality_decision": "failed_acceptance"
+  }
+}

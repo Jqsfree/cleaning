@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "experiments"))
 import exo_medical_text_classifier as clf  # noqa: E402
 
 
-def test_build_text_skips_keyword():
+def test_build_text_uses_documented_title_only_contract():
     row = pd.Series({
         "title": "Suture workshop",
         "description": "OR skills lab",
@@ -19,8 +19,8 @@ def test_build_text_skips_keyword():
         "channel": "MedSchool",
     })
     text = clf.build_text(row)
-    assert "Suture workshop" in text
-    assert "OR skills lab" in text
+    assert text == "Suture workshop"
+    assert "OR skills lab" not in text
     assert "污染采集词" not in text
     assert "MedSchool" not in text
 

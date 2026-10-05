@@ -1,0 +1,26 @@
+{
+  "category": "exo_service",
+  "version": "1.0-candidate",
+  "definition": "商业服务（边界以本品类metadata人标T/F为准）",
+  "related_patterns": [
+    {
+      "id": "topic_anchor_candidate",
+      "pattern": "\\b(barber|haircut|salon|massage|repair|retail|service)\\b|理发|服务|维修"
+    }
+  ],
+  "unrelated_patterns": [
+    {
+      "id": "game",
+      "pattern": "\\b(gameplay|minecraft|roblox|fortnite)\\b"
+    },
+    {
+      "id": "music",
+      "pattern": "\\b(official music video|lyrics video|lyric video)\\b"
+    },
+    {
+      "id": "cartoon",
+      "pattern": "\\b(nursery rhymes|peppa pig|cocomelon)\\b"
+    }
+  ],
+  "note": "Anchor rules are bootstrap candidates only; human-calibrated model governs every non-empty title when supplied. No keyword/channel veto. Fresh human evaluation required."
+}

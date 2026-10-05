@@ -1,63 +1,15 @@
-# L2 — 行业路由（不判合格；允许大量误报）
-# 命中任一行业 → commercial_service_candidates
-# 一条可多标签；primary = 下列数组中最先命中的 industry
+# L2 — 商业服务品类路由（二元：像 / 不像）
+# 不再按 hair/beauty/food… 分行业；命中 → commercial_service_candidates
+# 口径：店内/柜台/后厨等商业服务劳动场景文本信号（允许误报，不判合格）
 
 [meta]
-version = "1.0.0"
+version = "2.0.0"
 category = "exo_service"
-layer = "l2_industry_route"
-basis = "2026-08-17 four-layer cascade redesign"
+layer = "l2_category_route"
+basis = "2026-09-15 rebuild: category not industry"
 
-# 主标签优先序（先匹配先生效）
-primary_order = [
-  "hair",
-  "beauty",
-  "food_service",
-  "retail",
-  "repair",
-  "cleaning",
-  "hospitality",
-  "healthcare",
-  "automotive",
-  "pet_service",
-]
+primary_order = ["commercial_service"]
 
 [[route]]
-industry = "hair"
-pattern = "(?i)\\bhair\\b|haircut|hairstyl|barber|hair\\s*salon|barbershop|染发|烫发|理发|发型|美发|wig\\b|编织接发"
-
-[[route]]
-industry = "beauty"
-pattern = "(?i)\\bbeauty\\b|makeup|manicure|pedicure|nail\\s*(tech|salon|art)|facial|skincare|spa\\b|massage|美容|美甲|护肤|化妆|纹绣|睫毛"
-
-[[route]]
-industry = "food_service"
-pattern = "(?i)\\bchef\\b|\\bcook\\b|kitchen|restaurant|\\bcafe\\b|barista|waiter|waitress|back\\s*of\\s*house|后厨|传菜|咖啡|餐饮|厨师|服务员"
-
-[[route]]
-industry = "retail"
-pattern = "(?i)\\bretail\\b|cashier|checkout|stocking|超市|收银|理货|便利店|店员\\b|售货"
-
-[[route]]
-industry = "repair"
-pattern = "(?i)\\brepair\\b|handyman|plumber|electrician|appliance\\s*repair|维修|修理|水管|电工"
-
-[[route]]
-industry = "cleaning"
-pattern = "(?i)\\bcleaning\\b|housekeep|janitor|maid\\s*service|保洁|打扫|家政清洁"
-
-[[route]]
-industry = "hospitality"
-pattern = "(?i)\\bhotel\\b|\\bresort\\b|front\\s*desk|concierge|housekeeping|酒店|前台|客房服务"
-
-[[route]]
-industry = "healthcare"
-pattern = "(?i)\\bnurse\\b|clinic|dental|dentist|physiotherap|chiropract|护理|诊所|牙科|推拿整脊|理疗"
-
-[[route]]
-industry = "automotive"
-pattern = "(?i)\\bmechanic\\b|auto\\s*repair|car\\s*wash|detailing|汽修|洗车|汽车美容|保养"
-
-[[route]]
-industry = "pet_service"
-pattern = "(?i)pet\\s*groom|dog\\s*groom|cat\\s*groom|veterinary|vet\\s*clinic|宠物美容|宠物护理|兽医"
+industry = "commercial_service"
+pattern = "(?i)理发|美发|剪发|洗剪吹|烫发|染发|发型师|造型师|barber|barbershop|haircut|hairstyl|hair\\s*salon|美甲|纹绣|嫁接睫毛|美容护理|美容院|manicure|pedicure|nail\\s*(tech|salon)|facial|spa\\s*treatment|后厨|传菜|吧台|咖啡师|服务员|厨师长|餐饮服务|\\bbarista\\b|\\bwaiter\\b|\\bwaitress\\b|back\\s*of\\s*house|\\bchef\\b|restaurant\\s*kitchen|收银|理货|超市收银|便利店店员|\\bcashier\\b|checkout\\s*counter|保洁|家政清洁|客房服务|酒店前台|housekeep|\\bjanitor\\b|front\\s*desk|汽修|钣金|喷漆|洗车|维修|修理|\\bplumber\\b|\\belectrician\\b|auto\\s*repair|car\\s*wash|body\\s*shop|宠物美容|pet\\s*groom|\\bgrooming\\b|商业服务|门店服务|给顾客"

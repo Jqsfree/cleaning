@@ -2,7 +2,7 @@
 """exo_fitness 标题句向量否决器：MiniLM + LR。
 
 监督：人工 QC T=KEEP、F=DROP（黑板讲解/非真人为 F）。
-特征：title + channel，不含采集 keyword。宁漏勿杀。
+特征：仅 title（不含 channel / keyword）。宁漏勿杀。
 """
 
 from __future__ import annotations
@@ -40,13 +40,12 @@ MINILM_SNAPSHOT = (
     / "snapshots/e8f8c211226b894fcb81acc59f3b34ba3efd5f42"
 )
 RANDOM_SEED = 42
-FEATURE_FIELDS = ("title", "channel")
+FEATURE_FIELDS = ("title",)
 
 
 def build_text(row: pd.Series) -> str:
     title = str(row.get("title", "") or "") if pd.notna(row.get("title")) else ""
-    channel = str(row.get("channel", "") or "") if pd.notna(row.get("channel")) else ""
-    return re.sub(r"\s+", " ", f"{title} {channel}".strip())
+    return re.sub(r"\s+", " ", title.strip())
 
 
 def _label_series(frame: pd.DataFrame) -> pd.Series:
@@ -233,7 +232,7 @@ def train_and_calibrate(
         "qc_snapshots": [str(Path(p)) for p in paths],
         "notes": [
             "监督=人工 T/F；黑板讲解与非真人为 F",
-            "title+channel，不含 keyword",
+            "仅 title，不含 channel/keyword",
             "宁漏勿杀；ml_score 不当交付 KPI",
         ],
     }

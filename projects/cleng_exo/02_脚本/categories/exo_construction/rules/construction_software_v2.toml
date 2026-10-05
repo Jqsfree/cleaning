@@ -1,0 +1,19 @@
+[meta]
+version = "0.2.0"
+category = "exo_construction"
+scope = "Residual software and spreadsheet teaching after construction_software_v1"
+
+[[rules]]
+id = "software_aliases"
+label = "漏网软件名和别名"
+pattern = '(?i)\b(?:sketch ?up|sap ?2000|ansys|midas (?:gen|ngen|civil)|freecad|librecad|bricscad|qcad|cadwork|advance steel|scia(?: engineer)?|rfem|rstaab|fem-design|plaxis|comsol|ideastatica|idea statica|cype|civilsoft|redx roof app|synchro 4d|infraworks|revizto|solibri|pyrevit)\b|\b(?:dynamo|inventor|framecad)\b.{0,70}\b(?:rebar|formwork|steel|framing|model|roof|weld|tutorial|design|structur|fabrication)\b|\b(?:rebar|formwork|steel|framing|model|roof|weld|tutorial|design|structur|fabrication)\b.{0,70}\b(?:dynamo|inventor|framecad)\b'
+
+[[rules]]
+id = "spreadsheet_engineering_course"
+label = "电子表格工程计算课程"
+pattern = '(?i)\b(?:excel|spreadsheet|google sheets|VBA)\b.{0,65}\b(?:estimating|calculator|calculation|design|detailing|takeoff|BOQ|quantity|schedule|formulas?)\b|\b(?:estimating|calculator|calculation|design|detailing|takeoff|BOQ|quantity|schedule|formulas?)\b.{0,65}\b(?:excel|spreadsheet|google sheets|VBA)\b'
+
+[[rules]]
+id = "explicit_software_lesson"
+label = "明确的软件建模教学"
+pattern = '(?i)\b(?:how to model|modeling of|modelling of|lesson of modeling|3d model of|3d scia model|roof plan design in|how to design roofs? with|how to design roofs? using)\b.{0,65}\b(?:roof|beam|column|wall|slab|concrete|steel|rebar|formwork|building|app|software)\b|\b(?:CAD|BIM|3D)\b.{0,45}\b(?:lecture|lesson|software|modeling|modelling|rendering|animation)\b'

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 """
 core/sql_builder.py -- 通用 DuckDB 操作（不绑定任何类别）
 

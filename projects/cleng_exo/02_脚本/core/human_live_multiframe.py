@@ -146,7 +146,7 @@ def summarize_person_frames(
     if len(boxes_by_frame) != len(frame_sizes):
         raise ValueError("boxes_by_frame 与 frame_sizes 长度不一致")
     largest_ratios: list[float] = []
-    for boxes, (width, height) in zip(boxes_by_frame, frame_sizes, strict=True):
+    for boxes, (width, height) in zip(boxes_by_frame, frame_sizes):
         frame_area = max(float(width * height), 1.0)
         ratios = []
         for box in boxes:

@@ -1,4 +1,4 @@
-#!/home/jqs/miniconda3/envs/data_cleaning/bin/python
+#!/usr/bin/env python3
 """
 04_analyze.py — 污染分析（标注样本 → pollution_analysis.md）
 

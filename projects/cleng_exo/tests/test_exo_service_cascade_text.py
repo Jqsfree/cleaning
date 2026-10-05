@@ -20,8 +20,9 @@ from categories.exo_service.cascade_text import (  # noqa: E402
 def test_l1_l2_rules_load():
     assert len(load_l1()) >= 5
     order, routes = load_l2()
-    assert "hair" in order
-    assert len(routes) == 10
+    assert order == ["commercial_service"]
+    assert len(routes) == 1
+    assert routes[0]["industry"] == "commercial_service"
 
 
 @pytest.mark.parametrize(
@@ -40,24 +41,24 @@ def test_l1_drops(title, expect_stage, expect_cat):
 
 
 @pytest.mark.parametrize(
-    "title,primary",
+    "title",
     [
-        ("Barber haircut fade tutorial day", "hair"),
-        ("Nail tech manicure for customer", "beauty"),
-        ("Restaurant back of house chef plating", "food_service"),
-        ("Cashier stocking shelves retail", "retail"),
-            ("Plumber pipe repair in bathroom", "repair"),
-        ("Housekeeping cleaning hotel room", "cleaning"),  # cleaning before hospitality if both
-        ("Front desk hotel check-in", "hospitality"),
-        ("Dental clinic nurse assisting", "healthcare"),
-        ("Car wash detailing mechanic bay", "automotive"),
-        ("Dog grooming pet salon", "pet_service"),
+        "Barber haircut fade for customer in salon",
+        "Nail tech manicure for customer",
+        "Restaurant back of house chef plating",
+        "Cashier at supermarket checkout counter",
+        "Plumber pipe repair service call",
+        "Housekeeping cleaning hotel guest room",
+        "Front desk hotel check-in service",
+        "Car wash detailing in shop",
+        "Dog grooming pet salon",
+        "给顾客剪发 洗剪吹 门店服务",
     ],
 )
-def test_l2_routes(title, primary):
+def test_l2_category_candidate(title):
     out = classify_title_l1_l2(title)
     assert out["stage"] == "candidate"
-    assert out["industry_primary"] == primary
+    assert out["industry_primary"] == "commercial_service"
 
 
 def test_unrouted():

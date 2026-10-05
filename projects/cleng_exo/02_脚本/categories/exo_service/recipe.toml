@@ -1,6 +1,6 @@
 # exo_service 配方
-# 机采：quality → L1 文本高精度 DROP → L2 行业路由 candidates
-# → L3 CLIP 三问粗筛 → L4 子类 VLM（仅边界）
+# 机采：quality → L1 文本高精度 DROP → L2 商业服务品类路由 candidates
+# → MiniLM 品类否决（after_L1 可含 unrouted 捞回）→（可选）L3 CLIP / L4
 # 勿用旧语义 keep_for_visual / 泛化「是否商业服务」VL 当主路径
 # 勿默认串到 deliver
 
@@ -11,7 +11,7 @@ deliver_format = "csv"
 default_qc = "text"
 needs_ge720 = false
 layer1_stop = "rules"
-notes = "四层级联 2026-08-17：L1 certain-noise → L2 industry route → CLIP → 子类 VLM"
+notes = "L1 certain-noise → L2 品类二元路由（非行业）→ MiniLM；CLIP/VLM 可选"
 
 [[flow.machine]]
 id = "quality"

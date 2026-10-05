@@ -12,9 +12,26 @@ import json
 import time
 from pathlib import Path
 from typing import Any
+from functools import wraps
+from core.runtime_files import file_lock, atomic_json
+from core.data_profile import file_hash
 
 
 MANIFEST_NAME = "manifest.json"
+
+
+def locked_manifest(function):
+    @wraps(function)
+    def wrapped(batch_root, *args, **kwargs):
+        with file_lock(Path(batch_root)/".manifest.lock"):
+            return function(batch_root, *args, **kwargs)
+    return wrapped
+
+
+def verify_input(data):
+    if data.get("input_sha256"):
+        if not data.get("input") or file_hash(data["input"]) != data["input_sha256"]:
+            raise ValueError("Batch input content changed; use a new batch")
 
 
 def manifest_path(batch_root: str | Path) -> Path:
@@ -39,12 +56,11 @@ def save_manifest(batch_root: str | Path, data: dict[str, Any]) -> Path:
     root.mkdir(parents=True, exist_ok=True)
     path = manifest_path(root)
     data["updated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
-    tmp = path.with_suffix(".tmp")
-    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    tmp.replace(path)
+    atomic_json(path, data)
     return path
 
 
+@locked_manifest
 def init_manifest(
     batch_root: str | Path,
     *,
@@ -65,12 +81,14 @@ def init_manifest(
 
     existing: dict[str, Any] = {}
     if not reinit:
-        try:
-            existing = load_manifest(batch_root)
-        except ValueError:
-            existing = {}
+        existing = load_manifest(batch_root)
 
     if existing and not reinit:
+        if (existing.get("category"), existing.get("source"), existing.get("batch")) != (category, source, batch):
+            raise ValueError("Batch identity changed; create a new batch instead of reusing prior stages")
+        if input_path and existing.get("input") and Path(input_path).resolve() != Path(existing["input"]).resolve():
+            raise ValueError("Input changed; create a new batch or explicitly reinit its manifest")
+        verify_input(existing)
         data = dict(existing)
         data["category"] = category
         data["source"] = source
@@ -97,9 +115,13 @@ def init_manifest(
         "stages": {},
         "deliver_path": "",
     }
+    if input_path and Path(input_path).is_file():
+        data["input"] = str(Path(input_path).resolve())
+        data["input_sha256"] = file_hash(input_path)
     return save_manifest(batch_root, data)
 
 
+@locked_manifest
 def update_stage(
     batch_root: str | Path,
     stage: str,
@@ -115,6 +137,7 @@ def update_stage(
         raise FileNotFoundError(
             f"无 manifest: {manifest_path(batch_root)}；请先 run_manifest.py init"
         )
+    verify_input(data)
     stages = data.setdefault("stages", {})
     prev = dict(stages.get(stage) or {})
     entry: dict[str, Any] = {

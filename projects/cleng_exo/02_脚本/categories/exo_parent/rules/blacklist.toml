@@ -1,0 +1,489 @@
+# Blacklist — exo 亲子互动（非亲子主题闸门）
+# v0.1.0: 共享硬噪声（游戏/MV/新闻/短剧/纯儿歌频道等）
+# v0.2.0: humen-亲子互动 金标（T721/F571）挖 certain-noise；收窄误杀 unboxing/workout；T_hurt=0
+# v0.3.0: keep 审计互斥串台（教会/游戏频道名/动画品牌/体育/绘本朗读等）；金标 T_hurt=0
+# v0.4.0: v0.5 验收 certain-noise + 纯 F 频道 channel_pass2；双金标 T_hurt=0
+# v0.5.0: mllr τ0596 keep 上 LLM text QC n1000 挖 F；人标∪本批 LLM-T 双闸 T_hurt=0
+# v0.6.0: n1000 残余 F 二次挖（Hartmann/DharMann/VRChat/教会崇拜等）；双闸 T_hurt=0
+# v0.7.0: v0.6 keep 再抽 n1000（seed=43）挖 F；双闸 T_hurt=0
+# v0.8.0: 金标∪689e6ee5 纯 F 频道 + title 闸门；T_hurt=0
+# v0.9.0: 全量金标剩余纯 F 频道 + title/channel 闸门；T_hurt=0
+# 禁止裸词 how to / tutorial / parenting / kids / family / haul / prank / unboxing / workout / games / reacts
+
+[meta]
+version = "0.9.0"
+category = "exo_parent"
+basis = "gold pure-F channels (residual) + title gates; T_hurt=0; 2026-09-24"
+
+
+
+# ── 游戏 / 模拟器 / 非真人 ──
+[[pass2]]
+category = "gameplay"
+pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|lets?\\s*play|valorant|gta\\s*[45v]?)\\b"
+
+[[pass2]]
+category = "genshin_game"
+pattern = "(?i)(原神|genshin\\s*impact|\\bgenshin\\b)"
+
+[[pass2]]
+category = "game_commentary"
+pattern = "(?i)(游戏解说|遊戲解說|游戏实况|遊戲實況|和平精英|吃鸡|#gaming)"
+
+[[pass2]]
+category = "generic_simulator"
+pattern = "(?i)\\b(flight\\s+simulator|truck\\s+simulator|farm(?:ing)?\\s*simulator|\\bfs22\\b|\\bfs25\\b|\\bsims\\s*4\\b|the\\s+sims)\\b"
+
+[[pass2]]
+category = "idle_game"
+pattern = "(?i)(\\bidle\\s+slayer\\b|#idleslayer\\b|among\\s+us|no\\s+mans?\\s+sky)"
+
+[[pass2]]
+category = "non_real_ai"
+pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake|cgi\\s*character)"
+
+# 纯幼儿节目/儿歌（无亲子互动实拍）
+[[pass2]]
+category = "nursery_pure_kids"
+pattern = "(?i)(cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song|baby\\s*shark|paw\\s*patrol|儿歌|动画片)"
+
+# ── 音乐 / 影视 / 新闻 / 综艺 ──
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
+
+[[pass2]]
+category = "instrumental_track"
+pattern = "(?i)original\\s+instrumental"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news|al\\s+jazeera|cctv\\s+video\\s+news|tvbs\\s*新聞|三立新聞|民視新聞|\\bsky\\s*news\\b)"
+
+[[pass2]]
+category = "tv_serial_episode"
+pattern = "(?i)(sun\\s+tv\\s+serial|tamil\\s+serial|full\\s+episode)"
+
+[[pass2]]
+category = "short_drama_film"
+pattern = "(?i)(短剧|#cdrama|完结文|恶毒女配|\\b爽文\\b|#重生|#末世|电影解说|電影解說|喜剧影片)"
+
+[[pass2]]
+category = "movie_clip_coming"
+pattern = "(?i)(movie\\s*clip|movieclips|coming\\s*soon|恐怖電影)"
+
+[[pass2]]
+category = "crime_patrol"
+pattern = "(?i)\\bcrime\\s+patrol\\b"
+
+[[pass2]]
+category = "kbs_2d1n"
+pattern = "(?i)2\\s*Days\\s*&\\s*1\\s*Night"
+
+[[pass2]]
+category = "edm_festival_live"
+pattern = "(?i)(live\\s+at\\s+luminosity|luminosity\\s+beach\\s+festival|演唱会|演唱會|动态歌词|動態歌詞)"
+
+[[pass2]]
+category = "asmr"
+pattern = "(?i)\\basmr\\b"
+
+[[pass2]]
+category = "podcast_interview"
+pattern = "(?i)(\\bpodcast\\b|talk\\s*show|late\\s*night\\s+with)"
+
+# ── 美妆 / 健身 / 非亲子劳作串台 ──
+[[pass2]]
+category = "beauty_makeup"
+pattern = "(?i)(\\bmakeup\\s*tutorial\\b|\\bgrwm\\b|get\\s+ready\\s+with\\s+me|\\bskincare\\s*routine\\b|美妆教程|bratz\\s*doll\\s*makeup|husband\\s*does\\s*my\\s*makeup)"
+
+[[pass2]]
+category = "fitness_workout"
+pattern = "(?i)(\\bgym\\s*vlog\\b|\\bhiit\\b|\\bcrossfit\\b|健身训练|胸肌|腹肌训练)"
+
+[[pass2]]
+category = "mukbang_recipe"
+pattern = "(?i)(\\bmukbang\\b|how\\s*to\\s*cook|\\brecipe\\b|#cooking\\b|viral\\s*tiktok\\s*cooking)"
+
+[[pass2]]
+category = "documentary_episode"
+pattern = "(?i)(\\bdocumentary\\b|national\\s+geographic|animal\\s+planet)"
+
+# ── v0.2.0：人标 F certain-noise（金标 T_hurt=0；去掉 labubu / bath&body 混标）──
+[[pass2]]
+category = "channel_noise_v02"
+pattern = "(?i)(glückspilz|glueckspilz|amor\\s*e\\s*terno|amoreterno|debinna\\s*decodes|gabiekook|국가비|russianplus|combo\\s*panda)"
+
+[[pass2]]
+category = "dating_couple_challenge"
+pattern = "(?i)(boyfriend\\s*cooks\\s*for\\s*girlfriend|best\\s*first\\s*date\\s*wins|boyfriend.{0,12}kiss\\s*challenge|calling\\s*my\\s*ex)"
+
+[[pass2]]
+category = "prank_noise_v02"
+pattern = "(?i)(fart\\s*spray\\s*prank|sticky\\s*note\\s*prank|broke\\s*into.{0,40}house)"
+
+[[pass2]]
+category = "haul_shop_noise"
+pattern = "(?i)(\\bcostco\\s*haul\\b|walmart\\s*grocery\\s*haul|five\\s*below\\s*haul)"
+
+[[pass2]]
+category = "diet_wieiad"
+pattern = "(?i)what\\s*i\\s*eat(\\s*in\\s*a\\s*day)?"
+
+[[pass2]]
+category = "game_lets_play"
+pattern = "(?i)(let.?s\\s*play\\s*with|super\\s*mario\\s*odyssey|nintendo.{0,30}gameplay)"
+
+[[pass2]]
+category = "reaction_music_noise"
+pattern = "(?i)(angelina\\s*jordan|backstreet\\s*boys).{0,50}reaction"
+
+[[pass2]]
+category = "misc_non_parent_v02"
+pattern = "(?i)(i.m\\s*pregnant.{0,30}24\\s*hours|selling\\s*my\\s*hair|livestream\\s*sellers|shell\\s*factory|share\\s*the\\s*mental\\s*load|hottest\\s*gummy|becoming\\s*that\\s*girl|boondocking|full\\s*time\\s*rv\\s*living|제왕절개|출산가방|mall\\s*of\\s*america|\\bwscxgp\\b|african\\s*village\\s*life|coca-cola\\s*labubu)"
+
+# ── v0.3.0：keep 主题审计 · 与人标 T 互斥（金标 T_hurt=0）──
+[[pass2]]
+category = "gaming_channel_v03"
+pattern = "(?i)(\\bgaming\\b|call\\s*of\\s*duty|asmongold|kinda\\s*funny(\\s*games)?|mario\\s*games|nintendo\\s*gamer|wolfe\\s*gaming|\\binsym\\b|steak\\s*vods|twitch\\s*vod)"
+
+[[pass2]]
+category = "church_sermon_v03"
+pattern = "(?i)(\\bchurch\\b|sermon|worship\\s*service|sunday\\s*service|aft\\s*church|family\\s*church)"
+
+[[pass2]]
+category = "cartoon_brand_v03"
+pattern = "(?i)(ben\\s*and\\s*holly|little\\s*kingdom|wildbrain|bright\\s*side|cocomelon|peppa\\s*pig|\\bbluey\\b|nursery\\s*rhyme|\\bsuperbook\\b|regular\\s*show)"
+
+[[pass2]]
+category = "sports_broadcast_v03"
+pattern = "(?i)(\\bnba\\b|\\bnfl\\b|\\bmlb\\b|ballertv)"
+
+[[pass2]]
+category = "read_aloud_v03"
+pattern = "(?i)(read\\s*aloud|\\bvooks\\b|bedtime\\s*story)"
+
+# ── v0.4.0：v0.5 验收 certain-noise（双金标 T_hurt=0；禁裸词 how to/tutorial/haul）──
+[[pass2]]
+category = "lego_build_v04"
+pattern = "(?i)(\\blego\\b|speed\\s*build)"
+
+[[pass2]]
+category = "preschool_song_v04"
+pattern = "(?i)(\\bpreschool\\b|children.?s\\s*song|music\\s*&\\s*movement\\s*for\\s*prescho)"
+
+[[pass2]]
+category = "karaoke_lyrics_v04"
+pattern = "(?i)(\\bkaraoke\\b|karaoke\\s*version|\\bsing\\s*king\\b)"
+
+[[pass2]]
+category = "light_show_v04"
+pattern = "(?i)(halloween\\s*)?light\\s*show"
+
+[[pass2]]
+category = "wrestle_v04"
+pattern = "(?i)(wrestl(?:ing|e)|pro\\s*wrestling|\\bwwe\\b|\\baew\\b|smackdown|wrestle\\s*chatter)"
+
+[[pass2]]
+category = "pet_daycare_v04"
+pattern = "(?i)(doggie\\s*daycare|dog\\s*daycare)"
+
+[[pass2]]
+category = "today_show_v04"
+pattern = "(?i)today\\s*show(\\s*australia)?"
+
+[[pass2]]
+category = "ministries_v04"
+pattern = "(?i)(\\bministr(?:y|ies)\\b|\\bprophet\\b|daily\\s*bible\\s*promise|my\\s*catholic\\s*life|feast\\s*of\\s*st\\.)"
+
+[[pass2]]
+category = "talent_voice_v04"
+pattern = "(?i)the\\s*voice\\s*(of\\s*\\w+|nepal|india|kids)"
+
+[[pass2]]
+category = "smash_bros_v04"
+pattern = "(?i)(smash\\s*bros|super\\s*smash)"
+
+[[pass2]]
+category = "nursery_entertain_v04"
+pattern = "(?i)(\\bthe\\s*wiggles\\b|\\bwiggles\\b|talking\\s*angela|talking\\s*tom|coloring\\s*(pages?|book)|colouring\\s*(pages?|book)|learn\\s*fruit\\s*names|moon\\s*star\\s*kids|moonstar\\s*kids|children\\s*fun\\s*factory|goldilocks\\s*and\\s*the\\s*three\\s*bears)"
+
+[[pass2]]
+category = "hard_news_v04"
+pattern = "(?i)(\\bcourt\\s*tv\\b|60\\s*minutes|heritage\\s*foundation|cultural\\s*marxism|tamil\\s*galatta\\s*news|\\bhajj\\b|saudi\\s*expatriates|king\\s*charles|dan\\s*wootton|\\babdication\\b)"
+
+[[pass2]]
+category = "old_time_radio_v04"
+pattern = "(?i)(old\\s*time\\s*radio|great\\s*gildersleeve)"
+
+[[pass2]]
+category = "howto_draw_v04"
+pattern = "(?i)how\\s*(to\\s*)?draw\\b"
+
+[[pass2]]
+category = "pj_masks_game_v04"
+pattern = "(?i)(pj\\s*masks|nintendo\\s*switch\\s*game)"
+
+[[pass2]]
+category = "adult_comedy_ch_v04"
+pattern = "(?i)(sturniolo\\s*triplets|mcjuggernuggets|jesse\\s*ridgway|dobre\\s*brothers|kindly\\s*keyin)"
+
+[[pass2]]
+category = "wildlife_rescue_v04"
+pattern = "(?i)(baby\\s*otter|otter\\s*rescue|otter\\s*garden|\\bthe\\s*dodo\\b)"
+
+[[pass2]]
+category = "youth_sports_fit_v04"
+pattern = "(?i)(youth\\s*baseball|best\\s*exercises\\s*for\\s*children|between\\s*the\\s*lines\\s*-?\\s*baseball)"
+
+[[pass2]]
+category = "zee_telugu_v04"
+pattern = "(?i)zee\\s*telugu|zee\\s*tv"
+
+[[pass2]]
+category = "jennifer_hudson_v04"
+pattern = "(?i)jennifer\\s*hudson\\s*show"
+
+[[pass2]]
+category = "game_therapist_v04"
+pattern = "(?i)game\\s*therapist"
+
+[[pass2]]
+category = "birthday_status_v04"
+pattern = "(?i)birthday\\s*status|happy\\s*birthday\\s+\\w+.{0,40}birthday\\s*song"
+
+[[pass2]]
+category = "twin_flames_v04"
+pattern = "(?i)twin\\s*flames"
+
+# ── v0.5.0：mllr0596 n1000 LLM-F certain-noise（人标∪LLM-T 双闸 T_hurt=0）──
+[[pass2]]
+category = "cartoon_franchise_v05"
+pattern = "(?i)(\\bthomas\\s*(?:and|&)\\s*friends\\b|\\bloud\\s*house\\b|\\blion\\s*guard\\b|magic\\s*school\\s*bus|\\boddbods\\b|\\bminibods\\b|busy\\s*beavers|goo\\s*goo\\s*(?:colors|friends)|roma\\s*(?:and|&)\\s*diana|kids\\s*roma\\s*show|\\bnelvana\\b|peter\\s*cottontail|barbie\\s*(?:doll|sisters)|play\\s*doh|fantasystarkids|groovy\\s*the\\s*martian|kids\\s*cartoons?|fun\\s*color\\s*learning\\s*for\\s*toddlers|learn\\s*colors?\\s*song|learn\\s*colors?.{0,20}abc|abc\\s*song\\s*for\\s*children|giant\\s*surprise\\s*eggs)"
+
+[[pass2]]
+category = "kids_game_channel_v05"
+pattern = "(?i)(games?\\s*4\\s*kids|thegamingbeaver|gaming\\s*beaver|\\bbedwars\\b|rainbow\\s*six\\s*siege|weekend\\s*wizard|furious\\s*jumper|\\byotricks\\b|super\\s*mario\\s*(?:bros|kart|party|maker|64|galaxy|world)?|mario\\s*(?:kart|party|maker)\\b|\\bpiggy\\s*story\\b|dexter\\s*playz|maple\\s*donut|silviogamer|zoochosis|starter\\s*pok[eé]mon|evolution\\s*of\\s*.{0,20}pok[eé]mon|\\bnintendo\\s*unity\\b)"
+
+[[pass2]]
+category = "church_mass_prayer_v05"
+pattern = "(?i)(daily\\s*tv\\s*mass|\\btv\\s*mass\\b|\\bholy\\s*mass\\b|\\bapostle\\s+[A-Za-z]|daily\\s*effective\\s*prayer|zion\\s*prayer|ascension\\s*presents|holyfamilyvideo|holy\\s*family\\s*video|god\\s*fearing\\s*man|risen\\s*king|prayers?\\s*of\\s*transformation|raising\\s*atheist\\s*children|\\bprayer\\s*for\\b|\\bpray(?:ing)?\\s*for\\s+(?:unsaved|you\\b)|\\bhomily\\b|monday\\s*devotions?|father\\s*treviante|\\bmfva\\b|gospel\\s*for\\s*kids)"
+
+[[pass2]]
+category = "news_talk_politics_v05"
+pattern = "(?i)(\\bcnn\\s*10\\b|nancy\\s*grace|jared\\s*(?:and|&)\\s*katie\\s*in\\s*the\\s*morning|lessons?\\s*in\\s*meme\\s*culture|white\\s*house\\s*on\\s*the\\s*hill|\\bnpr\\s*news\\b|\\btimes\\s*now\\b|supreme\\s*court\\s*refuses|sapulpa\\s*times|\\bnetanyahu\\b)"
+
+[[pass2]]
+category = "nfl_browns_v05"
+pattern = "(?i)cleveland\\s*browns"
+
+[[pass2]]
+category = "short_drama_full_v05"
+pattern = "(?i)(【\\s*FULL\\s*】|\\[\\s*FULL\\s*\\]|family\\s*revenge\\s*archive|comeback:\\s*spoiled|spoiled\\s*by\\s*my\\s*three\\s*brothers)"
+
+[[pass2]]
+category = "heal_reiki_v05"
+pattern = "(?i)(\\breiki\\b|sound\\s*healers?)"
+
+[[pass2]]
+category = "school_named_v05"
+pattern = "(?i)(park\\s*lane\\s*primary\\s*school|vinmeen\\s*icse|royal\\s*crown\\s*school|poetry\\s*middle\\s*school|middle\\s*school\\s*lessons?|international\\s*house\\s*london|young\\s*learners\\s*-\\s*learn\\s*english)"
+
+[[pass2]]
+category = "misc_f_noise_v05"
+pattern = "(?i)(keishaun\\s*haynes|\\bdeestroying\\b|that\\s*vegan\\s*teacher|mink\\s*lashes|topo\\s*ranger|theme\\s*parks?\\s*and\\s*attractions|birthday\\s*tv\\b|monkey\\s*update|redsdeadbaby|outdoor\\s*play\\s*pros|kid'?s?\\s*king\\s*boys|eunoia\\s*kids|magic\\s*activity\\s*-\\s*kids\\s*learning|littlexloves|exploring\\s*with\\s*angelo|avelovinit|\\bzxmany\\b|son\\s*of\\s*harold|eli\\s*esparza|bhoot\\s*bandhus|revenge\\s*body|e!\\s*entertainment|khlo[eé]\\s*kardashian|haunted\\s*doll|demonic\\s*encounter|sam\\s*and\\s*colby|paternity\\s*court|youtube\\s*monetization|pediatric\\s*physical\\s*therapy|girl\\s*with\\s*the\\s*dogs|hello\\s*saturday|你好,?\\s*星期六|\\bneymar\\s*jr\\b|vince\\s*staples|abandoned\\s*amusement\\s*parks?|giving\\s*away\\s*the\\s*kids|sacconejolys)"
+
+# ── v0.6.0：n1000 残余 F（filt 后仍在；双闸 T_hurt=0；未收裸词 reacts）──
+[[pass2]]
+category = "kids_music_count_v06"
+pattern = "(?i)(jack\\s*hartmann|yo\\s*re\\s*mi|kids\\s*yoga|katie.?s\\s*music\\s*studio|happy\\s*time\\s*kids\\s*time)"
+
+[[pass2]]
+category = "moral_drama_studio_v06"
+pattern = "(?i)(dhar\\s*mann|dreamheart\\s*stories|longevia\\s*health|tio\\s*tonio|the\\s*storyteller\\s*son|pretend\\s*we.?re\\s*engaged|steal\\s*his\\s*.{0,10}trust|missed\\s*my\\s*son.?s\\s*funeral|brekete\\s*family)"
+
+[[pass2]]
+category = "gaming_leftover_v06"
+pattern = "(?i)(\\baphmau\\b|cobeyblox|bat\\s*speakerman|skibidi|\\bvrchat\\b|funtime\\s*foxy|spring\\s*bonnie|glamrock\\s*chica|clockmaker|match\\s*three\\s*games)"
+
+[[pass2]]
+category = "church_leftover_v06"
+pattern = "(?i)(calvary\\s*chapel|through\\s*the\\s*bible|family\\s*worship|praying\\s*future\\s*parents|jesse\\s*lee\\s*peterson|cornerstone\\s*family\\s*worship)"
+
+[[pass2]]
+category = "cartoon_leftover_v06"
+pattern = "(?i)(fairly\\s*odd\\s*parents|simon\\s*super\\s*rabbit|discovery\\s*kids|tiny\\s*tales)"
+
+[[pass2]]
+category = "misc_f_noise_v06"
+pattern = "(?i)(casey\\s*neistat|caseyneistat|banana\\s*ball|this\\s*week\\s*in\\s*queer|queer\\s*history|jessii\\s*vee|toddler\\s*hairstyles?|ponies\\s*into\\s*twists|brain\\s*development\\s*hub|prowalk\\s*tv|acrobatic\\s*lion\\s*dance|parents\\s*pride\\s*public\\s*school|annual\\s*sports\\s*20|quarantine\\s*kids|colt\\s*clark|marty\\s*threeshoe|couples?\\s*dance\\s*off|montana\\s*(?:and|&)\\s*ryan|xl\\s*bullyz|american\\s*bully\\s*puppy|gen\\s*halilintar|gaston\\s*county\\s*schools|bus\\s*safety\\s*upgrades|krusty\\s*krab|tal_on|jake\\s*webber|cara\\s*(?:and|&)\\s*prez\\s*reacts|simple\\s*birthday\\s*cakes|clay\\s*modelling|clay\\s*crafts|lion\\s*sculpting\\s*with\\s*clay|king\\s*henry\\s*rn|chiddy\\s*bang|kanye\\s*west\\s*booed|40\\s*year\\s*old\\s*boy|raising\\s*muslim\\s*kids|jazza.?s\\s*vlog)"
+
+# ── v0.7.0：v0.6 keep 再抽 n1000（seed=43）F 挖规则（双闸 T_hurt=0）──
+[[pass2]]
+category = "gaming_streamer_v07"
+pattern = "(?i)(kubz\\s*scouts|smusagames|gamerbrother|dormant\\s*volcano\\s*games|play\\s*nintendo|@playnintendo|\\bcaseoh\\b|andrewschrock|\\bnick\\s*pro\\b|\\bstumpt\\b|\\bgrubby\\b|\\brtgame\\b|thank\\s*goodness\\s*you.?re\\s*here|patriot\\s*games)"
+
+[[pass2]]
+category = "kids_cartoon_ch_v07"
+pattern = "(?i)(disney\\s*jr\\.?|disney\\s*junior|\\bwb\\s*kids\\b|billion\\s*surprise\\s*toys|moolt\\s*kids|happy\\s*bear|toon\\s*mania|turbozaurs|english\\s*learning\\s*cartoons|vrj\\s*animations|tsum\\s*tsum|plush\\s*time\\s*wins|winnie\\s*the\\s*pooh\\s*carnival|kimmi\\s*the\\s*clown|kitty\\s*games\\s*jyoti)"
+
+[[pass2]]
+category = "news_talk_ent_v07"
+pattern = "(?i)(\\bdivine\\s*uk\\b|wear\\s*channel\\s*3\\s*news|channel\\s*3\\s*news|megyn\\s*kelly|cbs\\s*pittsburgh|abs-?cbn\\s*entertainment|alex\\s*meyers|little\\s*big\\s*shots|steve\\s*harvey)"
+
+[[pass2]]
+category = "church_faith_v07"
+pattern = "(?i)(divine\\s*mercy\\s*konkani|charismatic\\s*group|prodigal\\s*son\\s*has\\s*returned|day\\s*0?\\d+\\s*—\\s*genesis|awkwardly\\s*beautiful|byuradio)"
+
+[[pass2]]
+category = "drama_recap_v07"
+pattern = "(?i)(the\\s*rose\\s*kingdom|rosebud\\s*drama|seagull\\s*drama|romantic\\s*fangirl\\s*recaps|most\\s*powerful\\s*magician|storyvelle\\s*studio)"
+
+[[pass2]]
+category = "misc_f_noise_v07"
+pattern = "(?i)(flying\\s*beast|relaxing\\s*reality|super\\s*siah|yellow\\s*dude|gabe\\s*poirot|nephilim|tanganyika\\s*wildlife|don.?s\\s*family\\s*vacations|passenger\\s*goes\\s*overboard|outdoor\\s*adventure\\s*club|weekend\\s*warrior\\s*family|new\\s*heights|gotham\\s*chess|whitney\\s*simmons|booty\\s*building|growingannanas|frogstand|jomboy\\s*media|dead-?ball\\s*era\\s*baseball|elementary\\s*math\\s*with\\s*mr\\.?\\s*j|domingo\\s*savio\\s*bilingual\\s*school|the\\s*android\\s*family|bb9e\\s*toy|matt\\s*slays|only\\s*ate\\s*baby\\s*food|triplets?\\s*ghetto\\s*kids|ghetto\\s*kids\\s*dancing|baby\\s*girl\\s*names\\s*i\\s*love|easter\\s*party\\s*games\\s*for\\s*kids|indoor\\s*games\\s*for\\s*kids\\s*at\\s*home|harry\\s*potter\\s*tiktoks|raising\\s*meat\\s*rabbits|good\\s*simple\\s*living|baby\\s*monkey\\s*lala|pets\\s*are\\s*best\\s*friends|thorpe\\s*park|walk\\s*with\\s*me\\s*tim|brock\\s*and\\s*boston|who\\s*has\\s*had\\s*their\\s*first\\s*kiss)"
+
+
+# ═══════════════════════════════════════════════════════
+# channel_pass2 — v0.4 金标纯 F 频道（n_t=0；剔除旧金标曾出现 T 的 3 个）
+# 清单: rules/channel_blacklist_pure_f_v05.csv
+# 匹配: 仅 channel 列整串；勿加 (?i)
+# ═══════════════════════════════════════════════════════
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_01"
+pattern = "^(?:2K\\ Empire\\ Family|60\\ Minutes|ACI\\ GameSpot|ADARSH\\ BHARTI\\ \\ FAMILY|Abiola\\ Orisile\\ Events\\&Parties\\ TV|AdEvans\\ Human\\ Knowledge|Aliza|Alizeh\\ Jamali|All\\ Ears\\ English|American\\ Radio\\ Rewind|Ana\\ Harrison|Angelazz|Art\\ Land|AustrianBrickFan|Awesome\\ Kids\\ Games\\ TV|BABY\\ A\\ GAMES|Backstage\\ Dad|Ballislife|Basanti\\ family\\ vlogs|Bedtime\\ Stories\\ with\\ Mr\\ Jim|BerryJam\\ Kids|Between\\ The\\ Lines\\ \\-\\ Baseball\\ Intelligence\\ Bureau|Big\\ Happy\\ Family\\~\\ the\\ Ewings|Birthday\\ Status\\ Official|Bobby\\ Wilson\\ Fun\\ Faith\\ Family\\ Music|Bonfire\\ Sports\\ Winnipeg|Bostick\\ Family\\ Light\\ Show|British\\ International\\ School\\ of\\ Boston|Brodon\\ Joseph|Bubble\\ Tubble|COURT\\ TV|Chad\\ Wild\\ Clay|CheriEbooks\\ \\-\\ Kids\\ Learning|Children\\ Fun\\ Factory|Christ’s\\ Commission\\ Fellowship)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_02"
+pattern = "^(?:Chulbul\\ Chautala|CinePals|Clean\\ Up\\ Free|Coach\\ Corey\\ Martin|CoupleChaosGaming|Curious\\ Learners\\ Preschool\\ \\&\\ Childcare,\\ Pune|DAM\\ Family|Daisy’s\\ Doggie\\ Daycare|Dan\\ Wootton\\ Outspoken|Danni\\ \\&\\ The\\ Kids|Danny\\ Aarons|Darbin\\ Orvar|DayByDay\\ Vlogs|Deanna\\ Foster|Disney\\ Mom\\ Life|Dobre\\ Brothers|Dominic\\ Barry|Donald\\ Moore|Draw\\ So\\ Cute|Dude\\ Dad|Dudi\\ Dance|Ellis\\ Ever\\ After|Emma\\ and\\ Ellie's\\ Family|Family\\ Fun\\ PAOLO|Family\\ fun\\ Games|Final\\ Cosmic|FirstCry\\ Parenting|Fix\\ and\\ Play|For\\ the\\ Love\\ of\\ Gabe|Funny\\ Son\\ Sachin|GAME\\ THERAPIST|GHOne\\ TV|Gary\\ And\\ Stacey\\ Family\\ Vlog|Gymfloormusix|HIMediaTV\\ 2)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_03"
+pattern = "^(?:Hareeswari\\ Lokesh|Harmony\\ Horsemanship\\ and\\ Country\\ Mom\\ Chaos|Hiji\\ Biji\\ Art|Himachali\\ mom\\ studio|Hodge\\ Twins|Homeschool\\ Connections|INDIRA\\ KALISTHA|Ishita\\ Sam\\ family\\ vlog|Israel365\\ News|JD|Jacky\\ Scott|Jennifer\\ Hudson\\ Show|Jesse\\ Ridgway\\ \\(McJuggerNuggets\\)|Joe\\ C|John\\ Wesly\\ Ministries|Johny\\ Shows|Jordan\\ Budgets|Kiara\\ Paris|Kindly\\ Keyin|Kongthup's\\ Channel|Learning\\ at\\ Home!|Lemonade\\ Stand|Life\\ As\\ Nique|Life\\ of\\ Dad|Little\\ Chapters|Little\\ Sports|Living\\ and\\ Travelling\\ With\\ Kids|Logan\\ Paul|LosPlug|Luclin\\ Family|MPS\\ Hariyali\\ Village\\ CBSE\\ Vikhroli|Manny\\ Mua|Margdarshan\\ kids\\ play\\ school\\(lalapur,kudra\\)|McAdam\\ Family\\ Memories|Meet\\ Kevin)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_04"
+pattern = "^(?:Micah\\ XIII|Miranda\\ Sings|Miss\\ Blue\\ Diary|Miss\\ Nina\\ \\-\\ Music\\ \\&\\ Movement\\ for\\ Preschool|Mojo\\ in\\ the\\ Morning|Mom\\ Hoa's\\ Otter\\ Garden|Montessori\\ for\\ Babies|Moon\\ Star\\ Kids|Morphle\\ TV|Muslim\\ Life\\ Abroad|My\\ Catholic\\ Life!|My\\ Parents'\\ Basement\\ Sessions|MyronGainesX|NELK|NewsRamp|Niti\\ Taylor|OfficialTsquadTV|Out\\ on\\ the\\ Ranch\\ \\(with\\ Dr\\.\\ Lee\\)|P\\.\\ J\\.\\ STEPHEN\\ PAUL|Parenting\\ with\\ Sunil\\ \\&\\ Surabhi|Parents\\ Help|Parker\\ Clayton\\ Smith|Pastor\\ John\\ Anosike|Paul\\ Day|PlayToys|Prince\\ John|ProGuides\\ Super\\ Smash\\ Bros\\ Ultimate\\ Tips|Quang\\ Tran|Rainbow\\ Playtime|Rainiers\\ Family|Raising\\ Kids\\ Positively|Rajanikanth85|Read\\ Kids|Reel\\-Time|Reference\\ preference)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_05"
+pattern = "^(?:Resurrection\\ Life\\ Family|Rijk\\ Hofman|Rishanka\\ Jones|Roland\\ S\\.\\ Martin|SAB's\\ WORLD|SANTHIDAM\\ BETHANIA\\ MATRICULATION\\ SCHOOL|Sailing\\ La\\ Vagabonde|Saini\\ Family\\ Vlogs\\ Uttarakhand|Santa\\ Cruz\\ Medicinals|Saudi\\ Expatriates|Sheet\\ Music\\ Boss|Sidd's\\ Adventure|Sign\\ Language\\ Worship|Silent\\ Life|Sing\\ King|Singalo\\ Kids\\ \\-\\ Fun,\\ Games\\ \\&\\ Learning🏆|Sky\\ Sports\\ Boxing|Sleepy\\ Time\\ Stories|Snow\\ Dogs\\ Vlogs|Socks\\ Live|Solo\\ Parent\\ Stories|Spartan\\ News\\ Network|Steel\\ Drama|Sturniolo\\ Triplets|Suburbbaby\\ Live|Sudhy|TDubsKid|TODAY|Tamil\\ Galatta\\ News|That\\ Deaf\\ Dad|The\\ Asher\\ Family|The\\ Bible\\ Recap|The\\ Clash\\ Teens|The\\ Combat\\ Dad\\ Saga|The\\ Dodo)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_06"
+pattern = "^(?:The\\ Heritage\\ Foundation|The\\ Hogan\\ Kids!|The\\ Kakande\\ Ministries|The\\ Lawrence\\ Garden\\ Farm|The\\ LeRoys|The\\ Live\\ Out\\ Loud\\ Family|The\\ Nerdy\\ Homeschooler|The\\ Roamer\\ Amit|The\\ Royal\\ Family|The\\ Royal\\ Family\\ Channel|The\\ Stella\\ Show|The\\ Voice\\ of\\ Nepal|The\\ Wiggles|TheEngineeringFamily|This\\ Is\\ How\\ We\\ Bingham|Tiana|Welyn\\ Mores|Wholesomekids|Why\\ Authors\\ Write|Widowed\\ Mom\\ Raising\\ 2\\ Sons|WildWorldWonder|Will\\ Productions|Witty\\ Bonita|World\\ Illuminator11|Wrestle\\ Chatter|Zee\\ Telugu|family\\ is\\ life\\ Every\\ day\\.|jacksepticeye|life\\ with\\ zani\\ family|lil'\\ monkey\\ media|†\\ the\\ nora\\ and\\ lills\\ \\(quit\\)\\ †|尘缘)$"
+
+# ── v0.5 text QC n1000 纯 F 频道（n>=2；人标T/LLM-T 频道未出现）──
+
+[[channel_pass2]]
+category = "textqc_n1000_pure_f_ch_01"
+pattern = "^(?:Cleveland\\ Browns|TheGamingBeaver|Toys\\ And\\ Funny\\ Kids\\ Play\\ Doh\\ Cartoons|Daily\\ TV\\ Mass|Top\\ Best\\ Games\\ 4\\ Kids|Best\\ Games\\ 4\\ Kids|Keishaun\\ Haynes\\ The\\ 15\\ Years\\ Old\\ Kid\\ Bx\\ K\\ Man\\ 5RH3|REACT|White\\ House\\ on\\ the\\ Hill|Nancy\\ Grace|The\\ Sound\\ Healers|Park\\ Lane\\ Primary\\ School|Apostle\\ Kathryn\\ Krick|The\\ Cincinnati\\ Zoo\\ \\&\\ Botanical\\ Garden|Weekend\\ Wizard\\ \\-\\ Analog\\ Games\\ Channel|Eunoia\\ Kids|Exploring\\ With\\ Angelo|Lessons\\ in\\ Meme\\ Culture|Furious\\ Jumper|Magic\\ Activity\\ \\-\\ Kids\\ Learning\\ Adventures|littlexloves|ZION\\ Prayer\\ House|Avelovinit|Bhoot\\ Bandhus|Vinmeen\\ Icse\\ School|Kid's\\ King\\ Boys|HolyFamilyVideo|Raising\\ Atheist\\ Children|RedsDeadBaby|ZXMany|Monkey\\ Update|The\\ Son\\ of\\ Harold|Topo\\ Ranger|Outdoor\\ Play\\ Pros|Theme\\ Parks\\ And\\ Attractions)$"
+
+[[channel_pass2]]
+category = "textqc_n1000_pure_f_ch_02"
+pattern = "^(?:Ascension\\ Presents|Eli\\ esparza\\ official|Birthday\\ TV|YoTricks|CNN\\ 10|Deestroying|DFBGuide|Happy\\ Tails\\ Daycare\\ Adventures|Behold\\ Eva\\ \\&\\ Her\\ Minions|Jabs\\ Family|Zion\\ Prayer\\ Movement\\ Outreach|Jared\\ and\\ Katie\\ in\\ the\\ Morning|AmazingFacts|Family\\ Feud|Royal\\ Crown\\ School)$"
+
+# ── v0.7 text QC v06 n1000 纯 F 频道（n>=2；人标T/LLM-T 未出现）──
+
+[[channel_pass2]]
+category = "textqc_v06_n1000_pure_f_ch_01"
+pattern = "^(?:Divine\\ UK|The\\ Rose\\ Kingdom!\\ All\\ Who\\ Enter\\ is\\ Royal\\ Too\\.|Flying\\ Beast|Disney\\ Jr\\.|Kubz\\ Scouts|WEAR\\ Channel\\ 3\\ News|Relaxing\\ Reality|Super\\ Siah|Megyn\\ Kelly|Alex\\ Meyers|Patriot\\ Games|Domingo\\ Savio\\ Bilingual\\ School|BYUradio|Elementary\\ Math\\ with\\ Mr\\.\\ J|AndrewSchrock|WeekEnd\\ \\ Warrior\\ Family|Gabe\\ Poirot|CBS\\ Pittsburgh|Outdoor\\ Adventure\\ Club|Stumpt|New\\ Heights|Play\\ Nintendo|Prodigal\\ Son\\ has\\ returned|Tanganyika\\ Wildlife\\ Park|Moolt\\ Kids\\ Toons\\ Happy\\ Bear|Rosebud\\ Drama|WB\\ Kids|Nick\\ Pro|Seagull\\ Drama|Yellow\\ Dude)$"
+
+[[channel_pass2]]
+category = "textqc_v06_n1000_pure_f_ch_02"
+pattern = "^(?:Don's\\ Family\\ Vacations|ABS\\-CBN\\ Entertainment|SmusaGames|GamerBrother|Dormant\\ Volcano\\ Games|Divine\\ Mercy\\ Konkani\\ Charismatic\\ Group\\ Bandra\\ East|Grubby|Kitty\\ games\\ Jyoti\\ creation|Billion\\ Surprise\\ Toys|CaseOh|Plush\\ Time\\ Wins|Rio\\ Jones\\ Photography|ShawnMHowell)$"
+
+# ── v0.8 金标扩纯 F 频道（含 689e6ee5；T_hurt=0）──
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v08_01"
+pattern = "^(?:글룩스필츠\\ GlücksPilz|AMOR\\ ETERNO|Allisa\\ Rose|Debinna\\ Decodes|RussianPlus|국가비\\ GabieKook|Baby\\ Vlog寶寶日記|Being\\ UK\\ \\ Family\\ Vlog|Bhumi\\ Village\\ VLOGS|Big\\ Big\\ Family\\ in\\ the\\ USA|Chennai\\ to\\ Lagos|Combo\\ Panda|Cute\\ baby\\ &\\ mom\\ vlog|Games\\ N\\ Kidz|ORU\\ REAL\\ LIFE|PRINCE\\ RANJANA\\ \\ AND\\ MOM|Petsak\\ vlogs|Vidyu\\ Vlogs|agrace932|simply\\ rhaze|tetatelugu04|올리버쌤|캐나다\\ 구서방\\ Ku\\ In\\ Canada|1980sGamer|6Menit|Afripost|AllAroundAudrey|Ankit\\ Dave|Arcadius\\ Kul|Backseat\\ Trivia\\ Rumble|Boopanpankids|Butterfield\\ Books|Cali\\ Sade|Come\\ Play\\ With\\ Me|Come\\ To\\ Village\\ \\(கிராமத்துக்கு\\ வாங்க\\))$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v08_02"
+pattern = "^(?:Dhar\\ Mann\\ Studios|DulzuraSHORT|Emma\\ Hubbard|EvanTubeHD|ForEverAndForAva|GEN\\ HALILINTAR|IdeaVerse|International\\ Talent\\ Academy|KIDS\\ ZONE\\ TV\\ RHYMES|Kazaburka\\ Games|Kelly\\ Strack|Klem\\ Family|Kolmårdens\\ Djurpark|Kuyumeᥫ᭡ᜊ|LadBaby|Lejuan\\ James|Little\\ Gurukul|Lucky\\ Smart\\ Hub|MK\\ V|Marina\\ Kaye|Mimi\\ and\\ Daddy\\ -\\ Kids\\ Songs\\ and\\ Cartoons|MindYourDecisions|NBC\\ News|NewScapePro\\ 3\\ -\\ Fortnite\\ Shorts,\\ Films\\ &\\ Skits!|Newsmax|Ninja\\ Kidz\\ TV|Noob\\ Parents|Paul\\ Wilson|Paul\\ and\\ Shannon's\\ Collector\\ Corner|Power\\ of\\ Humans|Psych2Go|PunToon\\ Kids\\ -\\ English|Quirky\\ Quota|Quiz\\ Kingdom|Quiz\\ Monk)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v08_03"
+pattern = "^(?:ROCK\\ SQUAD|RonaldOMG|Royalty\\ Gaming\\ Top\\ Videos|Shaivee's\\ beautiful\\ world|Sign\\ Post\\ Kids|Simple\\ Dad|Stacey\\ Knows|Super\\ Gaming\\ Family|Super\\ Senya|SurpriseFunTV|The\\ BEFORE\\ Framework™\\ with\\ Toley\\ Ranz™|The\\ Perihelion\\ 0-\\(\\^_\\^0\\)|ToysGuruCool|Triple\\ S\\ Games|WCPO\\ 9|Wanderers\\ Hub|YouTube\\ Girl|bethany\\ tucker|qovicxx|rio\\ the\\ wizard)$"
+
+
+# ── v0.8 title 闸门（全量金标 T_hurt=0）──
+
+[[pass2]]
+category = "meal_prep_v08"
+pattern = "(?i)\\bmeal\\s+prep\\b"
+
+[[pass2]]
+category = "ryan_toysreview_v08"
+pattern = "(?i)\\bryan\\s*toys?\\s*review\\b|\\bryan'?s\\s+world\\b"
+
+[[pass2]]
+category = "sunday_reset_v08"
+pattern = "(?i)\\bsunday\\s+reset\\b"
+
+[[pass2]]
+category = "what_i_eat_v08"
+pattern = "(?i)\\bwhat\\s+i\\s+eat\\b|\\bwhat\\s+eat\\b"
+
+[[pass2]]
+category = "lets_play_explicit_v08"
+pattern = "(?i)\\blet'?s\\s+play\\b"
+
+
+# ── v0.9 金标剩余纯 F 频道（T_hurt=0）──
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_01"
+pattern = "^(?:\\&TEAM|26kishanth\\ Family|@@Nikhil\\ Mom\\ Vlogs\\ @@|A\\ Heart\\ for\\ Home\\ Education|AR\\ family\\ fun|Abhi\\ Rasmi\\ Family\\ Vlogs|Abreu\\ Family\\ Vlog|African\\ village\\ life|Aisha\\ Ba|Amader\\ Jiban|Andrea\\ Rhoades|Anissahera\\ \\|\\ Healer\\ \\&\\ Life\\ Coach|Ansh\\ malik\\ family\\ vlog|Apsara_Mom|Aryan\\ mom\\ vlog|Ashley\\ Sandrine\\ Yap|Asian\\ single\\ mom|Asima\\ \\ sahoo\\ \\ family\\ vlog:|Atinuke\\ Sikiru|BANGLADESHI\\ MOM\\ VLOG|BPD\\ Mom\\ And\\ Kids|Baby\\ Bihari\\ Vlog|BabyChouFamily|Bags\\ Packed\\ Family|Baljit\\ Raghbir\\ Family\\ Vlog|Bandita\\ \\&\\ mother's\\ vlog|Bassi\\ Family|Behind\\ The\\ Mask\\ Family\\ Vlogs|Beth\\ \\&\\ Jamarl|Bhatti\\ family\\ vlog)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_02"
+pattern = "^(?:Bobbi\\ Althoff|Bong\\ Mom\\ Canvas\\ Lifestyle\\ vlog|Brompton\\ Family\\ Time|Catch\\ Life\\ with\\ Bhumi\\ M|Cecilia\\ Blomdahl|Chiaki|Child\\ Care\\ Answers|Christy\\ Gior|Cleosha|Cody\\ Kaiser|Cooking\\ Pey\\ Ly|Country\\ Living\\ Diary\\ Life|Cute\\ family\\ vlog|DADDY\\-\\ CHAD\\ \\ VLOG|DAILY\\ TIKA\\ WEIXUN\\ DI\\ CHINA|DD\\ Vlogs\\ UNCUT|Daily\\ Life\\ \\ Family|Daily\\ Life\\ With\\ Pinky\\ Banerjee|Daunydew\\ 다우니듀|Den\\ vlog|Deol\\ Family\\ Vlogs|Dhara\\ Family\\ Vlog|Dhruv\\ Anjana\\ Vlogs|DiLaik\\ Ke\\ Vlogs|Diana\\ and\\ Roma\\ EN\\ Collection|Diana\\ y\\ Roma\\ en\\ español|Dona\\ Thapa|Dr\\ Justin\\ Coulson's\\ Happy\\ Families|Dr\\.\\ Pam\\ Turner|Durga\\ gandhi)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_03"
+pattern = "^(?:Earls\\ Family\\ Vlogs|Everyday\\ Mom\\ Life|FAMILY\\ SRITHAPTHAI|FINDING\\ JALIYAH|Fab\\ and\\ Ell|Family\\ 4\\ Real|Family\\ Box\\ VLOG|Family\\ Farm|Family\\ Life\\ in\\ Rural\\ Ukraine|Family\\ Memories|Family\\ Trend\\ Hub\\ ⭐|Family\\ blog\\ video|Fil\\ British\\ family\\ vlogs|Foodie\\ JD\\ Vlogs|Foreign\\ Ki\\ Duniya|Frugal\\ Fit\\ Mom|GOOD\\ FAMILY\\ LOVE\\ TV01|Ganesh\\ Kini\\ Konkani\\ Vlogs|Get\\ Fit\\ with\\ SiGo|Giggle\\ And\\ Grow\\ Child\\ Care|Gladish|Greesh\\ Bhatt\\ \\&\\ Family|Gus\\ the\\ Gummy\\ Gator|HOME\\ SWEET\\ HOME|Happy\\ Family\\ Project|Happy\\ Family\\ in\\ CANADA|Happy\\ Family\\ vlog\\ 172|Happy\\ Home|Happy\\ Home\\ with\\ Neeta|Happy\\ family\\ fun\\ 😊)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_04"
+pattern = "^(?:Happy\\ family\\ 💝😀|Happy's\\ Family|HappyFamilyhao|Hard\\ work\\ BoyzZ|Hassanfamilyvlogs|Head\\ start\\ parenting|Hippie\\ Bri|Homeschool\\ Journey\\ 101|Honner\\ Family\\ Fun\\.\\ Like\\ Share\\ \\&\\ Subscribe!!!!|House\\ of\\ Keke|Ilyan|Indian\\ Mom\\ On\\ Duty|Irhan's\\ family\\ vlog|J\\ Jay's\\ Lifestyle\\ 💫|JAV0N|JStu|Jan\\ as\\ Mom\\ Vlogs|Jeanette's\\ World|Jeff\\ \\&\\ Lori’s\\ Road\\ trip\\ adventures|Jen\\ Chapin|Jerry\\ Ke\\ Vlogs|Jones\\ Family\\ Travels|Kausilya\\ patel\\ family\\ vlog\\ video|Kelly\\ Thao\\ Vlogs|Kids'\\ Perspective\\ Family\\ Travel|Kimmy\\ family\\ vlog|King\\ Zippy|Kristen\\ Kasper|Lakhneet\\ Vlogs|Liezl\\ Jayne\\ Strydom)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_05"
+pattern = "^(?:Life\\ Up\\ MoM|Life\\ in\\ the\\ Mundane|Life\\ with\\ Janesha|Life\\ with\\ son|Little\\ Happy\\ Mom|Little\\ star\\ family\\ vlogs|Living\\ In\\ The\\ Mom\\ Lane|Llama\\ Mama\\ Kayla|Look\\ Who's\\ Blogging|LovelyMimi|Ly\\ Thi\\ Hoa|Lý\\ Thị\\ Coi|M\\ S\\ FAMILY|M\\&K\\ Family\\ Vlogs|MARIE'S\\ LIFE\\ VLOGS\\ \\&\\ MYSTERIES|Maple\\ and\\ Kimchi\\ Family\\ Adventures|Marvelous\\ Wildlife|Mayur\\ Bansi\\ Family\\ Vlog|Meli\\ Mel|MiMi\\ Family\\ Vlog|MinksFamily\\ Vlogs|Mom\\ Life\\ with\\ Heshi|Mom\\ life\\ with\\ Gourish_Krisha|Mom's\\ \\ busy\\ life|Mom's\\ Life\\ with\\ Daughter|Mom's\\ Nest\\ 2023|Mom's\\ urmi|Mom's\\-daybook\\ by\\ Mumthas\\ Rayis|Mommy\\ Jo\\ \\&\\ Vera|Mommy\\ Shar's\\ Diary)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_06"
+pattern = "^(?:Mommy\\ and\\ Daddy\\ Moments|Morning\\ Good\\ With\\ Keval\\ Bhalani|My\\ Midwest\\ Mom\\ Life|My7m0nkeys\\ \\-\\ Aussie\\ Family|Nagarkoti's\\ family\\ vlog|Nailed\\ it!\\ Home,\\ tools\\ and\\ outdoors|Neha\\ Ashish\\ Tiwari|Neha\\ devi\\ real\\ vlogs|Nickie\\ \\|\\ Blessed\\ Homeschool\\ Mess|Nicole\\ Laeno|Nikki's\\ Family\\ vlog\\.\\.\\.\\.🙂🙂|Njangal\\ Inganokkeya|Nneamaka\\ Ileche\\ Tv|Nông\\ pè\\ single\\ mom|OUR\\ FAMILY\\ OXFORD\\ INTERNATIONAL\\ SCHOOL|OrdinaryEnglishMum|Our\\ Oily\\ House|OurLifeHomeschooling|Palakshi's\\ \\ Every\\ Day\\ \\ Vlog|Parenting\\ With\\ Mental\\ Illness\\ \\-\\ Linette|Parenting\\ hub2|Parenting\\ to\\ Go|Parents\\ Gopu|Pari's\\ lifestyle\\ Vlogs|Paris\\ The\\ Kid|Pau\\ and\\ Don|Plan\\ Pack\\ Go|Punjabi\\ Batth\\ Family|RK\\ Family\\ Vlogs|Rachel\\ at\\ day2dayjoys)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_07"
+pattern = "^(?:Railway\\ Family\\ Vlogs|Raja\\ Vlogs|Rajneesh\\ Thakur\\ Vlogs|Ramish\\ family\\ vlogs\\ •\\ 11M\\ views\\ •24\\ hours\\ \\ \\ \\ \\ \\ \\.\\.\\.|Rana\\ Family\\ Vlogs|Ranger\\(رانگھڑ\\)\\ family\\ vlog|RaoulDuke504|Reset\\ Your\\ Journey|Reshmi\\ Baby\\ Vlog\\ \\ •\\ 15M\\ views\\ •\\ 1\\ days\\ ago|Rising\\ Parent|Roshens\\ Vlog|RozyAshVeer|Rudra\\ \\&\\ MOM|Rymation|SS\\ Happy\\ Family\\ Vlogs|SUKRIYA\\ AND\\ KOSAR|Safwan\\ Shanaya\\ family\\ Vlog|Sapna\\ Manohar|Secret\\ Mom\\ Hacks\\ with\\ Krista\\ Dykes|Semra's\\ Life\\ Vlog|Shan\\ Alexi|ShivayAndMom|Shiven\\ mom\\ rishu\\ simple\\ life\\ vlogger|Shravi\\ Life\\ in\\ Abroad|Shuba\\ Vlogs|So\\ Helena\\ \\&\\ Martyn|Sonal's\\ Vlogs|Sonalishelakevlogs|Soni\\ family\\ vlog\\ 👪|Squirmy\\ and\\ Grubs)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_08"
+pattern = "^(?:Stuart\\ \\&\\ Francis|Sugai\\ Family\\ Vlog|Suman\\ family\\ vlogs|SumanTV\\ Children's\\ Life|SumanTV\\ Mom's|Surbhi\\ Ka\\ Sansar\\(vlogs\\)|Susan\\ and\\ Nyima|Tanisha\\ chi\\ Family\\ Vlog|Tenney\\ Plants|The\\ Bradley\\ Bunch|The\\ CR\\ Family|The\\ Caspers\\ Family|The\\ Cheezy\\ Family|The\\ Family\\ Fudge|The\\ Family\\ Rules|The\\ Family\\ Tour|The\\ Guiao\\ Family|The\\ Healthy\\ Maven|The\\ Hulbert\\ Family\\ Hobby\\ Farm|The\\ Ingham\\ Family|The\\ Misha\\ Family|The\\ Moore\\ The\\ Merrier\\ Vlogs|The\\ National\\ Parents\\ Union|The\\ Radford\\ Family|The\\ TJM\\ Family|The\\ Tannall\\ Family|The\\ Ultimate\\ Family\\ Fun|Trieu\\ Thu\\ \\-\\ Single\\ mom|TwinKle\\ Couple|Umar\\ Hareem\\ and\\ Daddy)$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_09"
+pattern = "^(?:Umro\\ Family\\ Vlogs|Village\\ Ki\\ Lifestyle\\ \\~Vlog|Village\\ life\\ with\\ Family\\ vlog|Vrindavan\\ family\\ Vlog|Waseem\\ Kids\\ Vlog|WeAreOcampo|WillKissDoIt|Worldflow\\ Family|Yazzie\\ Family\\ Vlogs|Yo\\ Mama|Yoopa\\ Rebe|Yopki\\ \\-\\ Travel\\ Planning\\ App\\ \\|\\ Itinerary\\ Templates|Your\\ Parenting\\ Mojo|ZLivingPositive|ananya\\ mom\\ life|emilyOandbows|isti\\ ve\\ musab|j\\ \\&\\ j\\ vlogs|kwn|lachildrensmuseum|samar\\ family\\ vlog|saritha\\ family\\ vlogs\\ 143|selvaviji2021|tiya\\ \\&\\ mom\\ vlogs|yoovlog|かぷちの夫婦|くるトーク【フランス生活🇫🇷】|毛毛一家在奥地利|田纳西Jay和Ari|가은아\\ 뭐하니\\ \\[\\ KANI,\\ 蟹ちゃん\\])$"
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v09_10"
+pattern = "^(?:거누파파네\\ Dog\\ family|꼬만꼬만\\ COMANCOMAN|박수홍\\ 행복해다홍|준호말고준호|혜진쓰\\ Hyejin's|𝐬𝐮𝐛𝐡𝐢\\ 𝐥𝐢𝐟𝐞\\ 𝐯𝐥𝐨𝐠🌺)$"
+
+# ── v0.9 title 闸门（T_hurt=0）──
+
+[[pass2]]
+category = "makeup_grwm_v09"
+pattern = "(?i)\\b(?:makeup\\s+tutorial|skincare\\s+routine|get\\s+ready\\s+with\\s+me|\\bgrwm\\b)\\b"
+
+[[pass2]]
+category = "karaoke_sing_v09"
+pattern = "(?i)\\b(?:karaoke|sing\\s+along\\s+lyrics)\\b"
+
+[[pass2]]
+category = "theme_park_named_v09"
+pattern = "(?i)\\b(?:hershey\\s+park|disneyland\\s+paris)\\b"
