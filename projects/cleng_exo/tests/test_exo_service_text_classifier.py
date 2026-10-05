@@ -16,7 +16,7 @@ def _write_qc(path: Path, rows: list[dict[str, str]]) -> None:
     pd.DataFrame(rows).to_csv(path, index=False, encoding="utf-8-sig")
 
 
-def test_build_text_uses_title_and_description_not_keyword():
+def test_build_text_uses_title_only_not_keyword():
     row = pd.Series({
         "title": "Barber working on shift",
         "description": "Fade in the chair",
@@ -24,7 +24,8 @@ def test_build_text_uses_title_and_description_not_keyword():
         "keyword": "污染采集词",
     })
     text = clf.build_text(row)
-    assert text == "Barber working on shift Fade in the chair"
+    assert text == "Barber working on shift"
+    assert "Fade in the chair" not in text
     assert "污染采集词" not in text
     assert "Shop Floor" not in text
 
@@ -151,6 +152,8 @@ def test_train_and_calibrate_writes_model_without_error_rows(tmp_path: Path):
     assert result["n_u"] == 1
     assert model.is_file()
     assert calib.is_file()
-    assert result["feature_fields"] == ["title", "description"]
+    assert result["feature_fields"] == ["title"]
     assert "keyword" not in result["feature_fields"]
+    assert "description" not in result["feature_fields"]
+    assert "channel" not in result["feature_fields"]
 

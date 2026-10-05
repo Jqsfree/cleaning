@@ -1,4 +1,4 @@
-#!/home/jqs/miniconda3/envs/data_cleaning/bin/python
+#!/usr/bin/env python3
 """
 02_clean.py — 规则清洗：对基表应用黑/白名单规则
 

@@ -1,65 +1,134 @@
-# Blacklist — exo 医疗实验（certain-noise only）
-# 约定: 只丢标题/频道上可确定的噪声；U/中间带勿进 pass2
-# 硬约束：非真人（游戏/动画/AI/CGI/VTuber）标题能确定则 drop
-# 2026-08-14: v0.3 严禁非真人；只丢确定不是 exo 医疗的标题
+# Blacklist — exo 医疗实验（非医疗实验主题闸门 / certain-noise）
+# 口径：只丢与「实验室实操/实验演示」无关的确定串台；
+#       细菌培养/切片染色/ELISA 等实操不进黑名单；禁止裸词 lab/experiment/tutorial/lecture。
+# v0.4.0: PDF + R2人工F + text QC 270（旧机采）
+# v0.5.0: 医疗实验_merged_0920 主题审计 — 频道闸 + 政治/影视/考证MCQ/养生/修车等增量
 
 [meta]
-version = "0.4.0"
+version = "0.5.0"
 category = "exo_medical"
-basis = "PDF exo medical-experiment + R2人工F题材桶(adjacent/admin) + text QC 270"
+basis = "医疗实验_merged_0920 topic audit; keep=lab experiment hands-on; no gold yet"
 
-[[pass2]]
-category = "exam_study_guide"
-pattern = "(?i)(online\\s*study\\s*guide|study\\s*guide|\\bccma\\b|\\brma\\b|\\bnclex\\b|\\bati\\s*teas\\b|\\bneet\\s*(pg|ug|\\d+)|\\bnha\\s*cpt\\b|medical\\s*assistant\\s*certification|exam\\s*prep|exam\\s*guide|practice\\s*test\\s*questions?|how\\s*to\\s*pass\\s*(the\\s*)?(ccma|rma|nclex))"
+# ── 高密度纯串台频道（本池观测；channel 列 exact）──
+[[channel_pass2]]
+category = "politics_news_ch"
+pattern = "(?i)^(MeidasTouch|Sky News|Globy News|KCRA 3)$"
 
-[[pass2]]
-category = "lecture_webinar_course"
-pattern = "(?i)(\\bwebinar\\b|\\bonline\\s*course\\b|full\\s*course\\b|lecture\\s*\\d+|recorded\\s*lecture|powerpoint\\s*(presentation|lecture)|\\bppt\\s*lecture)"
+[[channel_pass2]]
+category = "talk_show_podcast_ch"
+pattern = "(?i)^(Armchair Expert with Dax Shepard|Jimmy Kimmel Live|Andrew Huberman|TEDx Talks|Public Health On Call|Big Think|The Ramsey Show Highlights)$"
 
-[[pass2]]
-category = "talking_head_interview"
-pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night|q\\s*&\\s*a\\s*with|ask\\s*me\\s*anything|\\bama\\b\\s*:)"
+[[channel_pass2]]
+category = "movie_music_ch"
+pattern = "(?i)^(Cinema Epoch|MedicineBank Records|sonicstate)$"
 
-[[pass2]]
-category = "news_hard"
-pattern = "(?i)(\\babc\\s*news\\b|\\bbbc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|eyewitness\\s*news|breaking\\s*news|news\\s*conference)"
+[[channel_pass2]]
+category = "exam_career_ch"
+pattern = "(?i)^(Unacademy Live - NEET PG|Last Minute Lecture|Med School Survival Guide|Mehlmanmedical|Medicosis Perfectionalis)$"
 
+[[channel_pass2]]
+category = "wellness_finance_game_ch"
+pattern = "(?i)^(Dr\\. Eric Berg DC|Caleb Hammer|jacksepticeye)$"
+
+[[channel_pass2]]
+category = "offtopic_hobby_ch"
+pattern = "(?i)^(Trash Bin Cleaners Direct Owner Dan Swede|Fran Blanche|telugu car review)$"
+
+# ── 游戏 / 动画 / 非真人 ──
 [[pass2]]
 category = "gaming_animation"
-pattern = "(?i)(\\bgameplay\\b|lets?\\s*play|\\bminecraft\\b|\\bfortnite\\b|\\broblox\\b|\\bgta\\s*[45v]\\b|cities\\s*skylines|game\\s*grumps|\\banime\\b|\\bcartoon\\b|3d\\s*animation|cgi\\b)"
-
-[[pass2]]
-category = "music_mv_trailer"
-pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|music\\s*video|lyrics\\s*video|official\\s*trailer|teaser\\s*trailer)"
-
-[[pass2]]
-category = "screen_recording_paper"
-pattern = "(?i)(screen\\s*recording|paper\\s*explanation|reading\\s*research\\s*paper|pdf\\s*explained)"
-
-[[pass2]]
-category = "beauty_cooking_unbox"
-pattern = "(?i)(\\bmukbang\\b|recipe\\s*tutorial|unboxing|haul\\b|skincare\\s*routine|makeup\\s*tutorial)"
+pattern = "(?i)(\\bgameplay\\b|lets?\\s*play|\\bminecraft\\b|\\bfortnite\\b|\\broblox\\b|\\bgta\\s*[45v]\\b|cities\\s*skylines|game\\s*grumps|\\banime\\b|\\bcartoon\\b|3d\\s*animation|cgi\\b|hyper\\s*light\\s*drifter|jacksepticeye)"
 
 [[pass2]]
 category = "non_real_ai_virtual"
 pattern = "(?i)(ai\\s*generated|#ai\\b|midjourney|\\bsora\\b|runway\\s*ml|deepfake|\\bvtuber\\b|virtual\\s*youtuber|hololive|ai\\s*short\\s*drama|cgi\\s*character|3d\\s*virtual)"
 
 [[pass2]]
-category = "vlog_not_exo"
-pattern = "(?i)\\bvlog\\b"
+category = "ai_short_drama"
+pattern = "(?i)(\\[/?ai\\s*drama\\]|ai\\s*drama|reborn as |rural girl bump|人人嘲笑他是|短剧|#cdrama)"
 
 [[pass2]]
-category = "ai_short_drama"
-pattern = "(?i)(\\[/?ai\\s*drama\\]|ai\\s*drama|reborn as |rural girl bump|人人嘲笑他是)"
+category = "kids_song"
+pattern = "(?i)(alphabet song|nursery\\s*rhymes?|abc\\s*train\\s*baby|cocomelon|peppa\\s*pig|儿歌)"
+
+# ── 音乐 / 影视 ──
+[[pass2]]
+category = "music_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|music\\s*video|lyrics?\\s*video|official\\s*trailer|teaser\\s*trailer)"
+
+[[pass2]]
+category = "full_movie_cinema"
+pattern = "(?i)(full\\s+(movie|film|thriller|vigilante)|cinema\\s*epoch|movie\\s*clip|coming\\s*soon)"
+
+# ── 政治 / 硬新闻 ──
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\babc\\s*news\\b|\\bbbc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|eyewitness\\s*news|breaking\\s*news|news\\s*conference|\\bsky\\s*news\\b|meidastouch)"
+
+[[pass2]]
+category = "politics_talk"
+pattern = "(?i)(\\btrump\\b|\\bbiden\\b|gets?\\s*sued|holds?\\s*news)"
+
+# ── 口播 / 播客 / 脱口秀（非实验实操）──
+[[pass2]]
+category = "talking_head_interview"
+pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night|q\\s*&\\s*a\\s*with|ask\\s*me\\s*anything|\\bama\\b\\s*:|armchair\\s*expert|jimmy\\s*kimmel|huberman\\s*lab|tedx\\s*talks)"
+
+[[pass2]]
+category = "vlog_not_exo"
+pattern = "(?i)\\bvlog\\b"
 
 [[pass2]]
 category = "asmr_not_hands"
 pattern = "(?i)\\basmr\\b"
 
 [[pass2]]
-category = "kids_song"
-pattern = "(?i)(alphabet song|nursery\\s*rhymes?|abc\\s*train\\s*baby)"
+category = "day_in_life_pediatrics"
+pattern = "(?i)(day\\s*in\\s*the\\s*life|kids\\s*story\\s*about)"
 
+# ── 考证 / 网课 / 纯理论口播（非动手实验）──
+[[pass2]]
+category = "exam_study_guide"
+pattern = "(?i)(online\\s*study\\s*guide|study\\s*guide|\\bccma\\b|\\brma\\b|\\bnclex\\b|\\bati\\s*teas\\b|\\bneet\\s*(pg|ug|\\d+)|\\bnha\\s*cpt\\b|medical\\s*assistant\\s*certification|exam\\s*prep|exam\\s*guide|practice\\s*test\\s*questions?|how\\s*to\\s*pass\\s*(the\\s*)?(ccma|rma|nclex)|\\bmcqs?\\b|\\busmle\\b|\\bnorcet\\b|\\baiims\\b\\s*(norcet)?)"
+
+[[pass2]]
+category = "lecture_webinar_course"
+pattern = "(?i)(\\bwebinar\\b|\\bonline\\s*course\\b|full\\s*course\\b|lecture\\s*\\d+|recorded\\s*lecture|powerpoint\\s*(presentation|lecture)|\\bppt\\s*lecture|last\\s*minute\\s*lecture)"
+
+[[pass2]]
+category = "screen_recording_paper"
+pattern = "(?i)(screen\\s*recording|paper\\s*explanation|reading\\s*research\\s*paper|pdf\\s*explained)"
+
+# ── 跨品类串台（烹饪/美妆/健身/修车/收纳/艺术）──
+[[pass2]]
+category = "beauty_cooking_unbox"
+pattern = "(?i)(\\bmukbang\\b|recipe\\s*tutorial|unboxing|haul\\b|skincare\\s*routine|makeup\\s*tutorial)"
+
+[[pass2]]
+category = "fitness_wellness_talk"
+pattern = "(?i)(lose\\s*weight|keto\\s*diet|\\bworkout\\b|\\bfitness\\b|dr\\.\\s*eric\\s*berg|mental\\s*health\\s+and\\s+lose)"
+
+[[pass2]]
+category = "finance_money_talk"
+pattern = "(?i)(caleb\\s*hammer|ramsey\\s*show|make\\s*money\\s*online|zero\\s*investment|personal\\s*finance)"
+
+[[pass2]]
+category = "car_repair_hobby"
+pattern = "(?i)(car\\s*review|foam\\s*washer|auto\\s*repair|\\bmechanic\\b)"
+
+[[pass2]]
+category = "art_craft_diy"
+pattern = "(?i)(encaustic\\s*art|rubber\\s*stamping|infographic\\s*slide\\s*in\\s*powerpoint)"
+
+[[pass2]]
+category = "school_plant_demo"
+pattern = "(?i)(photosynthesis\\s+in\\s+leaf|magnetic\\s+effect\\s+on\\s+plants)"
+
+[[pass2]]
+category = "trash_electronics_hobby"
+pattern = "(?i)(trash\\s*bin\\s*cleaners|fran\\s*blanche)"
+
+# ── 旧版医疗旁支（非实验实操 / 设备营销口播）──
 [[pass2]]
 category = "cpap_sleep_device"
 pattern = "(?i)(\\bcpap\\b|\\bbipap\\b|resmed|fisher\\s*(and|&)?\\s*paykel|sleep\\s*apnea\\s*mask|compliance\\s*data\\s*on\\s*the\\s*resmed)"
@@ -79,10 +148,6 @@ pattern = "(?i)(gait\\s*analysis|custom\\s*orthotic|pain\\s*and\\s*injury\\s*cli
 [[pass2]]
 category = "hospice_admin_flow"
 pattern = "(?i)(hospice\\s*(admission|referral)|referral\\s*process)"
-
-[[pass2]]
-category = "day_in_life_pediatrics"
-pattern = "(?i)(day\\s*in\\s*the\\s*life|kids\\s*story\\s*about)"
 
 [[pass2]]
 category = "dental_monitoring_product"

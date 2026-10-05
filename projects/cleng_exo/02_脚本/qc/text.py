@@ -1,4 +1,4 @@
-#!/home/jqs/miniconda3/envs/data_cleaning/bin/python
+#!/usr/bin/env python3
 """
 chunk_text_qc.py — 文本 LLM 质检（统一版）
 
@@ -11,7 +11,14 @@ chunk_text_qc.py — 文本 LLM 质检（统一版）
   python3 chunk_text_qc.py input.csv --category language_teaching --dry-run
 """
 
-import sys, os, time, json, argparse, random, shutil, tomllib, signal, threading
+from __future__ import annotations
+
+import sys, os, time, json, argparse, random, shutil, signal, threading
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11
+    import tomli as tomllib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
@@ -31,21 +38,27 @@ except ImportError:
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from core.adaptive_api import AdaptiveConcurrencyGate
+from core.dotenv_load import load_project_env
 from core.io import resolve_output_dir
 from core.progress import ThrottledProgress
 from core.sop import write_run_log
 
+load_project_env()
 
 # ══════════════════════════════════════════════════════════════
 # 配置
 # ══════════════════════════════════════════════════════════════
 
-DEFAULT_MODEL    = "qwen-plus"
+DEFAULT_MODEL    = os.getenv("DASHSCOPE_MODEL", "qwen-plus")
 DEFAULT_WORKERS  = 32
 CHECKPOINT_EVERY = 200           # 检查点行数间隔
 CHECKPOINT_SECS  = 60            # 检查点时间间隔（秒）
 MAX_RETRIES      = 3
-API_BASE_URL     = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+# 默认北京共享域；香港 Key 在仓库根 `.env` 设 DASHSCOPE_BASE_URL
+API_BASE_URL     = os.getenv(
+    "DASHSCOPE_BASE_URL",
+    "https://dashscope.aliyuncs.com/compatible-mode/v1",
+).rstrip("/")
 
 _CATEGORIES_DIR = Path(__file__).resolve().parent.parent / "categories"
 

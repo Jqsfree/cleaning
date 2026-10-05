@@ -22,6 +22,7 @@ from types import ModuleType
 
 _PIPE = Path(__file__).resolve().parent
 _ROOT = _PIPE.parent
+_TOOLS = _ROOT / "tools"
 sys.path.insert(0, str(_ROOT))
 
 from core.batch_layout import looks_like_batch_root  # noqa: E402
@@ -34,7 +35,7 @@ from core.run_manifest import init_manifest, load_manifest, update_stage  # noqa
 from core.provenance import build_provenance  # noqa: E402
 
 QUALITY_PY = _PIPE / "01_quality.py"
-SAMPLE_PY = _PIPE / "03_sample.py"
+SAMPLE_PY = _TOOLS / "batch_ops" / "sample_qc.py"
 CLEAN_PY = _PIPE / "02_clean.py"
 TEXT_QC_PY = _PIPE.parent / "qc" / "text.py"
 
@@ -175,7 +176,7 @@ def cmd_run(args) -> None:
             input_path=args.input or "",
         )
     except Exception as e:
-        log(f"manifest init: {e}", level="WARN")
+        raise SystemExit(f"[ERROR] manifest init: {e}") from e
 
     for i, sid in enumerate(order):
         if i > stop_at:
@@ -302,6 +303,28 @@ def _run_clean(root: Path, category: str, source: str, args, st: dict) -> None:
 
 
 def _run_deliver(root: Path, category: str, source: str, recipe: dict, st: dict, args) -> None:
+    # Metadata exo publication uses the exact frozen human-accepted round.
+    if category.startswith("exo"):
+        from core.metadata_acceptance import frozen_manifest, release_round
+        accepted = getattr(args, "accepted_round", None)
+        if not accepted:
+            raise SystemExit("[ERROR] exo deliver requires --accepted-round; quality/keep filename fallback is disabled")
+        candidate = frozen_manifest(accepted)
+        if candidate["category"] != category:
+            raise SystemExit("[ERROR] Accepted round belongs to another category")
+        batch_meta = load_manifest(root)
+        if not batch_meta.get("input"):
+            raise SystemExit("[ERROR] Register the exact batch input before exo delivery; prefer pipeline/metadata.py publish")
+        if batch_meta.get("input"):
+            from core.data_profile import file_hash
+            if file_hash(batch_meta["input"]) != candidate["input_sha256"]:
+                raise SystemExit("[ERROR] Accepted round belongs to another input snapshot")
+        dest = root / "07_deliver" / ("text_" + candidate["candidate_id"][:16])
+        release = release_round(accepted, dest)
+        update_stage(root, "deliver", paths={"deliver":str(dest/"data.csv"),"release":str(dest/"release.json")},
+                     stats=release, deliver_path=str(dest/"data.csv"))
+        log(f"deliver → {dest}")
+        return
     tool = st.get("tool") or "copy_keep"
     ddir = root / "07_deliver"
     ddir.mkdir(parents=True, exist_ok=True)
@@ -366,6 +389,7 @@ def main() -> None:
     add_batch(p_run)
     p_run.add_argument("--upto", required=True, help="quality|sample|clean|deliver|…")
     p_run.add_argument("--input", default="", help="raw / clean 输入")
+    p_run.add_argument("--accepted-round", type=Path, help="exo: exact independently accepted topic round")
     p_run.add_argument(
         "--sample-n", type=int, default=None,
         help="固定样本量（指定则不用公式）；默认按 --sample-confidence 计算",

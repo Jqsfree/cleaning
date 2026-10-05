@@ -1,0 +1,123 @@
+# Blacklist — exo_团队协作 · 网球（非团队协作闸门）
+# 口径：保留双打/混双/团体及跨球类团队协作（羽球双打、匹克球、乒乓双打等）；
+# 丢：单打、舞蹈、电竞、爬取污染（篮球/Madden 挂在网球 keyword 下）、全 F 串台频道。
+# v0.1–v0.2: 网球独占 → 收回，团队协作都保留
+# v0.3–v0.6: 舞蹈扩规则
+# v0.7.0: +电竞双打串台（ProBrawlhalla / BRAWLHALLA ESPORTS）
+# v0.8.0: 人标 团队网球1_daff0db4（T29/F77）→ 全 F 串台频道 + 单打句式扩 + 篮足等污染
+# v0.9.0: 人标 团队网球2_7d01acf6（τ≥0.7 分层抽样 T123/F132）→ +67 全 F 频道
+#         未整频道拉黑 AO/Wimbledon/United Cup/Hobart/Tennis Channel 等大台（F 多为单打）
+#         验证：gold2+gold1 T_hurt=0
+# v0.9.1: 拉黑 @Olympics（库内频道名 Olympic Games / Olympics；多项目污染）
+# v1.0.1: +olympic_any_ch——频道名含 olympic 一律拉黑（2026-09-24 指令）
+#         覆盖 9 个漏网频道（Kerala Olympic / Olympics Aquatics / olympicsingapore2010 等 22 行）；
+#         ⚠ 已知代价：Kerala Olympic 14 行为真羽毛球（All Kerala Sub Junior Ranking 双打决赛）
+# v1.0.0: 人标 团队网球3.1_fc6078e0（T172/F66）→ +35 全 F 频道
+#         未拉黑：World Tennis / One Sports / UW Athletics / Tennis Channel 等旧金标有 T
+#         全 F keyword（Davis Cup doubles 等）与排球/足球/NBA 污染混挂 → 不做 keyword 闸门
+
+[meta]
+version = "1.0.1"
+category = "exo_团队协作"
+sport = "tennis"
+basis = "human 团队网球3.1_fc6078e0 (T172/F66); +35 all_f_ch; +olympic_any_ch; 2026-09-24"
+
+# ── 电竞串台（Brawlhalla 双打联赛，句式像球类 doubles）──
+[[channel_pass2]]
+category = "esports_ch"
+pattern = "(?i)^(ProBrawlhalla|BRAWLHALLA ESPORTS)$"
+
+# ── 纯娱乐/非运动串台频道（非团队球类）──
+[[channel_pass2]]
+category = "cartoon_misc_ch"
+pattern = "(?i)^(Being Uk comedy cartoon|The Royalty Family|Loud Speaker|Sony SAB|Jersey Shore|Saregama Dice \\(TV Shows\\) Tamil|Sri Sri)$"
+
+# ── 纯舞蹈频道（团队玩法但非球类）──
+[[channel_pass2]]
+category = "dance_ch"
+pattern = "(?i)^(Bitgoeul Dancers|Dance India Dance|StarDanceVideo|Random Dance Videos|Dancekool Studios|dancesctv|dancemika|Funtodancewith|LorettaBellydance3|Crossover Dance Studios|Egils Smagris|Oleg Astakhov|Dance Doctor|Mr\\. Mambo's Salsa Social|World DanceSport Federation|DANCESPORT\\.RU|REFITREV)$"
+
+# ── 人标全 F 串台频道（n_t=0；不含 US Open/WTA/Wimbledon 等会出双打的大台）──
+[[channel_pass2]]
+category = "gold_pure_f_ch_0922"
+pattern = "(?i)^(Winamax Sport|Mindgames|WenTaoBruce Li|Colorado Jugger|D A R T S|Juanjo Futbolín Madrid|Chris Smoove|Underdogs Gaming|FLIP TRENDZ|DragonMMAAcademy|MahaloSports|GMA News|StaxMontana|Evin Gualberto|Tokyo Table Soccer TV|Scottish Rugby|Games With Names|TwoSetViolin|Roberto Leal|Daily Sports Connect|運動部 Taiwan Sports|Voo de Mar)$"
+
+# ── 团队网球2 全 F 频道（n_t=0；已剔除大台与 gold1 有 T 的 Tennis World - ATP CH）──
+[[channel_pass2]]
+category = "all_f_ch_tennis2_0923"
+pattern = "(?i)^(2MinuteTennis|A\\.S\\ Evry\\ les\\ Coyotes\\ Baby\\-foot\\ club|ANTIER|Badminton\\ Fundamentals|Badminton\\ Oceania|Ballislife|Bob\\ Dog|Brian\\ Hoops|BrownswickBowling|Cafe\\ Cafe\\ Backgammon|Chalkdust\\ WTA\\ Tennis|Childress\\ Giles|Classic\\ Tennis\\ With\\ The\\ Maltese\\ Cat|Cracked\\ Racquets|Esportes\\-Virtuais\\-RS|Fusion\\ Fighting\\ Championship|HeroGamer319|Howell3|IRF\\ TV\\ \\-\\ International\\ Racquetball\\ Federation|Jackson\\ Television\\ \\-\\ JTV|Jamie\\ Owen!|Just\\ Tennis\\ Channel\\ 2|Karrre\\ Gamers|King\\ of\\ the\\ Palace\\ \\-\\ Candlepin\\ Bowling|Klipper\\ USA|LEAGUES\\.football|LIGA\\ BBVA\\ MX|Local\\ Tennis\\ Players|MegaTK1979|Mokokchung\\ Channel\\ TV|Mrnevertalks|Mx\\ Tennis|Mèo\\ bò\\ sữa|Ocakema\\ Inar|Over\\ Head\\ Tennis|PTV\\ Philippines|PeppeOnTheNet|PertSnergleman\\ ™️|Petanque\\ Australia|Philippine\\ Table\\ Tennis\\ Federation,\\ Inc\\.|Racket\\ Sports\\ Tokyo\\ /\\ RST|Ryan\\ Boz|Ryder\\ Cup|SCREAM|SamTennisVids|Southern\\ Cross\\ Gold\\ Consolidated|Sports\\ Corner\\ PH|Sports\\ Game\\ Mode|Sports\\ Honor|Sportsensation2|Super\\ Mario\\ Party\\ Games\\ All\\ Characters|Super\\ Shorts|TFJumps|TK\\ Tennis|Talking\\ Tennis|Tennis\\ All\\ Time\\ Greats|Tennis\\ Spin|TennisBasics|TennisHeartbeat|Turkish\\ TV\\ Series\\ Full\\ Episode|YOUKU\\ English\\-Get\\ APP\\ now|bosoares|comedy\\ super|elenarybakina_fan_page|jacktennis25|neoracquetball|tennis\\ videos)$"
+
+# ── @Olympics（youtube.com/@Olympics；库内常见频道名 Olympic Games / Olympics）──
+[[channel_pass2]]
+category = "olympics_official_ch"
+pattern = "(?i)^(Olympics|Olympic Games)$"
+
+# ── 频道名含 olympic 一律拉黑（v1.0.1；覆盖 Kerala Olympic / Olympics Aquatics 等漏网频道）──
+[[channel_pass2]]
+category = "olympic_any_ch"
+pattern = "(?i)olympic"
+
+# ── 团队网球3.1 全 F 频道（n_t=0；剔除旧金标有 T 的大台/综合台）──
+[[channel_pass2]]
+category = "all_f_ch_tennis31_0923"
+pattern = "(?i)^(Around\\ Sydney|Austin\\ Conlon|Bad\\ Pickleball|Baddie\\ Paddies|Ben\\ Morris|Chao\\ Zhu|Chatchai\\ Ratiwatana|China\\ in\\ Focus\\ \\-\\ NTD|CueballTV|Daily\\ Tennis\\ Lesson|England|FC\\ Noah|FirstRace\\ TV|HARD\\ 2\\ HANDLE\\ SPORTS|HouseDoctorZ\\ Studio's|International\\ Cheer\\ Union|Intuition\\ Hoops\\ Two|LakePoint\\ Sports|MLB|Mark\\ Alan|Memphis\\ Tigers\\ Athletics|Nepal\\ Australs\\ 2021|One\\ News\\ PH|Open\\ Court\\ \\(All\\ the\\ tennis\\ you\\ need\\)|Paralympic\\ Games|SCACsports|Snowman\\ Sports\\ Media|StokkeTennis|The\\ Cabanting\\ Squad|The\\ Emirates\\ FA\\ Cup|United\\ States\\ Tennis\\ Association\\ \\(USTA\\)|antonia412|emonwitdacamera|funchumm|janus770)\\s*$"
+
+# ── 单打（含「Player vs Player Full Match | Round」句式，无 doubles 字样）──
+[[pass2]]
+category = "singles"
+pattern = "(?i)(\\b(men'?s|women'?s)\\s+singles?\\b|\\bsingles?\\s+(final|sf|qf|r\\d|match|championship|highlight)|单打|.+\\s+vs\\.?\\s+.+\\s+(Full\\s*Match|Extended\\s*Highlights|Match\\s*Highlights).*\\b(Round|Final|R\\d|Open)\\b)"
+
+# ── 舞蹈演出（团队玩法但非球类；含裸词 dance，勿匹配 Dancevic 之类姓氏）──
+[[pass2]]
+category = "dance_performance"
+pattern = "(?i)(danc(ed|e|es|ing|in|er|ers)\\b|dancesport|dance[\\s_]*(performance|video|battle|studio|song|cover|challenge|fitness|masters|sport|nationals|competition|showcase|crew|academy|routine|kool|hall)|dancestry|bellyfolk|choreograph|ballet|ballroom|zumba|salsa|bachata|tango|hip[\\s-]*hop|k[\\s-]*pop|pole\\s*dance|cheerdance|ceroc|just\\s*dance|舞蹈|跳舞|芭蕾|街舞|拉丁舞|广场舞|舞者)"
+
+# ── 爬取污染：篮球/橄榄球游戏等挂在网球 keyword 下（人标全 F；T_hurt=0）──
+[[pass2]]
+category = "nba_ball_pollution"
+pattern = "(?i)(\\bnba\\b|basketball|lebron|warriors|lakers|nuggets|fib[a]|\\bpba\\b|madden|super\\s*bowl|seahawks|raptors|jokic|bronny)"
+
+# ── 其他非团队球类串台（飞镖/桌上足球/橄榄球/MMA/小提琴/游戏网球）──
+[[pass2]]
+category = "other_sport_misc"
+pattern = "(?i)(\\bdarts\\b|foosball|futbol[ií]n|table\\s*soccer|\\brugby\\b|\\bmma\\b|jugger|virtua\\s*tennis|twosetviolin|\\bviolin\\b)"
+
+# ── 奥运非网球项目混入 ──
+[[pass2]]
+category = "olympic_other"
+pattern = "(?i)(freestyle\\s*\\d+|women.?s\\s*freestyle|bronze\\s*b\\b)"
+
+# ── 访谈絮片（非实拍双打）──
+[[pass2]]
+category = "interview_talk"
+pattern = "(?i)(on\\s+winning\\s+two|on\\s+his\\s+wild|let.?s\\s*talk\\s+reilly|slamming\\s+doubles)"
+
+# ── 非比赛絮片 ──
+[[pass2]]
+category = "fluff_ceremony"
+pattern = "(?i)(press\\s*conference|trophy\\s*photo|photo\\s*shoot|winners?\\s*walk|song\\s*for|the\\s*open\\s*drive)"
+
+# ── 游戏 / 音乐 / 卡通 / 硬新闻 / 真人秀 ──
+[[pass2]]
+category = "gameplay"
+pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|lets?\\s*play|valorant|gta\\s*[45v]?|cpus?\\s*play|brawlhalla)\\b"
+
+[[pass2]]
+category = "non_real_ai"
+pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|midjourney|\\bsora\\b\\s*(ai|video|gen)|deepfake)"
+
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|lyrics?\\s*video|music\\s*video|official\\s*trailer)"
+
+[[pass2]]
+category = "kids_cartoon"
+pattern = "(?i)(cocomelon|peppa\\s*pig|nursery\\s*rhymes?|儿歌|动画片|comedy\\s*cartoon)"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|breaking\\s*news|\\bndtv\\b|\\bgma\\s*news\\b)"
+
+[[pass2]]
+category = "misc_offtopic"
+pattern = "(?i)(jersey\\s*shore|railway\\s*inform)"

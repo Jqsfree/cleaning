@@ -1,0 +1,103 @@
+# G4/text_keep 之后文本 certain-noise DROP（双金标 t_hurt=0 族）
+# 禁止裸词「教程」/ 宽「美发教学」——金标 t_hurt>0
+# 采集词闸门见同目录 keyword_blacklist.toml
+
+[meta]
+version = "1.1.0"
+category = "exo_service"
+layer = "text_noise_drop"
+basis = "2026-09-16 dual gold: g4_human + g4_textkeep; t_hurt=0 on both"
+
+[[drop]]
+category = "training"
+pattern = "(?i)培训|培訓|customer\\s*service\\s*training"
+
+[[drop]]
+category = "wearable_nails"
+pattern = "(?i)穿戴甲"
+
+[[drop]]
+category = "edu_promo"
+pattern = "(?i)大解析|医美项目|项目介绍|face\\s*pack|glowing\\s*skin|胶原蛋白秘诀|无针微整课程|skin\\s*glowing\\s*secret"
+
+[[drop]]
+category = "lookbook"
+pattern = "(?i)\\blookbook\\b"
+
+[[drop]]
+category = "film_drama"
+pattern = "(?i)喜剧影片|經典喜劇|经典喜剧|#cdrama|爽剧"
+
+[[drop]]
+category = "hotel_review"
+pattern = "(?i)評測.*酒店|酒店.*評測|评测.*酒店|酒店.*评测|服务最好的酒店"
+
+[[drop]]
+category = "recipe_kitchen"
+pattern = "(?i)菜肴制作|三明治制作"
+
+[[drop]]
+category = "day_in_life"
+pattern = "(?i)day\\s+in\\s+a?\\s*life\\s+of"
+
+[[drop]]
+category = "empower_employees"
+pattern = "(?i)empower\\s+employees|customer\\s*service\\s*videos"
+
+[[drop]]
+category = "cat_barista"
+pattern = "(?i)cat\\s+working\\s+as\\s+a\\s+barista"
+
+[[drop]]
+category = "robot_tech"
+pattern = "(?i)机器人理发|robot\\s*hairdresser|创意科技.*理发"
+
+[[drop]]
+category = "teach_narrow"
+pattern = "(?i)美甲教學|美甲教程|髮型教學|发型教学|零基础教学|diy\\s*nails"
+
+[[drop]]
+category = "offtopic_props"
+pattern = "(?i)富贵石|平安扣|顾客订.*花束|百合花束"
+
+# --- v1.1 dual-gold safe (textkeep round) ---
+
+[[drop]]
+category = "roleplay_game"
+pattern = "(?i)\\bbloxburg\\b|\\broblox\\b|\\broleplay\\b|chat\\s*bot"
+
+[[drop]]
+category = "stock_finance"
+pattern = "(?i)台股|小資居家修理"
+
+[[drop]]
+category = "chef_teaches"
+pattern = "(?i)chef\\s*wang\\s*teaches|teaches\\s*you:"
+
+[[drop]]
+category = "salon_biz_talk"
+pattern = "(?i)salon\\s*clients?\\s*never\\s*come\\s*back|美容院賣豬仔|美容院卖猪仔"
+
+[[drop]]
+category = "viral_story"
+pattern = "(?i)waitress\\s*found|viral\\s*standard"
+
+[[drop]]
+category = "ducting_hvac"
+pattern = "(?i)chimney\\s*hood|ducting\\s*work"
+
+[[drop]]
+category = "dashing_diva"
+pattern = "(?i)dashing\\s*diva"
+
+[[drop]]
+category = "coffee_share"
+pattern = "(?i)咖啡豆推荐|瑰夏咖啡|咖啡分享｜"
+
+[[drop]]
+category = "fanfic"
+pattern = "(?i)完结文"
+
+[[drop]]
+category = "scrunchies_sew"
+pattern = "(?i)scrunchies.*hand\\s*sewing|hand\\s*sewing\\s*is\\s*not"

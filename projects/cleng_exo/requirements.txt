@@ -1,0 +1,42 @@
+# YouTube 视频元数据清洗管道 — Python 依赖
+#
+# 目标解释器：Python 3.9.6（与仓库内 .venv 实测一致，2026-09-15 全量验证）
+# 说明：代码面向 3.11+ 编写（CLAUDE.md 记为 conda `data_cleaning` / 3.13+），
+#      但当前环境为 3.9.6，故 tomli 提供 tomllib 兜底；
+#      全部 98 个脚本在该版本下编译通过、tests/ 90 passed。见 docs/ 与 项目记录.md。
+#
+# 安装：python3 -m venv .venv && .venv/bin/python3 -m pip install -r requirements.txt
+
+# ── 数据核心（DuckDB 为管道主引擎；pyarrow 供 pandas 的 read_parquet/to_parquet）──
+duckdb==1.4.5
+pandas==2.3.3
+pyarrow==21.0.0
+numpy==2.0.2
+
+# ── 网络与进度 ──────────────────────────────────────────────
+requests==2.32.5
+httpx==0.28.1
+tqdm==4.70.0
+
+# ── LLM（qc/text.py 文本 QC）───────────────────────────────
+openai==2.48.0
+
+# ── 视觉（缩略图 QC / CLIP 语义 / 小模型校准）──────────────
+opencv-python==5.0.0.93
+pillow==11.3.0
+torch==2.8.0
+torchvision==0.23.0
+open_clip_torch==3.3.0
+transformers==4.57.6
+sentence-transformers==5.1.2
+
+# ── 传统机器学习（阈值校准 / 文本分类）────────────────────
+scikit-learn==1.6.1
+scipy==1.13.1
+joblib==1.5.3
+
+# ── Python < 3.11 兼容（tomllib 兜底；3.11+ 自带 tomllib，可不装）──
+tomli==2.4.1; python_version < "3.11"
+
+# ── 开发/测试 ──────────────────────────────────────────────
+pytest==8.4.2

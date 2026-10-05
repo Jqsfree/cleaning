@@ -1,0 +1,24 @@
+[meta]
+version = "0.1.0"
+category = "exo_construction"
+scope = "Drawings, design-only titles, animation and implausible fantasy builds"
+
+[[rules]]
+id = "plans_drawings_visuals"
+label = "图纸方案效果图"
+pattern = '(?i)\b(?:floor plans?|roof plans?|house plans?|building plans?|construction plans?|architectural plans?|drawings?|blueprints?|schematics?|diagrams?|3d model|3d view|3d elevation|house elevation|roof elevation|architectural elevation|design ideas|design concepts|design inspiration|design pictures)\b|设计图|施工图|平面图|效果图|建筑模型|三维模型'
+
+[[rules]]
+id = "design_without_work_action"
+label = "无施工动作的设计模型标题"
+pattern = '(?i)^(?!.*\b(?:install(?:ing|ation|ed)?|pour(?:ing|ed)?|plastering|bricklaying|framing|roofing|painting|tiling|grouting|repair(?:ing|ed)?|weld(?:ing|ed)?|laying|digging|assembling|erecting|constructing|working|building|build|fixing|cutting|casting|forming|shuttering|fabricating|demolishing)\b).*\b(?:design|designs|designing|layout|elevation|plan|plans|model|modeling|modelling)\b'
+
+[[rules]]
+id = "animation_virtual_visual"
+label = "动画虚拟展示"
+pattern = '(?i)\b(?:animation|animated|3d presentation|3d visualization|architectural visualization|rendered video|virtual tour|slideshow|photo montage)\b'
+
+[[rules]]
+id = "fantasy_primitive_waterpark"
+label = "幻想式原始工具水上城堡"
+pattern = '(?i)\b(?:water slide castle|water palace|waterpark|water park|giant pikachu|primitive tools|secret bamboo house|jungle survival|underground cave palace|underground steam train station|multi.level slide|giant carved (?:gorilla|lizard))\b'

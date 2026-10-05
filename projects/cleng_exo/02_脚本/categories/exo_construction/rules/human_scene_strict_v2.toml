@@ -1,0 +1,24 @@
+[meta]
+version = "0.2.0"
+category = "exo_construction"
+scope = "Residual tours, information and products after strict teaching/business pass"
+
+[[rules]]
+id = "tour_reveal_documentary"
+label = "参观展示纪实"
+pattern = '(?i)\b(?:house tour|home tour|property tour|apartment tour|room tour|site tour|studio tour|walkthrough|walk through|renovation reveal|final reveal|completed house|finished house|construction documentary|site inspection|inspection checklist|project update|site progress update)\b'
+
+[[rules]]
+id = "product_presentation"
+label = "产品系统介绍"
+pattern = '(?i)\b(?:construction|roofing|concrete|cement|plastering|formwork|shuttering|rebar|steel framing|drywall|tiling|foundation)\b.{0,65}\b(?:product (?:demo|review|launch|features)|system (?:demo|review|presentation)|promo(?:tional)? video|technology (?:demo|presentation)|material (?:comparison|review)|sample clip|testimonial)\b|\b(?:product (?:demo|review|launch|features)|system (?:demo|review|presentation)|promo(?:tional)? video|technology (?:demo|presentation)|sample clip|testimonial)\b.{0,65}\b(?:construction|roofing|concrete|cement|plastering|formwork|shuttering|rebar|steel framing|drywall|tiling|foundation)\b'
+
+[[rules]]
+id = "design_ideas_only"
+label = "户型外观设计图片"
+pattern = '(?i)\b(?:house|home|building|roof|staircase|ceiling|wall|floor)\b.{0,55}\b(?:design ideas|design inspiration|design concepts|design pictures|design images|plan ideas|plans and elevations|3d elevation design|front elevation design ideas)\b|\b(?:design ideas|design inspiration|design concepts|design pictures|design images|plan ideas|plans and elevations|3d elevation design|front elevation design ideas)\b.{0,55}\b(?:house|home|building|roof|staircase|ceiling|wall|floor)\b'
+
+[[rules]]
+id = "remaining_computer_topic"
+label = "残留电脑软件话题"
+pattern = '(?i)\b(?:install anaconda python|jupyter notebook|spyder on windows|stable diffusion|google colab|wordpress theme|website template|CAD software|BIM software|3d model(?:ing|ling)? (?:tutorial|course|lesson))\b'

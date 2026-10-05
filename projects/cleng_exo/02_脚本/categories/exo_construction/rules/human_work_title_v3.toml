@@ -1,0 +1,16 @@
+[meta]
+version = "0.3.0"
+category = "exo_construction"
+scope = "Positive title evidence of hands-on construction work"
+
+[[rules]]
+id = "human_trade"
+pattern = '(?i)\b(?:construction workers?|site workers?|crew|bricklayers?|masons?|plasterers?|roofers?|tilers?|carpenters?|concrete finishers?|steel fixers?|ironworkers?|electricians?|plumbers?|drywallers?|tradesm[ae]n|laborers?|labourers?|handym[ae]n|contractors? at work)\b|施工工人|建筑工人|瓦工|泥工|木工|钢筋工|电工|水管工|工人在施工'
+
+[[rules]]
+id = "hands_on_action"
+pattern = '(?i)\b(?:install(?:ing|ation|ed)?|lay(?:ing|s)?|pour(?:ing|ed)?|plaster(?:ing|ed)|render(?:ing|ed)|skim(?:ming|med)?|bricklay(?:ing)?|repair(?:ing|ed)?|renovat(?:ing|ion|ed)?|restor(?:ing|ation|ed)?|weld(?:ing|ed)?|fram(?:ing|ed)?|roof(?:ing|ed)|paint(?:ing|ed)|til(?:ing|ed)?|reinforc(?:ing|ement)|demoli(?:sh(?:ing|ed)?|tion)|dig(?:ging|s)?|drill(?:ing|ed)?|cut(?:ting)?|fix(?:ing|ed)?|fit(?:ting|ted)?|assembl(?:ing|ed|y)|fabricat(?:ing|ion)|pav(?:ing|ed)|grout(?:ing|ed)?|finish(?:ing|ed)?|erect(?:ing|ion|ed)?|screed(?:ing|ed)?|insulat(?:ing|ion|ed)?|level(?:ing|ed)?|set(?:ting)?|cast(?:ing)?|pointing|caulk(?:ing|ed)?|waterproof(?:ing|ed)|lath(?:ing)?|skim coat|mortar(?:ing)?|cementing|concreting|carpentry|site execution|on site work|jobsite work)\b|施工|砌墙|抹灰|粉刷|贴砖|铺砖|浇筑|钢筋绑扎|水电安装|搭建|装修|焊接|修建|铺设|吊顶|防水施工|拆除|开挖|支模|打桩|现场作业'
+
+[[rules]]
+id = "trade_task_noun"
+pattern = '(?i)\b(?:plastering|bricklaying|roofing|tiling|drywall|concreting|flooring installation|tile installation|window installation|door installation|wall framing|steel fixing|rebar tying|wood framing|plumbing installation|electrical installation|wall painting|house construction|home construction|road construction|bridge construction|foundation work|site work|construction work|building work|house renovation|home renovation)\b|建筑施工|房屋施工|现场施工|砌筑|抹灰|钢筋施工|木工施工|贴瓷砖'

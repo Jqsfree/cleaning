@@ -48,6 +48,35 @@ def infer_batch_root(path: str | Path) -> Path | None:
     return None
 
 
+def infer_raw_category(path: str | Path) -> str | None:
+    """从 Bronze 路径推断品类名：``raw/{category}/…``。
+
+    Bronze（合并去重后的原始合集）不进批次根，故单独识别；推断不到返回 None。
+    """
+    p = Path(path).resolve()
+    if p.is_file():
+        p = p.parent
+    parts = p.parts
+    for i, part in enumerate(parts):
+        if part == "raw" and i + 1 < len(parts):
+            return parts[i + 1] or None
+    return None
+
+
+def infer_category(path: str | Path) -> str | None:
+    """推断品类名，优先批次布局，其次 Bronze 布局。
+
+    - ``data/runs/{category}/{source}_{batch}/…`` → ``{category}``
+    - ``raw/{category}/…`` → ``{category}``
+
+    推断不到返回 None（兼容临时目录 / 测试）。用于产物命名 ``{category}_…``。
+    """
+    root = infer_batch_root(path)
+    if root is not None:
+        return root.parent.name or None
+    return infer_raw_category(path)
+
+
 def require_output_dir(arg: str | None, *, flag: str = "-o") -> str:
     """要求显式输出目录；禁止依赖旧默认路径。"""
     if not arg or not str(arg).strip():
@@ -83,7 +112,7 @@ def checklist_for_source(source: str) -> list[dict[str, str]]:
         {"id": "quality", "path": "01_quality", "kind": "dir_nonempty",
          "required": "yes", "hint": "pipeline/run.py 或 01_quality.py"},
         {"id": "sample", "path": "02_sample", "kind": "dir_nonempty",
-         "required": "yes", "hint": "03_sample.py → 02_sample/"},
+         "required": "yes", "hint": "tools/batch_ops/sample_qc.py → 02_sample/"},
         {"id": "qc", "path": "03_qc", "kind": "dir_nonempty",
          "required": "yes", "hint": "人工结果表或 qc/text.py"},
         {"id": "rules", "path": "04_rules", "kind": "dir_any",

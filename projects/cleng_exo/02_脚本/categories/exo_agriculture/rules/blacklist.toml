@@ -1,155 +1,252 @@
-# Blacklist — exo 农业种植采摘（certain-noise only）
-# v0.1.0: round1 271（T1/F188/U68）
-# v0.3.0: human678 F 抽检补 certain-noise（lawn/weed、买拖拉机/犁地演示、畜禽饲料）
-# v0.4.0: 0814 v11 keep 上 90% 文本 QC 挖非农串台（c90+human678 T_hurt=0）
+# Blacklist — exo 农业种植采摘（非农主题闸门，text governance v2）
+# v0.1–v0.5.3: 历史 certain-noise（含农内 howto/课程等）见 git
+# v0.6.0: 收窄为「与农业无关」；农内噪声（howto/tips/课程/农机展播/堆肥教程等）交 MiniLM
+#         依据 docs/exo_agriculture_text_governance_v2.md
 
 [meta]
-version = "0.4.0"
+version = "0.6.0"
 category = "exo_agriculture"
-basis = "machine_0814 c90 text QC + human678; drop diggable non-field-agri 2026-08-21"
+basis = "non-agri topic gate only; agri-internal F → MiniLM+τ; 2026-09-16"
 
+# ── 烹饪 / 吃播（非田间农作）──
 [[pass2]]
 category = "mukbang_recipe"
 pattern = "(?i)(\\bmukbang\\b|how\\s*to\\s*cook|\\brecipe\\b|#cooking\\b)"
 
 [[pass2]]
-category = "official_mv_trailer"
-pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
+category = "canning_sauce_cook"
+pattern = "(?i)(making\\s+&\\s+canning|canning\\s+the|spaghetti\\s+sauce|cauliflower\\s+rice|\\bketo\\b|food\\s+wishes)"
 
+[[pass2]]
+category = "street_food"
+pattern = "(?i)\\bstreet\\s+food\\b"
+
+[[pass2]]
+category = "dessert_recipes"
+pattern = "(?i)(dessert\\s+recipes?|\\bso\\s+yummy\\b)"
+
+[[pass2]]
+category = "homemade_jam_cook"
+pattern = "(?i)(homemade\\s+\\w+\\s+jam|christmas\\s+cranberry\\s+jam)"
+
+[[pass2]]
+category = "steamed_buns_cook"
+pattern = "(?i)steamed\\s+buns"
+
+[[pass2]]
+category = "sambar_stew"
+pattern = "(?i)\\bsambar\\b.{0,30}\\bstew\\b"
+
+[[pass2]]
+category = "night_market_food_tour"
+pattern = "(?i)(夜市美食|一晚吃爆)"
+
+[[pass2]]
+category = "balut_food"
+pattern = "(?i)\\bbalut\\b"
+
+[[pass2]]
+category = "lechon_travel_vlog"
+pattern = "(?i)(\\blechon\\b|sibonga\\s+market\\s+day)"
+
+[[pass2]]
+category = "food_carving_art"
+pattern = "(?i)(fruit\\s*(and\\s*)?vegetable\\s*carving|food\\s*art|watermelon\\s*peacock)"
+
+[[pass2]]
+category = "weird_fruit_review"
+pattern = "(?i)(weird\\s*fruit\\s*explorer|velvet\\s*tamarind\\s*review)"
+
+# ── 游戏 / 模拟器 / 非真人 ──
 [[pass2]]
 category = "gameplay"
 pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|lets?\\s*play|valorant|gta\\s*[45v]?)\\b"
 
 [[pass2]]
 category = "farming_simulator"
-pattern = "(?i)farming\\s+simulator"
+pattern = "(?i)(farm(?:ing)?\\s*simulator|farm\\s+sim|\\bfs22\\b|\\bfs25\\b|\\bfs19\\b)"
 
 [[pass2]]
-category = "anime_cartoon_kids"
-pattern = "(?i)(\\banime\\b|\\bcartoon\\b|cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song)"
+category = "idle_game"
+pattern = "(?i)(\\bidle\\s+slayer\\b|#idleslayer\\b)"
 
 [[pass2]]
-category = "news_hard"
-pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news)"
+category = "game_parody_noise"
+pattern = "(?i)(silvagunner|maroon\\s+go|mining\\s+to\\s+the\\s+earth)"
 
 [[pass2]]
 category = "non_real_ai"
 pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake)"
 
 [[pass2]]
-category = "podcast_interview"
-pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night)"
+category = "anime_cartoon_kids"
+pattern = "(?i)(\\banime\\b|\\bcartoon\\b|cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song)"
 
 [[pass2]]
-category = "minute_crafts"
-pattern = "(?i)(5[\\s-]?minute\\s*crafts|\\bminute\\s*crafts\\b)"
+category = "monkey_cartoon_farm"
+pattern = "(?i)(baby\\s+monkey|monkey\\s+nana)"
 
-# human678：草坪除草口播（T_hurt=0）
 [[pass2]]
-category = "lawn_weed_care"
-pattern = "(?i)(\\blawn\\b|kill\\s*weeds|weed\\s*killer|not\\s*(your\\s*)?grass|\\bherbicide\\b|\\bturf\\b)"
+category = "alice_anime"
+pattern = "(?i)(ふしぎな国のアリス|alice\\s+in\\s+wonderland)"
 
-# human678：买拖拉机 / 犁地演示档（非采摘作业；T_hurt=0）
+# ── 音乐 / 娱乐 / 综艺 / 新闻 ──
 [[pass2]]
-category = "tractor_buy_plow_demo"
-pattern = "(?i)(buying\\s+a\\s+tractor|we\\s+are\\s+buying\\s+a\\s+tractor|tractor\\s+plowing|tractor\\s+cultivating|\\bjohn\\s+deere\\b.{0,30}(\\d{3,}|cribs|moisson))"
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
 
-# human678：畜禽饲料（非种植采摘；T_hurt=0）
 [[pass2]]
-category = "livestock_feed"
-pattern = "(?i)(cattle\\s+feed|chicken\\s+feed|livestock\\s+feed|started\\s+with\\s+\\d+\\s+hens?)"
+category = "instrumental_track"
+pattern = "(?i)original\\s+instrumental"
 
-# v0.4：刺绣 / 绘画 / 纸艺（串台）
 [[pass2]]
-category = "embroidery_drawing_craft"
-pattern = "(?i)(\\bembroidery\\b|hand\\s+embroidery|\\bbroderie\\b|\\bricami\\b|how\\s*to\\s*draw|flower\\s*vase\\s*drawing|paper\\s*plant)"
+category = "yucateco_music"
+pattern = "(?i)rinc[oó]n\\s+yucateco"
 
-# v0.4：how-to 种菜/育苗口播（非田间劳作记录；c90 F≈14 T=0）
-[[pass2]]
-category = "how_to_grow_plant"
-pattern = "(?i)(how\\s*to\\s*(grow|plant|sow|germinate|propagate)|种植教程|如何催芽|如何育苗)"
-
-# v0.4：gardening tips / watering tips（窄；不含 container garden 实拍）
-[[pass2]]
-category = "gardening_tips_narrow"
-pattern = "(?i)(gardening\\s*tips|tips\\s+for\\s+growing|watering\\s*tips)"
-
-# v0.4：扦插/水培繁殖教程
-[[pass2]]
-category = "propagation_cuttings"
-pattern = "(?i)(\\bpropagation\\b|rooting\\s+\\w+\\s+cuttings|cuttings\\s+in\\s+(water|sand))"
-
-# v0.4：阳台 DIY / 圣诞装饰 DIY（不含 container garden harvest）
-[[pass2]]
-category = "diy_garden_decor"
-pattern = "(?i)(diy\\s+hydroponics|dollar\\s*tree\\s*diy|christmas\\s*(home\\s*)?decor|kitchen\\s*garden\\s*tour)"
-
-# v0.4：儿童英文歌
-[[pass2]]
-category = "kids_learn_songs"
-pattern = "(?i)(kids?\\s*\\+?\\s*children\\s*learn|learn\\s+english\\s+songs|calendar\\s+song)"
-
-# v0.4：手办 unbox（anime 已有，补 unboxing）
-[[pass2]]
-category = "unboxing"
-pattern = "(?i)\\bunboxing\\b"
-
-# v0.4：工厂果汁/橄榄油加工线（非田间采摘）
-[[pass2]]
-category = "factory_food_processing"
-pattern = "(?i)(processing\\s*line|juice\\s*(is\\s*)?made|ketchup\\s*production|olive\\s*oil\\s*is\\s*made|factory\\b.{0,20}(oil|juice|soap))"
-
-# v0.4：电音舞蹈等娱乐串台
 [[pass2]]
 category = "techno_dance"
 pattern = "(?i)techno\\s*dance"
 
-# v0.4：奇果开箱测评
 [[pass2]]
-category = "weird_fruit_review"
-pattern = "(?i)(weird\\s*fruit\\s*explorer|velvet\\s*tamarind\\s*review)"
+category = "edm_festival_live"
+pattern = "(?i)(live\\s+at\\s+luminosity|luminosity\\s+beach\\s+festival)"
 
-# v0.4：室内观叶养护（金钱树等）
 [[pass2]]
-category = "houseplant_care"
-pattern = "(?i)(money\\s*tree|\\bfittonia\\b|\\bsyngonium\\b|nerve\\s*plant)"
+category = "podcast_interview"
+pattern = "(?i)(\\bpodcast\\b|\\binterview\\b|talk\\s*show|late\\s*night)"
 
-# v0.4：鱼菜共生温室 tour
 [[pass2]]
-category = "aquaponics_tour"
-pattern = "(?i)(aquaponics?\\s+greenhouse\\s+tour|practical\\s+aquaponics)"
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news)"
 
-# v0.4：化肥选购口播
 [[pass2]]
-category = "fertilizer_buy_guide"
-pattern = "(?i)(best\\s+npk\\s+fertilizer|fertilizer\\s+for\\s+mango)"
+category = "full_episode_tv"
+pattern = "(?i)full\\s+episode"
 
-# v0.4：儿童作文
 [[pass2]]
-category = "kids_essay"
-pattern = "(?i)(few\\s+lines\\s+essay|essay\\s+on\\s+my\\s+favorite|essay\\s+in\\s+english)"
+category = "conan_on_tbs"
+pattern = "(?i)CONAN\\s+on\\s+TBS"
 
-# v0.4：无关 DIY 发明
+[[pass2]]
+category = "kbs_2d1n"
+pattern = "(?i)2\\s*Days\\s*&\\s*1\\s*Night"
+
+[[pass2]]
+category = "tv_serial_episode"
+pattern = "(?i)(sun\\s+tv\\s+serial|tamil\\s+serial|\\bepisode\\s+\\d+\\b.{0,40}\\b(serial|sun\\s+tv))"
+
+[[pass2]]
+category = "crime_patrol"
+pattern = "(?i)\\bcrime\\s+patrol\\b"
+
+[[pass2]]
+category = "produce_101_show"
+pattern = "(?i)produce\\s+101"
+
+[[pass2]]
+category = "vpro_documentary"
+pattern = "(?i)VPRO\\s+Documentary"
+
+[[pass2]]
+category = "asmr"
+pattern = "(?i)\\basmr\\b"
+
+[[pass2]]
+category = "dubsmash"
+pattern = "(?i)\\bdubsmash\\b"
+
+[[pass2]]
+category = "santa_mall_story"
+pattern = "(?i)(santa.?s\\s+helper|desperate\\s+elf|recruited\\s+to\\s+be\\s+santa)"
+
+[[pass2]]
+category = "reddit_reloop_channel"
+pattern = "(?i)\\bRedditReloop\\b"
+
+[[pass2]]
+category = "ritual_bajiang"
+pattern = "(?i)(八家將|家将|隐修生活)"
+
+[[pass2]]
+category = "bible_sermon"
+pattern = "(?i)(\\bholy\\s*bible\\b|\\bkjv\\b|doctrine\\s*of\\s+the)"
+
+# ── 手工 / DIY / 儿童 / 串台 ──
+[[pass2]]
+category = "minute_crafts"
+pattern = "(?i)(5[\\s-]?minute\\s*crafts|\\bminute\\s*crafts\\b)"
+
+[[pass2]]
+category = "embroidery_drawing_craft"
+pattern = "(?i)(\\bembroidery\\b|hand\\s+embroidery|\\bbroderie\\b|\\bricami\\b|how\\s*to\\s*draw|flower\\s*vase\\s*drawing|paper\\s*plant)"
+
+[[pass2]]
+category = "origami_paper"
+pattern = "(?i)(\\borigami\\b|折り紙)"
+
+[[pass2]]
+category = "polymer_clay"
+pattern = "(?i)polymer\\s+clay"
+
+[[pass2]]
+category = "diy_crafts_part"
+pattern = "(?i)(DIY\\s+Crafts\\b|Plastic\\s+Bottle\\s+Recycle\\s+DIY)"
+
+[[pass2]]
+category = "diy_decor_crafts"
+pattern = "(?i)(trash\\s+to\\s+treasure|farmhouse\\s+fall\\s+de|dollar\\s+tree|gold\\s+leaf\\s+tutorial|pvc\\s+garden\\s+trellis|make\\s+a\\s+otg|data\\s+cable)"
+
+[[pass2]]
+category = "dollhouse_kit"
+pattern = "(?i)(\\brolife\\b|flower\\s+shop\\s+kit\\s+build|\\bdollhouse\\b)"
+
+[[pass2]]
+category = "unboxing"
+pattern = "(?i)\\bunboxing\\b"
+
 [[pass2]]
 category = "vacuum_diy_junk"
 pattern = "(?i)(vacuum\\s*cleaner\\s+that\\s+eats|eats\\s+rocks\\s+without)"
 
-# v0.4：农具广告口播
 [[pass2]]
-category = "genius_tool_ad"
-pattern = "(?i)(stop\\s+picking\\s+\\w+\\s+by\\s+hand|genius\\s+tool\\s+instead)"
+category = "kids_learn_songs"
+pattern = "(?i)(kids?\\s*\\+?\\s*children\\s*learn|learn\\s+english\\s+songs|calendar\\s+song)"
 
-# v0.4：蔬果雕刻 / food art
 [[pass2]]
-category = "food_carving_art"
-pattern = "(?i)(fruit\\s*(and\\s*)?vegetable\\s*carving|food\\s*art|watermelon\\s*peacock)"
+category = "kids_essay"
+pattern = "(?i)(few\\s+lines\\s+essay|essay\\s+on\\s+my\\s+favorite|essay\\s+in\\s+english)"
 
-# v0.4：大麻种植秀（非目标作物）
+[[pass2]]
+category = "meekah_kids"
+pattern = "(?i)\\bMEEKAH\\b"
+
+[[pass2]]
+category = "carpentry_kitchen_build"
+pattern = "(?i)(wooden\\s+kitchen\\s+using\\s+traditional\\s+carpentry|pour\\s+concrete\\s+into\\s+the\\s+remaining\\s+bedroom)"
+
+[[pass2]]
+category = "firewood_gather"
+pattern = "(?i)gathered\\s+firewood"
+
+# ── 工厂产线 / 非种植品类边界（畜禽饲料、大麻）──
+[[pass2]]
+category = "factory_food_processing"
+pattern = "(?i)(processing\\s*line|juice\\s*(is\\s*)?made|ketchup\\s*production|olive\\s*oil\\s*is\\s*made|factory\\b.{0,20}(oil|juice|soap))"
+
+[[pass2]]
+category = "mega_factory_process"
+pattern = "(?i)(inside\\s+the\\s+mega\\s+factory|processed\\s+in\\s+factories|millions\\s+of\\s+\\w+\\s+are\\s+processed|commercial\\s+tv\\s+manufacturing)"
+
+[[pass2]]
+category = "livestock_feed"
+pattern = "(?i)(cattle\\s+feed|chicken\\s+feed|livestock\\s+feed|started\\s+with\\s+\\d+\\s+hens?)"
+
 [[pass2]]
 category = "cannabis_grow"
 pattern = "(?i)(\\bcannabis\\b|\\bmarijuana\\b)"
 
-# v0.4：圣经/讲道串台
-[[pass2]]
-category = "bible_sermon"
-pattern = "(?i)(\\bholy\\s*bible\\b|\\bkjv\\b|doctrine\\s*of\\s*the)"
+# ── v0.6 已移出（交 MiniLM）：lawn/tractor/howto grow/gardening tips/propagation/
+# diy_garden_decor/houseplant/aquaponics/fertilizer/genius_tool/venus_flytrap/
+# lesson#/online course/permaculture edu/compost howto/shop pick ripe/
+# agri_tech million lbs/hauling manure/fruit fly/foraging/seed germination/
+# determinate tomato/growing tips bloom

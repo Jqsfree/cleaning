@@ -6,9 +6,13 @@ from __future__ import annotations
 import hashlib
 import json
 import time
-import tomllib
 from pathlib import Path
 from typing import Any
+
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 
 import numpy as np
 import pandas as pd
@@ -208,6 +212,49 @@ def sample_candidates(frame: pd.DataFrame, n: int, seed: int) -> pd.DataFrame:
     return frame.sample(n=n, random_state=seed).reset_index(drop=True)
 
 
+def _open_store_lookup(
+    store_dir: Path,
+) -> tuple[dict[str, int], Any, Any | None] | None:
+    """只读打开已有 embedding store（index + embeddings [+ thumb_ok]）。"""
+    root = Path(store_dir)
+    index_path = root / "index.csv"
+    array_path = root / "embeddings.npy"
+    if not index_path.is_file() or not array_path.is_file():
+        return None
+    index = pd.read_csv(index_path, dtype={"video_id": str, "row": int})
+    row_by_id = {
+        str(vid).strip(): int(row)
+        for vid, row in zip(index["video_id"], index["row"])
+    }
+    embeddings = np.load(array_path, mmap_mode="r")
+    ok_path = root / "thumb_ok.npy"
+    thumb_ok = np.load(ok_path, mmap_mode="r") if ok_path.is_file() else None
+    return row_by_id, embeddings, thumb_ok
+
+
+def _fill_feats_from_store(
+    ids: list[str],
+    feats: np.ndarray,
+    ok: np.ndarray,
+    *,
+    row_by_id: dict[str, int],
+    embeddings: Any,
+    thumb_ok: Any | None,
+) -> int:
+    """将 store 命中写入 feats/ok；返回命中数。"""
+    n_hit = 0
+    for i, vid in enumerate(ids):
+        row = row_by_id.get(vid)
+        if row is None:
+            continue
+        if thumb_ok is not None and not bool(thumb_ok[int(row)]):
+            continue
+        feats[i] = np.asarray(embeddings[int(row)], dtype=np.float32)
+        ok[i] = True
+        n_hit += 1
+    return n_hit
+
+
 def _encode_ids(
     ids: list[str],
     encoder: ClipEncoder,
@@ -216,12 +263,35 @@ def _encode_ids(
     batch_size: int,
     thumb_workers: int,
     thumb_chunk: int = 5000,
-) -> tuple[np.ndarray, np.ndarray]:
+    embedding_store: Path | None = None,
+) -> tuple[np.ndarray, np.ndarray, dict[str, int]]:
+    """返回 feats, ok, stats(store_hit, encoded)。"""
     feats = np.zeros((len(ids), 512), dtype=np.float32)
     ok = np.zeros(len(ids), dtype=bool)
-    for t0i in range(0, len(ids), thumb_chunk):
-        t1i = min(t0i + thumb_chunk, len(ids))
-        chunk_ids = ids[t0i:t1i]
+    stats = {"store_hit": 0, "encoded": 0}
+
+    if embedding_store is not None:
+        lookup = _open_store_lookup(embedding_store)
+        if lookup is not None:
+            row_by_id, emb_arr, thumb_ok_arr = lookup
+            stats["store_hit"] = _fill_feats_from_store(
+                ids, feats, ok,
+                row_by_id=row_by_id,
+                embeddings=emb_arr,
+                thumb_ok=thumb_ok_arr,
+            )
+            if stats["store_hit"]:
+                log(
+                    f"[embedding] store 命中 {stats['store_hit']:,}/{len(ids):,} "
+                    f"({stats['store_hit'] / max(len(ids), 1) * 100:.1f}%) ← {embedding_store}"
+                )
+        else:
+            log(f"[embedding] store 不可用，全部 encode: {embedding_store}")
+
+    encode_list = [(i, ids[i]) for i in range(len(ids)) if not ok[i]]
+    for t0i in range(0, len(encode_list), thumb_chunk):
+        slice_ = encode_list[t0i : t0i + thumb_chunk]
+        chunk_ids = [vid for _, vid in slice_]
         paths = fetch_thumbnails_batch(chunk_ids, cache_dir, workers=thumb_workers)
         ok_local = [j for j, p in enumerate(paths) if p is not None]
         for start in range(0, len(ok_local), batch_size):
@@ -229,10 +299,11 @@ def _encode_ids(
             imgs = [Image.open(paths[j]).convert("RGB") for j in batch]
             chunk_feats = encoder.encode_images(imgs)
             for k, j in enumerate(batch):
-                ii = t0i + j
-                feats[ii] = chunk_feats[k]
-                ok[ii] = True
-    return feats, ok
+                orig_i = slice_[j][0]
+                feats[orig_i] = chunk_feats[k]
+                ok[orig_i] = True
+                stats["encoded"] += 1
+    return feats, ok, stats
 
 
 def score_frame(
@@ -245,6 +316,7 @@ def score_frame(
     batch_size: int = 64,
     thumb_workers: int = 16,
     thumb_chunk: int = 5000,
+    embedding_store: str | Path | None = None,
     return_feats: bool = False,
 ) -> pd.DataFrame | tuple[pd.DataFrame, np.ndarray, np.ndarray]:
     """对含 video_id 的表打分；返回 clip_* 列 + clip_decision。"""
@@ -256,13 +328,15 @@ def score_frame(
     thr = cfg["thresholds"]
     enc = encoder or ClipEncoder(cfg["meta"]["model"], cfg["meta"]["pretrained"])
     prs = pairs or encode_prompt_pairs(enc, _prompt_bank(cfg))
-    feats, ok = _encode_ids(
+    store_path = Path(embedding_store) if embedding_store else None
+    feats, ok, _enc_stats = _encode_ids(
         ids,
         enc,
         cache_dir=Path(cache_dir),
         batch_size=batch_size,
         thumb_workers=thumb_workers,
         thumb_chunk=thumb_chunk,
+        embedding_store=store_path,
     )
     scores = margins_from_feats(feats, prs)
     decision = decide(
@@ -313,6 +387,7 @@ def run_harvest_clip(
     batch_rows: int = 5000,
     overwrite: bool = False,
     save_embeddings: str | Path | None = None,
+    embedding_store: str | Path | None = None,
 ) -> dict[str, Any]:
     """全量或抽样 CLIP 过滤；batch_rows>0 时分批 checkpoint。"""
     t0 = time.perf_counter()
@@ -329,6 +404,20 @@ def run_harvest_clip(
     work = sample_candidates(frame, n_sample, seed) if n_sample > 0 else frame
     ids = work["video_id"].tolist()
     id_to_row = {vid: i for i, vid in enumerate(ids)}
+    store_path = Path(embedding_store) if embedding_store else None
+    embed_stats = {"store_hit": 0, "encoded": 0}
+
+    if store_path is not None:
+        lookup = _open_store_lookup(store_path)
+        if lookup is not None:
+            row_by_id, _, _ = lookup
+            n_cov = sum(1 for vid in ids if vid in row_by_id)
+            log(
+                f"[embedding] 候选 {len(ids):,} 行，store 含 id {n_cov:,} "
+                f"({n_cov / max(len(ids), 1) * 100:.1f}%)"
+            )
+        else:
+            log(f"[WARN] embedding_store 路径无效: {store_path}")
 
     date_tag = time.strftime("%m%d")
     stem_base = Path(input_path).stem if stem == "harvest_clip" else stem
@@ -385,6 +474,7 @@ def run_harvest_clip(
             cache_dir=cache_dir,
             batch_size=batch_size,
             thumb_workers=thumb_workers,
+            embedding_store=store_path,
             return_feats=emb_arr is not None,
         )
         if emb_arr is not None:
@@ -494,11 +584,13 @@ def run_harvest_clip(
         "drop_csv": str(drop_csv),
         "checkpoint": str(ckpt_path),
         "embeddings_dir": str(emb_dir) if emb_dir else None,
+        "embedding_store_read": str(store_path) if store_path else None,
         "elapsed_sec": round(time.perf_counter() - t0, 1),
         "notes": [
             "local open_clip; clip_decision≠交付 KPI",
             "clip_remain=非 clip_fail（no_thumb 保留交 VL）",
             f"require={require_keys(cfg)}",
+            "embedding_store 命中时跳过 encode_images，仅补算缺失 id",
         ],
     }
     sum_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")

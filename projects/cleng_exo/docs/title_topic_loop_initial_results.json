@@ -1,0 +1,282 @@
+{
+  "scope": "metadata text only; existing Downloads human labels confirmed by user",
+  "agriculture": "closed; no production rerun or model replacement",
+  "software_status": "implemented_and_tested",
+  "quality_status": "needs_iteration_not_promoted",
+  "categories": {
+    "exo_cook": {
+      "category": "exo_cook",
+      "source_dir": "/Users/muse/Downloads/humen-烹饪餐饮",
+      "seed": 42,
+      "scope": "existing metadata human T/F as explicitly confirmed by user",
+      "split": "channel-grouped 60/20/20; exact-title dedup; no model/LLM labels",
+      "counts": {
+        "train": {
+          "F": 481,
+          "T": 237
+        },
+        "calibration": {
+          "F": 160,
+          "T": 58
+        },
+        "test": {
+          "F": 165,
+          "T": 90
+        }
+      },
+      "conflict_rows": 0,
+      "unique_titles": 1191,
+      "holdout": {
+        "category": "exo_cook",
+        "test_rows": 255,
+        "metrics": {
+          "keep": {
+            "n": 0,
+            "labels": {},
+            "human_T_ci90": [
+              null,
+              null
+            ]
+          },
+          "drop": {
+            "n": 38,
+            "labels": {
+              "F": 33,
+              "T": 5
+            },
+            "human_T_ci90": [
+              0.06554322112779692,
+              0.24658978032503343
+            ]
+          },
+          "review": {
+            "n": 217,
+            "labels": {
+              "F": 132,
+              "T": 85
+            },
+            "human_T_ci90": [
+              0.33885416313698863,
+              0.44722315079378155
+            ]
+          }
+        },
+        "auc": 0.6713131313131312,
+        "status": "offline_holdout_only_not_current_pool_acceptance",
+        "keep_threshold": 1.01,
+        "drop_threshold": 0.2805089760917657
+      }
+    },
+    "exo_parent": {
+      "category": "exo_parent",
+      "source_dir": "/Users/muse/Downloads/humen-亲子互动",
+      "seed": 42,
+      "scope": "existing metadata human T/F as explicitly confirmed by user",
+      "split": "channel-grouped 60/20/20; exact-title dedup; no model/LLM labels",
+      "counts": {
+        "train": {
+          "T": 444,
+          "F": 495
+        },
+        "calibration": {
+          "T": 152,
+          "F": 163
+        },
+        "test": {
+          "F": 129,
+          "T": 174
+        }
+      },
+      "conflict_rows": 0,
+      "unique_titles": 1557,
+      "holdout": {
+        "category": "exo_parent",
+        "test_rows": 303,
+        "metrics": {
+          "keep": {
+            "n": 0,
+            "labels": {},
+            "human_T_ci90": [
+              null,
+              null
+            ]
+          },
+          "drop": {
+            "n": 0,
+            "labels": {},
+            "human_T_ci90": [
+              null,
+              null
+            ]
+          },
+          "review": {
+            "n": 303,
+            "labels": {
+              "F": 129,
+              "T": 174
+            },
+            "human_T_ci90": [
+              0.5270795837771391,
+              0.620120887276004
+            ]
+          }
+        },
+        "auc": 0.6062550120288693,
+        "status": "offline_holdout_only_not_current_pool_acceptance",
+        "keep_threshold": 1.01,
+        "drop_threshold": -0.01
+      }
+    },
+    "exo_livestock": {
+      "category": "exo_livestock",
+      "source_dir": "/Users/muse/Downloads/humen-渔业牧业",
+      "seed": 42,
+      "scope": "existing metadata human T/F as explicitly confirmed by user",
+      "split": "channel-grouped 60/20/20; exact-title dedup; no model/LLM labels",
+      "counts": {
+        "train": {
+          "F": 195,
+          "T": 118
+        },
+        "calibration": {
+          "T": 50,
+          "F": 60
+        },
+        "test": {
+          "F": 74,
+          "T": 33
+        }
+      },
+      "conflict_rows": 0,
+      "unique_titles": 530,
+      "holdout": {
+        "category": "exo_livestock",
+        "test_rows": 107,
+        "metrics": {
+          "keep": {
+            "n": 0,
+            "labels": {},
+            "human_T_ci90": [
+              null,
+              null
+            ]
+          },
+          "drop": {
+            "n": 0,
+            "labels": {},
+            "human_T_ci90": [
+              null,
+              null
+            ]
+          },
+          "review": {
+            "n": 107,
+            "labels": {
+              "F": 74,
+              "T": 33
+            },
+            "human_T_ci90": [
+              0.24045502179963535,
+              0.38581728214136085
+            ]
+          }
+        },
+        "auc": 0.8460278460278461,
+        "status": "offline_holdout_only_not_current_pool_acceptance",
+        "keep_threshold": 1.01,
+        "drop_threshold": -0.01
+      }
+    },
+    "exo_service": {
+      "category": "exo_service",
+      "source_dir": "/Users/muse/Downloads/humen-商业服务",
+      "seed": 42,
+      "scope": "existing metadata human T/F as explicitly confirmed by user",
+      "split": "channel-grouped 60/20/20; exact-title dedup; no model/LLM labels",
+      "counts": {
+        "train": {
+          "T": 354,
+          "F": 439
+        },
+        "calibration": {
+          "F": 156,
+          "T": 155
+        },
+        "test": {
+          "F": 140,
+          "T": 121
+        }
+      },
+      "conflict_rows": 0,
+      "unique_titles": 1365,
+      "holdout": {
+        "category": "exo_service",
+        "test_rows": 261,
+        "metrics": {
+          "keep": {
+            "n": 0,
+            "labels": {},
+            "human_T_ci90": [
+              null,
+              null
+            ]
+          },
+          "drop": {
+            "n": 25,
+            "labels": {
+              "F": 22,
+              "T": 3
+            },
+            "human_T_ci90": [
+              0.04899155024078408,
+              0.2652251143238147
+            ]
+          },
+          "review": {
+            "n": 236,
+            "labels": {
+              "F": 118,
+              "T": 118
+            },
+            "human_T_ci90": [
+              0.4467688303844839,
+              0.5532311696155161
+            ]
+          }
+        },
+        "auc": 0.7559031877213696,
+        "status": "offline_holdout_only_not_current_pool_acceptance",
+        "keep_threshold": 1.01,
+        "drop_threshold": 0.18395381850827872
+      }
+    },
+    "exo_agriculture": {
+      "category": "exo_agriculture",
+      "source_dir": "/Users/muse/Downloads/humen-农业",
+      "seed": 42,
+      "scope": "existing metadata human T/F as explicitly confirmed by user",
+      "split": "channel-grouped 60/20/20; exact-title dedup; no model/LLM labels",
+      "counts": {
+        "train": {
+          "F": 773,
+          "T": 521
+        },
+        "calibration": {
+          "F": 247,
+          "T": 185
+        },
+        "test": {
+          "T": 175,
+          "F": 243
+        }
+      },
+      "conflict_rows": 0,
+      "unique_titles": 2144
+    }
+  },
+  "semantic_pilot": {
+    "n": 50,
+    "selection": "first 50 of frozen unseen-channel test; diagnostic only, not current-pool SRS",
+    "evaluation": "data/runs/exo_cook/machine_0916/06_tools/title_topic_loop_v1_0918/human_topic_evaluation.json"
+  }
+}

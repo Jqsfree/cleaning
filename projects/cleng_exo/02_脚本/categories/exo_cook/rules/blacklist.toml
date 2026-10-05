@@ -1,0 +1,461 @@
+# Blacklist — exo 烹饪教学（非餐饮/烹饪主题闸门）
+# v0.1.0: 共享硬噪声 − 烹饪/吃播 DROP + 本池美妆/健身/短剧/游戏
+# v0.1.1: 收窄误杀 — 去掉 full episode / travel vlog / podcast / minute crafts /
+#         bare anime|cartoon / episode+serial；TEDx 勿匹配 Ted Reader
+# v0.2.0: c90 人标（T37/F232）金标 t_hurt=0 增量 — 新闻/真人秀/财经考试/综艺串台等
+# v0.3.0: v0.5 验收金标（T67/F204）t_hurt=0 — 美妆护发/健身减脂课/卡通/故事缝纫手工/挑战/评测幕后
+# v0.4.0: 三批金标纯 F 频道黑名单 channel_pass2（n_t=0；见 channel_blacklist_pure_f.csv）
+# v0.5.0: 五批金标纯 F 频道重刷（n_t=0 且 n_f≥2；含 v1.0/v1.2）
+# v0.5.1: 扩展 n_f>n_t 混频道一并闸门
+# v0.5.2: + LLM textQC n1000 纯F频道
+# v0.5.3: + LLM textQC n500（新提示词）纯F频道
+# v0.5.4: + LLM textQC n500b 纯F频道
+# v0.5.4b: + LLM n500b 安全 title regex（样本 T_hurt=0）
+# v0.5.5: + 人标 v1.6 c90 纯F频道（T_hurt=0）
+# v0.5.6: + v1.6 非频道维 title regex（T_hurt=0）
+# v0.5.7: + v1.6 纯F collect keyword 闸（见 keyword_blacklist_pure_f_v16.csv）
+# 禁止裸词 how to / tutorial / vlog / 教程 / 裸 recipe / cooking show（误杀厨艺教学与金标 T）
+# 禁止甜点/蛋糕整类（T 有 Peekaboo cake）；其余家常菜谱交 MiniLM / 频道闸
+
+[meta]
+version = "0.5.7"
+category = "exo_cook"
+basis = "channel_pass2 + gold v1.6 pure-F; 2026-09-20"
+
+# ── 游戏 / 模拟器 / 非真人 ──
+[[pass2]]
+category = "gameplay"
+pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|lets?\\s*play|valorant|gta\\s*[45v]?)\\b"
+
+[[pass2]]
+category = "genshin_game"
+pattern = "(?i)(原神|genshin\\s*impact|\\bgenshin\\b)"
+
+[[pass2]]
+category = "game_commentary"
+pattern = "(?i)(游戏解说|遊戲解說|游戏实况|遊戲實況|和平精英|吃鸡|#gaming)"
+
+[[pass2]]
+category = "generic_simulator"
+pattern = "(?i)\\b(flight\\s+simulator|truck\\s+simulator|farm(?:ing)?\\s*simulator|farm\\s+sim|grass\\s+simulator|space\\s+simulator|\\bfs22\\b|\\bfs25\\b|\\bsims\\s*4\\b|the\\s+sims)\\b"
+
+[[pass2]]
+category = "idle_game"
+pattern = "(?i)(\\bidle\\s+slayer\\b|#idleslayer\\b|among\\s+us|no\\s+mans?\\s+sky)"
+
+[[pass2]]
+category = "non_real_ai"
+pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake|cgi\\s*character)"
+
+[[pass2]]
+category = "anime_cartoon_kids"
+pattern = "(?i)(cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song|ninjago|play\\s*doh\\s*cartoons|动画片|儿歌|baby\\s*shark|paw\\s*patrol)"
+
+# ── 音乐 / 影视 / 新闻 / 综艺 ──
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
+
+[[pass2]]
+category = "instrumental_track"
+pattern = "(?i)original\\s+instrumental"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news|al\\s+jazeera|cctv\\s+video\\s+news|tvbs\\s*新聞|三立新聞|民視新聞|\\bsky\\s*news\\b|expresso\\s*show|joe\\s*biden\\s*holds\\s*news|news\\s*conference)"
+
+[[pass2]]
+category = "tv_serial_episode"
+pattern = "(?i)(sun\\s+tv\\s+serial|tamil\\s+serial)"
+
+[[pass2]]
+category = "short_drama_film"
+pattern = "(?i)(短剧|#cdrama|完结文|恶毒女配|\\b爽文\\b|#重生|#末世|电影解说|電影解說|喜剧影片|經典喜劇|真情劇場)"
+
+[[pass2]]
+category = "movie_clip_coming"
+pattern = "(?i)(movie\\s*clip|movieclips|coming\\s*soon|恐怖電影|悬疑武侠|mystery\\s+movie)"
+
+[[pass2]]
+category = "crime_patrol"
+pattern = "(?i)\\bcrime\\s+patrol\\b"
+
+[[pass2]]
+category = "kbs_2d1n"
+pattern = "(?i)2\\s*Days\\s*&\\s*1\\s*Night"
+
+[[pass2]]
+category = "edm_festival_live"
+pattern = "(?i)(live\\s+at\\s+luminosity|luminosity\\s+beach\\s+festival|演唱会|演唱會|动态歌词|動態歌詞)"
+
+# ── 美妆 / 健身 / 运动（非餐饮）──
+[[pass2]]
+category = "beauty_skincare"
+pattern = "(?i)(makeup\\s*tutorial|skincare\\s*routine|skin\\s*care\\s*routine|grwm|get\\s*ready\\s*with\\s*(me|us)|美妆教程|护肤步骤|护肤分享|护肤心得|口红试色|妆教|妆容分享|新手化妆|美甲教學|nail\\s*art|粉底液|植[髮发]|微整形|\\bskincare\\b|beauty\\s*products|summer\\s*favorites.{0,40}beauty|केशप्राण|केश\\s*अमृत)"
+
+[[pass2]]
+category = "fitness_workout"
+pattern = "(?i)(\\byoga\\b|\\bworkout\\b|\\bfitness\\b|瑜伽|健身|减脂|瘦身|减肥|普拉提|\\bzumba\\b|尊巴|广场舞|开肩美背|glute\\s*exercise|pre-workout|bodybuilding|hormonal\\s*imbalance|lose\\s*weight\\s*naturally|nutrition\\s*masterclass|powerful\\s*herbs\\s*for\\s*hormonal)"
+
+[[pass2]]
+category = "full_match_sport"
+pattern = "(?i)(full\\s*match|match\\s*highlights|\\bnba\\b|\\bnfl\\b|足球比赛|篮球比赛)"
+
+# ── 手工 / 儿歌 / 语言课 / 宗教 / 房产等串台 ──
+[[pass2]]
+category = "diy_crafts_part"
+pattern = "(?i)(DIY\\s+Crafts\\b|Plastic\\s+Bottle\\s+Recycle\\s+DIY)"
+
+[[pass2]]
+category = "kids_learn_songs"
+pattern = "(?i)(kids?\\s*\\+?\\s*children\\s*learn|learn\\s+english\\s+songs|calendar\\s+song)"
+
+[[pass2]]
+category = "kids_essay"
+pattern = "(?i)(few\\s+lines\\s+essay|essay\\s+on\\s+my\\s+favorite|essay\\s+in\\s+english)"
+
+[[pass2]]
+category = "language_course"
+pattern = "(?i)(新概念英语|日文聽力|英式口音|上海话教程|台灣手語|零基础英语)"
+
+[[pass2]]
+category = "music_teaching"
+pattern = "(?i)(piano\\s*lesson|guitar\\s*lesson|music\\s*lesson|音乐教学|学钢琴|学吉他)"
+
+[[pass2]]
+category = "business_speech"
+pattern = "(?i)(\\btedx\\b|ted\\s*talks?|keynote\\s*speech|商业演讲|motivational\\s*speech)"
+
+[[pass2]]
+category = "religion_devotion"
+pattern = "(?i)(daily\\s*bible|daily\\s*breath|道德經|masihi\\s*geet|one\\s+day\\s+one\\s+surah)"
+
+[[pass2]]
+category = "real_estate_listing"
+pattern = "(?i)(楼盘|樓盤|吉隆坡房产|美国买房|美国投资)"
+
+[[pass2]]
+category = "fashion_outfit"
+pattern = "(?i)(\\bootd\\b|穿搭分享|今日穿搭)"
+
+[[pass2]]
+category = "asmr_nonfood"
+pattern = "(?i)(asmr\\s+(makeup|skincare|tapping|true\\s*crime|whisper|电台|garden)|writing\\s+and\\s+talking\\s+asmr|声控助眠)"
+
+[[pass2]]
+category = "tech_unbox_review"
+pattern = "(?i)(tech\\s*review|iphone\\s*\\d|gadget\\s*review|开箱评测|开箱實測|\\bnike\\s+air\\s+max\\b)"
+
+[[pass2]]
+category = "travel_hotel_noise"
+pattern = "(?i)(tourist\\s+town|carnival\\s+hotel|survival\\s+vacation|must-see\\s+attractions|旅游攻略)"
+
+[[pass2]]
+category = "dubsmash"
+pattern = "(?i)\\bdubsmash\\b"
+
+# ── v0.2.0：c90 金标 F certain-noise（T_hurt=0）──
+[[pass2]]
+category = "reality_bb_survivor"
+pattern = "(?i)(\\bbig\\s*brother\\b|\\bbigg?\\s*boss\\b|\\bsurvivor\\b|pinoy\\s*big\\s*brother|kumunitest)"
+
+[[pass2]]
+category = "episode_preview_tv"
+pattern = "(?i)(episode\\s*preview|vijay\\s*television|baakiyalakshmi)"
+
+[[pass2]]
+category = "trading_exam_finance"
+pattern = "(?i)(traders?\\s*(carnival|united)|gamestop\\s*controvers|ibps\\s*rrb|memory\\s*based\\s*paper|stock\\s*market|what\\s*is\\s*dividend)"
+
+[[pass2]]
+category = "lunchtime_laugh"
+pattern = "(?i)(lunchtime\\s*laugh|only\\s*connect)"
+
+[[pass2]]
+category = "animation_meme"
+pattern = "(?i)(animation\\s*meme|\\bmeme\\b)"
+
+[[pass2]]
+category = "ymca_dance"
+pattern = "(?i)ymca\\s*dance"
+
+[[pass2]]
+category = "game_chaos_sim"
+pattern = "(?i)(grandma\\s*simulator|half\\s*sword|\\bundisputed\\b)"
+
+[[pass2]]
+category = "kisme_kitna_show"
+pattern = "(?i)(kisme\\s*kitna\\s*hai\\s*dum|\\bkkhd\\b)"
+
+[[pass2]]
+category = "tom_jerry_wb_kids"
+pattern = "(?i)(tom\\s*&\\s*jerry|wb\\s*kids)"
+
+[[pass2]]
+category = "movie_review_plot"
+pattern = "(?i)(movie\\s*review/?plot|full\\s*movie\\s*hd)"
+
+[[pass2]]
+category = "weight_loss_journey"
+pattern = "(?i)(weight\\s*loss\\s*journey|weight\\s*loss\\s*diet)"
+
+[[pass2]]
+category = "asmr_reading"
+pattern = "(?i)(reading\\s*asmr|taking\\s*a\\s*love\\s*quiz)"
+
+[[pass2]]
+category = "anime_first_watch_react"
+pattern = "(?i)(attack\\s*on\\s*titan\\s*reaction|first\\s*time\\s*watching)"
+
+[[pass2]]
+category = "mountain_bike"
+pattern = "(?i)mountain\\s*bike\\s*skills"
+
+[[pass2]]
+category = "diy_travel_trailer"
+pattern = "(?i)diy\\s*travel\\s*trailer"
+
+[[pass2]]
+category = "drawing_preschool"
+pattern = "(?i)(drawing\\s*a\\s*fish\\s*with\\s*my|preschool)"
+
+[[pass2]]
+category = "hells_kitchen_tv"
+pattern = "(?i)hell'?s\\s*kitchen"
+
+[[pass2]]
+category = "b_corp_biz"
+pattern = "(?i)(\\bb\\s*corp\\b|recertification)"
+
+[[pass2]]
+category = "wand_curls_hair"
+pattern = "(?i)(wand\\s*curls|soft\\s*\\+\\s*voluminous)"
+
+[[pass2]]
+category = "fondant_animals"
+pattern = "(?i)\\bfondant\\b"
+
+[[pass2]]
+category = "costco_kirkland"
+pattern = "(?i)costco\\s*kirkland"
+
+[[pass2]]
+category = "zero_waste_shopping"
+pattern = "(?i)zero\\s*waste\\s*shopping"
+
+[[pass2]]
+category = "cctv_footage"
+pattern = "(?i)cctv\\s*camera\\s*footage"
+
+[[pass2]]
+category = "familyofive_vlog"
+pattern = "(?i)(familyofive|jakes\\s*16th\\s*birthday)"
+
+[[pass2]]
+category = "travis_kelce_superbowl"
+pattern = "(?i)(travis\\s*kelce|trump\\s*will\\s*attend\\s*the\\s*super\\s*bowl)"
+
+# ── v0.3.0：v0.5 验收金标 F certain-noise（T_hurt=0）──
+[[pass2]]
+category = "kids_cartoon_molang"
+pattern = "(?i)(\\bmolang\\b|funny\\s*compilation\\s*for\\s*kids|helluva\\s*boss)"
+
+[[pass2]]
+category = "hindi_moral_stories"
+pattern = "(?i)(hindi\\s*(kahani|stories)|moral\\s*stories|best\\s*buddies\\s*stories)"
+
+[[pass2]]
+category = "food_challenge_gone"
+pattern = "(?i)(drinking\\s*challenge|gone\\s*wrong|telugu\\s*experiments)"
+
+[[pass2]]
+category = "craft_egg_carton"
+pattern = "(?i)(egg\\s*carton|merry\\s*craft|don'?t\\s*throw\\s*away)"
+
+[[pass2]]
+category = "stitch_sewing"
+pattern = "(?i)(stitch\\s*&?\\s*cook\\s*by|ক্লাস-\\d+)"
+
+[[pass2]]
+category = "food_review_bts"
+pattern = "(?i)(food\\s*review\\s*club|behind\\s*the\\s*scenes)"
+
+[[pass2]]
+category = "snack_try_moms"
+pattern = "(?i)(moms?\\s*try.{0,40}snacks|mexican\\s*moms?\\s*try)"
+
+[[pass2]]
+category = "theme_tour_academy"
+pattern = "(?i)adalaj\\s*ni\\s*vav\\s*theme"
+
+# ── v0.5.4b：LLM n500b 安全 title（样本 T_hurt=0；禁止裸 recipe）──
+[[pass2]]
+category = "easy_quick_recipe_seo"
+pattern = "(?i)\\b(easy|quick|best|healthy)\\b.{0,40}\\brecipe\\b|\\brecipe\\b.{0,40}\\b(easy|quick|best|healthy)\\b"
+
+[[pass2]]
+category = "taste_review_tour"
+pattern = "(?i)\\b(taste\\s*test|food\\s*review|worth\\s*the\\s*hype|restaurant\\s*review)\\b|探店|试吃"
+
+
+# ── v0.5.6：人标 v1.6 非频道维（T_hurt=0）──
+[[pass2]]
+category = "homemade_v16"
+pattern = "(?i)\\bhomemade\\b"
+
+[[pass2]]
+category = "equipment_appliance_v16"
+pattern = "(?i)\\b(pellet\\s*grill|how\\s*to\\s*start|euronics|air\\s*fryer\\s*review|\\bappliance\\b|slow\\s*cooker\\s*tip)\\b"
+
+[[pass2]]
+category = "no_eggs_no_oven_v16"
+pattern = "(?i)\\b(no\\s*eggs?|eggless|no\\s*oven|without\\s*oven)\\b"
+
+[[pass2]]
+category = "vlog_routine_v16"
+pattern = "(?i)\\b(vlog|day\\s+in\\s+(my|the)\\s+life|morning\\s+routine)\\b"
+
+[[pass2]]
+category = "days_ways_listicle_v16"
+pattern = "(?i)\\b\\d+\\s*days?\\s+of\\s+cooking\\b|\\b\\d+\\s*ways?\\s+to\\b"
+
+[[pass2]]
+category = "dessert_token_v16"
+pattern = "(?i)\\bdessert\\b"
+
+# ═══════════════════════════════════════════════════════
+# channel_pass2 — 金标 ∪ LLM pure-F ∪ v1.6 纯F
+# 清单: rules/channel_blacklist_pure_f.csv
+# ═══════════════════════════════════════════════════════
+
+[[channel_pass2]]
+category = "ch_bl_01"
+pattern = "^(?:Mashed|Survival\\ Skills\\ Cooking|Helen's\\ Recipes\\ \\(Vietnamese\\ Food\\)|SuperChef|Zaika\\ Dilli\\ 6|Food\\ Fusion|KKHD\\ TV\\ REALITY\\ SHOW|Maria\\ Ansari\\ Food\\ Secrets|Namma\\ Adige\\ I\\ Kannada\\ Cooking\\ Channel|Skinny\\ Recipes|Sky\\ News|The\\ Sawalha\\-Adderleys\\ \\.\\.\\.\\ ONLY\\ CONNECT!|Vismai\\ Food|Crazy\\ Foody\\ Ranjita|Kavya's\\ cooking\\ channel|villfood|NishaMadhulika|5\\-Minute\\ Recipes|@RECIPESINMYWAY|Anitha\\ Pushpavanam\\ Kuppusamy\\ \\-\\ Viha|COOK\\ WITH\\ SAMREEN\\ SABAH|Cook\\ With\\ Fem|Garam\\ Masala|Hebbars\\ Kitchen|In\\ the\\ Kitchen\\ with\\ Karen|Indian\\ Recipes\\ Tamil|Khichdi\\ The\\ Food\\ Channel|Pure\\ Cooking|Rashmi's\\ Food\\ Corner|Raw\\ Chef\\ Yin|Seema's\\ Smart\\ Kitchen|Sharique\\ Samsudheen|The\\ Knife\\ Wizard|AroundMeBD|Abhilasha\\ CookSpot\\ Lifestyle|Afridi'skitchen\\ food\\ channel|Allrecipes|Amma\\ Chethi\\ Vanta|Appetizing\\.tv\\-Baking\\ Recipes|Attamma\\ TV)$"
+
+[[channel_pass2]]
+category = "ch_bl_02"
+pattern = "^(?:Bhooka\\ Saand|Busy\\ Daddy\\ Cooks|COOK\\ WITH\\ FAIZA|Chef\\ Kevin\\ Riese|Chef\\ Pachi\\ Gallo\\ Sustainably\\ FIT|Cook\\ With\\ Rupam\\ Sehtya|Cooking\\ With\\ Shabana|CookwithParul|Culinary\\ Hill|Dindigul\\ Food\\ Court|Eater|Excellent\\ Food|Food\\ Review\\ Club|Foods\\ and\\ Flavors|Gurung\\ Eating\\ Channel|Kannur\\ kitchen|Kataria's\\ Indian\\ Kitchen|Krishna\\ Mom\\ and\\ food|Mallika\\ Badrinath\\ veetu\\ samayal\\ /\\ Mallika\\ Badrinath|Mama's\\ Meal\\ Cooking\\ Channel|MiQuel\\ M\\.\\ Samuels|Mrs\\ Bangladesh\\ cooking\\ channel|My\\ Natural\\ Food|Nisa\\ TASTY\\ FOOD\\ n\\ VLOGS|OLD\\ SCHOOL\\ SOUL\\ FOOD|Original\\ Mama\\ Betty|PICHEKKISTA\\ BOBBY\\ FOOD|Recipe\\ Trier|Recipe\\ World|Recipe30|Sabeena\\ Cooking\\ Channel|Sandyvin|Sangeetha\\ Vinoth|Sean's\\ Straight\\ to\\ the\\ Food\\ Cooking|She\\ Cooks|Sheetal's\\ Kitchen\\ \\-\\ Gujarati|Soni\\ Village\\ Life|SouthernASMR\\ Sounds|TERRI\\-ANN'S\\ KITCHEN|Tamil\\ Food\\ Masala\\ \\-\\ PRIYA)$"
+
+[[channel_pass2]]
+category = "ch_bl_03"
+pattern = "^(?:Tasty\\ Food\\ With\\ Maria|Telugu\\ Experiments\\ Family|Vijay\\ Television|Vinitha's\\ House\\ Cooking|Wave\\ Oven\\ Recipes|What's\\ Cooking|What’s\\ Cooking\\ With\\ Aunt\\ Dee\\ Dee|Yummy|Yummy\\ Tummy\\ Aarthi\\ Vlogs|kaakaikutom|مطبخنا\\ اليمني\\ Our\\ Yemeni\\ Kitchen|Canadian\\ Prepper|Matthew's\\ Guyanese\\ Cooking|Naush\\ Kitchen\\ Routine|A\\ Receitaria|AAJ\\ KA\\ KHANA\\ WITH\\ ARIF\\ DAWOOD|ACTIONS\\ TOWARDS\\ BETTER\\ HEALTH|AKILAH|ANJALI\\ COOKING\\ SCHOOL|Abadi\\ Kitchen|Abida\\ Rasheed|Acharya\\ Manish\\ Ji|Achievement\\ Hunter|Active\\ Self\\ Protection|Actual\\ Village\\ Cooking\\ Review|Adi\\ Reddy|African\\ Cooking\\ with\\ Estelle\\ /\\ Cuisine\\ Africaine|Aiman\\ cook\\ \\&\\ vlog|Air\\ Fryer\\ Channel|Air5\\ Cooking|Ajay\\ Chopra|Alcashie|Alec\\ Koff\\ Label|All\\ About\\ Baking\\ by\\ NadiyaTanvir|Amber's\\ Easy\\ Cooking|Amharic\\ Cooking|Amma\\ Samayal\\ Food\\ Channel|Andrew\\ Bernard\\ \\|\\ The\\ Nard\\ Dog\\ Cooks|Angel\\ Culinary\\ Kitchen|Anishka\\ Village\\ Cooking\\ Channel)$"
+
+[[channel_pass2]]
+category = "ch_bl_04"
+pattern = "^(?:Anita\\ more\\ food|Anu's\\ Kitchen\\ Recipes\\ in\\ Malayalam|Anukriti\\ Cooking\\ Recipes|Anukriti\\ Cooking\\ Recipes\\ Hindi\\ \\-\\ Specials|Apna\\ Food|Arham\\ and\\ Shahzain|Art\\ for\\ Kids\\ Hub|Ash\\ food\\ channel|Ashus\\ Delicacies|Aviencloud|Ayano_Kurotama\\ ;\\)|Aylex\\ Culinary\\ Academy|Back\\ Guy|Badd\\ Medicine|Badshah\\ food\\ channel|Banana\\ Leaf\\ Cooking|Behind\\ the\\ Garage\\ BBQ|Berm\\ Peak\\ Express|Best\\ Buddies\\ Stories|Best\\ Ever\\ Food\\ Review\\ Show|Bharatzkitchen\\ Shorts|Bhusanur\\.cooking|Bigger\\ Bolder\\ Baking\\ with\\ Gemma\\ Stafford|Bilyonaryo\\ News\\ Channel|Blair\\ Bart|Blakewrtv\\ Kitchen|Bobby\\ Parrish|Bohra\\ Recipes|Bollywood\\ Silver\\ Screen|Bon\\ Appétit|Buff\\ Dudes|CABRI|CATCH\\ EM\\ ALL\\ FISHING|CHEF\\ MICHAEL|CHEFSCOOL\\ Cooking\\ Channel|COOLCRABTASTIC78|Caddicarus|Camirra's\\ Kitchen|Carla\\ Having\\ Fun|Carlos\\ Belcast)$"
+
+[[channel_pass2]]
+category = "ch_bl_05"
+pattern = "^(?:Charlie\\ Andrews|Charlie\\ Kirk|Charlotte\\ Dobre|Chef\\ Ashok\\ Cooking\\ And\\ Vlog|Chef\\ BB's\\ Kitchen|Chef\\ Bhupi's\\ kitchen|Chef\\ Billy\\ Parisi|Chef\\ Bonus\\ Sahoo|Chef\\ Josh\\ Omusiisisiisi|Chef\\ KUL\\ Cooking|Chef\\ Kayum\\ Kitchen|Chef\\ Moe|Chef\\ Nasir\\ Kitchen\\ Food|Chef\\ Nissi\\ Culinary\\ Art\\ Channel|Chef\\ RR\\ official|Chef\\ Riq\\ Unseen\\ Cuisine|Chef\\ Rohit's\\ Kitchen|Chef\\ Samina’s\\ Kitchen|Chef\\ Style|Chef\\ Wajeeha\\ Tariq|Chef\\ Walters\\ Cooking\\ School|Chef\\ Winston\\ GeL|Chicos\\ Toxicos|Chikkus\\ Dine|Chilly|Chinese\\ Cooking\\ Channel|CiCi\\ Li,\\ Asian\\ Home\\ Cooking|Classic\\ Mini\\ Food|Classy\\ Bhava\\ Kitchen|Coalcracker\\ Bushcraft|Coffee\\ Kev|Cook\\ With\\ Muskan|Cook\\ and\\ Taste|Cook\\ and\\ shop\\ With\\ Firdous|Cook\\ with\\ Manjit|Cook\\ with\\ Nabeela|Cooking\\ \\&\\ Grilling\\ with\\ Karl|Cooking\\ With\\ Claudy|Cooking\\ and\\ Baking\\ with\\ Saima|Cooking\\ with\\ Denay\\ 🍴)$"
+
+[[channel_pass2]]
+category = "ch_bl_06"
+pattern = "^(?:Cooking\\ with\\ Dr\\.\\ Chill|Cooking\\ with\\ Nhlanhla\\ Mahlangu|CookingInRussia\\ Redux\\ \\-\\ In\\ Memory\\ of\\ Chef\\ Easter|CookingShooking\\ Hindi|CookingWithCarolyn|Cooksohi|Crazy\\ Ghar|Creative\\ Cooking|Creative\\ Hut\\ Malayalam|Curries\\ With\\ Bumbi|D\\ Cheftastics|DJ\\ Raphi|DLPeace|DOMINICK\\ L\\ JOSEPH\\ CHANNEL|Da\\ Recipe\\ Queen|Dash\\ Chefs\\ Food\\ Network|David's\\ Food\\ Diary|Dawa_norki|Dead\\ Inside\\ Gaming|Delicious\\ Diaries|Delicious\\ and\\ simple\\ meals|Desi\\ Cooking\\ Recipes|Diane\\ Dee2|Dietitian\\ Amrita\\ Chakravarty|Dindo\\ Habijan|Dipika\\ Ki\\ Duniya|Dj\\ S\\ TV|Dollar\\ Tree\\ Dinners|Doug\\ DeMuro|Dr\\.\\ Elaine's\\ Soil\\ Food\\ Web\\ School|Dr\\.\\ Eric\\ Berg\\ DC|Dr\\.\\ Shereene\\ Idriss|Drew\\ Gooden|Duy\\ Tân\\ FOOD|Dyana\\ kitchen|Dyshell\\ Davis|E\\ BULL\\ JET|EASY\\ COOK\\ with\\ Chef\\ JIBU|EAT\\ AT\\ HOME\\ 食・家|EVERYTHING\\ IN\\ KANNADA)$"
+
+[[channel_pass2]]
+category = "ch_bl_07"
+pattern = "^(?:Easy\\ Fit\\ Kitchen|Easy\\ Recipes:\\ Chef\\ Monika\\ Jensen|Easy\\ cooking\\ by\\ Tabassum|Erstaunliche\\ Rezepte|Eshyka’s\\ ifood\\ Channel|Evelina\\ Sašenko\\ \\-\\ Topic|Evening\\ TV|Every\\ Thing\\ You\\ Want|Expresso\\ Show|FOOD\\ People|Family\\ Savvy|Fire\\ \\&\\ Water\\ Cooking|Flavours\\ Treat\\ \\-\\ Vegetarian\\ Cooking\\ Channel|Flo\\ Lum|Flowers\\ Comedy|Food\\ According\\ To\\ Lroca|Food\\ Chain\\ TV|Food\\ Channel\\ L\\ \\|\\ Lora\\ Naydenova|Frank's\\ Favorite\\ Foods|FutureCanoe|Gabrielle\\ McBay|Gayatri's\\ Cooking\\ Club|General\\ Mills\\ Foodservice|Gesundes\\ Essen\\ von\\ Nata|Get\\ Out\\ and\\ Grill!|Glamy\\ Ganga|Globalecentre|GoDuplo\\ TV|Gokul\\ Kitchen|Golden\\ Hands\\ Cooking|Greedy\\ Foodies\\ 🍔🍲|Greek\\ Cooking\\ by\\ Katerina\\ \\(Katerina\\ Moustaka\\)|Gretchen's\\ Vegan\\ Bakery|Grill\\ Ideen|GurusExploreTV|HEALTHY\\ and\\ DELICIOUS\\ recipes\\.|HEN3DRIK\\ \\-\\ Electroplating\\ 3D\\ Prints|HEYMAN\\ Food\\ Reviews|HITVIK\\ OFFICIAL|Halal\\ Chef)$"
+
+[[channel_pass2]]
+category = "ch_bl_08"
+pattern = "^(?:Happy\\ Foods\\ Tube|Healthy\\ Food\\ Recipes|Heavenly\\ Kitchen|Helga's\\ Pennsylvania\\ Cooking|Hell's\\ Kitchen|Here\\ in\\ Hawaii|HidaMari\\ Cooking|Hira\\ Khawaja|Home\\ Cook\\ Marathi|Homecook\\ Sushmita|House\\ M\\.D\\.|Huckberry|Huma\\ in\\ the\\ kitchen|Hungry\\ Elephant|Hunter\\ Gatherer\\ Cooking\\ UK|Hunter\\ Kitchen's_Indian\\ food\\ channel|I\\ Heart\\ Umami|Ijaz\\ Ansari\\ Food\\ Secrets|In\\ The\\ Kitchen\\ With\\ Gina\\ Young|Indian\\ Masterchef|Indian\\ Mom\\ Studio|Indian\\ Vlogger\\ Upasana|Indian\\ Weight\\ Loss\\ Diet\\ by\\ Richa|Innaiku\\ Enna\\ Samayal|Inooro\\ TV|IrixGuy's\\ Adventure\\ Channel|Is\\ Life\\ A\\ Recipe\\ \\-\\ Food\\ \\&\\ Travel\\ Review\\ Blog|Island\\ Vibe\\ Cooking|J\\.\\ Kenji\\ López\\-Alt|JOHN\\ SWAROOP\\ ENGLISH\\ TEACHER|JOHNCHALKER|JStu|Jahan\\ Ara's\\ Kitchen|Jamie\\ Oliver\\ TV|Jan's\\ vlog|Jenn\\ Im|Jinesh\\ Cooking\\ Classes|Julia\\ Child\\ on\\ PBS|Julia\\ Pacheco|Julian\\ Bakery,\\ Inc\\.)$"
+
+[[channel_pass2]]
+category = "ch_bl_09"
+pattern = "^(?:JustT|K\\ S\\ Chithra|Kabita's\\ Kitchen|Kanak's\\ Kitchen|Kanin\\ Cuisine\\ Cooking\\ Show|Kashmir\\ Food\\ Fusion|Kathrine\\ Kwa|Kaye'J\\ Channel|Kendall\\ Frederick|Khudalagse|Kiara\\ Dorner|Kit\\ Mak\\ \\(Kit\\ Mak\\ Cooking\\ Channel\\)|Kitchen\\ Area|Kitchen\\ On\\ Fire\\ Cooking\\ School|Kitchen\\ Store|Kitchen\\ With\\ mehnaz\\ Abid|Kitchen\\ with\\ Ali\\ Bhai|Kitchen\\ with\\ Amna|Kitchen\\ with\\ Aroosa|Kitchen\\ with\\ Tabassum|Kənd\\ Həyatı|LAZAT\\ COOKING|Lakshmi\\ Suresh\\ cooking\\ \\&\\ Travel\\ Vlogs|Lance\\ East\\ Enterprises|Le\\ Barbecue\\ de\\ Rafa|Lean\\ Bellas\\ Kitchen|Learn\\ English\\ with\\ Miss\\ Angelina|Living\\ Big\\ In\\ A\\ Tiny\\ House|Los\\ Angeles\\ Times\\ Food|Lou's\\ Food\\ Reviews|Love\\ Food|Lovely\\ English\\ Stories|MAASH\\ KITCHEN\\ \\&\\ REMEDIES|MASAの料理ABC|MBA\\ recipe|MY\\ BOLLYWOOD\\ BODY|Maa\\ Beti\\ Kitchen\\ Star|Mack\\ Lim|Magic\\ Review|Manisha\\ Bharani's\\ Kitchen)$"
+
+[[channel_pass2]]
+category = "ch_bl_10"
+pattern = "^(?:Manju\\ Mom's\\ cooking\\ Classes|Manjula's\\ Kitchen|Mark\\ Wiens|Marumagal\\ Kitchen|Masala\\ Kitchen|Maturah\\ Cooking\\ Channel|Mauricio\\ Mejia|Meredith\\ Shirk|Merry\\ Craft|Michaela\\ Bento|Millionaire\\ University|Mindful\\ Chef|Mini\\ Yummy|Mister\\ Drew|Modern\\ Food\\ Concepts|MoistCr1TiKaL\\ Gaming|Molang|Mom's\\ Cooking\\ Channel|Mon's\\ Toys|Mother's\\ Healthy\\ Kitchen\\ \\(MHK\\)|Mr\\ Snoopy|Mrs\\ Malabar|My\\ Jain\\ Recipes|My\\ food\\ and\\ life\\ history_The\\ variety\\ chef|NASIR\\ FOOD\\ RCP|NOBAR|Nadia\\ ka\\ kitchen|Nalini\\ Manick\\ Cooking|Nat\\ Ura|Natural\\ Health\\ Resources|Navadhanyam\\ TV|Nawab’s\\ Kitchen\\ Food\\ For\\ All\\ Orphans|Neera's\\ Cooking\\ Channel|Nehas\\ Cook\\ Book\\ \\-\\ Gujarati|Nenkal\\ Production|New\\ Gadgets\\ USA|Nguyễn\\ Ngọc\\ Hân|Nia\\ Imani|Nicko's\\ Kitchen|Nirrmla\\ Nehhra)$"
+
+[[channel_pass2]]
+category = "ch_bl_11"
+pattern = "^(?:Nitish\\ \\&\\ cuisine|Noshaba\\ Kitchen\\ Zone\\ English|Novita\\ Listyani|OFFICALRebeccaBlack|OLDAYS\\ KITCHEN|OMG\\ FOLLOW\\ E|OTR\\ Food\\ \\&\\ History|Oil\\ Verdict|Old's\\ Cool\\ Kevmo|Ordinary\\ Sausage|Oshay\\ Duke\\ Jackson|Our\\ Best\\ Life\\ Yet|Our\\ Cooking\\ Time|PHULWARI\\ COOKING\\ CHANNEL|PINAY\\ COOKING\\ LESSONS|Painted\\ Spoon|Pakistani\\ Food\\ Paradise|Panlasang\\ Pinoy|Papa\\ Mummy\\ Kitchen\\ \\-\\ Marwadi|Pearle\\ Maaney|Peridiam|Pinoy\\ Big\\ Brother|Plant\\ Based\\ Kitchenista\\ \\-\\ Chef\\ Kelley\\ Williamson|Plant\\-Based\\ with\\ Jane\\ Esselstyn\\ and\\ Ann\\ Esselstyn|Pocoyo\\ English\\ \\-\\ Official\\ Channel|Pooja's\\ Kitchen|Poonam\\ cookery\\ classes\\ Food\\ shawkeen|Popsugar|Proctor\\ Gallagher\\ Institute|Punjabi\\ Cooking|Pure\\ Delicious|Puthettu\\ Travel\\ Vlog|Quick\\ Brick\\ Games|REAL\\ COOKING|Racquel’s\\ Caribbean\\ Cuisine|Rain\\ Country|Rakesh\\ \\&\\ Jeni\\ 2\\.0|Ranveer\\ Allahbadia|Rebecca\\ Ho|RecipeTin\\ Eats)$"
+
+[[channel_pass2]]
+category = "ch_bl_12"
+pattern = "^(?:Recipes\\ By\\ Sidra\\ Waqar|Recipes\\ Learn|Reenas\\ kalavara|Rehman\\ cooking\\ channel\\ 🍙|Ritu's\\ Culinary\\ Arts|Riz\\ Food\\ Court|Romania\\ Black|Room\\ For\\ Dessert|Rose\\ Easy\\ Food|Rosh\\ Cookwares|SABIR\\ FOOD\\ SECRETS\\ \\.|SCAFA\\ Official\\ Channel\\ \\-\\ Culinary\\ Institute|SET\\ India|SKY\\ LINK\\ KITCHEN|SMILEY\\ Food|SSSniperWolf|SUBA'S\\ GALLERY\\-\\ Easy\\ Samayal|Saba\\ Ahmad\\ Food|Saleeqa\\ Cooking\\ Food|Salmi\\ Cooking|Sana\\ Ansari\\ Vlogs|SarapChannel|Savory\\ Secrets|Scratch\\ Cook\\ with\\ John|Secret\\ Kitchen|Selines\\ Recipes|Shadrasa\\ Cooking\\ Channel|Shaista\\ Cooks\\ Food|Shamees\\ Kitchen|She\\ Cooks\\ Healthy|Shemaroo\\ Umang|Shweta's\\ Kitchen|Si\\ Bon\\ Chef|Simple\\ recipe|Simply\\ Quinoa|Simply\\ Suba\\ Vlogs|Siulir\\ Rannaghor|Smile\\ Family|Soul\\ FooD|Soul\\ Food\\ Cooking)$"
+
+[[channel_pass2]]
+category = "ch_bl_13"
+pattern = "^(?:Souped\\ Up\\ Recipes|Srishti\\ Sharma|Stitch\\ \\&\\ Cook\\ by\\ Tanushree|Street\\ Food\\ China\\ Live|Study\\ Quick\\ by\\ Varun\\ Chitra|Success\\ Secrets\\ TV|Sudha\\ Pomaru|Suman\\ badanayak\\ vlogs|Sumatra's\\ Instincts|Sweedee|Sweet\\ Adjeley|Sweet\\ Art\\ by\\ Eli|TOY\\ WORLD|TRW|Tara\\ Mini\\ Food|Tasting\\ History\\ with\\ Max\\ Miller|Tasty\\ Travel\\ 맛있는\\ 여행|Taylor's\\ Fire\\ \\&\\ Smoke\\ Cooking|Ter\\ Vevo|That\\ Chemist|The\\ Bald\\ Chef|The\\ Cookie\\ Rookie|The\\ Cooking\\ Doctor\\ \\ 3M|The\\ Crazy\\ Chef|The\\ Dinner\\ Bite|The\\ Dinner\\ Fix|The\\ Executive\\ Chef\\ Channel|The\\ F\\ Word|The\\ Neighbors\\ Kitchen|The\\ Online\\ Cook|The\\ Queen\\ Chef|The\\ Ripe\\ Tomato\\ Farms|The\\ Staff\\ Canteen|The\\ Vintage\\ Cook\\ ®|The\\ Wooded\\ Beardsman|The\\ World\\ of\\ Zoe\\ Z|TheManninen|TheTabernacleMan|Thefan\\ Channel|Tiffani\\ Renae)$"
+
+[[channel_pass2]]
+category = "ch_bl_14"
+pattern = "^(?:Tiffin\\ Box|Tina's\\ Messy\\ Crafty\\ Life|TonaziTube|Traditional\\ Village\\ Cooking|Travel\\ \\&\\ Cook\\ with\\ Sachin|Travel\\ Today|Tsuji\\ Cooking\\ Recipe|Twin\\ Tag\\ \\-\\ Ayesha\\ Firoz|Udupi\\-Recipes|UnBoxington\\ Reviews|Uncle\\ Bill's\\ Kitchen|Undisputed|Unit\\-13\\ FREMSLT|Unqualified\\ Cooking|Unscripted\\ food|UpFlip|Useful\\ Tips\\ \\&\\ Tricks\\ for\\ Home|VILLAGE\\ FOOD\\ SAFARI|Vahchef\\ \\-\\ Vahrehvah\\ \\-\\ Telugu|Vasanthi\\ Shankar|Vedantu\\ Master\\ Tamil|Veggie\\ Touch|Village\\ Cooking\\ Channel|Village\\ Cooking\\ Vlog|Vành\\ Khuyên\\ Lê|WB\\ Kids|WOW\\ COOK\\ STUDIO|Washington\\ Post|We\\ Cook\\ Vegan|WhatsUpMoms|WikiPamela's\\ Kitchen|Will\\ Tennyson|Xertias\\ \\(Renjirra\\)|Yasmine's\\ Cooking\\ Show|Yo!\\ Mama\\ Mesh|Your\\ food\\ fest|Yummieliciouz\\ Food\\ Recipes|Zaiqay\\ ki\\ Duniya|Zee\\ Bangla|Zee\\ Tamil)$"
+
+[[channel_pass2]]
+category = "ch_bl_15"
+pattern = "^(?:Zero\\ Waste\\ Cooking\\ School|Zubaida\\ Bano|Zulfia’s\\ Recipes|allthingsbbq|bestdressed|caribbeanpot|cooking\\ with\\ Riffat|cooking\\ with\\ suma\\ teacher|easy\\ cooking\\ with\\ das|florovici|genuine\\ ilocana|hariscookbook|homesteadonomics|iong\\ i\\ Cooking|lily's\\ kitchen|mamah!|meez\\ \\-\\ Recipe\\ Management\\ \\&\\ Costing\\ Tool\\ for\\ Chefs|palani\\ uncle|poorboyjungle|pramila's\\ cook\\ book|punjabi\\ cooking\\ and\\ punjabi\\ culture|pyari\\ ruqaya\\ ka\\ kitchen|sabrina\\ lilliane|schnelle\\ Küche|shravani's\\ kitchen|villfood\\ Kitchen|Ông\\ Chú\\ Người\\ Bông\\ Official|শখের\\ রান্না|마미오븐\\ MOMMY\\ OVEN|씨즈닝siZning|하이틴에이저\\ Hi\\-teenager|5monkeys\\ Food|AP\\ Village\\ cooking|Abi\\ Tamil\\ Youtuber|Amanda\\ Ducks|B\\*\\*\\*hes\\ in\\ the\\ Kitchen|BORED|Big\\ Foodie\\ Geek|British\\ Cook|COTHM\\ Pakistan)$"
+
+[[channel_pass2]]
+category = "ch_bl_16"
+pattern = "^(?:CWE\\ India|Che\\ Nom|Chef\\ James\\ Makinson|Chef\\ Rene\\ Hewitt's\\ Jams|Chefs\\ In\\ The\\ City|Chow\\ down\\ my\\ lane|CityNews|Crunchyroll|Cutco\\ Cutlery|Deep's\\ All\\ in\\ One\\ Channel|Dr\\.\\ Devika\\ Bhatnagar|Editorial\\ \\&\\ Emmy's\\ Family|Farmer\\ Lairenmamit|Food\\ Club|Gage\\ Hill\\ Crafts|Harry\\ Mack|Hey\\ Skipper|Hila\\ Klein|Hunter\\ College\\ NYC\\ Food\\ Policy\\ Center|Japan\\ by\\ Food|JennaMarbles|KENS\\ 5:\\ Your\\ San\\ Antonio\\ News\\ Source|KWOOWK|KpShamino|Lucknow\\ Locals|MOMON\\ VLOG\\ MAX|MagicalButter\\.com|Mr\\.\\ Canucks\\ Grow|NivethaSathishkumar|PINKS\\ FOOD\\ JUNCTION|People\\ Vs\\ Food|Praveen\\ Pranav|Predator\\ Bass\\ Fishing|SALADMASTER\\ Joy\\ of\\ Cooking\\ Dealership\\ Channel|SAMAA\\ TV|Seasoning|Sherman|Sri\\ Reddy\\ Official|Stay\\ Snatched|Sunny\\ Side\\ Up)$"
+
+[[channel_pass2]]
+category = "ch_bl_17"
+pattern = "^(?:TA\\ Fishing|Table\\ Rock\\ Dairy|Tastee\\ with\\ Kiruthiga|Techie\\ Food\\ Tales|The\\ Baking\\ Diva|The\\ Connection\\ \\(Community\\ Home\\ \\&\\ Kitchen\\ Category\\)|The\\ Flat\\ Top\\ King|The\\ Food\\ Theorists|The\\ Little\\ Cook\\ Dora\\ Bora|The\\ Provident\\ Prepper|Weird\\ History\\ Food|What\\ Next\\?|Yale\\ Appliance|eFoodhandlers\\ Inc\\.|mrnigelng|punjabi\\ home\\ cooking|shfa\\ show\\ India|和食\\ Japanese\\ Food\\ Channel|FoodFood|ETV\\ Abhiruchi|TODAY\\ Food|Food\\ Network|Kristin's\\ Friends\\ Cooking|Mahimas\\ Cooking\\ Class|Indian\\ Mom\\ Cooking|Devina\\ Hermawan|Sorted\\ Food|Turkish\\ Food\\ Travel|Backyard\\ Chef|Swad\\ Institute\\ \\-\\ Learn\\ Cooking\\ \\&\\ Baking|Chris\\ Cooking\\ Nashville|Anyone\\ Can\\ Cook\\ with\\ Dr\\.Alisha|OrsaraRecipes|The\\ Plant\\ Slant|INDIAN\\ Veg\\ Food|Thyda\\ Cooking\\ TV|Chef\\ Faz|Jamie\\ Oliver|Cooking\\ With\\ Sros|TasteTheDay)$"
+
+[[channel_pass2]]
+category = "ch_bl_18"
+pattern = "^(?:Paula\\ Deen|Cooking\\ with\\ Benazir|Gomathi's\\ Kitchen|Sros\\ Cooking\\ Show|Dutta\\ Foods|SUAADص|North\\-Indian\\ cooking|STANMAN\\ FOOD|KATRATHU\\ KAIALAVU|Little\\ Village\\ Homestead|KeerthiSowmi\\ Vlogs|Apni\\ Cooking\\ Classes|Lata's\\ Cook\\ Book|Alyssia\\ Sheikh|Martha\\ Stewart|Meghna's\\ Food\\ Magic|Melanie\\ Cooks|Publix|QVC|RED\\ MEAT\\ FAIR|REETU\\ PALTHANIA|Rachel's\\ Quick\\ Recipes|Radhe\\ Cooking\\ Classes\\ by\\ Rita\\ Vithlani|Nitesh\\ lama\\ rumba|Radhika\\ Real\\ Vlogs|Priya's\\ ಮಧ್ಯಮ\\ ಕುಟುಂಬದ\\ Recipes|Ron\\ The\\ Cook|Ruba\\ Foods|Russian\\ Cuisine\\ in\\ English|Marina\\ Recipe|Mama\\ Jones\\ Kitchen|SAM\\ THE\\ COOKING\\ GUY|Mama\\ Cooking\\ Papa\\ Watching|SHUBHAM'S\\ COOKBOOK|Real\\ Indian\\ Home\\ \\&\\ kitchen|Meryem\\ Cooking|Middleclasskitchen\\&vlogs|Najmas\\ Cooking|Nisha\\ Baid\\ Cookery\\ Classes|Nilam\\ Food\\ World)$"
+
+[[channel_pass2]]
+category = "ch_bl_19"
+pattern = "^(?:Nellai\\ samy\\ cooking|Neeli\\ Meghaalaloo|Nutmeg\\ Notebook|Olivia|Om\\ Sai\\ Cooking\\ Class|Nasifa\\ Samayal|PHL17\\ Philadelphia|SL\\ HEALTHY\\ FOODS\\ CHEF\\ PALITHA|Pailin's\\ Kitchen|Pressure\\ Luck\\ Cooking|Muscle\\ Meal\\ Hub|Mukgling|Pakoda\\ Boyz|Pampered\\ Chef\\ Chic|Pastry\\ Fundamentals|Patty\\ Cake\\ Kitchen|Ms\\ Brenda\\ Dee|Mini\\ Cooking|Peshawar\\ Food\\ Network|Pooja\\ kushle\\ cooking\\ channel|123\\ GO!\\ Genius|Seonkyoung\\ Longest|Sakura\\ Cooking\\ Channel|Witnessing\\ Nature\\ In\\ Food|The\\ Pastor's\\ Pantry\\ Cooking\\ School|The\\ Whole\\ Food\\ Plant\\ Based\\ Cooking\\ Show|Top\\ Nosh\\ Cooking\\ School|Twisted|Veg\\ Food\\ Manual|Veg\\ Village\\ Food|Veggie\\ Rose\\ \\(Rose\\ Alvarez\\)|Vien|Views\\ on\\ the\\ road|Vishnu\\ Manohar's\\ Master\\ Recipes|Volunteer\\ Food\\ Channel|Vyanjan\\ Cooking\\ Classes|Wekiva\\ Culinary|YES\\ Chef!|Sam\\ \\&\\ Dom's\\ KitchenGadgetsClub|Yasmeen\\ Food\\ Story)$"
+
+[[channel_pass2]]
+category = "ch_bl_20"
+pattern = "^(?:Yasmin's\\ Cooking\\ \\&\\ Vlogging|Yeung\\ Man\\ Cooking|Yum\\ Tadka\\ Punjabi\\ Cooking|Zaika\\ Zar|Zainab\\ cooking\\ kitchen\\&vlog|cooking\\ with\\ anna|flavorful\\ cooking|ruptushDiner|thescramble|办公室小野\\ Ms\\ Yeah|셰프크루\\ 호주요리유학\\.이민\\.취업|The\\ Bengali\\ Cook|The\\ America\\ We\\ Remember|ThatDudeCanCook|ThaiChef\\ Food|Samina\\ Food\\ Story|Samreen\\ khan\\ vlogs|Sanjeev\\ Kapoor\\ Khazana|Maddy\\ \\&\\ Mummy|Sheetal's\\ cooking\\ \\&\\ baking|Shelly\\ Cooks|Shobha\\ Indani\\ \\|\\ Vegetarian\\ Recipes|Simple\\ Cooking\\ Channel|Simple\\ and\\ Easy\\ Cooking|Smarthistory|Sros\\ Yummy\\ Cooking\\ Vlogs|Stacie’s\\ Country\\ Cooking\\ \\&\\ Adventures|StrawBerry\\ Channel\\ \\-\\ Cooking\\ \\&\\ Baking|Suji's\\ Kitchen|Susie's\\ Cooking\\ Show|Swamp\\ Valley|Sweetheart\\ Cooking\\ Institute|THE\\ KITCHEN\\ QUEEN|TOM\\ GARVEY\\ the\\ KETO\\ COOK|TabiEats|Tamil\\ Foodies|Taramadhu\\ ki\\ Rasoi|Taste\\ \\&\\ Beyond|Tastemade|Tasty)$"
+
+[[channel_pass2]]
+category = "ch_bl_21"
+pattern = "^(?:Tatyana's\\ Everyday\\ Food|Magic\\ foods|Kyong\\ Weathersby|MANE\\ MANE\\ RASADOOTA|Cooking\\ For\\ You|Chef\\ Saadat|Chef\\ lalith\\ with\\ art\\ cookery|Chefabbys|Chinese\\ Cooking\\ Demystified|Christen\\ Nehmer|Christopher\\ Kimball’s\\ Milk\\ Street|Classy\\ Yummy\\ Recipes|Cook!\\ Stacey\\ Cook|CookWithNisha|Cookd|Cooking\\ At\\ Pam's\\ Place|Cooking\\ Con\\ Claudia|Cooking\\ Doodle|Cooking\\ Infotainer|DIGITAL\\ FOOD\\ NETWORK|Cooking\\ Vibes|Cooking\\ With\\ Chef\\ Tigi|Cooking\\ With\\ Ramsha|Cooking\\ ticket\\ marathi|Cooking\\ with\\ Cody|Cooking\\ with\\ Eat\\ Together\\ Clarence|Cooking\\ with\\ Frenchy\\ \\-Cooking\\ and\\ Baking\\ made\\ easy|CookinginFinland|Cookrate|CountryHouseGent|Cuisine\\ Mauritian|Culinary\\ Belle|Culinary\\ School\\ Stories|Chef\\ Raphael|Chef\\ Ramida\\ \\-Thai\\ Food\\ Expert|Chef\\ Jean\\-Pierre|Chef\\ Henry\\ Kitchen|@Moorthy'S\\ Cooking|A\\ Food\\ Lover's\\ Life|AJU'S\\ WORLD\\ \\-\\ The\\ Real\\ Life\\ Lab)$"
+
+[[channel_pass2]]
+category = "ch_bl_22"
+pattern = "^(?:Abbey\\ the\\ Food\\ Scientist|Adventures\\ in\\ Everyday\\ Cooking|Alex|Almost\\ Anything|Amenas\\ Food\\ Collection|Archa\\ Cooking|Assiette\\ Créole\\ by\\ Frénie|Associated\\ Press|Astrid's\\ Kitchen|Atanur\\ Rannaghar|Auguste\\ Escoffier\\ School\\ of\\ Culinary\\ Arts|Avik\\ Vlogs|BaBa\\ Food\\ RRC|Bakht\\ ki\\ Recipes|Banpreet\\ Kitchen|Basit\\ hussain\\ FDS|Betty's\\ Fun\\ Cooking|Big\\ Eye\\ Lazy\\ Cat|Brenda\\ Stories\\ and\\ Cooking\\ Channel|CHEF'S\\ LABO\\ 自宅で出来るプロの味|CLV|Cat\\ Cora|Charlie\\ Berens|Chef\\ Coach|Cô\\ Ba\\ Bình\\ Dương|Daniel's\\ GongBang|Lounging\\ with\\ Lenny|Kitchen\\ Sanctuary|How\\ To\\ Cook\\ That|Imperfect\\ Cooking\\ Show|Indian\\ YouTuber\\ Neelam|Inspired\\ Taste|JAM\\ PACKED\\ COOKING|JAPANESE\\ COOKING\\ CHANNEL|Jacques\\ Pépin\\ Foundation|Jeremy\\ Potvin\\ Cooking|Jia\\ Choi|Karthi\\ cooks\\ Malayalam|Kavitha\\ Samayalarai\\ கவிதா\\ சமையலறை|Kay's\\ Cooking)$"
+
+[[channel_pass2]]
+category = "ch_bl_23"
+pattern = "^(?:Kiran\\ food\\ channel|KitchenAid\\ India|Delmarva\\ Backyard|Kool\\ Cooking|Kritha\\ Mom's\\ Kitchen|Kun\\ Foods|Kunal\\ Kapur|Kuya\\ Fern's\\ Cooking|18\\ Reasons|Laiba\\ Food\\ School|Laura\\ in\\ the\\ Kitchen|Learn\\ Cooking\\ with\\ Food\\ Spice|Letizia\\ Cooking|Liam's\\ Education\\ and\\ Charitable\\ Trust|Life\\ is\\ beautiful\\ \\#IndianVloggerInDubai\\ \\#TwinsMom|London\\ Maggi|HomeCookingShow|HomeCooking\\ Tamil|Home\\ Cook\\ Basics|Hi\\ Story\\ Cooking\\ Classes|Desi\\ khana\\ Tips\\ \\&\\ vlogs|Downunder\\ Farm\\ and\\ Forge|East\\ Meets\\ Kitchen|Easy\\ Peasy\\ Beautiful\\ Food|Everyday\\ Homemade\\ with\\ Chef\\ Donna\\ G\\.|FOODBOOM|FUN\\ FOODZ\\ WITH\\ KUSUM|Fallow|Finer\\ bites\\ in\\ life|Flyup\\ Jain\\ Cooking\\ Classes|Food\\ Cravings\\ with\\ Chef\\ Nicko|Food\\ Network\\ UK|Food\\ Wishes|Food\\ and\\ Beverage\\ Teaching\\ Factory|Food\\ and\\ Life|Food\\ with\\ Chetna|Food\\ with\\ Saad\\ Raja|FoodWinners\\ \\|\\ Food\\ Winners|Fork\\ the\\ People|Fua\\ Food)$"
+
+[[channel_pass2]]
+category = "ch_bl_24"
+pattern = "^(?:Glen\\ And\\ Friends\\ Cooking|GoodCooking|Gudiya\\ Cooking\\ Recipe|Gurukrupa\\ Pastries\\ And\\ Cooking\\ Classes|Haniela's|Hari\\ Akula|Hassanchef|야미푸드\\ YUMMY\\ FOOD|Ammis\\ Cookery|apu\\ kitchen\\ with\\ village\\ food|MadhurasRecipe\\ Marathi|Swapna\\ Vaitla|Masala\\ TV\\ Recipes|Geeta's\\ Cooking|World\\ Food\\ Tube|Culinary\\ Academy\\ Of\\ India|The\\ Culinary\\ Institute\\ of\\ America|Chef\\ Archie’s\\ Easy\\ Recipes|Whipy\\ Whip\\ Whipping\\ Cream\\ پاکستان|SurvivorECHO|Robin\\ Asbell\\ Plant\\ Based\\ Chef|Village\\ Kitchen|The\\ Mediterranean\\ Dish|Food\\ Pharmer|VIVE\\ Cooking\\ School|CookingWithSaeen\\ \\|\\ Sindhi\\ Food\\ Chef|TradiSwad|Cooking\\ With\\ Brenda\\ Gantt|Tim\\ Clowers\\ /\\ Cook\\ it\\ with\\ Tim|RK's\\ Food\\ Channel|Kusina\\ chef|Food\\ and\\ Taste|Alessandras\\ Food\\ is\\ Love|Anita\\ Ji\\ Ka\\ Kitchen\\ ‎‎‎|Everyday\\ Food|SindhTVHD\\ Cooking\\ Show|Sukirtg|fatima_skitchen|Rakshita\\ Talks|Rao's\\ Kitchen)$"
+
+[[channel_pass2]]
+category = "ch_bl_25"
+pattern = "^(?:Real\\ Chef\\ Tutorial|Schilla's\\ Easy\\ Recipes|Sarah\\ Sharratt|Recipe\\ Verdict|Sameena's\\ kitchen|Salt\\ Butter\\ Smoke|Renascent\\ Collective|Ripa\\ Recipes\\ \\-\\ Cooking\\ Channel|SANA\\ COOKING\\ FOOD|Rutba\\ Khan\\ Kitchen|Rizwanas\\ Cooking|Robert\\ Welch|A\\ Recipe\\ Blog|Priyanka\\ cooking\\ vlog|Raksha\\ ki\\ Rasoi|Nin\\ is\\ Cooking|Mon\\ Thích\\ Nấu\\ Ăn|Mrs\\ Mums\\ Cooking|MrsGalangsKitchen|Mum\\ Hira's\\ Kitchen|Muthi\\ Haura|MzYazzyFresh|N'Oven\\ \\-\\ Cake\\ \\&\\ Cookies|NOOR\\ CHANNEL|NYT\\ Cooking|Natalia\\ Campbell|Natur\\ \\&\\ Kultur|Nepali\\ Food\\ \\&\\ Cooking\\ Channel|Nida\\ Mumtaz\\ Official|Nirali\\ Cookery\\ \\&\\ Bakery\\ Institute|Queens\\ Curry\\ Kitchen|OK\\ Tested|ONLY\\ in\\ JAPAN\\ \\*\\ John\\ Daub|OneSimpleChef|PJ's\\ Corner\\ Workshop\\ Demos\\ DIY|Papa\\ Mummy\\ Kitchen\\ \\-\\ Specials|Peaceful\\ Baking|PhatVick,\\ the\\ Wingman🪽|Pratibhaadubbeyy|Priya\\ Cookery\\ Class)$"
+
+[[channel_pass2]]
+category = "ch_bl_26"
+pattern = "^(?:Pro\\ Cooking\\ World|Punjabi\\ Village\\ Food\\ Factory|Queen\\ Bee\\ Paradise\\ Tamil|Sen's\\ cooking\\ compilation|Southern\\ Discourse|Seniac|Virtual\\ Banjara®|Whippoorwill\\ Holler|Win\\ Stone’s\\ Food\\ Chronicles|World\\ of\\ Thai\\ Food|Yashika\\ Cooking\\ Vlog|Yashwin's\\ Cooking\\ Blog|Your\\ Food\\ Lab|Yum's\\ Kitchen|Yummy\\ Food\\ World|Yummy\\ Sourashtra|ZACH’S\\ SNACKS\\ COOKING\\ CHANNEL|Zufrana\\ Culinary\\ Art\\ cooking\\ and\\ baking\\ classes|_Flavorful_Journeys_|bharatzkitchen\\ HINDI|brutalmoose|chef\\ rumi\\ in\\ the\\ kitchen|cook\\ with\\ Farha|cookwithnighatanwer|dolci\\ \\&\\ sapori\\ di\\ denise|happy\\ pizza|iHealthTube\\.com|kay's\\ recipes\\ gh|kooking\\ keeda:\\ Cooking\\ \\&\\ Baking\\ Classes|nadia\\ food|whatthefawna|和食の技術チャンネル|What\\ We\\ Eat|Vincenzo's\\ Plate|Village\\ Insider|Shalou\\ Cuisine|She's\\ In\\ Her\\ Apron|Sip\\ and\\ Feast|Smita's\\ Amazing\\ Cakes\\ n\\ Culinary\\ Classes|Smrity's\\ world)$"
+
+[[channel_pass2]]
+category = "ch_bl_27"
+pattern = "^(?:Soumya\\ C\\ Recipes|South\\ Indian\\ Culinary|Mobile\\ Cooking\\ Teacher|Steak\\ VODS|Survival\\ skills\\ Anywhere|Swappy\\ Food|The\\ Caspers\\ Family|The\\ Easy\\ Vegan|The\\ Hellenic\\ Odyssey\\ Cooking\\ Classes\\ \\&\\ Food\\ Tours|The\\ Homeowners\\ Show|The\\ River\\ and\\ Wilder\\ Show|TheSeasonedCook|TheWolfePit|Top\\ 5\\ PRODUCT\\ REVIEW|TosTinMan\\ EasyCooking|Twins\\ VegKitchen|Tyler\\ Wilder|Unaisa\\ fashion\\&cooking|Uncle\\ Matt's\\ Cookery\\ Lessons|Vel\\ Dogg's\\ Kitchen|Mom's\\ Kitchen\\ with\\ Rubi|Make\\ Sushi\\ 1|Melissa\\ Carr\\ \\|\\ Singing\\ Chef|Chef\\ Pearl\\ Cooking\\ Studio|Chefdy\\ Cooking|Cherville\\ mix\\ vlog|Chris\\ G\\ Cooks|ChunkyBeef|Classical\\ Thai\\ Cooking|Coco\\ Larkin\\ Cooks|Come,\\ Cook\\ With\\ Me|Cook\\ with\\ Madi|Cookery\\ Recipes|Cooking\\ Lessons\\ for\\ Dad|Cooking\\ With\\ Jack\\ Show|Cooking\\ With\\ Neighbours|Cooking\\ With\\ TGG|Cooking\\ with\\ Passion|Cooking\\ with\\ Shotgun\\ Red|Cooking\\ with\\ the\\ Coias)$"
+
+[[channel_pass2]]
+category = "ch_bl_28"
+pattern = "^(?:Cousin\\ Drew1339|Cowboy\\ Kent\\ Rollins|Culinary\\ Qreations|DIY\\ Cooking\\ Lessons|DVP\\ Reviews|DW\\ Food|Dailey\\ Kitchen|Dan\\-O’s\\ Seasoning|Danny\\ Kim|Delhi\\ Cooking\\ Class\\ By\\ Farheen|Deshi\\ Food\\ Channel|Chef's\\ Hub|Chef\\ Irfan\\ Wasti|Easy\\ Cooking|Chef\\ Deena’s\\ Kitchen|Aditi\\ cake\\ and\\ cooking\\ classes|Akshaya\\.\\ com|Alison\\ Roman|Alonzo\\ Lerone|Aman\\ Bhatia|America's\\ Test\\ Kitchen|Amina\\ Gul\\ Cooking\\ Channel\\ 300k\\ views\\ 1\\ hour\\ ago\\.\\.\\.|Amish\\ Cooking|Amma's\\ Food\\ Channel|Amy\\ Lee|Andy\\ Cooks|Angie's\\ Table|Anna\\ Khan|Appetitliche\\ Rezepte|Apron|Asiancookingmadeeasy|Ayesha\\ Cakes\\ And\\ Cuisine|Ayesha's\\ Kitchen|Bachelor\\ Cookies|Bakz\\ Kitchen|Becoming\\ a\\ Farm\\ Girl|Betty's\\ Kitchen|Brendan\\ Miller|Butter\\-n\\-Thyme\\ w/ChefStevenPennington|CATFISH\\ KARMA)$"
+
+[[channel_pass2]]
+category = "ch_bl_29"
+pattern = "^(?:CHEF\\ LAMA\\ COOKING\\ CHANNEL|Chef\\ Anxieta|Donny\\ Dust’s\\ Paleo\\ Tracks|Ecomperor|Mayur's\\ Pantry|Janice\\ Сhef|Jean\\ Bean\\ Studio|Jenna's\\ Kitchen|Jessica\\ Gavin|Joanna\\ Barajas|Jojo\\ M\\ Cooking\\ Channel|Joyful\\ Cook|KITCHEN\\ TALES\\ BY\\ NEETHU|KRISHNA’s\\ FOOD\\ \\&\\ Travel|Kaitlynn\\ Cook|Kanyakumari\\ Markets|Kitchen\\ Lover|Kitchen\\ Nightmares|Kokab\\ Khwaja\\ Studio|Krithikaa\\ Sharrda\\ Kitchen|Lakshmi\\ Narayan\\ food\\ channel|Lastai\\ Mitho\\ by\\ Limbu|Lazy\\ AWESOME\\ Dad|Let's\\ Cook\\ That!|M\\ Kathleen\\ Meisinger|MULTI\\ \\ \\ VLOG\\ \\ CHEF|Madras\\ Samayal|Adam\\ Liaw|Mama\\ Lulu's\\ Kitchen|Mandakini\\ Jadhav\\ Cooking|Manisha\\ Cooking\\ Classes|Marchell\\ Tv|Marium’s\\ Food\\ Channel|Java\\ Media|Jack\\ Perez|Epicurious|JK\\ Cookery\\ School|Ethannn|Evettexo|FOOD\\ ZAIKA\\ PAKWAN)$"
+
+[[channel_pass2]]
+category = "ch_bl_30"
+pattern = "^(?:Fast\\ \\&\\ Easy\\ Recipes|Fatima\\ N\\ Foods|Food\\ \\-\\ a\\ fact\\ of\\ life|Food\\ Impromptu|Food\\ Lovers\\ TV|Food\\ Tasty\\ \\(Chef\\ Malgudi\\ Kavitha\\)|Food\\ by\\ Detolu|Foodie\\ Channel|Foodie\\ Sha|Foody\\ Amaze|Freezer\\ Meals\\ 101|French\\ Cooking\\ Academy|French\\ Kiss\\ Cook|Hailee\\ Catalano|Heghineh\\ Cooking\\ Show|Helen\\ \\-\\ Home\\ Chef|Homecooking\\ With\\ Chef\\ Walter|How\\ To\\ Cook\\ Great|How\\ to\\ cook|Humna\\ Zahid|HunniBee\\ ASMR|Indian\\ ASMR\\ World|Indian\\ Youtuber\\ Priyanka\\ Patkar|Irfana\\ shamsheer|푸드킹덤\\ Food\\ Kingdom|5Djoe|Aaron\\ and\\ Claire|Agri\\ Idea|Agriculture\\ Insight|Akosuah's\\ Tasty\\ Recipe|Akshaya\\ Aari\\ creation|Amber\\ J\\ Baldwin|Annams\\ Recipes|Armadillo\\ Pepper\\ BBQ|Bake\\ With\\ Shivesh|BakeLikeAPro|Ballistic\\ BBQ|Bare\\ Bones\\ Cooking|Barkath_Cooking|Brandon)$"
+
+[[channel_pass2]]
+category = "ch_bl_31"
+pattern = "^(?:BurningCereal|Chakkh\\ le\\ India|Chef\\ Eric's\\ Culinary\\ Classroom|Chef\\ Jonathan\\ Collins|Chef\\ Mishal\\ Arslan|Chef\\ Nawaz\\ 👨‍🍳|Chef\\ Rosie\\ Batista|Chef\\ YKU|Chef\\ Yousaf\\ Khan|Chef\\ Zeta|Chef\\ somjeet\\ singh|Connie’s\\ Cooking\\ Channel|Cook\\ Mentor|Cook\\ With\\ JO|Cook\\ with\\ Lubna|Cooking\\ Arts\\ By\\ Pooja|Cooking\\ With\\ CJ|Cooking\\ With\\ Duaa|Cooking\\ with\\ John|CookingWithHua|Culinary\\ Arts\\ Academy|Diễm\\ Nauy|Donnie\\ Cooking!|Easy\\ Cooking\\ with\\ Setia|Euronics\\ Ireland|Fit\\ \\&\\ Food\\ Tamil|Flavorous\\ Plate|Helen\\ Rennie|HỮU\\ QUỐC\\ MÓN\\ NGON\\ DỄ\\ LÀM|Indian\\ Cooking\\ Express|Indian\\ Vegetarian\\ Recipes|James\\ Andrews|Jevanna\\ fashion\\ and\\ lifestyle|Kelsey\\ Kreppel|Kitchen\\ Kahani|LIFE\\ WITH\\ NIDA|Lahori\\ Food\\ Channel\\ Shazia\\ Imran|Lekshmi\\ Nair|LifebyMikeG|MAD\\ GARDENER)$"
+
+[[channel_pass2]]
+category = "ch_bl_32"
+pattern = "^(?:Maria\\ Chefdemicasa|Mary\\ Berry|Mashaya's\\ Kitchen|Master\\ Chef\\ Walter\\ Potenza|Monica's\\ Singapore\\ Kitchen|Mr\\.\\ H's\\ Food\\ Hunting|My\\ Village\\ Food\\ Secrets|Nation\\ Food|NuWave|Nuthana\\ naik|PhillyboyjaySweetz|Plantifully\\ Based|Poorna\\ \\-\\ The\\ nature\\ girl|ProductPilot|R\\ Rajesh\\ Vlogs|Raw\\ Street\\ Capture\\ 101|SMART\\ Tutorials\\ NYC|Sabzar\\ Food\\ Tv|Saldez\\ Channel|Sattvik\\ Kitchen|Shanty's\\ Firesides|Simple\\ Chef\\ Meals|Simply\\ Mamá\\ Cooks|Smokin'\\ \\&\\ Grillin\\ with\\ AB|Snow\\ Dogs\\ Cooking\\ With\\ Jess|So\\ Vegan|Sous\\ Cooking\\ Channel|Spice\\ Food|Stanley\\ Ka\\ Dhaba|Street\\ Food|Sumi's\\ Cooking\\ Corner|Sumita's\\ Kitchen|Sunita\\ Cooking\\ Baking\\ Class|Sunita's\\ Cooking\\ Class|Swa\\ Education|Swetha's\\ kitchen\\ \\&vlogs|TENNESSEE\\ NIKKI|THE\\ FOOD\\ AND\\ THE\\ SMOKE|THE\\ KBS\\ CHEF|THE\\ UN\\ KNOWN\\ ®)$"
+
+[[channel_pass2]]
+category = "ch_bl_33"
+pattern = "^(?:TITO\\ JADS|Tamil\\ Mom\\ by\\ Bhanu|Thai\\ Street\\ Food\\ Channel|The\\ Curious\\ Minds|The\\ Fisherman\\ Magazine|The\\ Real\\ Taste\\ of\\ Kerala|The\\ Wood\\ Fired\\ Oven\\ Chef|TheCooknShare|Timeline\\ \\-\\ World\\ History\\ Documentaries|Tina\\ Mini\\ Cooking|Toys\\ and\\ Colors|Uzmas\\ Cuisine|VICKY\\ PATWA|Vegan\\ Cooking\\ with\\ Love|Vietnam\\ Street\\ Food\\ TV|Village\\ Super\\ Cooking|Village\\ cooking\\(Mattisatti\\ vantalu\\)|Weelicious|Yousufshah\\ food\\ secrets|Yummy\\ n\\ Spicy|alihasankushtia|bestbitesforever\\ 💜|cooking\\ with\\ ApS|lisape360|sabas\\ best\\ classes|sarala\\ cooking\\ channel\\ in\\ kannada|乡村食叔|製パン講座　Bien\\ Cuit\\ ビアンキュイ)$"

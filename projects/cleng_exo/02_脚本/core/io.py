@@ -7,6 +7,7 @@ core/io.py — 统一文件读写与路径小助手
 
 from __future__ import annotations
 
+import csv
 import os
 import re
 
@@ -37,11 +38,25 @@ def duckdb_reader(path: str, *, ignore_errors: bool = True) -> str:
 
 
 def count_csv_data_lines(path: str) -> int | None:
-    """粗算 CSV 数据行（总行数 - 1 表头）。失败返回 None。"""
+    """逻辑数据行数（按 CSV 记录计，引号内换行不计；已减表头）。失败返回 None。
+
+    不能用 ``\\n`` 计数：``title`` 等字段内含引号包裹的换行会把物理行数抬高，
+    使正常文件被误判为「丢行」。
+
+    但 CSV 解析本身也可能失败（如字段含 NUL 字节），此时退回物理行数近似：
+    宁可粗略告警，也不要静默放过真实丢行。
+    """
+    try:
+        with open(path, newline="", encoding="utf-8-sig", errors="replace") as f:
+            return max(0, sum(1 for _ in csv.reader(f)) - 1)
+    except OSError:
+        return None
+    except csv.Error:
+        pass
+    # csv 解析失败：退回物理行数（可能含引号内换行，仅作兜底告警）
     try:
         with open(path, "rb") as f:
-            n = sum(1 for _ in f)
-        return max(0, n - 1)
+            return max(0, sum(1 for _ in f) - 1)
     except OSError:
         return None
 
@@ -53,7 +68,7 @@ def warn_csv_row_skew(
     log_fn=None,
 ) -> int:
     """
-    若文件行数明显大于已加载行，WARN 可能因 ignore_errors 丢行。
+    若 CSV 逻辑行数明显大于已加载行，WARN 可能因 ignore_errors 丢行。
     返回估计跳过行数（>=0）。
     """
     ext = os.path.splitext(path)[1].lower()

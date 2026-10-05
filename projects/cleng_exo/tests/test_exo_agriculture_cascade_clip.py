@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "02_脚本"))
@@ -54,6 +55,37 @@ def test_decide_require_includes_talk_diy():
         ok_mask=np.array([True, True]),
     )
     assert list(out) == ["clip_fail", "clip_pass"]
+
+
+def test_fill_feats_from_store(tmp_path):
+    from categories.exo_agriculture.cascade_clip import (
+        _fill_feats_from_store,
+        open_embedding_store,
+        write_embedding_rows,
+    )
+
+    ids = ["a", "b", "c"]
+    emb, ok_arr, _ = open_embedding_store(tmp_path, ids, overwrite=True)
+    feats_w = np.zeros((1, 512), dtype=np.float32)
+    feats_w[0, 0] = 2.5
+    write_embedding_rows(
+        emb, ok_arr, rows=[0], feats=feats_w, ok=np.array([True]),
+    )
+
+    lookup_ids = ["b", "a", "missing"]
+    out_feats = np.zeros((3, 512), dtype=np.float32)
+    out_ok = np.zeros(3, dtype=bool)
+    index = pd.read_csv(tmp_path / "index.csv", dtype={"video_id": str, "row": int})
+    row_by_id = {str(v).strip(): int(r) for v, r in zip(index["video_id"], index["row"])}
+    embeddings = np.load(tmp_path / "embeddings.npy", mmap_mode="r")
+    thumb_ok = np.load(tmp_path / "thumb_ok.npy", mmap_mode="r")
+    n_hit = _fill_feats_from_store(
+        lookup_ids, out_feats, out_ok,
+        row_by_id=row_by_id, embeddings=embeddings, thumb_ok=thumb_ok,
+    )
+    assert n_hit == 1
+    assert out_ok[1] and out_feats[1, 0] == 2.5
+    assert not out_ok[0] and not out_ok[2]
 
 
 def test_open_embedding_store_roundtrip(tmp_path):

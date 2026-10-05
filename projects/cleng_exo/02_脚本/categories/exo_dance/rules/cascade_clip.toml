@@ -1,0 +1,48 @@
+# exo_dance CLIP — 缩略图零样本：只留单人舞蹈，排除多人/双人/非舞
+# 阈值初值 0.0（与 service L3 v1.2 同款零阈值起步）；用金标重叠子集再校准
+
+[meta]
+version = "0.1.0"
+category = "exo_dance"
+category_label = "单人舞蹈"
+layer = "clip_solo_zeroshot"
+model = "ViT-B-32"
+pretrained = "openai"
+basis = "solo dancer vs group/couple; is-dance vs talk-head/product; 2026-09-24"
+
+[decision]
+score_keys = ["q1_solo_dancer", "q2_is_dance"]
+require = ["q1_solo_dancer", "q2_is_dance"]
+
+[thresholds]
+q1_solo_dancer = 0.0
+q2_is_dance = 0.0
+
+[q1_solo_dancer]
+pos = [
+  "a photo of one person dancing alone",
+  "a solo dancer performing in the frame",
+  "a single person doing a dance move by themselves",
+  "one dancer practicing choreography alone",
+]
+neg = [
+  "a group of dancers performing together",
+  "a dance crew or K-pop practice room with multiple dancers",
+  "a couple doing ballroom or partner dance",
+  "many people dancing in a line dance or flash mob",
+  "two or more people dancing together",
+]
+
+[q2_is_dance]
+pos = [
+  "a person performing a dance move",
+  "dance practice or dance tutorial on camera",
+  "someone freestyle dancing or doing choreography",
+]
+neg = [
+  "a person talking to the camera",
+  "a product advertisement or still life",
+  "a photo with no people",
+  "sports or fitness that is not dancing",
+  "a music album cover with no dancing",
+]

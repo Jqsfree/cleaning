@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""categories/exo_agriculture/cleaner.py — exo农业种植采摘 文本黑名单（certain-noise）。
+"""categories/exo_agriculture/cleaner.py — exo农业种植采摘 文本黑名单（非农主题闸门）。
 
 不默认挂 02_clean；直接调用 categories.exo_agriculture.cleaner.clean(...)。
+治理见 docs/exo_agriculture_text_governance_v2.md。
 """
 
 from pathlib import Path

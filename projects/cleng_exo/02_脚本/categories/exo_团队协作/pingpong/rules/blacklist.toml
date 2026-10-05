@@ -1,0 +1,265 @@
+# Blacklist — exo 双人乒乓（非乒乓球团队合作/竞争主题闸门）
+# 口径：保留双打/混双/团体合作竞争；丢网球羽球等串台 + 单打 MS/WS + 教程等。
+# v0.1.x: 机采摸底串台
+# v0.2.0: 人标 c90（T78/F154，pass≈33.6%）t_hurt=0 — 单打括号/教程/女团小组/全运/纯F频道
+# v0.3.0: +电竞双打串台（ProBrawlhalla / BRAWLHALLA ESPORTS；doubles 句式易被误保留）
+# v0.4.0: 人标 72fede47（ml_keep 上 259 条，T88/F90）→ 全 F 频道 + 舞蹈 + 串台/单打/教程扩规则
+# v0.4.1: +singles_category_code（MS/WS/MT/MR 组别代码单人场，MobiSportz 299 行/146.7h）
+#         验证：金标 T_hurt=0，F_caught=61/90（68%）
+# v0.5.0: 并入第二批人标 853ce1b0（T78/F154）；两批合并 518 条 → 全 F 频道 66 个 + 全 F 关键词 8 个
+#         验证：合并金标 T_hurt=0（166 T 全保留）
+# v0.6.0: 人标 团队协作pp_6bd9a0ed（τ≥0.6 分层 T144/F110）→ +50 全 F 频道 + 串台/混团单打橡胶规则
+#         未整频道拉黑 Europe TT/MALONG Fanmade/TEQ TV/Jadey PB/Shatou/Karl Uy/Ping Pong Rhapsody（旧金标有 T）
+#         全 F 关键词（WTT Star Contender Men's Doubles 等）旧金标有 T → 不做 keyword 闸门
+#         验证：pp+72fede47+853ce1b0 T_hurt=0
+# v0.6.1: 乒乓专属硬闸——场地网球/壁球/匹克球（人标曾把网球双打标 T，MiniLM 抬进 keep）
+#         频道名含 tennis/テニス 但非 tennis de table/tischtennis/table tennis；+united cup 等
+#         口径：本子运动只留乒乓球，场地网球 T 视为错标不计入 T_hurt 闸门
+
+[meta]
+version = "0.6.1"
+category = "exo_团队协作"
+sport = "pingpong"
+basis = "pingpong-only; court-tennis/squash/pickleball hard gate; 2026-09-23"
+
+# ── 电竞串台（Brawlhalla 双打联赛，句式像球类 doubles）──
+[[channel_pass2]]
+category = "esports_ch"
+pattern = "(?i)^(ProBrawlhalla|BRAWLHALLA ESPORTS)$"
+
+# ── 高密度纯串台频道（非乒乓球）──
+[[channel_pass2]]
+category = "court_tennis_ch"
+pattern = "(?i)^(WTA|Wimbledon|US Open Tennis Championships|United States Tennis Association \\(USTA\\)|Australian Open|N\\.O\\.C Next On Court|Cunningham Court|10s Man)$"
+
+[[channel_pass2]]
+category = "badminton_ch"
+pattern = "(?i)^(BWF TV)$"
+
+[[channel_pass2]]
+category = "other_sport_ch"
+pattern = "(?i)^(World Curling|Curling Canada|PPA Tour|Pickleball England|Box Billiards Pool Vietnam|USA Climbing|Underdogs Gaming)$"
+
+[[channel_pass2]]
+category = "unbox_misc_ch"
+pattern = "(?i)^(Lucky Inventor)$"
+
+# ── 人标纯 F 频道（n_t=0，n_f≥2）──
+[[channel_pass2]]
+category = "gold_pure_f_ch"
+pattern = "(?i)^(HeroGamer319|CGTN Sports Scene|Olympic Games|PH Table Tennis Vlog|Ping Pong Pals|Wang&Sun)$"
+
+# ── 72fede47 人标全 F 频道（非乒乓，T_hurt=0）──
+# 电竞/啦啦操/娱乐开箱/其他球类/场地网球/杂项；不含乒乓专营频道（其 F 由单打·教程规则处理）
+[[channel_pass2]]
+category = "gold_pure_f_ch_0922"
+pattern = "(?i)^(VGBootCamp|International Cheer Union|Fully Faltoo|SQUASHTV|touchtennis|WST|The Lallantop|Unbox Therapy|Это Осетинская!|Wealth Optimistic|lexyz888|Roland-Garros|Casey Tuttle|Cricaman2\\.0|Dude Perfect|Go Beyond Sports|IndiCoder|King of the Palace - Candlepin Bowling|非常識なテニス上達理論|Fitness Style|Cedric Le Mer)$"
+
+# ── 两批合并人标全 F 频道（n_f≥1 且 n_t=0；含 853ce1b0 新增）──
+# 大票：PingSunday EmRatThich 293 行/105.8h、janus770 218/175.4h、Table Tennis Blitz 173/23.1h
+[[channel_pass2]]
+category = "all_f_ch_0922_merged"
+pattern = '(?i)^(Alice Zhu|TT TRIX|LA Ping Pong|Trans World Sport|Joe Borg Cardona|Kuala Lumpur 2017|Tischtennis Bundesliga|83WEREWOLF83|eBaTT|SPINMAXX CHANNEL|ThePerfectionisTT|Table Tennis Blitz|Josh world|ITTF Foundation|kuaiman|dunia pingpong|RMCSport|ttlondon2012|Xandira Live|Tomorrow Table Tennis \[Non-profit\]|ITTF-Oceania|kageyama2010a|Bayerischer Rundfunk|janus770|RDTTA Newsletter|HaKs|Ufit sports Academy|tt\.points|winkylr|MrTheportal|table tennis "PingSunday EmRatThich"|Stupa Sports|Bordtennisexperterne|Channel 4 Sport)$'
+
+# ── 人标 pp_6bd9a0ed 全 F 频道（n_t=0；剔除旧金标有 T 的 7 个乒乓台）──
+[[channel_pass2]]
+category = "all_f_ch_pp_0923"
+pattern = "(?i)^(Adam\\ Bobrow|Andrew\\ Knutson|Aswin\\ Kumar|BYOController|Chi\\ Tran|DO\\ IT\\ YOURSELF|David\\ Blatt|Enes\\ Yilmazer|Gentec\\ International|HELLO\\ जिंदेगी|Hannah\\ Abrahamsen|Janowicz\\ 2013|Linked\\ Impact|Longdendale\\ Pool|MALONG\\ Museum|Macomb\\ Melee|Marlon\\ Gacutan|NCAA\\ Championships|Netherlands\\ Bach\\ Society|Pahadi\\ Brothers\\ Live|RIZIN\\ FIGHTING\\ FEDERATION|Serhii\\ Nemchynskyi|TT\\ Ma\\ Long|TT\\-Edit|TTBrothers\\ _|TU\\ HUONG\\ LAU\\ \\-\\ SHATOU|TensFinest|The\\ Satellite\\ Network|TheEventSphere|Trexusable|Vistasport\\.ru|VoidTracks|X\\ Games|csakon\\ ve|kl2show|reverters|tacobackhand|takkyuu\\ geinin|ttprovider|ytenchi|Вениамин|Лекторий\\ Живой\\ город|【公式】卓球Tリーグ公式サイト|乒乓視界|南門教會|小元爱乒乓|拇拇看體育|旋转乒乓|딜라이트|차이나는\\ 탁구TV\\ by\\ LHTT)$"
+
+
+# ── 场地网球 / 壁球 / 匹克球频道（乒乓专属；排除 tennis de table / tischtennis）──
+[[channel_pass2]]
+category = "court_tennis_ch_pp"
+pattern = "(?i)^(12kgp\\-Tennis|2MinuteTennis|4🎾\\ Love\\ Tennis\\ Club|AUS\\ Tennis\\ TV|AgStyle\\ Tennis|AmateurTennis\\.tv|Amy\\ Tennis|Basket\\&Tennis\\ Fans|Best\\ Tennis\\ By\\ Noah|Best\\ Tennis\\ Matches|Brent\\ Abel's\\ WebTennis|Bryan\\.Tennis|Essential\\ Tennis\\ \\-\\ Lessons\\ and\\ Instruction\\ for\\ Passionate\\ Players|Fault\\ Tolerant\\ Tennis|FeatureTennis|FunctionalTennis|Fundamental\\ Tennis|Gavla\\ Tennis|Hawaii\\ Tennis\\ Pro|HighDefinitionTennis|IPTL\\ \\-\\ International\\ Premier\\ Tennis\\ League|ITFBeachTennis|ImOnYourSideTennis|JOTennisVid|JTennisVideos|Japan\\ テニスLIVE|Jeff\\ Lewis\\ Tennis|JusTennis|Just\\ Tennis\\ Channel\\ 2|KRC\\ live\\ tennis|LendlTennis|MSKテニス・tennisチャンネル|Meike\\ Babel\\ Tennis|Noah\\ SE\\ Michigan\\ Tennis|Online\\ Tennis\\ Instruction|PDWtennisvidz|PPA\\ x\\ MLP\\ Asia|Roger\\ That\\ Tennis|SamTennisVids|SomeTennisHighlights|Squash\\ Canada|Svensk\\ Veterantennis|T\\-PRESS\\ テニスの試合に勝ちたい人へ|TPA\\ tennis|Tee\\ X\\ Tennis|Tennis\\ \\&\\ Track|Tennis\\ 4Life|Tennis\\ Channel|Tennis\\ Deuce|Tennis\\ Esports|Tennis\\ Fan|Tennis\\ Full\\ Match|Tennis\\ Hammers|Tennis\\ Matches\\ \\(tennis2matches\\)|Tennis\\ Ninja\\ TV|Tennis\\ Profiler|Tennis\\ Spin|Tennis\\ TV|Tennis\\ Tehria|Tennis\\ with\\ Dylan|Tennis366|TennisAcademy101|TennisFever425|TennisHD|TennisHousefun|TennisJoy|TennisRay|TennisVideos|Tennisrise\\ テニス\\ ライズ|The\\ Tennis\\ Congress|TheBoodlesTennis|Top\\ Level\\ Tennis|Top\\ Tennis\\ Training\\ \\-\\ Pro\\ Tennis\\ Lessons|Tweener\\ Head\\ Tennis|United\\ Cup|Valory\\ Tennis|Vintage\\ Tennis|Volley\\ Viper\\ Tennis|Women's\\ Tennis\\ Collection|World\\ Squash|World\\ Team\\ Tennis|World\\ Tennis|Worldclassttennis|braingametennis|chiki\\ plays\\ tennis|crwtennis1|oztennis94|princetennisjp|tennis\\ TV|tennis\\ videos|スターテニスアカデミー\\ /\\ スタテニ|テニスカエルTennis\\ Frog|テニス映像館とicooyテニス個別レッスンアカデミー|ビッグマックのテニス全書|土居コーチのテニスYouTu部|松尾友貴プロのテニス塾【サーブの神】|窪田テニス教室)\\s*$"
+
+
+# ── 全 F 关键词闸门（playlist 名；两批合并 n_f≥2 且 n_t=0）──
+# 只匹配 keyword 列，精确整串。证据：table tennis doubles final 11F、WTT Champions Men's 9F(+7未标)、
+# WTT Champions Women's 4F(+5未标)、mixed doubles ping pong 3F(+7未标)、Mixed Doubles 2F
+# ⚠ 支持度最弱者：Mixed Doubles(2F)、WTT Star Contender Women's Doubles(2F)
+[[keyword_pass2]]
+category = "all_f_keyword_0922_merged"
+pattern = "(?i)^(table tennis doubles final|WTT Champions Men's Doubles|WTT Champions Women's Doubles|WTT Feeder Women's Doubles|mixed doubles ping pong|ping pong doubles match|WTT Star Contender Women's Doubles|Mixed Doubles)$"
+
+# ── 乒乓教学频道（只出 tutorial，无实拍双打）──
+[[channel_pass2]]
+category = "tt_tutorial_ch"
+pattern = "(?i)^(GlobalTTStudio|TT SpinMaster|DynamicTableTennisTV|【卓球動画】WRM-TV \\[TableTennis\\])$"
+
+# ── 场地网球（勿裸词 tennis / tennis championships）──
+[[pass2]]
+category = "court_tennis"
+pattern = "(?i)(\\bwta\\b|\\batp\\b|\\busta\\b|us\\s*open\\s*tennis|wimbledon|roland\\s*garros|australian\\s*open\\s*tennis|rafael\\s*nadal|iga\\s*swiatek|alex\\s*eala|united\\s*states\\s*tennis|atp\\s*(tour|finals)|wta\\s*(tour|finals|match)|tennis\\s*association|united\\s*cup|street\\s*tennis|wheelchair\\s*tennis|real\\s*tennis|beach\\s*tennis|hopman\\s*cup|\\bfed\\s*cup\\b|college\\s*tennis|mario\\s*power\\s*tennis|\\bntrp\\b|\\balta\\s*a{1,2}\\d|テニス)"
+
+[[pass2]]
+category = "pickleball_squash_pp"
+pattern = "(?i)(pickleball|\\bppa\\s*x\\s*mlp|\\bppa\\s*tour|\\bsquash\\b)"
+
+# ── 羽毛球 / 其他球类与运动 ──
+[[pass2]]
+category = "badminton"
+pattern = "(?i)(badminton|\\bbwf\\b|羽毛球|hsbc\\s*bwf)"
+
+[[pass2]]
+category = "pickleball_curling"
+pattern = "(?i)(pickleball|\\bcurling\\b|冰壶)"
+
+[[pass2]]
+category = "billiards_snooker"
+pattern = "(?i)(billiards?|\\bsnooker\\b|台球)"
+
+[[pass2]]
+category = "other_ball_sports"
+pattern = "(?i)(\\bnba\\b|basketball|football|soccer|\\bcricket\\b|volleyball|volleynation|\\bgolf\\b|足球|篮球|棒球|排球)"
+
+[[pass2]]
+category = "other_olympic_sports"
+pattern = "(?i)(para\\s*ice\\s*hockey|ice\\s*hockey|\\bclimbing\\b|archery\\s*world\\s*cup|flyboard|aquatic\\s*spectacle|weightlifting|举重|游泳决赛)"
+
+# ── 舞蹈（含啦啦操 Hip Hop/Pom Doubles、花滑冰舞）──
+[[pass2]]
+category = "dance_performance"
+pattern = "(?i)(danc(e|ed|es|ing|in|er|ers)\\b|choreograph|ballet|ballroom|zumba|salsa|bachata|tango|hip[\\s-]*hop|k[\\s-]*pop|ice\\s*dance|pom\\s*doubles|舞蹈|跳舞|芭蕾|街舞|拉丁舞)"
+
+# ── 电竞（Smash 等非乒乓双打）──
+[[pass2]]
+category = "esports_smash"
+pattern = "(?i)(smash\\s*(ultimate|bros|4|wii)|ssbu|ssb4|super\\s*smash)"
+
+# ── 娱乐真人秀 / 开箱 / 益智（全 F）──
+[[pass2]]
+category = "entertainment_tv"
+pattern = "(?i)(roadies|shark\\s*tank|rubik|candlepin|pringles|trick\\s*shots|full\\s*episode)"
+
+# ── 拳击 / 跳水 / 花滑 / 保龄 / 啦啦操 ──
+[[pass2]]
+category = "other_sport_misc"
+pattern = "(?i)(\\bboxing\\b|aiba\\b|\\bdiving\\b|10m\\s*platform|figure\\s*skating|isufigure|bowling|cheerleading)"
+
+# ── 残奥/东南亚运动会非乒乓项目（同频道含乒乓双打，故只按项目名闸）──
+[[pass2]]
+category = "para_multi_event"
+pattern = "(?i)(boccia|waterpolo|aquatics|pencak|springboard|400m|para\\s+(alpine|athletics|cross|shooting|climbing))"
+
+# ── 人标 t_hurt=0：单打 / 教程 / 女团小组 / 全运 ──
+[[pass2]]
+category = "singles_ms_ws"
+pattern = "(?i)(\\|\\s*(ms|ws)\\s+(r\\d+|group|qf|sf|final)|\\|\\s*(ms|ws)\\s+|\\b(men.?s|women.?s)\\s+singles?\\b|\\bsingles?\\s+(final|sf|qf|r\\d|match|championship|highlight|open)|单打|男单|女单|단식)"
+
+# 赛事组别代码 + 单人 v/s 单人（MS/WS/MT/MR + 轮次 + 无 ``/`` 的名字段）
+# 保护双打："Anuj/Bhavya (MP) v/s Vijai/Ankhitha" 因名字段含 ``/`` 不匹配
+[[pass2]]
+category = "singles_category_code"
+pattern = "(?i)(^|\\|)\\s*(ms|ws|mt|mr)(\\s*\\d+\\+)?\\s*\\|\\s*[^|]*\\|\\s*[^|/]*\\s*(v/s|vs)\\s[^|/]*"
+
+[[pass2]]
+category = "tutorial_footwork"
+pattern = "(?i)(footwork|\\btutorial\\b|exercises\\s*-\\s*ebatt|\\bebatt\\b|how\\s*to\\b|\\btips?\\b|\\bsecrets?\\b|\\bmistakes?\\b|\\bdrill\\b|\\blesson\\b)"
+
+# ── 非双打乒乓内容（热身/公益/地区赛事直播）──
+[[pass2]]
+category = "nondoubles_tt"
+pattern = "(?i)(warming\\s*up|#tabletennisunited|african\\s*club\\s*championship|\\blive\\s*stream\\b)"
+
+[[pass2]]
+category = "womens_team_group"
+pattern = "(?i)(women.?s\\s*team|女团|group\\s*match|小组赛)"
+
+[[pass2]]
+category = "national_games"
+pattern = "(?i)(national\\s*games|全运)"
+
+[[pass2]]
+category = "tt_vlog"
+pattern = "(?i)\\bvlog\\b"
+
+# ── 游戏 / 音乐 / 开箱 / 新闻 / 少儿 ──
+[[pass2]]
+category = "gameplay"
+pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|lets?\\s*play|valorant|gta\\s*[45v]?|brawlhalla)\\b"
+
+[[pass2]]
+category = "non_real_ai"
+pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|midjourney|\\bsora\\b\\s*(ai|video|gen)|deepfake)"
+
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|lyrics?\\s*video|music\\s*video|official\\s*trailer)"
+
+[[pass2]]
+category = "unbox_toys"
+pattern = "(?i)(unboxing|action\\s*figures?|demon\\s*slayer|anime\\s*figure|smartwatch\\s*ip68)"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|breaking\\s*news|\\bndtv\\b)"
+
+[[pass2]]
+category = "kids_cartoon"
+pattern = "(?i)(cocomelon|peppa\\s*pig|nursery\\s*rhymes?|儿歌|动画片)"
+
+[[pass2]]
+category = "celebrity_gossip"
+pattern = "(?i)(mick\\s*jagger|how\\s*he\\s*lives\\s*is\\s*so\\s*sad)"
+
+# ── 人标 pp_6bd9a0ed：串台/单打/教育污染（T_hurt=0；跨 pp+72fede47+853ce1b0）──
+[[pass2]]
+category = "sea_games_non_tt"
+pattern = "(?i)(pole\\s*vault|formula\\s*kite|chickid|we\\s*are\\s*not\\s*crying|kitefoiling|(^|[|])\\s*Swimming\\b|Hockey\\s*women|medley\\s*relay|4\\s*STRAIGHT\\s*pole)"
+
+[[pass2]]
+category = "offtopic_misc_pp"
+pattern = "(?i)(\\brizin\\b|\\bx\\s*games\\b|\\bbandy\\b|longdendale|netherlands\\s*bach|traueroode|macomb\\s*melee)"
+
+[[pass2]]
+category = "adam_bobrow_challenge"
+pattern = "(?i)(semi-pro\\s*vs\\.|adam\\s*vs\\.\\s*(french|youngest))"
+
+[[pass2]]
+category = "open_singles_age"
+pattern = "(?i)(open\\s*singles|boy'?s\\s*u-?\\d+)"
+
+[[pass2]]
+category = "edu_noise"
+pattern = "(?i)(kesirleri|#matematik|chemathsbob|DSE\\s*CHEM)"
+
+[[pass2]]
+category = "draw_ceremony"
+pattern = "(?i)draw\\s*ceremony"
+
+# 混团杯单打橡胶：两边均为「名+姓」且无 /（双打用 A/B）；国与国对阵多为单词国名，不命中
+[[pass2]]
+category = "mixed_team_wc_singles_rubber"
+pattern = "(?i)([A-Za-z][A-Za-z'.-]*\\s+[A-Za-z][A-Za-z'.-]*)\\s+vs\\.?\\s+([A-Za-z][A-Za-z'.-]*\\s+[A-Za-z][A-Za-z'.-]*)\\s*.*Mixed\\s*Team\\s*World\\s*Cup"
+
+[[pass2]]
+category = "german_league_singles_final"
+pattern = "(?i)Final\\s*\\|\\s*[A-Z][a-z]+\\s+[A-Z][a-z]+\\s+vs\\s+[A-Z]"
+
+[[pass2]]
+category = "wtt_singles_lebrun"
+pattern = "(?i)F[eé]lix\\s*Lebrun.*vs.*Darko\\s*Jorgi[cč]"
+
+[[pass2]]
+category = "senior_british_league"
+pattern = "(?i)Senior\\s*British\\s*League,\\s*\\d{4}"
+
+[[pass2]]
+category = "u19_boys_teams"
+pattern = "(?i)U19\\s*Boys'?\\s*Teams"
+
+[[pass2]]
+category = "attc_wt_final"
+pattern = "(?i)ATTTC\\s*-?\\s*WT\\s*-?\\s*Final"
+
+[[pass2]]
+category = "md_clip_noise"
+pattern = "(?i)(Beautiful\\s*moment\\s*of\\s*the\\s*dramatic\\s*mixed|Vietnam\\s*clinches\\s*first\\s*Mixed\\s*Doubles|Zeng\\s*Jian\\s*vs\\s*Orawan)"
+
+[[pass2]]
+category = "ru_tutorial_topspin"
+pattern = "(?i)(вениамин|топ\\s*спин|четыре\\s*способа\\s*победить)"
+
+[[pass2]]
+category = "para_non_tt_title"
+pattern = "(?i)(Para\\s*Archery|Wheelchair\\s*Rugby)\\s*-"

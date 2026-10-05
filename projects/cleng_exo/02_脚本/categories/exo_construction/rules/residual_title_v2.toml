@@ -1,0 +1,34 @@
+[meta]
+version = "0.2.0"
+category = "exo_construction"
+scope = "Residual off-category titles after residual_title_v1"
+
+[[rules]]
+id = "game_house_design"
+label = "游戏建房"
+pattern = '(?i)\b(dragon raja|roblox|bloxburg|the sims(?: 4)?|sims 4|minecraft|second life|avakin life|imvu)\b|龙族幻想|模拟人生|我的世界'
+
+[[rules]]
+id = "structural_software_tutorial"
+label = "结构软件建模教学"
+pattern = '(?i)\b(ETABS|STAAD(?:\.pro)?|SAP2000|SAFE software|Tekla structures|revit tutorial|autocad tutorial|civil 3d tutorial|model(?:ing|ling) in (?:ETABS|STAAD|SAP2000)|(?:ETABS|STAAD|SAP2000) (?:model|design|analysis))\b'
+
+[[rules]]
+id = "civil_engineering_knowledge"
+label = "土木工程知识讲解"
+pattern = '(?i)\b(?:technical points?|things?) (?:of|about|every) (?:steel reinforcement|reinforced concrete|civil engineer)|\b(?:civil|structural) engineer(?:ing|s)? (?:must know|lecture|course|exam|interview questions)|\b(?:lecture|course|class) (?:on|about|in) (?:steel reinforcement|structural design|civil engineering)'
+
+[[rules]]
+id = "watch_review_brand_collision"
+label = "Mason品牌手表测评"
+pattern = '(?i)\bjack mason\b|\b(?:wristwatch|watch) (?:review|unboxing)\b|\b(?:review|unboxing) (?:of )?(?:wristwatch|watch)\b'
+
+[[rules]]
+id = "equipment_news_talk"
+label = "设备新闻与讨论"
+pattern = '(?i)\b(?:discusses?|announces?|unveils?) (?:new |a |an )?(?:propulsion system|construction equipment|excavator|crane)|\b(?:propulsion system|construction equipment) (?:for construction|review|news)\b'
+
+[[rules]]
+id = "campus_promo"
+label = "校园活动宣传"
+pattern = '(?i)\bexclusive first look with\b.*\bstudents\b|\b(?:university|college|campus) (?:students?|tour|open day)\b.*\b(?:building|construction)\b'

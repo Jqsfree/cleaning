@@ -8,7 +8,10 @@ core/recipe.py — 品类 × 来源声明式流程配方
 
 from __future__ import annotations
 
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11
+    import tomli as tomllib
 from copy import deepcopy
 from pathlib import Path
 from typing import Any

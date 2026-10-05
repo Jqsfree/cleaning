@@ -1,0 +1,542 @@
+# Blacklist — exo 娱乐表演（非真人现场/街头/才艺表演主题闸门）
+# v0.1.0: 共享硬噪声 − 表演保留（演唱会/现场乐队/舞蹈排练不进）+ 本池串台
+# v0.2.0: keep 摸底扩新闻台 / 动漫少儿卡通；窄博客 howto（勿裸词 blog/vlog）
+# v0.3.0: text QC F 长尾 → 宁杀勿放（Topic 频道 / lyrics 轨 / full album / 时事·反应·教材等）
+# v0.4.0: n1000 text QC → episode/remix/tutorial/reaction/news/film/workout 等（宁杀勿放）
+# v0.5.0: n2000 text QC → comedy/series/gaming/reacts/trailer/sports 等（宁杀勿放）
+# v0.6.0: n2000@v0.5 → how to / english / maths / church / football / learn 等（宁杀勿放）
+# v0.7.0: n3000@v0.6 → vlog/story/disney/food/pets/business/bangla/mix 等（宁杀勿放）
+# v0.8.0: n1000@v0.7 → MV/audio/challenge/toys/news/edu/reality/hobby 等（宁杀勿放）
+# v0.9.0: 历史 LLM text QC 纯 F 频道 channel_pass2（F≥3 T=0，n=180）
+# v1.0.0: v0.9 c90 人标（T114/F136，合格率45.6%）挖 F + 金标纯 F 频道；T_hurt=0
+# 仍禁裸词：performance / dance / show / live / concert / cover / dj set / tips / commercial / tech / salon / conference / chill
+# 口径：无人标时宁杀勿放；有金标后再按 T_hurt 回调
+
+[meta]
+version = "1.0.0"
+category = "exo_entertainment"
+basis = "v0.9 + human_v09_c90 gold mine; T_hurt=0; 2026-09-21"
+
+# ── 游戏 / 模拟器 / 非真人 ──
+[[pass2]]
+category = "gameplay"
+pattern = "(?i)\\b(gameplay|minecraft|roblox|fortnite|lets?\\s*play|valorant|gta\\s*[45v]?)\\b"
+
+[[pass2]]
+category = "genshin_game"
+pattern = "(?i)(原神|genshin\\s*impact|\\bgenshin\\b)"
+
+[[pass2]]
+category = "game_commentary"
+pattern = "(?i)(游戏解说|遊戲解說|游戏实况|遊戲實況|和平精英|吃鸡|#gaming)"
+
+[[pass2]]
+category = "generic_simulator"
+pattern = "(?i)\\b(flight\\s+simulator|truck\\s+simulator|farm(?:ing)?\\s*simulator|farm\\s+sim|grass\\s+simulator|space\\s+simulator|\\bfs22\\b|\\bfs25\\b|\\bsims\\s*4\\b|the\\s+sims)\\b"
+
+[[pass2]]
+category = "idle_game"
+pattern = "(?i)(\\bidle\\s+slayer\\b|#idleslayer\\b|among\\s+us|no\\s+mans?\\s+sky)"
+
+[[pass2]]
+category = "non_real_ai"
+pattern = "(?i)(ai\\s*generated|#ai\\b|\\bvtuber\\b|virtual\\s*youtuber|midjourney|\\bsora\\b|deepfake|cgi\\s*character)"
+
+# 纯幼儿节目/儿歌（非现场才艺表演）
+[[pass2]]
+category = "nursery_pure_kids"
+pattern = "(?i)(cocomelon|peppa\\s*pig|nursery\\s*rhymes?|alphabet\\s*song|baby\\s*shark|paw\\s*patrol|儿歌|动画片)"
+
+# v0.2：动漫 / 少儿卡通频道与题材
+[[pass2]]
+category = "anime_cartoon_v02"
+pattern = "(?i)(\\banime\\b|\\bcartoon\\b|动漫|動漫|二次元|babybus|videogyan|cartoon\\s*network|\\bpogo\\b|pops\\s*anime|tom\\s*&\\s*jerry|\\bnaruto\\b|one\\s*piece|gumball|kids?\\s*cartoon)"
+
+# ── 发行物料 / 新闻 / 短剧影视（非现场表演；保留演唱会/现场乐队）──
+[[pass2]]
+category = "official_mv_trailer"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio|mv)|official\\s*trailer|lyrics?\\s*video|music\\s*video|teaser\\s*trailer)"
+
+[[pass2]]
+category = "instrumental_track"
+pattern = "(?i)original\\s+instrumental"
+
+[[pass2]]
+category = "lyric_karaoke_track"
+pattern = "(?i)(动态歌词|動態歌詞|karaoke\\s*version|instrumental\\s*karaoke)"
+
+[[pass2]]
+category = "news_hard"
+pattern = "(?i)(\\bbbc\\s*news\\b|\\babc\\s*news\\b|\\bctv\\s*news\\b|\\bndtv\\b|breaking\\s*news|eyewitness\\s*news|al\\s+jazeera|cctv\\s+video\\s+news|tvbs\\s*新聞|三立新聞|民視新聞|\\bsky\\s*news\\b)"
+
+# v0.2：摸底漏网新闻台（勿裸词 news）
+[[pass2]]
+category = "news_channels_v02"
+pattern = "(?i)(formosa\\s*news|民視英語新聞|新聞挖挖哇|\\bfox\\s*news\\b|\\bnews\\s*hd\\b|v6\\s*news|lahore\\s*news|24\\s*news\\s*hd|taiwan\\s*news|即新聞|華視新聞|channel\\s*\\d+\\s*news)"
+
+[[pass2]]
+category = "tv_serial_episode"
+pattern = "(?i)(sun\\s+tv\\s+serial|tamil\\s+serial|full\\s+episode)"
+
+[[pass2]]
+category = "short_drama_film"
+pattern = "(?i)(短剧|#cdrama|完结文|恶毒女配|\\b爽文\\b|#重生|#末世|电影解说|電影解說|喜剧影片|經典喜劇|真情劇場)"
+
+[[pass2]]
+category = "movie_clip_coming"
+pattern = "(?i)(movie\\s*clip|movieclips|coming\\s*soon|恐怖電影|悬疑武侠|mystery\\s+movie)"
+
+[[pass2]]
+category = "crime_patrol"
+pattern = "(?i)\\bcrime\\s+patrol\\b"
+
+[[pass2]]
+category = "kbs_2d1n"
+pattern = "(?i)2\\s*Days\\s*&\\s*1\\s*Night"
+
+[[pass2]]
+category = "asmr"
+pattern = "(?i)\\basmr\\b"
+
+[[pass2]]
+category = "podcast_interview"
+pattern = "(?i)(\\bpodcast\\b|talk\\s*show|late\\s*night\\s+with)"
+
+[[pass2]]
+category = "documentary_episode"
+pattern = "(?i)(\\bdocumentary\\b|national\\s+geographic|animal\\s+planet)"
+
+# ── 美妆 / 健身课 / 烹饪（非表演；健身勿裸 dance/zumba）──
+[[pass2]]
+category = "beauty_makeup"
+pattern = "(?i)(\\bmakeup\\s*tutorial\\b|\\bgrwm\\b|get\\s+ready\\s+with\\s+(me|us)|\\bskincare\\s*routine\\b|美妆教程|护肤步骤|护肤分享|口红试色|妆教|\\bnail\\s*art\\b)"
+
+[[pass2]]
+category = "fitness_workout"
+pattern = "(?i)(\\bgym\\s*vlog\\b|\\bhiit\\b|\\bcrossfit\\b|健身训练|胸肌|腹肌训练|减脂|瘦身|减肥|bodybuilding|pre-workout|glute\\s*exercise)"
+
+[[pass2]]
+category = "mukbang_recipe"
+pattern = "(?i)(\\bmukbang\\b|how\\s*to\\s*cook|\\brecipe\\b|#cooking\\b|viral\\s*tiktok\\s*cooking|吃播|菜谱)"
+
+[[pass2]]
+category = "full_match_sport"
+pattern = "(?i)(full\\s*match|match\\s*highlights|\\bnba\\b|\\bnfl\\b|\\bmlb\\b|足球比赛|篮球比赛)"
+
+# ── 农牧医疗 / 语言课 / 乐理课 / 演说 / 开箱 ──
+[[pass2]]
+category = "agri_farm_noise"
+pattern = "(?i)(\\bfarm(?:ing)?\\s*(vlog|life|tour)\\b|harvest\\s*(day|season)|tractor\\s*work|种植|收割|养殖|畜牧)"
+
+[[pass2]]
+category = "medical_noise"
+pattern = "(?i)(surgery\\s*live|medical\\s*lecture|解剖|手术直播|医美体验|植[髮发]|微整形)"
+
+[[pass2]]
+category = "language_course"
+pattern = "(?i)(新概念英语|日文聽力|英式口音|上海话教程|台灣手語|零基础英语|learn\\s+english\\s+songs)"
+
+[[pass2]]
+category = "music_teaching"
+pattern = "(?i)(piano\\s*lesson|guitar\\s*lesson|music\\s*lesson|音乐教学|学钢琴|学吉他|violin\\s*lesson)"
+
+[[pass2]]
+category = "business_speech"
+pattern = "(?i)(\\btedx\\b|ted\\s*talks?|keynote\\s*speech|商业演讲|motivational\\s*speech)"
+
+[[pass2]]
+category = "religion_devotion"
+pattern = "(?i)(daily\\s*bible|sermon|worship\\s*service|sunday\\s*service|道德經|one\\s+day\\s+one\\s+surah)"
+
+[[pass2]]
+category = "tech_unbox_haul"
+pattern = "(?i)(tech\\s*review|gadget\\s*review|开箱评测|开箱實測|\\bcostco\\s*haul\\b|walmart\\s*grocery\\s*haul|five\\s*below\\s*haul)"
+
+[[pass2]]
+category = "fashion_ootd"
+pattern = "(?i)(\\bootd\\b|穿搭分享|今日穿搭)"
+
+[[pass2]]
+category = "diet_wieiad"
+pattern = "(?i)what\\s*i\\s*eat(\\s*in\\s*a\\s*day)?"
+
+[[pass2]]
+category = "real_estate_listing"
+pattern = "(?i)(楼盘|樓盤|吉隆坡房产|美国买房|美国投资)"
+
+# v0.2：博客写作教程等（勿裸词 blog/vlog——表演进度 vlog 会误杀）
+[[pass2]]
+category = "blog_howto_v02"
+pattern = "(?i)(how\\s*to\\s*write\\s*a\\s*(blog|blog\\s*post)|beauty\\s*blog|travel\\s*blog|lifestyle\\s*blog|博客教程)"
+
+# ── v0.3：text QC 长尾串台（宁杀勿放；勿碰 lyrical 舞蹈课）──
+[[channel_pass2]]
+category = "yt_topic_channel_v03"
+pattern = "(?i)\\s-\\s*Topic\\s*$"
+
+[[pass2]]
+category = "lyrics_track_v03"
+pattern = "(?i)(\\blyrics?\\b|\\(lyrics\\)|with\\s*lyrics|lyrics?\\s*on\\s*screen)"
+
+[[pass2]]
+category = "full_album_v03"
+pattern = "(?i)\\bfull\\s*album\\b"
+
+[[pass2]]
+category = "current_affairs_v03"
+pattern = "(?i)current\\s*affairs"
+
+[[pass2]]
+category = "movie_reaction_v03"
+pattern = "(?i)(movie\\s*reaction|film\\s*reaction)"
+
+[[pass2]]
+category = "regional_serial_v03"
+pattern = "(?i)(odia\\s*serial|\\bgeo\\s*kahani\\b|tarang\\s*tv)"
+
+[[pass2]]
+category = "quran_tajweed_v03"
+pattern = "(?i)(\\bquran\\b|tajweed|\\bqurani\\b)"
+
+[[pass2]]
+category = "vj_stock_footage_v03"
+pattern = "(?i)(vj\\s*loops?|free\\s*stock\\s*footage)"
+
+[[pass2]]
+category = "gym_trap_playlist_v03"
+pattern = "(?i)(gym\\s*trap|workout\\s*mix|hardcore\\s*gym|gym\\s*playlist)"
+
+[[pass2]]
+category = "reading_practice_v03"
+pattern = "(?i)(english\\s*reading\\s*practice|reading\\s*practice)"
+
+[[pass2]]
+category = "edit_fx_tutorial_v03"
+pattern = "(?i)(davinci\\s*resolve|masked\\s*split\\s*effect)"
+
+[[pass2]]
+category = "real_estate_en_v03"
+pattern = "(?i)(house\\s*for\\s*sale|gated\\s*community|property\\s*dealer|villa\\s*for\\s*sale|housing\\s*tour)"
+
+[[pass2]]
+category = "elevator_tour_v03"
+pattern = "(?i)(traction\\s*elevators?|elevator\\s*tour)"
+
+[[pass2]]
+category = "prayer_fasting_v03"
+pattern = "(?i)(days?\\s*of\\s*prayer|prayer\\s*&?\\s*fasting)"
+
+# ── v0.4：n1000 text QC F（宁杀勿放；样本 T_hurt≈0，未收 how to / cover）──
+[[pass2]]
+category = "tv_episode_v04"
+pattern = "(?i)(\\bepisode\\b|\\bep\\s*[-.]?\\s*\\d+|\\bserial\\b|\\bseason\\s*\\d+)"
+
+[[pass2]]
+category = "remix_mashup_v04"
+pattern = "(?i)(\\bremix\\b|\\bmashup\\b|\\bcompilation\\b|\\bsped\\s*up\\b|\\bslowed\\b|\\bnightcore\\b)"
+
+[[pass2]]
+category = "tutorial_lesson_v04"
+pattern = "(?i)(\\btutorial\\b|\\blesson\\b|\\bdiy\\b)"
+
+[[pass2]]
+category = "reaction_review_v04"
+pattern = "(?i)(\\breaction\\b|\\breview\\b|\\binterview\\b)"
+
+[[pass2]]
+category = "news_bare_v04"
+pattern = "(?i)\\bnews\\b"
+
+[[pass2]]
+category = "fitness_yoga_v04"
+pattern = "(?i)(\\bworkout\\b|\\bfitness\\b|\\bgym\\b|\\byoga\\b)"
+
+[[pass2]]
+category = "film_movie_v04"
+pattern = "(?i)(\\bmovie\\b|\\bfilm\\b)"
+
+[[pass2]]
+category = "audio_release_v04"
+pattern = "(?i)(\\binstrumental\\b|official\\s*audio|\\bvisualizer\\b|\\bkaraoke\\b|\\bplaylist\\b|\\bost\\b|soundtrack)"
+
+[[pass2]]
+category = "bts_misc_v04"
+pattern = "(?i)behind\\s*the\\s*scenes"
+
+# ── v0.5：n2000 text QC F（宁杀勿放；未收 how to / dj set / cover / vlog / tips）──
+[[pass2]]
+category = "comedy_series_v05"
+pattern = "(?i)(\\bcomedy\\b|\\bseries\\b|\\bhorror\\b|web\\s*series|star\\s*plus|starplus|colors\\s*tv|zee\\s*tv|hindi\\s*serial)"
+
+[[pass2]]
+category = "reacts_gaming_v05"
+pattern = "(?i)(\\breacts?\\b|\\bgaming\\b|\\bgamer\\b|\\bgameplay\\b|lets?\\s*play|minecraft|roblox|fortnite)"
+
+[[pass2]]
+category = "animation_history_v05"
+pattern = "(?i)(\\banimation\\b|\\bhistory\\b|\\bdocumentary\\b|\\btrailer\\b|full\\s*movie)"
+
+[[pass2]]
+category = "sports_noise_v05"
+pattern = "(?i)(\\bwwe\\b|\\bwrestling\\b|\\bcricket\\b|\\bufc\\b|\\bboxing\\b|\\bgolf\\b)"
+
+[[pass2]]
+category = "edu_exam_chapter_v05"
+pattern = "(?i)(\\bchapter\\s*\\d+|\\bexam\\b|\\bjee\\b|\\bneet\\b|python\\s*tutorial)"
+
+[[pass2]]
+category = "audio_ambient_v05"
+pattern = "(?i)(remaster|royalty\\s*free|copyright\\s*free|no\\s*copyright|type\\s*beat|free\\s*(beat|instrumental)|\\bbgm\\b|sleep\\s*music|study\\s*music|relaxing\\s*music|white\\s*noise|rain\\s*sounds|\\blo-?fi\\b|extended\\s*mix|audiobook|audio\\s*book|\\bmeditation\\b)"
+
+[[pass2]]
+category = "misc_serial_noise_v05"
+pattern = "(?i)(\\bprank\\b|green\\s*screen|\\bmeme\\b|day\\s*in\\s*(the\\s*)?life|story\\s*time|\\bunbox|\\btedx\\b|\\bsermon\\b|\\bvtuber\\b|ai\\s*generated|\\bsuno\\b|stock\\s*footage|ringtone|whatsapp\\s*status|after\\s*effects|premiere\\s*pro|\\bphotoshop\\b|\\bamv\\b|fan\\s*edit|lip\\s*sync)"
+
+# ── v0.6：n2000@v0.5（宁杀勿放；未收 commercial / tips / cover / vlog / dj set）──
+[[pass2]]
+category = "howto_learn_v06"
+pattern = "(?i)(\\bhow\\s*to\\b|\\blearn\\b|\\bexplained\\b|\\bstudy\\b|\\bclasses\\b|\\blecture\\b|\\bgrammar\\b|\\bvocabulary\\b)"
+
+[[pass2]]
+category = "edu_subject_v06"
+pattern = "(?i)(\\benglish\\b|\\bmaths?\\b|\\balgebra\\b|\\bcalculus\\b|\\bphysics\\b|\\bchemistry\\b|\\bbiology\\b|ielts|toefl|\\bcoding\\b|\\bprogramming\\b|\\bexcel\\b)"
+
+[[pass2]]
+category = "church_faith_v06"
+pattern = "(?i)(\\bchurch\\b|\\bjesus\\b|\\bbible\\b|\\bquran\\b|tajweed|\\bbhajan\\b|\\bkirtan\\b)"
+
+[[pass2]]
+category = "sports_more_v06"
+pattern = "(?i)(\\bfootball\\b|\\bsoccer\\b|\\bfifa\\b|\\bnba\\b|\\btennis\\b|basketball|olympics?)"
+
+[[pass2]]
+category = "kids_baby_sesame_v06"
+pattern = "(?i)(\\bbaby\\b|sesame\\s*street)"
+
+[[pass2]]
+category = "lifestyle_noise_v06"
+pattern = "(?i)(\\bmakeup\\b|\\bpodcast\\b|\\basmr\\b|\\brecipe\\b|\\bcooking\\b|\\bdigital\\b|\\bbook\\b|astrology|horoscope|\\btarot\\b|mental\\s*health|\\banxiety\\b|depression|affirmation)"
+
+[[pass2]]
+category = "crime_politics_v06"
+pattern = "(?i)(\\bpolice\\b|\\bcrime\\b|\\bmurder\\b|\\bpolitic|\\belection\\b|\\bparliament\\b)"
+
+[[pass2]]
+category = "commerce_tech_v06"
+pattern = "(?i)(bitcoin|\\bcrypto\\b|\\bnft\\b|car\\s*review|test\\s*drive|\\biphone\\b|\\brestaurant\\b|\\bhotel\\b|travel\\s*vlog|real\\s*estate|for\\s*sale|chatgpt|midjourney|\\bteaser\\b|\\bmp3\\b|\\bdownload\\b|type\\s*beat)"
+
+[[pass2]]
+category = "stream_platform_v06"
+pattern = "(?i)(live\\s*stream|livestream|\\btwitch\\b|\\btiktok\\b|\\bshorts\\b|webinar|\\bseminar\\b|cosplay|\\bmanga\\b)"
+
+# ── v0.7：n3000@v0.6（宁杀勿放；未收 tech/salon/conference/chill/cover/tips）──
+[[pass2]]
+category = "vlog_story_v07"
+pattern = "(?i)(\\bvlog\\b|\\bstory\\b|\\bstories\\b|\\bbest\\s*of\\b|coloring|talk\\s*show|morning\\s*(show|news|routine)|soap\\s*opera|true\\s*crime|\\bstand\\s*-?\\s*up\\b)"
+
+[[pass2]]
+category = "disney_food_pets_v07"
+pattern = "(?i)(\\bdisney\\b|\\bfood\\b|\\bfunny\\b|\\bcat\\b|\\bdog\\b|\\bpuppy\\b|\\bkitten\\b|\\bpets?\\b|\\bzoo\\b|\\bwildlife\\b)"
+
+[[pass2]]
+category = "business_bangla_v07"
+pattern = "(?i)(\\bbusiness\\b|\\bbangla\\b|\\bbengali\\b|jhktv|backing\\s*(track|vocal)|\\bscience\\b|\\bmilitary\\b|\\barmy\\b)"
+
+[[pass2]]
+category = "lifestyle_more_v07"
+pattern = "(?i)(\\bhaul\\b|\\bvacation\\b|\\bchef\\b|\\bkitchen\\b|haircut|hair\\s*cut|\\btattoo\\b|\\bmukbang\\b|\\bgrwm\\b|\\bootd\\b|\\bbarber\\b|skincare|weight\\s*loss|\\bketo\\b|bodybuilding|\\bcrossfit\\b|\\bhiit\\b|\\bpilates\\b)"
+
+[[pass2]]
+category = "travel_shop_v07"
+pattern = "(?i)(\\bamazon\\b|\\bshein\\b|\\btemu\\b|\\bhotel\\b|airbnb|\\bflight\\b|\\bairport\\b|\\bcamping\\b|\\bhiking\\b|\\bfishing\\b|\\bhunting\\b)"
+
+[[pass2]]
+category = "health_drink_v07"
+pattern = "(?i)(\\bdoctor\\b|\\bhospital\\b|\\bnurse\\b|\\bdental\\b|\\btherapy\\b|psycholog|\\balcohol\\b|\\bbeer\\b|\\bwine\\b|\\bcoffee\\b|\\bbarista\\b|\\bpizza\\b|\\bburger\\b|\\bsushi\\b|\\bvegan\\b)"
+
+[[pass2]]
+category = "audio_prod_mix_v07"
+pattern = "(?i)(\\bmix\\b|\\bambient\\b|\\bsleep\\s*music\\b|fl\\s*studio|\\bableton\\b|garageband|logic\\s*pro|\\bmixing\\b|\\bmastering\\b|sample\\s*pack|\\bspotify\\b|\\bsoundcloud\\b|\\bbillboard\\b|\\bmixtape\\b|\\balbum\\b)"
+
+[[pass2]]
+category = "gaming_more_v07"
+pattern = "(?i)(\\bwalkthrough\\b|\\bspeedrun\\b|\\bstreamer\\b|\\besports\\b|\\bplaystation\\b|\\bps5\\b|\\bps4\\b|\\bxbox\\b|\\bnintendo\\b|\\bsteam\\b|\\bvalorant\\b|\\bpubg\\b|\\bgta\\b|\\bwarzone\\b|league\\s*of\\s*legends|\\bgenshin\\b|\\bmarvel\\b|\\bsuperhero\\b)"
+
+[[pass2]]
+category = "hustle_platform_v07"
+pattern = "(?i)(\\bcareer\\b|\\bsalary\\b|\\bstartup\\b|\\bentrepreneur\\b|\\bmarketing\\b|\\baffiliate\\b|dropshipping|passive\\s*income|side\\s*hustle|make\\s*money|\\bmillionaire\\b|\\bgadget\\b|\\bandroid\\b|\\blaptop\\b|pc\\s*build|desk\\s*setup|room\\s*tour|(?:house|home|apartment)\\s*tour|\\bcleaning\\b|\\bdeclutter\\b|\\bcraft\\b|\\bsewing\\b|\\bwoodworking\\b|\\bgardening\\b|\\bfails?\\b|social\\s*experiment|hidden\\s*camera|dash\\s*cam|\\bdashcam\\b|\\blawyer\\b|\\battorney\\b|\\bgovernment\\b|\\bpresident\\b|\\bbloopers?\\b|\\bouttakes?\\b|deleted\\s*scene|making\\s*of|\\bactor\\b|\\bgossip\\b|\\bscandal\\b|joe\\s*rogan|\\bjre\\b|\\boprah\\b|\\bkeynote\\b|\\bpresentation\\b|\\bmeeting\\b|\\bzoom\\b|\\bfacebook\\b|\\breddit\\b|\\bdiscord\\b|\\btelegram\\b|\\bsnapchat\\b|tier\\s*list|\\bcountdown\\b|\\branking\\b|\\bcomparison\\b|\\bmortgage\\b|\\bloan\\b|\\binsurance\\b|\\btax\\b|\\bfinance\\b|day\\s*trading|k-?drama|c-?drama|#cdrama)"
+
+# ── v0.8：n1000@v0.7（宁杀勿放；未收 song/feat/radio/christmas/kpop/cover/guitar裸词）──
+[[pass2]]
+category = "guitar_gear_v08"
+pattern = "(?i)(\\bguitar\\s*(center|of\\s*the\\s*day|solo|lesson|tutorial|tabs?)\\b|\\blearn\\s*guitar\\b|normans?\\s*rare\\s*guitars)"
+
+[[pass2]]
+category = "music_video_v08"
+pattern = "(?i)(\\bofficial\\s*(?:music\\s*)?video\\b|\\bmusic\\s*video\\b|\\bofficial\\s*mv\\b|\\bofficial\\s*audio\\b|\\bvisualizer\\b|\\bvevo\\b)"
+
+[[pass2]]
+category = "yt_challenge_v08"
+pattern = "(?i)(\\b\\d+\\s*marker\\s*challenge\\b|\\byoutubers?\\s*edition\\b|\\bchallenge\\b)"
+
+[[pass2]]
+category = "news_tv_v08"
+pattern = "(?i)(south\\s*china\\s*morning\\s*post|\\bscmp\\b|abc\\s*\\d+\\s*(?:chicago|news|ny)|bbc\\s*news|cnn\\s*(?:news|international)|\\bcjad\\b|breaking\\s*news)"
+
+[[pass2]]
+category = "toys_kids_v08"
+pattern = "(?i)(playmobil|thomas\\s*and\\s*friends|hobby\\s*kids|ryan\\s*toys?review|pinkfong|cocomelon|nursery\\s*rhymes?|\\blego\\b|toys?\\s*review)"
+
+[[pass2]]
+category = "prod_tag_v08"
+pattern = "(?i)(\\(prod\\.?\\s|\\bprod\\.\\s+[A-Za-z])"
+
+[[pass2]]
+category = "dhar_carr_v08"
+pattern = "(?i)(dhar\\s*mann|jimmy\\s*carr)"
+
+[[pass2]]
+category = "kchart_edu_v08"
+pattern = "(?i)(k-?chart|music\\s*bank|\\bupsc\\b|study\\s*iq|special\\s*class|most\\s*important\\s*questions|study\\s*with\\s*me|\\blecture\\b)"
+
+[[pass2]]
+category = "draw_school_v08"
+pattern = "(?i)(drawing\\s*and\\s*colou?ring|how\\s*to\\s*draw|easy\\s*drawing|week\\s*in\\s*my\\s*life|productive\\s*school)"
+
+[[pass2]]
+category = "audio_fx_v08"
+pattern = "(?i)(\\bkaraoke\\b|\\binstrumental\\b|slowed\\s*(?:\\+\\s*)?reverb|sped\\s*up|\\bnightcore\\b|8d\\s*audio|bass\\s*boosted|\\blo-?fi\\b|type\\s*beat|\\basmr\\b|\\bmeditation\\b|audio\\s*recording|\\baudio\\s*only\\b|\\bhq\\s*audio\\b)"
+
+[[pass2]]
+category = "faith_occult_v08"
+pattern = "(?i)(\\bsermon\\b|church\\s*service|\\bpastor\\b|holy\\s*mass|worship\\s*song|\\bquran\\b|\\bastrolog|\\bhoroscope\\b|\\btarot\\b|\\bnumerolog|shamanic|spiritual\\s*realms?)"
+
+[[pass2]]
+category = "geo_doc_v08"
+pattern = "(?i)(\\bpolitics\\b|\\belection\\b|\\bparliament\\b|\\bgaza\\b|\\bhamas\\b|\\bhezbollah\\b|\\bukraine\\b|israel-iran|axis\\s*of\\s*resistance|\\bdocumentary\\b|\\bexplained\\b|ending\\s*explained|fan\\s*theory|(?:movie|film)\\s*review)"
+
+[[pass2]]
+category = "diy_tech_v08"
+pattern = "(?i)(\\barduino\\b|dmx\\s*controller|midi\\s*to\\s*art|art-?net|after\\s*effects|premiere\\s*pro|davinci\\s*resolve|unreal\\s*engine|stable\\s*diffusion|\\bchatgpt\\b|ai\\s*(?:art|generated))"
+
+[[pass2]]
+category = "sports_hobby_v08"
+pattern = "(?i)(bodyboard(?:ing)?|\\baquarium\\b|nano\\s*tank|\\bterrarium\\b|\\bspeedrun|\\bautopsy\\b|\\bnfl\\b|\\bnba\\b|\\bmlb\\b|\\bnhl\\b|\\bufc\\b|\\bwwe\\b|formula\\s*1|\\bmotogp\\b)"
+
+[[pass2]]
+category = "reality_late_v08"
+pattern = "(?i)(reality\\s*(?:tv|show)|love\\s*island|big\\s*brother|\\bbachelor\\b|keeping\\s*up\\s*with|kardashian|\\bkuwtk\\b|late\\s*night|tonight\\s*show|jimmy\\s*fallon|jimmy\\s*kimmel|\\bcolbert\\b|\\bsnl\\b|saturday\\s*night\\s*live|\\bpodcast\\b)"
+
+[[pass2]]
+category = "hustle_more_v08"
+pattern = "(?i)(\\bcoding\\b|\\bprogramming\\b|python\\s*tutorial|stock\\s*trading|\\bforex\\b|\\bted\\s*talks?\\b|\\bhuberman\\b|lex\\s*fridman|self-?\\s*help|motivational\\s*speech|weather\\s*(?:report|forecast)|national\\s*geographic|bbc\\s*earth|what\\s*i\\s*eat|gym\\s*(?:vlog|motivation|routine))"
+
+[[pass2]]
+category = "commerce_media_v08"
+pattern = "(?i)(\\bunboxing\\b|tech\\s*review|gadget\\s*review|car\\s*(?:review|tour)|(?:house|home|apartment)\\s*tour|room\\s*tour|desk\\s*setup|pc\\s*build|real\\s*estate|how\\s*to\\s*(?:make|play|draw)|shorts?\\s*compilation|tiktok\\s*compilation|\\bprank\\b|\\bskit\\b|\\bnetflix\\b|\\bhulu\\b|prime\\s*video|amazon\\s*prime|comic-?\\s*con|\\bcosplay\\b|\\bamv\\b|\\bgacha\\b|\\bparody\\b|\\brecap\\b|\\bdebate\\b|\\bphonk\\b|\\bbollywood\\s*(?:song|music|movie)\\b|\\bncs\\b|no\\s*copyright\\s*sounds?|royalty\\s*free|copyright\\s*free|\\bdrone\\s*(?:footage|video)|time-?\\s*lapse)"
+
+[[pass2]]
+category = "identity_lit_v08"
+pattern = "(?i)(sexual\\s*orientation|gender\\s*identity|\\bfemicide\\b|great\\s*works\\s*of\\s*literature|oedipus\\s*the\\s*king|death\\s*of\\s*a\\s*salesman)"
+
+# ── v0.9：历史 LLM text QC 纯 F 频道（F≥3 T=0，n=180；样本 T_hurt=0）──
+[[channel_pass2]]
+category = "llm_pure_f_ch_v09_01"
+pattern = "^(?:1theK\\ \\(원더케이\\)|680\\ The\\ Fan|8D\\ TUNES|Aasha\\ Meena|ABC\\ 7\\ Chicago|ABS\\-CBN\\ Entertainment|ActionKid|Adam\\ B|AFRODITE|Ageng\\ Music\\ Official|Allie\\ Sherlock|Art\\ Across\\ Cultures|Ballet\\ Class\\ Music\\ by\\ Bruno\\ Raco|Ballet\\ Music\\ DK\\ by\\ Søren\\ Bebe|BANGTANTV|Barangay\\ LS\\ 97\\.1|Baul\\ 24|BBC|BBC\\ Music|Bboy\\ Music|Beat\\ House\\ AHM|Black\\ Excellence\\ Excellist|BLV\\ Anh\\ Quân|Brian\\ Crombie|British\\ Pathé|Brooke\\ and\\ Jeffrey\\ In\\ The\\ Morning|BuzzFeedVideo|CanesInSight|CBC\\ British\\ Columbia|CGTN\\ America)$"
+
+[[channel_pass2]]
+category = "llm_pure_f_ch_v09_02"
+pattern = "^(?:CJAD\\ 800\\ Montreal|CNA|Crazy\\ Editor|Crunchyroll|Crypto\\ Banter|Cumulus\\ Podcasts|DD\\ Yadagiri\\ Telangana|Dhar\\ Mann\\ Bonus|Diana\\ and\\ Roma\\ HIN|Dr\\ Daliah\\ Wachs|Dr\\.\\ Ed\\ Weir,\\ PhD,\\ Former\\ Social\\ Security\\ Manager|Drive\\ Drop|Drumeo|Easy\\ German|Electronica\\ Vibes\\ Pirate\\ Radio\\ GR|Elton\\ John|Engineering\\ Funda|ENHYPEN|Environment\\+Energy\\ Leader|EPARTRADE|Eric\\ O'Sullivan\\ \\(Sully\\)|ESPN|Fact\\ Volt\\ Stories|FilterCopy|Firstpost|Flowers\\ Comedy|FOXsound\\ Official|Future,\\ Growth\\ and\\ Vision\\ Network|Glitch\\ Hop\\ Community|Global\\ Folk)$"
+
+[[channel_pass2]]
+category = "llm_pure_f_ch_v09_03"
+pattern = "^(?:Good\\ Mythical\\ Morning|Greater\\ Good\\ Greenville|Grind\\ City\\ Media|Gupshupto|Helak\\ Music\\ Company|HooHooHooRobin|Illumi\\ Music|Indian\\ Vlogger\\ Poulami|INI|Inspiring\\ Human\\ Potential|InstruRap|iQIYI\\ 爱奇艺\\ \\-\\ Get\\ the\\ iQIYI\\ APP|Jimmy\\ Carr|JJ\\ The\\ Psychotherapist|Just\\ Too\\ Filmy|JYP\\ Entertainment|Kabootar\\ Music\\ Company|Karolina\\ Protsenko\\ \\-\\ Violin\\ Music|KBS\\ Kpop|KBS\\ WORLD\\ TV|Keeping\\ Up\\ With\\ The\\ Kardashians|Kimmi\\ The\\ Clown|Latest\\ TV|LEX\\ TV|Lifetime|Locked\\ On\\ Longhorns|Locked\\ On\\ Razorbacks|Locked\\ On\\ Stars|LuLGamingg|M2)$"
+
+[[channel_pass2]]
+category = "llm_pure_f_ch_v09_04"
+pattern = "^(?:Malik\\ Lillah\\ Production|MBCentertainment|MBCkpop|Mervelee\\ Myers|Mnet\\ K\\-POP|Mnet\\ TV|Mr\\ Bean\\ World|MrSuicideSheep|MS\\ NOW|MSA|Mumbai\\ Mayanagri|My\\ Catholic\\ Life!|NCT\\ WISH|NecrosVideos|NPR\\ Music|offanimax|PewDiePie|Pillole\\ di\\ Nonsolosuoni|PoizenJam|Popping\\ Music\\ and\\ Funk\\ music|PowerfulJRE|Public\\ Health\\ On\\ Call|Public\\ TV|Rachnavi\\ Tv|Rajeev\\ Anary|Rookie\\ Raceway|Royal\\ Mystic\\ Tarot|Santa\\ Monica\\ Closeup|Saturday\\ Night\\ Live|SBSKPOP\\ X\\ INKIGAYO)$"
+
+[[channel_pass2]]
+category = "llm_pure_f_ch_v09_05"
+pattern = "^(?:Sesame\\ Street|SEVENTEEN|Shaw\\ TV\\ Calgary|Shaw\\ TV\\ Saskatoon|SiIvaGunner|Smosh|Sonotek|South\\ China\\ Morning\\ Post|SpokenLayer|St\\.\\ Louis\\ Public\\ Radio\\ \\(KWMU\\)|Star\\ Jalsha|STAR\\ भारत|StarPlus|Still\\ Watching\\ Netflix|Stray\\ Kids|Street\\ Scholars\\ \\|\\ Street\\ Fighter\\ 6\\ Ranked\\ Replays|Strictly\\ Dumpling|Studio\\ C|Sun\\ Bangla|Syed\\ Zohaib\\ Bukhari|Tariq\\ Radio|Team\\ Coco|Techy\\ Plays|That\\ Park\\ Place|The\\ 80/20\\ Drummer|The\\ Beach\\ Boys|The\\ Ed\\ Sullivan\\ Show|The\\ Graham\\ Norton\\ Show|THE\\ INFLUENCER|The\\ Prince\\ Family\\ Clubhouse)$"
+
+[[channel_pass2]]
+category = "llm_pure_f_ch_v09_06"
+pattern = "^(?:The\\ Tonight\\ Show\\ Starring\\ Jimmy\\ Fallon|Tilantha\\ hansanath|Tinker\\ player|TOMMY'S\\ LIL\\ CUTIES|Tooy\\ Egg\\ Videos|True\\ Liberia|TV\\-People|U2|UNCAGED\\ Show|Unspeakable|USA\\ TODAY|VICE|Visteon\\ Music|Vox|W4CY\\ Radio\\ TV\\ Channel|Walker\\ \\&\\ Dunlop|WatchMojo\\.com|WGN\\ Living|Wikéo\\ Podcasts\\ \\|\\ Listen\\ \\&\\ Learn|WIRED|wrestleguy\\ 77|WWE|YOUKU\\ SHOW\\-Get\\ APP\\ now|Yummy\\ Yammy|Zach\\ Sang\\ Show|Zee\\ Bangla|Zee\\ Bangla\\ Classics|Zee\\ Marathi|Zee\\ TV|半小時英語\\ Half\\ Hour\\ English)$"
+
+# ── v1.0：v0.9 c90 人标（合格率45.6%）金标挖 F；T_hurt=0 ──
+[[pass2]]
+category = "short_drama_v10"
+pattern = "(?i)(#drama\\b|drama\\s*box|short\\s*drama|kontrak\\s*cinta|falling\\s*for\\s*my|hate-?crush|糖份短劇|短剧|drama\\s*singkat|kahani\\s*pehle\\s*pyaar|ishq\\s*junooni|legendado\\s*pt-?br|callie\\s*e\\s*arizona|arizona\\s*robbins|one\\s*tree\\s*hill|hist[oó]rias\\s*de\\s*casais)"
+
+[[pass2]]
+category = "radio_audio_v10"
+pattern = "(?i)(\\bsbs\\s*(?:audio|nitv)\\b|nitv\\s*radio|\\[audio\\s*stream\\]|audio\\s*stream\\b|drumless\\s*track)"
+
+[[pass2]]
+category = "manhwa_game_v10"
+pattern = "(?i)(\\bmanhwa\\b|\\bvocaloid\\b|#manhwa\\b|hide\\s*n\\s*seek|multiplayer|\\bwolcen\\b|leverless\\s*controller|starter\\s*stable|mario\\s*odyssey|monsters\\s*universit)"
+
+[[pass2]]
+category = "dashcam_crime_v10"
+pattern = "(?i)(road\\s*rage|rolling\\s*coal|\\bteslacam\\b|\\bbodycam\\b|swimmer\\s*drowns|andrea\\s*yates|people.?s\\s*court)"
+
+[[pass2]]
+category = "fitness_howto_v10"
+pattern = "(?i)(ankle\\s*strengthening|\\bcalisthenics\\b|barefoot\\s*strength|club\\s*calisthenics|fingerstyle\\s*booster|shorinji\\s*kempo|wedding\\s*photography\\s*tips)"
+
+[[pass2]]
+category = "edu_lang_v10"
+pattern = "(?i)(past\\s*paper|computer\\s*class|virtual\\s*assistant\\s*training|social\\s*media\\s*management|parts\\s*of\\s*a\\s*plant|dutch\\s*dialogues|easy\\s*dutch|five\\s*day\\s*in\\s*computer\\s*class|live\\s*computer\\s*class|college\\s*advice|chrome\\s*music\\s*labs)"
+
+[[pass2]]
+category = "vlog_dating_v10"
+pattern = "(?i)(loyalty\\s*test|tinder\\s*match|\\blookbook\\b|100k\\s*subscribers\\s*giveaway|hit\\s*on\\s*my\\s*boyfriend|dated\\s*for\\s*\\d+\\s*years|new\\s*tinder\\s*match|sex,\\s*boys)"
+
+[[pass2]]
+category = "news_politics_v10"
+pattern = "(?i)(pope\\s*leo|\\bvatican\\b|palestinian\\s*myth|\\bnakba\\b|audit\\s*the\\s*audit|governor\\s+andrew\\s+m\\.?\\s*cuomo|\\bnbc\\d+\\b|thank\\s*you\\s*to\\s*all\\s*the\\s*healthcare|dress\\s*codes\\s*on\\s*public\\s*sidewalks|brexit\\s*and\\s*britain)"
+
+[[pass2]]
+category = "sports_talk_v10"
+pattern = "(?i)(footy\\s*on\\s*nine|sunday\\s*footy|footy\\s*show|bill\\s*simmons|thielke\\s*vs\\.?\\s*greene)"
+
+[[pass2]]
+category = "music_release_v10"
+pattern = "(?i)(lyrical\\s*\\||video\\s*song\\b|japanese\\s*version-|\\bvevo\\b|saregama|svf\\s*music|aditya\\s*music|\\[full\\s*song\\]|electro\\s*house\\s*\\||\\(subtitulada\\)|#bollywood|#bolleywood|bollywoodcoversongs)"
+
+[[pass2]]
+category = "panel_react_v10"
+pattern = "(?i)(panel\\s*discussion|school\\s*of\\s*life|kyle\\s*cease|goldman\\s*sachs|reid\\s*hoffman|reactors?\\s*reacting|\\breacttv\\b|ryan\\s*george|off\\s*the\\s*margin|future\\s*of\\s*grassroots\\s*media)"
+
+[[pass2]]
+category = "lifestyle_misc_v10"
+pattern = "(?i)(hypnotiz|pumpkin\\s*balloon|halloween\\s*decoration|thanksgiving\\s*decoration|aluminum\\s*extrusions|cheap\\s*vs\\s*expensive\\s*rc|galaxy\\s*watch\\s*apps|\\btechisode\\b|scammer\\s*says|cash\\s*app\\s*was\\s*hacked|\\btteokbokki\\b|tik\\s*toks?\\s*that|same\\s*energy\\s*as\\s*vines|\\bmemes?\\b|underwater\\s*scooter|flying\\s*underwater|hologram\\s*technology|street\\s*photography\\s*of|beach\\s*resort|visit\\s*macon|bragg\\s*brunch|slippery\\s*fish|for\\s*kids\\s*(?:&|and)\\s*children|\\btpsproud\\b|atlas\\s*capture|stuck\\s*in\\s*tier)"
+
+[[pass2]]
+category = "faith_culture_v10"
+pattern = "(?i)(\\braag\\b|\\bshehnai\\b|visits?\\s*tirumala\\s*temple|salutes\\s*black\\s*music\\s*month|aristotle.?s\\s*lagoon|band\\s*party\\s*20\\d{2}|aadivasi\\s*\\d+\\s*band)"
+
+[[pass2]]
+category = "odd_serial_v10"
+pattern = "(?i)(sister\\s*act\\s*jr|being\\s*poirot|on\\s*the\\s*outs|don.?t\\s*kill\\s*the\\s*pig|found\\s*the\\s*secret\\s*video|midlifing|crow.?s\\s*shadow\\s*institute|adir\\s*getz|dubplate|best-?of\\s*:\\s*frerot|last\\s*words\\s*of\\s*david|horny\\s*pony|interpreting\\s*team|showmanship\\s*&?\\s*play|woodlands\\s*ark|reliance\\s*smart\\s*point|embrace\\s*being\\s*the\\s*main\\s*character)"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v10_01"
+pattern = "^(?:41NBC|Adir\\ Getz\\ Official\\ Channel\\ אדיר\\ גץ\\ הערוץ\\ הרשמי|Aditya\\ Music|Airboo\\ Drama|Alif\\ Satar|Alive\\ Network\\ Entertainment\\ Agency|Amila\\ Dasanayake|Anak\\ Pendeta|Audit\\ the\\ Audit|BLACKPINK|BOZE\\ vs\\.\\ the\\ WORLD|Bad\\ Suns|Barefoot\\ Strength|BenRichard|Bill\\ Simmons|Bluegrass\\ Preservation|Bora|By\\ Delfine|CATIE\\ Center|CalzonaMD|Captain\\ Frodo|Chicks\\ in\\ the\\ Office|Classical\\ Music\\ in\\ America\\ on\\ the\\ Road|Claudio\\ Silva|Club\\ Calisthenics|Daily\\ Stab\\ Media|David\\ Dobrik|Donut|Drama\\ Singkat\\ Hits|Drumless\\ Track\\ for\\ Drummer\\ Drummer\\ Drummer♪)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v10_02"
+pattern = "^(?:Dutch\\ Dialogues|Explorer\\ Raman|FamBam\\ NY|Footy\\ on\\ Nine|Franco\\ Colasuonno\\ \\-\\ Vintage\\ Music\\ Space|From\\ Studio\\ To\\ Streets|GANGSTER\\ SQUAD|Giggly\\ Giggly\\ \\ \\ with\\ david\\ dravenack|Goldman\\ Sachs|Governor\\ Andrew\\ M\\.\\ Cuomo|Grand\\ POOBear|Guitar\\ Logic|Helly|Histórias\\ de\\ Casais|Hypnotized\\ Girls\\ Videos|IGN|Independent\\ Television|Ishq\\ Junooni\\ Dangal\\ TV|Jared\\ Polin|Jatie\\ Vlogs|Jazz\\ No\\ End|Jerry\\ Jamilla\\ Vlogs|Jupiter\\ D|KalloniNews\\.gr|Kennade|Lesley\\ Moffat|LexingtonScoopCo|Life\\ With\\ Divya|Lori\\ Silverbush|Low\\ Steppa)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v10_03"
+pattern = "^(?:Luis\\ Alvarez|Lunaticonthegrass|MCAT\\ Community\\ Media|Matt\\ The\\ Franchize|Matthías\\ Stefánsson|Mattjestic\\ MultiGaming|Melanie\\ Lets\\ Go|MetalGearFerret|Mia's\\ Music\\ Vault|Midwest\\ Safety|Mike\\ Chudley|MrDcal100|Music\\ Person|NBC10\\ Philadelphia|NTV\\ Entertainment|Neha\\ Kakkar|New\\ Thought\\ Now|No\\ BS\\ Channel|Pearl\\ Lok|Petrikas\\ Elchik|Pierre\\ Rehov|Placecloud|Queen\\ Chioma|RAPID\\ DIRECT|ReactTV|Ryan\\ George|SBS\\ Audio|SPRAY\\ DAILY|SVF\\ Music|Saregama\\ Tamil)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v10_04"
+pattern = "^(?:School\\ of\\ Geography\\ and\\ the\\ Environment,\\ Oxford|Shayvise|Shiloh\\ \\&\\ Bros|Sonic\\ Gang\\ Malayalam|SonyMusicSouthVEVO|Syed\\ Wajid|Tamilarasi|Techisode\\ TV|Tele1|Th3aterk1d|The\\ Growth\\ Paradox|The\\ People's\\ Court|The\\ Plasmapool\\ Group|The\\ Power\\ Of\\ Song|The\\ School\\ of\\ Life|The\\ Stove\\ Network|Toledo\\ Public\\ Schools|Tom\\ Waits|Val\\ Jones\\ DaO|VioletOtaku|Warp\\ Lol|Wham\\ Baam\\ Teslacam|Woodlands\\ ARK|YOUTUBER_ISHU|Zovo\\ \\&\\ Zola|amado\\.m1o|jfusion\\ 2019|joeshinners|kokopico|kuro\\-obi\\ world)$"
+
+[[channel_pass2]]
+category = "human_pure_f_ch_v10_05"
+pattern = "^(?:loserskater33|michalskij|midlifing|msjackyoh|nan|oldpaleridge|p/Amigo|potatoyu|psychotron9|stevie\\ boebi|ইমরান\\ খান\\ বাংলা\\ নতুন\\ ভিডিও\\ গান|糖份短劇社|죠지)$"

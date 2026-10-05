@@ -1,34 +1,95 @@
 {
-  "created_at": "2026-08-17 10:40:03",
+  "created_at": "2026-09-20 13:07:43",
   "encoder": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "method": "mini_lm_lr",
+  "task": "medical_lab_experiment",
   "feature_fields": [
-    "title",
-    "description"
+    "title"
   ],
-  "n_train": 268,
-  "n_f": 131,
-  "n_t": 0,
-  "n_u": 137,
-  "oof_auc_non_f": 0.8437064690477517,
-  "oof_ap_non_f": 0.8307995356518942,
-  "strict": {
-    "drop_threshold": 0.37,
-    "n_drop": 72,
-    "drop_coverage": 0.26865671641791045,
-    "drop_precision": 0.9166666666666666,
-    "f_caught": 66,
-    "f_recall": 0.5038167938931297,
-    "t_hurt": 0,
-    "u_hurt": 6,
-    "u_hurt_rate": 0.043795620437956206
+  "n_train": 3000,
+  "n_t": 1500,
+  "n_f": 1500,
+  "n_u": 0,
+  "oof_auc": 0.9884271111111111,
+  "oof_ap": 0.9880320942491644,
+  "t_score_quantiles": {
+    "p5": 0.5658946232982003,
+    "p10": 0.6871345763795144,
+    "p25": 0.8572622518592039,
+    "p50": 0.9436654860147008,
+    "p75": 0.9767486400440512,
+    "p90": 0.9895925271004827,
+    "p95": 0.9934491963128089
   },
-  "model_path": "models/exo_medical_text_clf_f.pkl",
+  "policy": "文本治理v2：ml_score=像医疗实验实操T；默认 apply=t_like（τ越高越像T）",
+  "t_like": {
+    "drop_threshold": 0.9436654860147008,
+    "n_drop": 2246,
+    "drop_coverage": 0.7486666666666667,
+    "drop_precision": 0.666073018699911,
+    "f_caught": 1496,
+    "f_recall": 0.9973333333333333,
+    "t_hurt": 750,
+    "u_hurt": 0,
+    "u_hurt_rate": 0.0,
+    "t_hurt_rate": 0.5,
+    "t_coverage": 0.5,
+    "grid": "OOF T 分位 p50（目标 t_coverage≈50%）",
+    "note": "t_like：τ越高越像T；交付须独立人标验收"
+  },
+  "recall": {
+    "drop_threshold": 0.46,
+    "n_drop": 1460,
+    "drop_coverage": 0.4866666666666667,
+    "drop_precision": 0.9671232876712329,
+    "f_caught": 1412,
+    "f_recall": 0.9413333333333334,
+    "t_hurt": 48,
+    "u_hurt": 0,
+    "u_hurt_rate": 0.0,
+    "t_hurt_rate": 0.032,
+    "t_coverage": 0.968,
+    "grid": "OOF；默认保住 T（t_hurt_rate≤3.2%）内最大化 f_recall",
+    "note": "宽召回对照；交付/排序用 t_like（更高τ）"
+  },
+  "recall_aggressive": {
+    "drop_threshold": 0.59,
+    "n_drop": 1534,
+    "drop_coverage": 0.5113333333333333,
+    "drop_precision": 0.9426336375488917,
+    "f_caught": 1446,
+    "f_recall": 0.964,
+    "t_hurt": 88,
+    "u_hurt": 0,
+    "u_hurt_rate": 0.0,
+    "t_hurt_rate": 0.058666666666666666,
+    "t_coverage": 0.9413333333333334,
+    "grid": "OOF；t_hurt_rate≤10% 内最大化 f_recall",
+    "note": "可选更激进阈值；非默认 apply"
+  },
+  "strict": {
+    "drop_threshold": 0.2,
+    "n_drop": 1250,
+    "drop_coverage": 0.4166666666666667,
+    "drop_precision": 0.9864,
+    "f_caught": 1233,
+    "f_recall": 0.822,
+    "t_hurt": 17,
+    "u_hurt": 0,
+    "u_hurt_rate": 0.0,
+    "note": "OOF 无满足 strict；回退 drop<0.20"
+  },
+  "model_path": "/Users/muse/code/datacleng/cleng_exo/cleng_exo/models/exo_medical_text_clf_f.pkl",
   "qc_snapshots": [
-    "data/runs/exo_medical/machine_0813/03_qc/exo医疗场景_e15c3ad7_records_sample_0813_textqc_20260814_040402.csv"
+    "/Users/muse/code/datacleng/cleng_exo/cleng_exo/data/runs/exo_medical/machine_0920/03_qc/weak_gold_lab_experiment_0920.csv"
   ],
   "notes": [
-    "监督优先人工 thumb CI90（train_export）；否则 quality 文本 QC",
-    "级联：缩略图医疗场景 → 本模型文本否决",
-    "宁漏勿杀；ml_score 不当交付 KPI"
+    "监督优先人工 T/F；当前若为 weak_gold 则仅过渡排序，交付须人标重训",
+    "title+channel，不含 keyword",
+    "口径=医疗实验室实操/实验演示（非口播考证/新闻影视）",
+    "默认 t_like；recall/strict 为对照",
+    "ml_score 不当交付 KPI",
+    "weak_gold=JoVE+动手句式 vs BL drop",
+    "2026-09-21: 特征改为仅 title；须重训权重后分数才与标定一致"
   ]
 }

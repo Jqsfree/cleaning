@@ -1,0 +1,87 @@
+# Cross-category title-only format signals. All rules are review candidates.
+# Matching a word is not proof that the video lacks live human activity.
+[meta]
+version = "0.1.0"
+field = "title"
+default_action = "review"
+definition = "Titles suggesting no live, visible human activity; human evidence is required before promotion to auto-drop."
+
+[[rule]]
+id = "A1_gameplay"
+group = "shared_candidate"
+pattern = '(?i)\b(gameplay|playthrough|let.?s\s+play|gaming\s+stream|farming\s+simulator|construction\s+simulator)\b|游戏实况|游戏解说|游戏直播|模拟器操作'
+
+[[rule]]
+id = "A2_audio_only"
+group = "shared_candidate"
+pattern = '(?i)\b(audio\s*only|official\s*audio|full\s*album|lyric\s*video|karaoke\s+version|ambient\s+music|white\s+noise|sleep\s+music)\b|纯音频|有声书|歌词版|白噪音|助眠音乐|氛围音乐'
+
+[[rule]]
+id = "A3_synthetic_visual"
+group = "shared_candidate"
+pattern = '(?i)\b(animated\s+(video|film|short|story|explainer)|3d\s+animation|cgi\s+animation|vtuber|virtual\s+avatar|ai[- ]generated\s+(video|film|animation))\b|动画演示|动画短片|虚拟主播|数字人|AI生成视频'
+
+[[rule]]
+id = "A4_still_images"
+group = "shared_candidate"
+pattern = '(?i)\b(slideshow|slide\s*show|photo\s*montage|photo\s*compilation|still\s*images|image\s*slideshow)\b|幻灯片|照片合集|图片合集|静态图片|静态图文'
+
+[[rule]]
+id = "A5_desktop_only"
+group = "shared_candidate"
+pattern = '(?i)\b(screen\s*recording|screen\s*capture|desktop\s*recording|software\s*demo|powerpoint\s*presentation|code\s+walkthrough)\b|纯录屏|屏幕录制|软件界面演示|PPT讲解|代码录屏|课件录屏'
+
+[[rule]]
+id = "A6_talk_only"
+group = "shared_candidate"
+pattern = '(?i)\b(audio\s*podcast|podcast\s*(episode|ep\.?\s*\d+|#\d+)|roundtable\s+discussion|studio\s+interview|news\s+commentary)\b|纯聊天播客|播客第\d+期|圆桌访谈|演播室评论|新闻播报|新闻评论'
+
+[[rule]]
+id = "A7_scripted_media"
+group = "shared_candidate"
+pattern = '(?i)\b(movie\s*trailer|film\s*trailer|drama\s*scene|tv\s*series\s*clip|short\s*drama|movie\s*recap)\b|电影预告|电视剧片段|短剧合集|影视解说|剧情剪辑'
+
+[[rule]]
+id = "A8_unmanned_operation"
+group = "shared_candidate"
+pattern = '(?i)\b(fully\s+automated|unmanned\s+(operation|factory|construction)|robot\s+only)\b|无人操作|全自动机器|无人施工|机器人独自操作'
+
+[[rule]]
+id = "A9_text_cards"
+group = "shared_candidate"
+pattern = '(?i)\b(scrolling\s+text|text[- ]only\s+video|quiz\s+answer\s+slides|subtitle\s+only)\b|字幕滚屏|纯文字视频|文字故事|试题答案页|信息卡片'
+
+[[rule]]
+id = "A10_product_render"
+group = "shared_candidate"
+pattern = '(?i)\b(3d\s+product\s+render|product\s+render\s+only|rendered\s+product\s+showcase)\b|产品渲染|商品效果图轮播|3D商品渲染|纯渲染展示'
+
+[[rule]]
+id = "A11_waiting_screen"
+group = "shared_candidate"
+pattern = '(?i)\b(starting\s+soon\s+screen|stream\s+starting\s+soon|countdown\s+screen|waiting\s+room\s+screen|screensaver\s+loop)\b|直播待机画面|直播倒计时|等待开始画面|屏保循环'
+
+[[rule]]
+id = "B1_aerial_empty"
+group = "category_conditional"
+pattern = '(?i)\b(drone\s*footage|aerial\s*view|drone\s*tour|flyover)\b|航拍|无人机视角'
+
+[[rule]]
+id = "B2_first_person"
+group = "category_conditional"
+pattern = '(?i)\b(POV|first[- ]person|bodycam|helmet\s*cam)\b|第一视角|头戴视角'
+
+[[rule]]
+id = "B3_compilation"
+group = "category_conditional"
+pattern = '(?i)\b(top\s*10|best\s*of|highlights?\s*compilation|reaction\s+compilation)\b|盘点|集锦|合集'
+
+[[rule]]
+id = "B4_toy_model"
+group = "category_conditional"
+pattern = '(?i)\b(lego|miniature\s+model|model\s+kit|toy\s+construction)\b|乐高|微缩模型|玩具施工'
+
+[[rule]]
+id = "B5_tutorial"
+group = "category_conditional"
+pattern = '(?i)\b(how\s*to|tutorial|step\s*by\s*step|masterclass)\b|教程|教学|教你'

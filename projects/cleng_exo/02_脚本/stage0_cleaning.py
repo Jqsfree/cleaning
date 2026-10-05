@@ -37,6 +37,8 @@ Phase B —— 画面级技术判据（文档标注"全批统一，不分档"的
 或本地已存在的文件路径（脚本会自动判断来源类型）。
 """
 
+from __future__ import annotations
+
 import argparse
 import csv
 import os

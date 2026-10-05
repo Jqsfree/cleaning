@@ -1,0 +1,29 @@
+[meta]
+version = "0.1.0"
+category = "exo_construction"
+scope = "Strict title exclusions for human construction scene, after nonbuilding_form_v1"
+
+[[rules]]
+id = "explicit_teaching_format"
+label = "明确教学讲解形式"
+pattern = '(?i)\b(?:how to|tutorial|step[ -]by[ -]step|beginners?|learn|lesson|lecture|course|training|guide|tips|tricks|explained|explanation|masterclass|workshop|classes|teaching|education|for dummies|things to know|mistakes to avoid)\b|教程|教学|入门|讲解|培训|课程|手把手教|教学视频'
+
+[[rules]]
+id = "cost_comparison_qa"
+label = "价格用量比较问答"
+pattern = '(?i)\b(?:what is|why (?:is|are|do|does|should)|which is|how much|how many|cost|price|prices|rates|budget|estimate|estimation|calculation|calculator|quantity|quantities|comparison|versus|vs\.?|review|pros and cons|benefits of|types of)\b.{0,80}\b(?:construction|building|house|roof|concrete|cement|brick|masonry|plaster|rebar|steel|wall|floor|tile|formwork|shuttering|foundation|beam|column|slab)\b|\b(?:construction|building|house|roof|concrete|cement|brick|masonry|plaster|rebar|steel|wall|floor|tile|formwork|shuttering|foundation|beam|column|slab)\b.{0,80}\b(?:cost|price|prices|rates|budget|estimate|estimation|calculation|calculator|quantity|quantities|comparison|versus|vs\.?|review|pros and cons|benefits of|types of)\b'
+
+[[rules]]
+id = "contractor_service_ad"
+label = "承包商广告服务介绍"
+pattern = '(?i)\b(?:best|top rated|affordable|trusted|reliable|expert|professional|quality|near me|free quote|contact us|call us|services|company|contractor)\b.{0,60}\b(?:roofing|construction|masonry|plastering|concrete|foundation|renovation|remodeling)\b|\b(?:roofing|construction|masonry|plastering|concrete|foundation|renovation|remodeling)\b.{0,60}\b(?:near me|free quote|contact us|call us|services|company|contractor)\b|\b(?:5 star review|five star review|customer testimonial|happy customer review)\b'
+
+[[rules]]
+id = "machine_only_presentation"
+label = "设备机器演示和生产"
+pattern = '(?i)\b(?:machine|equipment|robot|automatic|automated|CNC|factory|production line|manufacturing plant|extruder)\b.{0,70}\b(?:plaster|concrete|cement|brick|rebar|steel|roof|formwork|scaffold|weld|framing|floor|tile|wall|construction|building)\b|\b(?:plaster|concrete|cement|brick|rebar|steel|roof|formwork|scaffold|weld|framing|floor|tile|wall|construction|building)\b.{0,70}\b(?:machine|equipment|robot|automatic|automated|CNC|factory|production line|manufacturing plant|extruder)\b'
+
+[[rules]]
+id = "animation_presentation"
+label = "动画演示"
+pattern = '(?i)\b(?:3d animation|construction animation|building animation|formwork animation|reinforcement animation|structural animation|animated (?:construction|building|formwork|reinforcement)|3d presentation|3d installation video)\b'

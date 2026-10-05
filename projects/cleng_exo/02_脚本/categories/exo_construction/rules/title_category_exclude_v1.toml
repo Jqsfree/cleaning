@@ -1,0 +1,76 @@
+version = "0.4.0"
+description = "建筑施工 0929 非真人 A 组 keep 的标题品类排除首版；依赖同次主题归属，不可跨输入复用主题号。"
+
+# 这些簇的中心标题和随机样本以非施工品类、纯机械或非现场讲授为主。
+# 混杂簇使用下方标题规则，不在这里整簇删除。
+drop_topics = ["topic_02", "topic_08", "topic_09", "topic_12"]
+
+# 这些簇整体偏离，但抽样中确有现场施工。仅当标题没有明显施工线索才排除。
+drop_unless_construction_topics = ["topic_01", "topic_10", "topic_13", "topic_16", "topic_19"]
+require_construction_hint = true
+construction_hint_pattern = '(?i)\b(?:construct\w*|contractor\w*|jobsite|worksite|build\w*|brick\w*|mason\w*|plaster\w*|cement|concrete|roof\w*|floor\w*|til\w*|carpent\w*|woodwork\w*|weld\w*|rebar\w*|formwork|scaffold\w*|install\w*|renovat\w*|demolit\w*|drywall|foundation|electric\w*|plumb\w*|pipefit\w*|excavat\w*|stucco|steel|beam\w*|column\w*|rcc|civil|wall\w*|stair\w*|railing\w*|shed|deck|garage|pool|pipe\w*|paint\w*|fram\w*|slab\w*|truss\w*|pav\w*|asphalt|grout\w*|waterproof\w*|insulat\w*|window\w*|door\w*|drain\w*|house|cabin|road|bridge|stonework|screed|joist\w*|stud wall|site progress)\b|工地|施工|建筑|泥瓦|抹灰|砌砖|木工|焊接|钢筋|装修|浇筑|屋顶|水电|油漆|贴砖|防水|安装|打灰|混凝土|地基|脚手架|砌墙|门窗|铺地|水管|电工|修房|工人|construcci[oó]n|albañil|hormig[oó]n|cemento|ladrillo|yeso|techo|pared|constru[cç][aã]o|concreto|cimento|telhado|pedreiro|chantier|b[eé]ton|ma[cç]on|toiture|r[eé]novation|строительств|бетон|кирпич|штукатур|монтаж|ремонт|निर्माण|मकान|मजदूर|सीमेंट|ईंट|प्लास्टर|बناء|خرسانة|أسمنت|طوب|عمال'
+
+[[rules]]
+id = "game_virtual"
+label = "游戏及虚拟建造"
+pattern = '(?i)\b(minecraft|roblox|fortnite|bedwars|hypixel|the sims(?: 4)?|sims 4|simcity|cities skylines|city skylines|construction simulator|farming simulator|truck simulator|gaming|gameplay|playthrough|let.?s play|xbox|ps[345]|nintendo|steam game|poly bridge|transport fever|lego worlds)\b|我的世界|游戏实况|游戏解说|模拟建造|模拟器游戏|建造游戏'
+
+[[rules]]
+id = "film_tv_anime_story"
+label = "影视动漫与虚构故事"
+pattern = '(?i)\b(full movie|movie trailer|official trailer|film trailer|movie explained|one piece|naruto|drama series|web series|season \d+ episode|s\d{1,2}e\d{1,2}|anime|manga|manhwa|donghua|novel recap|story recap|audiobook|fictional story|rags to riches)\b|电影解说|影视解说|动漫|动画番剧|玄幻|穿越|逆袭|短剧|电视剧|小说推文|有声小说|爽文'
+
+[[rules]]
+id = "music_podcast_audio"
+label = "音乐播客与纯音频"
+pattern = '(?i)\b(official audio|lyric video|lyrics video|music video|full album|podcast|audiobook|sleep music|relaxing sounds|white noise|nursery rhymes|kids songs|lofi beats|radio show)\b|纯音乐|音乐合集|歌词版|播客|白噪音|助眠音乐|儿歌'
+
+[[rules]]
+id = "software_digital_course"
+label = "软件操作与数字课程"
+pattern = '(?i)\b(revit|autocad|autodesk|tekla|staad.?pro|sketchup|archicad|solidworks|so[f]?istik|protastructure|lumion|blender tutorial|excel tutorial|power bi|selenium|java tutorial|python tutorial|javascript tutorial|asp[.]?net|web development|website builder|google sheets|coding tutorial|software tutorial|ai course|prompt engineering)\b|软件教程|编程教程|建模教程|建筑建模|效果图教程|CAD教程|BIM教程|表格教程'
+
+[[rules]]
+id = "design_plan_calculation"
+label = "设计图纸与计算讲解"
+pattern = '(?i)\b(floor plan|house plan|building plan|architectural drawing|structural design|steel structure design|foundation design|column design|beam design|3d rendering|3d animation|3d visualization|quantity surveying|cost estimation|bar bending schedule|bending schedule|load calculation|reinforcement calculation|rcc calculation|civil engineering lecture|engineering lecture)\b|平面设计图|户型设计|施工图讲解|结构设计|建筑效果图|工程量计算|钢筋算量|建模演示'
+
+[[rules]]
+id = "nonconstruction_education"
+label = "其他课程与学校教学"
+pattern = '(?i)\b(math(s|ematics)? (lesson|class|tutorial)|english grammar|language learning|history lesson|science project|school project|exam preparation|exam solution|full course|online class|class 10|class 12|reinforcement learning|machine learning course|OSHA (course|training)|safety training|workplace safety course)\b|数学教学|英语教学|语法课|考试讲解|网课|网课直播|安全培训课程|职业资格考试'
+
+[[rules]]
+id = "toy_model_craft"
+label = "玩具模型与微缩制作"
+pattern = '(?i)\b(lego|legoland|lego technic|lego friends|dollhouse|miniature house|scale model|model railroad|toy excavator|toy truck|toy bulldozer|plastic model|model kit|cardboard house|paper house|diorama)\b|乐高|积木|玩具挖掘机|玩具卡车|微缩模型|纸板房子|手工模型'
+
+[[rules]]
+id = "news_sports_unrelated"
+label = "新闻体育及其他明显跨品类"
+pattern = '(?i)\b(breaking news|news live|football highlights|basketball highlights|NFL draft|premier league|world cup highlights|pokemon|counter.strike|cs2 gameplay|valorant|dracula|coronavirus coverage|political debate|wedding vlog|makeup tutorial|cooking recipe)\b|新闻联播|足球集锦|篮球集锦|王者荣耀|和平精英|烹饪教程|美妆教程'
+
+[[rules]]
+id = "product_review_unboxing"
+label = "产品测评与开箱"
+pattern = '(?i)\b(tool review|product review|equipment review|excavator review|bulldozer review|truck review|unboxing|top \d+ (?:tools|gadgets|machines)|best (?:tools|gadgets|equipment) to buy)\b|开箱测评|产品测评|工具推荐|挖掘机测评|工程车测评'
+
+[[rules]]
+id = "heavy_machine_showcase"
+label = "纯机械设备作业或展示"
+pattern = '(?i)\b(excavator|bulldozer|dump truck|front loader|wheel loader|motor grader|backhoe|crane simulator|heavy machinery earthmoving|truck unloading|dozer pushing)\b|纯挖机作业|挖掘机表演|推土机作业|装载机作业|卡车卸土'
+
+[[rules]]
+id = "tour_real_estate"
+label = "房屋参观与房产展示"
+pattern = '(?i)\b(home tour|house tour|property tour|apartment tour|real estate investing|real estate listing|interior design service|virtual walkthrough|3d walkthrough|dream home tour|model home tour)\b|看房视频|样板房参观|房产中介|室内设计展示'
+
+[[rules]]
+id = "lecture_calculation"
+label = "理论授课与算量"
+pattern = '(?i)\b(lecture \d+|webinar|interview questions|structural analysis|design of (?:a |the )?(?:column|beam|slab|foundation)|how to calculate|quantity calculation|rate analysis|civil engineering exam|site engineer interview|reinforcement detail explained)\b|工程算量|结构力学课程|土木工程考试|建筑师访谈'
+
+[[rules]]
+id = "other_category_terms"
+label = "其他明显无关品类"
+pattern = '(?i)\b(poultry farm|gardening tips|pottery glazing|dance tutorial|breakdance|yoga workout|home workout|golf simulator|makeup tutorial|skin care routine|cooking recipe|kitchen recipe|bird cage|aquarium fish|astrology|astral projection|stock trading|crypto trading)\b|养鸡教程|种菜教程|陶艺制作|健身教学|舞蹈教学|股票投资|厨艺教学'

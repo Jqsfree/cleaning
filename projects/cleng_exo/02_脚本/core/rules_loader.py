@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 """
 core/rules_loader.py -- 通用规则加载（不绑定任何类别）
 
@@ -6,17 +8,24 @@ core/rules_loader.py -- 通用规则加载（不绑定任何类别）
 所有函数接收 rules_dir 参数，可被任何类别复用。
 
 TOML 约定：
-  {rules_dir}/
+    {rules_dir}/
     blacklist.toml   -- [[title_pass2]], [[title_r3]], [[channel_pass2]],
-                        [[pass2]], [[r2]]，每项含 pattern:string
+                        [[keyword_pass2]], [[pass2]], [[r2]]，每项含 pattern:string
+                        keyword_pass2 只匹配 keyword 列（playlist 名），其余匹配 title_channel
+                        [[rescue]]（可选）标题豁免：命中则不参与 pass2 软闸（channel/keyword/r2 硬闸不受影响）
     whitelist.toml   -- [meta], [[positive]], [[negative]], strong_*_pattern:string
     entities.toml    -- (可选) 类别专用实体定义。不存在则返回空字典
 """
 
 import json
+import hashlib
 import re
-import tomllib
 from pathlib import Path
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11
+    import tomli as tomllib
 
 _HIT_CACHE_FILE = ".rule_hits_cache.json"
 
@@ -29,13 +38,13 @@ def load_blacklist(rules_dir: Path) -> dict[str, str]:
 
     返回:
       {"title_pass2": "...", "title_r3": "...", "channel_pass2": "...",
-       "pass2": "...", "r2": "..."}
+       "pass2": "...", "r2": "...", "rescue": "..."}
       未配置的 section 对应 ``\\b\\B``（永不匹配；勿与文档旧哨兵 (?!x)x 混用）。
     """
     rules = load_blacklist_individual(rules_dir)
     hit_cache = load_hit_cache(rules_dir)
     result = {}
-    for section in ("title_pass2", "title_r3", "channel_pass2", "pass2", "r2"):
+    for section in ("title_pass2", "title_r3", "channel_pass2", "keyword_pass2", "pass2", "r2", "rescue"):
         items = list(rules.get(section, []))
         section_hits = hit_cache.get(section) or {}
         if section_hits:
@@ -61,7 +70,7 @@ def load_blacklist_individual(rules_dir: Path) -> dict[str, list[dict[str, str]]
 
     bl = tomllib.loads(bl_path.read_text("utf-8"))
     result: dict[str, list[dict[str, str]]] = {}
-    for section in ("title_pass2", "title_r3", "channel_pass2", "pass2", "r2"):
+    for section in ("title_pass2", "title_r3", "channel_pass2", "keyword_pass2", "pass2", "r2", "rescue"):
         items = []
         for item in bl.get(section, []):
             pat = item.get("pattern", "")
@@ -159,7 +168,11 @@ def load_entities(rules_dir: Path) -> dict:
 
 
 def _hit_cache_path(rules_dir: Path) -> Path:
-    return rules_dir / _HIT_CACHE_FILE
+    from core.runtime_files import cache_root
+    identity = str(Path(rules_dir).resolve())
+    source = Path(rules_dir)/"blacklist.toml"
+    signature = hashlib.sha256(identity.encode()+ (source.read_bytes() if source.exists() else b"")).hexdigest()
+    return cache_root()/"rule_hits"/(signature+".json")
 
 
 def load_hit_cache(rules_dir: Path) -> dict[str, dict[str, int]]:
@@ -168,7 +181,10 @@ def load_hit_cache(rules_dir: Path) -> dict[str, dict[str, int]]:
     if not p.exists():
         return {}
     try:
-        return json.loads(p.read_text("utf-8"))
+        value = json.loads(p.read_text("utf-8"))
+        if not isinstance(value,dict) or any(not isinstance(v,dict) or any(not isinstance(n,int) or n<0 for n in v.values()) for v in value.values()):
+            return {}
+        return value
     except (json.JSONDecodeError, OSError):
         return {}
 
@@ -177,16 +193,20 @@ def save_hit_cache(rules_dir: Path, stats: dict[str, dict[str, int]]) -> None:
     """保存规则命中统计缓存（合并已有数据取最大值，防一次性偏差）。
     对标: FONDUE (2025) — 基于历史命中率的选择性优化。
     """
-    existing = load_hit_cache(rules_dir)
-    merged: dict[str, dict[str, int]] = {}
-    for section in set(list(existing.keys()) + list(stats.keys())):
-        merged[section] = {}
-        for cat in set(list(existing.get(section, {}).keys()) + list(stats.get(section, {}).keys())):
-            merged[section][cat] = max(
-                existing.get(section, {}).get(cat, 0),
-                stats.get(section, {}).get(cat, 0),
-            )
-    _hit_cache_path(rules_dir).write_text(json.dumps(merged, indent=2), "utf-8")
+    from core.runtime_files import file_lock, atomic_json
+    try:
+        path = _hit_cache_path(rules_dir)
+        with file_lock(path.with_suffix(".lock")):
+            existing = load_hit_cache(rules_dir)
+            merged = {}
+            for section in set(existing)|set(stats):
+                previous = existing.get(section, {})
+                current = stats.get(section, {})
+                merged[section] = {name:max(previous.get(name,0),current.get(name,0)) for name in set(previous)|set(current)}
+            atomic_json(path, merged)
+    except OSError:
+        # Sorting is optional; a read-only or unavailable cache cannot stop cleaning.
+        return
 
 
 def compute_and_save_rule_stats(db, rules_dir: Path,

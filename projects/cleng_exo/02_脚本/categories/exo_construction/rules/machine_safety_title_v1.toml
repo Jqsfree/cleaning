@@ -1,0 +1,13 @@
+[meta]
+version = "0.2.0"
+category = "exo_construction"
+scope = "Title-only exclusion after 0929 pass2/live/empty-channel filter"
+
+[machine_operation]
+equipment = '(?i)\b(excavator|bulldozer|backhoe|wheel loader|front loader|skid steer|dump truck|tipper truck|motor grader|tower crane|mobile crane|crawler crane|heavy machinery|heavy equipment|earthmoving|earthmover|road roller|vibratory roller|paver machine|concrete pump(?: truck)?|batching plant|tunnel boring machine|pile driver|jcb|dozer)\b|挖掘机|挖机|推土机|装载机|翻斗车|自卸车|塔吊|起重机|大型机械|工程机械|压路机|摊铺机|盾构机|打桩机'
+machine_brand = '(?i)\b(komatsu|shantui|liebherr|xcmg|kobelco|sany|caterpillar|cat [dD]\d+|hitachi [zZxX]\w+)\b'
+operation = '(?i)\b(operat\w*|work(?:ing)?|dig\w*|excavat\w*|push\w*|load\w*|haul\w*|dump\w*|grad\w*|level\w*|earthmov\w*|pav\w*|trench\w*|drill\w*|lift\w*|driv\w*|landfill|land filling|canal building|road construction|foundation work|site work|machine work|machine action|construction process|building technology)\b|作业|操作|挖土|挖方|推土|吊装|装载|卸土|铺路|平整|回填|施工'
+manual_work_protection = '(?i)\b(ironworkers?|bricklay\w*|mason\w*|plaster\w*|scaffold\w*|formwork|rebar install\w*|rebar binding|concrete pour\w*|concrete finish\w*|workers? install\w*|crane assembl\w*|crane erect\w*|tower crane install\w*|tower crane assembl\w*|tower crane erect\w*|roof rafter erect\w*|steel structure erect\w*)\b|人工绑扎|工人砌|工人抹灰|工人安装|钢筋绑扎|塔吊安装|脚手架搭设'
+
+[safety_course]
+pattern = '(?i)\b(OSHA|outreach courses?|NFPA 70E|electrical safety|workplace safety|construction safety training|safety orientation|safety awareness|safety course|safety training|PPE training|hazard prevention|lockout.tagout training)\b|安全培训|安全课程|电气安全|电工安全|施工安全规范|安全教育课'

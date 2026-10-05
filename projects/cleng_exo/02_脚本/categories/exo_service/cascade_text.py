@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""exo_service 文本级联 L1 DROP + L2 行业路由。
+"""exo_service 文本级联 L1 DROP + L2 品类路由。
 
 L1: 仅确定噪声 DROP
-L2: 路由到行业 → commercial_service_candidates（允许误报，不判合格）
+L2: 是否像「商业服务」品类 → commercial_service_candidates（允许误报，不判合格；不再分行业）
 
   PYTHONPATH=02_脚本 python 02_脚本/tools/run_exo_service_cascade_text.py \\
     data/runs/exo_service/machine_0813/01_quality/商业服务_merged_0813_quality_0813.csv \\
@@ -14,7 +14,10 @@ from __future__ import annotations
 import json
 import re
 import time
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11
+    import tomli as tomllib
 from pathlib import Path
 from typing import Any
 
@@ -214,15 +217,15 @@ def run_l1_l2(
         "n_candidates": n_cand,
         "n_unrouted": n_unrouted,
         "l1_by_category": by_l1,
-        "l2_by_primary": by_ind,
+        "l2_by_category": by_ind,
         "candidates_csv": str(keep_csv),
         "l1_drop_csv": str(drop_csv),
         "unrouted_csv": str(unrouted_csv),
         "elapsed_sec": round(time.perf_counter() - t0, 1),
         "notes": [
-            "candidates = commercial_service_candidates; not deliver",
-            "unrouted is not L1 certain-noise",
-            "L3 CLIP / L4 subcategory VLM next",
+            "L2 = 商业服务品类二元路由（非行业）",
+            "candidates = 文本像商业服务；not deliver",
+            "unrouted = 未命中品类规则；可用 MiniLM 再捞",
         ],
     }
     sum_path = out / "cascade_l1_l2_summary.json"

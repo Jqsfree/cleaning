@@ -1,0 +1,195 @@
+# Blacklist — exo 建筑施工（文本闸门 v0.2.4）
+# 数据源: 建筑施工机采 12 文件 union（1,562,296 → 去重 1,495,851 → 初筛 1,327,266 行）
+# v0.2.4: 金标改为四批累积合并（修复 v0.2.3 丢批次导致的规则回归）；旁证池随 run 参数化
+
+[meta]
+version = "0.2.4"
+category = "exo_construction"
+category_label = "建筑施工"
+basis = "old T=90/F=177; jg T=125/F=141; jg2 T=101/F=119; c961 T=81/F=188"
+notes = """
+四层口径（keep = 频道闸通过，且不命中频道黑名单 / keyword 黑名单 / 标题硬噪声）：
+  step0 规则过滤（频道闸）: 频道「施工标题命中率」>= 0.5 视为施工频道；
+        命中率不足但本条标题自带施工词 → 放行。白名单 rules/channel_construction_allowlist.csv
+  step1 频道黑名单: [[channel_pass2]]；合并金标纯 F 频道（n_t=0），清单 rules/channel_blacklist_pure_f.csv
+  step2 keyword 黑名单: [[keyword_pass2]]；合并金标全 F 采样词（n_t=0 且 n_f>=2），硬闸整词丢弃
+  step3 标题硬噪声: [[pass2]]；非施工确定噪声 + 「F 专属短语」
+
+v0.2.4 修复（对齐审计）:
+  ① 金标**累积合并四批**（labeled + 建工_6c91274f + 建工2_050a0200 + 建筑施工_c961381c，
+     按 video_id 去重）；v0.2.3 只用了其中两批，导致 keyword/channel 清单缩水 + T 误杀。
+  ② ML 旁证池改为上一轮最新打分（text_gov_v07，基于 run08_v023），基准留存率实测（不再硬编码）。
+
+金标评估（脚本内断言）：四层叠加后**四批**金标 T_hurt = 0。
+"""
+
+# ── step1：合并金标纯 F 频道（channel_pass2；n_t=0；模式两端带首尾空白容错锚点）──
+# 纯 F 529 个 → 最小化 470（59 个 F 已被 pass2 覆盖，不拉黑整频道）
+
+[[channel_pass2]]
+category = "gold_pure_f_ch_v024"
+pattern = "^\\s*(?:HogOn\\ TV|@Elam\\ maida\\ Tekedhar|CranesEtcTV|Procore|REINFORCE|254\\-Crafts|Aphex|BUILDRITE\\ CONSTRUCTION\\ CHEMICALS|Bridge\\ Construction\\ Training\\ Institute|Construction\\ Guide|Construction\\ Remodeling\\ In\\ Bay\\ Area|Construction\\ Sport|Engr\\ Sami|Eustis\\ Roofing\\ Company|Judd\\ Rios|Stick\\ welder|Swimming\\ Pool\\ Steve|euronews|筑龙培训|KHOME\\ Modular\\ Buildings|Matt\\ Risinger|RV\\ ROOF\\ INSTALL|\\-\\ TECON|12\\ News|30X40\\ Design\\ Workshop|4x4\\ fabshop|6061|@ArjunVilla|@GhanshyamInfratech|A\\ Coffee\\ Talk\\ with\\ Maestro|A\\-1\\ Concrete\\ Leveling|A2Z\\ Home\\ Gadgets|AACC\\ TV|ACC\\ Construction|ADTO\\ Mall|AFT\\ Construction|AIS\\ Construction\\ Equipment|AL\\ AMIN\\ CONSTRUCTION|AMBUSH\\ CONTRACTORS\\ LIMITED|ANR\\ News|ARS\\ ECOSTE\\ KERALA|AVG\\ international\\ Private\\ Limited|Abaqusfem|About\\ Civil\\ engineer|About\\ Heavy\\ Machinery|Adam\\ Adikimenakis|Aditya\\ Srivastava|Advantis\\ Engineering|Africa\\ Building\\ Hub|Africana\\ Hills|All\\ Things\\ Floor|Alpha\\ Defense\\ \\-\\ Hindi|Alsanetic|Alston\\ Construction|Anchor\\ Point\\ Roofing|Angel\\ Rodriguez|Anthony\\ Vise|Archi\\ Académie|ArchiTektonic2312|Architectural\\ Digest|Ardex\\ Scoretech\\ Ltd\\ Hong\\ Kong\\ 亞地斯高科|Arki\\ Vibes|Armour\\ Roof\\ Co\\.|Around\\ The\\ House|Ask\\ Live|Attb\\ Family|Azad\\ Building\\ Construction|BEHR\\ Paint|BION\\ Channel|BRICTEC\\ Engineering|BUILD\\ MS\\ Civil|Babu\\ Engineer\\ \\(Sky\\-high\\ Construction\\)|Bailey\\ Javins\\ \\&\\ Carter\\ \\-\\ Atlanta|Bastukar|Bharti\\ Construction\\ line|Bharuka\\ Constructions\\ Private\\ Limited|Bndrestoration\\.\\ Restoration|Brandon\\ Fritsch|BraveJammer|Brick\\ \\&\\ Bolt|Brickworks\\ Building\\ Products|Broomfield\\ Roofing\\ by\\ Design|Buffalo\\ Modular|BuildWise\\ Assurance|Building\\ Plan\\ kannada|Building\\ Tasmania|Built\\ to\\ Last\\ TV|CAB\\ ROYALE\\ CHANNEL|CADRE\\ Construction|CBFI\\ Icesource\\ Group|CBS\\ New\\ York|CHASNZ\\ \\|\\ Construction\\ Health\\ \\&\\ Safety\\ New\\ Zealand|CIVIL\\ TRAINER|CSIConstruction|Cat\\ Landscaping\\ and\\ Construction|Central\\ Precast|Certified\\ Concrete\\ Chronicles|Chalo\\ bazaar|Chortle\\ Cast|Chris\\ Boden|CiggieMuncher9000|Civil\\ Brains\\ \\-\\ Civil\\ Engineers\\ Training\\ Empire|Civil\\ Construction\\ Studio|Civil\\ Curious|Civil\\ Engg\\ Dept_GP\\ Katihar|Civil\\ Engineer\\ Deepak\\ Kumar|Civil\\ Engineering\\ Basic\\ Knowledge|Civil\\ Engineering\\ Mastery|Civil\\ Execution|Civil\\ Work\\ Construction\\ TV|CivilTech|Cole\\ Kline|Concrete\\ Technology|Construction\\ Binoculars\\ Vision|Construction\\ Channel\\ Fuximux|Construction\\ Consumer\\ Advocacy\\ Institute|Construction\\ Expert|Construction\\ Ready|Construction\\ Shares|Construction\\ Site\\ Tips|Construction\\ With\\ Kieren|Construction\\ _new|Creating\\ Concrete|CrewcutTV|DAPU\\ welded\\ mesh\\ machine\\ factory\\ price|DASWELL\\ Group|DIY\\ Machinery|DIY\\ Woodworking\\ Projects|DIY\\ cement\\ IDEAS|Dadrian\\ tools\\ reviews\\ and\\ construction|Daily\\ Brew\\ Garage|Danu\\ Sparks|Dave\\ Cooper\\ LIVE|David\\ Sepulveda|Design\\ \\&\\ Custom\\ Construction|Design\\ Fabrication|Designer\\ Roof\\ Trusses|Designer_Xiaoqi|Dick\\ Searle|Direct\\ Colors\\ DIY\\ Decorative\\ Concrete|Door\\ and\\ Dock\\ Solutions|Drone\\ B|Duininck\\ Concrete|EBENCO\\ BUILDING\\ DESIGN\\ EXPERT\\ COMPANY\\ LTD|EMI\\ Supply|ENG\\ We\\ Build\\ The\\ World|EPACK\\ Prefab|EYECRAFT\\ Film|Economy\\ Today\\ 1\\.0\\ \\-\\ Dinesh\\ K\\ Vohra|Edwin\\ Prudenciado|Electrical\\ Code\\ Coach|Electrical\\ Transmission\\ line|Elias\\ Yoder\\ Tricks|Engineers\\.SG|Enshrine\\ Placements|Equipment\\ Services\\ LLC|EquipmentWorld|Er\\ Highrise\\ structure|Eries\\ Ken|Essential\\ Craftsman|Everyday\\ Dazz|Everyday\\ Home\\ Repairs|FD\\ BRICKWORK|FREEDOMNEWS\\ TV\\ \\-\\ NYC\\ \\-\\ ON\\ EVERY\\ SCENE|Farm\\ Mama|FarmingZone|Fernando\\ rebojo\\ vlog|Fixmyroof|Flooring\\ Insights|Foamex\\ Group|Forged\\ in\\ Fire|Free\\ Documentary\\ \\-\\ Engineering|Friends\\ Group\\ \\-\\ V\\ Board\\ Construction|FrontStepsMediaLLC|Futura\\ Precast|GB\\ CUTELARIA_\\ Gilson\\ Bortolini|Gallagher\\ Group|Gasfiteria\\ y\\ Electricidad|Giatec\\ Scientific\\ Inc\\.|Gill\\ Construction\\ Solutions\\ LLC|Golden\\ View\\ Renovation|Gosforth\\ Handyman|Grand\\ Roofing\\ Inc\\.|Graniterock1900|Gurukul\\ of\\ Civil\\ Engineers|Gyproc\\ India|HRP\\ Associates,\\ Inc\\.|Handicrafts|HandyBros|Harvard\\ Heights\\ Construction|Heavy\\ Equipment|Hidden\\ Mason|Home\\ Bunch|Hong\\ Quan\\ /\\ Builder\\ Girl|IBM\\ Deva|IKO\\ North\\ America|INFO\\ CIVIL|Ideal\\ Construction\\ Cheshire|Infra\\ Guide|Insulated\\ Roofing\\ Contractors|Intelligent\\ Concrete|Inventor\\ 101|J\\ Smith|JC|JEWEL\\ STONE\\ /Liquid\\ Stone\\ Design\\.\\ Toronto\\ \\&\\ GTA\\ \\.|JSA\\ Scott|Jakob\\ Troyer|Jarod\\ Coffman|Jarvis\\ Jia|Jason\\ Ware|Job\\ Gateway|JobNimbus|John\\ McGrath\\ \\(Man\\ In\\ Shed\\)|Jonas'\\ Class\\ Notes|Just\\ Have\\ a\\ Think|KC\\ TV|KENDI的DIY频道|KLIFS\\ TECH|KMC\\ ROOFING|KNOW\\ HISTORY|Kannada\\ kuvara\\ Vlog|Kaos\\ la\\ leggenda|Kern\\ Steel\\ Buildings|Kevin\\ Cook|KingMetalsInc|Km\\ Fabrication|Knights\\ Brown|Komatsu\\ North\\ America|Krazy\\ Skills|Kuya\\ ARCHITECT|Le\\ Paradis\\ des\\ Petits\\ Voyageurs|Leak\\ Busters\\ Roof\\ Repair|LeanTakt|Learn2Fly|Lex\\ Wilson\\ Type|London\\ Repointing\\ \\&\\ Restoration\\ Ltd|Long's\\ Speed\\ and\\ Marine|Love\\ Life\\ Drawing|Luke\\ The\\ Window\\ Cleaner|Luxury\\ Flip|MAAZ\\ CREATOR|MAX\\ Drawing|MEGAPROJECTS\\ MANIA|MR\\ TOP5|MTIdry|Mace\\ Masonry|Machinery\\ Present|Magnet\\ Marketing\\ SEO|Malik\\ arif|Mana\\ Precast\\ Systems|Mani\\ House|Mano's\\ Try|Marchwood\\-house|Mark\\ Makes|Master\\ Wall\\ Inc\\.|Mega\\ Construction\\ Machines|Mega\\ Machines\\ World|Mega\\ Projects\\ Hub|Meka\\ Global|Metricon\\ Homes|Mexico\\ Matt|Micarah\\ Tewers|Micro\\ Tools|Miky\\ Garage|Mini\\ Brick\\ Model|Mitek\\ Australia\\ Ltd\\.|Mokomoko|Mr\\ Machines|MrOliverGuo|Muddy\\ River\\ Distillery|NDSUExtension|NHÀ\\ XANH\\ VIỆT\\ NAM|NTV\\ Kenya|Nabi\\ Interior\\ \\&\\ Construction|Nagesh\\ 0137|News\\ 5\\ Cleveland|Nick\\ Nicoloudis|North\\ West\\ Design\\ \\&\\ Construction|Nuvoco\\ Vistas\\ Corp\\.\\ Ltd\\.|OPEN\\.\\ TOURS\\ \\(www\\.Open\\.Tours\\)|OceanGroveCottages|Outdoor\\ Living\\ Today|PJ\\ NEWS|PM\\ Problems|Pacific\\ Arc\\ Tig\\ Welding|Paul\\ T\\.\\ Long|Performance\\ Waterproofing\\ LLC|Perkins\\ Builder\\ Brothers|Perkins\\ Roofing\\ Corp\\.|Pete's\\ Garage|Peter\\ Franzen|Peterson\\ Cat|Plan\\ It\\ Build\\ It|Plasamk\\ Construction\\ Professionals\\ Ltd|Power\\ Home\\ Remodeling|Powerson\\ Metal|Premier\\ Outdoor\\ Living|ProTradeCraft|Project\\ Mart\\ \\-\\ Project\\ Service|Pros\\ DIY|Quantic\\ Tech\\ tv|Queen\\ Irene|Quimby\\ Alert\\ VODs|R\\ D\\ CONSTRUCTION\\ 7|RF\\ Landscape\\ Construction\\ and\\ Yard\\ Drainage|RJYAMEEN\\.Imtiaz|RLLWoodworks\\ and\\ DIY|Raad\\ Al\\ Meferge|Rachel\\ \\&\\ Emilien\\ \\-\\ Rénovation|Radek's\\ Workshop|Raj\\ News\\ Telugu|Ranran\\ Rahayu|Real\\ Heavy\\ Equipment|Reimagine\\ Roofing|RepairClinic\\.com|Riaz\\ Builder\\ 🏡\\ 8\\.7M\\ views\\ target|Ridgecon\\ Roofing\\ Above\\ All|Roger\\ Holloway|Rooftop\\ Safety\\ USA|Rox\\ Roofing|Rusty\\ Blades|Ryan\\ Sevel|S\\ \\&\\ S\\ Interior\\ Design\\ And\\ Knowledge|SAMAA\\ TV|SARIKA\\ Guide|SB\\.\\ ARCHITECT|SCELTA|SGVGPC\\ Bharatpur|SS\\ fibre\\ glass\\ and\\ fabrication\\ works|STRUCTURE\\-TECH|Sailrite|Sakshi\\ TV|Samson\\-The\\ RoadMan\\ 🇿🇲|Samuel\\ Nama|San\\ Diego\\ County\\ Roofing\\ \\&\\ Solar|Sangemarmar\\ Taj\\ world|Scott\\ Gibson|Scott\\ Turner|SealMaster\\ Asphalt\\ Sealcoating\\ \\-\\ Pavement\\ Sealer|Sebastian\\ Cremin|Sehera\\ Beya\\ Lora|SeidelRanch\\ Reviews|Service\\ Pro\\ Local|Shark\\ Scaffold|Shells\\ Only\\ Complete\\ Home\\ Improvements|Shree\\ Ram\\ Construction|Shuweb\\ Tube|Site_Alapparaigal|Sitecraft\\ proTips|Sky\\ Roofing\\ Construction\\ \\&\\ Remodeling|Smart\\ Architecture|Smart\\ Infovision|Sohail\\ Azam|Sol\\ Usman\\ Jr|Sparky\\ Car\\ Friends|Splatter\\ Matters\\ Plastering\\ MasterSmurf74|Splattercaster|Sree\\ Hari\\ Constructions|Stoney\\ Ridge\\ Farmer|Storm\\ Journey|Structnex|T\\&N\\ Services\\ LLC\\.|TEACH\\ Construction\\ Community\\ Education|THink\\ Media\\ 79|TOOLKiT|Tampa\\ Bay\\ 28|Tanmay\\ Baidh\\ construction\\ work|Team\\ Bhargo|Technical\\ Excavator|Techsploration|Telugu\\ construction\\ w1|TexasNative00\\ \\-\\ Page|The\\ Alpha\\ Builder|The\\ Construction\\ Story\\ Channel|The\\ Destiny\\ Architect\\ 命格設計師\\ –\\ Jack\\ HM\\ Wong\\ 黃慶文|The\\ Home\\ Depot|The\\ Metal\\ Roofing\\ Channel|The\\ Mutungas|The\\ Ramco\\ Cements\\ Limited|The\\ Roofing\\ Channel|The\\ Site\\ Life\\ Ph|The\\ TOOLS\\ Show|The\\ Ultimate\\ Handyman|The\\ Young\\ Turks|TheJklopson|TheRussBoss|Theafter8Bricky|Tiger\\ Law|Tiiny\\ Buiild\\ Workss|Times\\ Of\\ India|Tinkering\\ Daily|Tommy\\ Tompkins|Tom’s\\ Concreting|Tool\\ Show|Tools\\ In\\ Action|Tools\\ Master|Top\\ Fail|Top\\ Mini\\ Farming|Top\\ Trends\\ By\\ Tahir|Touchplan|TradeUpManitoba|Tricky\\ Brickys|Trikuta\\ Communications|Twin\\ Home\\ Experts|Tylor\\ Link|UDATechnologies|United\\ Grand\\ Lodge\\ of\\ England|Unknown\\ inventor|Valkyrie\\ Review|Village\\ Construction|Vinods\\ Review\\ \\-\\ ek\\ kisan\\ mitra|Visual\\ Life|Vladimir\\ Sinitsyn|Vlog\\ Creations|Vortex\\ Bladeless\\ Wind\\ Power|WELD\\ CRAFT|WGN\\ News|WISN\\ 12\\ News|WMUR\\-TV|WSP\\ UK|Welcome!!\\ I\\ will\\ share\\ info\\ of\\ Aluminum\\ formwork\\.|Weld\\ It\\ By\\ \\ Prasanth|WeldingProjects|Werk\\-Brau|Will\\ Yarinsky|Wind\\ Site\\ Construction\\ Tips|WindowsandSidingATX|Wings\\ World|WishiHadThat|Wonderbot|Wood\\ and\\ Shop|X\\-Creation|Yang\\ interior\\ \\[양인테리어\\]|Yellowironcowboy\\ rc\\ Construction|Your\\ Solution\\ Guru\\ \\-\\ Shawn\\ Ryan\\ Randleman|Zak\\ Schmidt\\-\\ Dallas\\ Texas\\ New\\ Construction\\ Homes|bcc\\ puttalam|buildAhome|civil\\ tech\\ 1|complianceleader|construction\\ machines|dieseJL|dk\\ builds|gregvancom|jamwal\\ dubai\\ alla|jitendr6|khawar\\ riaz|krizzylovelife07|leisterworld|scan3d|seejanedrill|song\\ wang|workers\\ design|working\\ STUFFandTHINGS|ĐỜI\\ THỢ\\ XÂY\\ VLOG|Дельные\\ Советы|ابو\\ حمودي\\ المصري|國際環宇時報|安全\\-地面防滑\\-生活|工地搬砖工|强国工匠|徐淑美|德鑫建筑讲堂|李旺|李紹暉|杨仔聊装修|民工小步|蕙彤均整舒壓養生|阿木爷爷\\ Grandpa\\ Amu|鹏哥聊天指南)\\s*$"
+
+# ── step2：合并金标全 F 采样词（keyword_pass2；n_t=0 且 n_f>=2；硬闸）──
+# 候选 44 个 → 采纳 35（剔除 9 个 MiniLM 判为「像 T」的）
+
+[[keyword_pass2]]
+category = "gold_pure_f_kw_v024"
+pattern = "^\\s*(?:building\\ construction|construction\\ construction\\ process\\ playlist|construction\\ skills\\ construction\\ process\\ playlist|engineering\\ building\\ skills\\ channel|masonry|bulldozer\\ construction\\ site|construction\\ site\\ documentary\\ playlist|construction\\ skills\\ construction\\ training\\ playlist|welding\\ construction\\ channel|before\\ after\\ renovation|civil\\ construction|construction\\ building\\ documentary\\ channel|construction\\ concrete\\ documentary\\ channel|construction\\ process\\ playlist|construction\\ techniques\\ playlist|construction\\ tools\\ construction\\ workers|construction\\ workers\\ construction\\ playlist|construction\\ workers\\ operating\\ foundation|construction\\ workers\\ skills\\ playlist|construction\\ workers\\ using\\ foundation|construction\\ workers\\ working\\ on\\ scaffolding|highway\\ construction\\ footage|highway\\ construction\\ site|home\\ construction|professional\\ engineering\\ construction\\ channel|protective\\ gear\\ welding|real\\ bridge\\ construction\\ work|real\\ building\\ construction\\ work|real\\ excavator\\ construction\\ work|real\\ tunnel\\ construction\\ work|site\\ execution|skyscraper\\ workers\\ building|tunnel\\ workers\\ building|workers\\ doing\\ roofing|workers\\ using\\ tunnel\\ construction)\\s*$"
+
+# ── step3：标题硬噪声（certain-noise + F 专属短语）──
+[[pass2]]
+category = "game_esports"
+pattern = "(?i)(gameplay|let.?s play|walkthrough|speedrun|minecraft|roblox|fortnite)"
+
+[[pass2]]
+category = "simulator_virtual"
+pattern = "(?i)(simulator|sims ?4|city skylines)"
+
+[[pass2]]
+category = "cartoon_anime_kids"
+pattern = "(?i)(cartoon|anime|nursery rhymes?|kids song)"
+
+[[pass2]]
+category = "official_mv_lyrics"
+pattern = "(?i)(official\\s*(music\\s*)?(video|audio)|\\blyrics?\\b|music video)"
+
+[[pass2]]
+category = "film_tv_drama"
+pattern = "(?i)(movie|trailer|teaser|web series|drama|episode \\d+)"
+
+[[pass2]]
+category = "food_lifestyle_bc"
+pattern = "(?i)(\\bmukbang\\b|recipe|street food|makeup|skincare)"
+
+[[pass2]]
+category = "variety_prank_haul"
+pattern = "(?i)(prank|reaction|unboxing|\\bhaul\\b|storytime)"
+
+[[pass2]]
+category = "ball_sports"
+pattern = "(?i)(\\bfootball\\b|cricket|basketball|\\bnba\\b|\\bnfl\\b|soccer|\\bipl\\b)"
+
+[[pass2]]
+category = "astrology_lottery"
+pattern = "(?i)(lottery|astrology|horoscope)"
+
+[[pass2]]
+category = "news_weather"
+pattern = "(?i)(breaking news|headlines|weather forecast)"
+
+[[pass2]]
+category = "music_dj_beat"
+pattern = "(?i)(dj mix|remix|type beat)"
+
+[[pass2]]
+category = "lego_building_blocks"
+pattern = "(?i)(building blocks?|lego|duplo)"
+
+[[pass2]]
+category = "boardgame_citybuild"
+pattern = "(?i)(board ?game|tabletop|deck building|city-building game)"
+
+[[pass2]]
+category = "website_app_builder"
+pattern = "(?i)(website builder|app builder|no-code)"
+
+[[pass2]]
+category = "fitness_muscle"
+pattern = "(?i)(muscle building|bodybuilding)"
+
+[[pass2]]
+category = "model_kit"
+pattern = "(?i)(model kit|scale model|tamiya)"
+
+[[pass2]]
+category = "sales_talk"
+pattern = "(?i)(sales process|sales funnel)"
+
+[[pass2]]
+category = "gold_toy_model_kids"
+pattern = "(?i)(toy|toys|diecast|bruder|model kit|scale model|rc model|planet ?coaster|beamng|blender|toddlers?|kids? songs|nursery)"
+
+[[pass2]]
+category = "gold_podcast_talkshow"
+pattern = "(?i)(podcast|talk show)"
+
+[[pass2]]
+category = "gold_saas_software"
+pattern = "(?i)(autodesk|docusign|\\bbim\\b|software|forma\\b|after effects)"
+
+[[pass2]]
+category = "gold_exam_cert"
+pattern = "(?i)(\\bexam\\b|exam books|\\bpyq\\b|marathon class|精讲班|一级建造师|二级建造师|nppe|certification exam)"
+
+[[pass2]]
+category = "gold_theory_no_site"
+pattern = "(?i)(mechanics of materials|zener|diode|blueprint|drawing basics|enterprise architecture)"
+
+[[pass2]]
+category = "gold_realestate_agent"
+pattern = "(?i)(real estate|realtor|house tour|client review|rental units|for sale)"
+
+[[pass2]]
+category = "gold_stock_footage"
+pattern = "(?i)(stock footage|premium project)"
+
+[[pass2]]
+category = "gold_expo_tradeshow"
+pattern = "(?i)(\\bexpo\\b|trade show|toy fair)"
+
+[[pass2]]
+category = "gold_cost_estimate"
+pattern = "(?i)(cost of (building|construction)|construction cost|house construction cost|estimate of)"
+
+[[pass2]]
+category = "gold_nonconstruction_craft"
+pattern = "(?i)(router table|metal bender|welding table|pizza oven|charcoal grill|brick oven|belt sander|carved table|furniture|boiler|gpu|synology|snow jacket)"
+
+[[pass2]]
+category = "gold_movie_entertainment"
+pattern = "(?i)(housefull|chargers|roster|poker)"
+
+[[pass2]]
+category = "gold_hvac_tools_list"
+pattern = "(?i)(hvac tools|tool bag setup)"
+
+[[pass2]]
+category = "gold_title_survey_design"
+pattern = "(?i)(surveyor|surveying|land\\s+survey|auditorium\\s+drawing)"
+
+[[pass2]]
+category = "gold_title_equipment"
+pattern = "(?i)(construction\\s+excavator|cat\\s+excavator|construction\\s+mega|blade\\s+concrete|concrete\\s+cutting)"
+
+[[pass2]]
+category = "gold_title_safety_train"
+pattern = "(?i)(construction\\s+safety|safety\\s+hazards|hazards\\s+safety|precautions\\s+safety)"
+
+[[pass2]]
+category = "gold_title_clean_maint"
+pattern = "(?i)(clean\\s+grout)"
+
+[[pass2]]
+category = "gold_title_bridge_theory"
+pattern = "(?i)(bridges?\\s+suspension)"
+
+[[pass2]]
+category = "gold_toy_miniature_animation"
+pattern = "(?i)(\\bminiature\\b|tiny workers build|construction animation)"
+
+[[pass2]]
+category = "gold_safety_instruction"
+pattern = "(?i)(scaffolding safety|construction (?:work|site|worker) safety (?:tips?|training|precautions)|safety tips)"
+
+[[pass2]]
+category = "gold_welding_hobby"
+pattern = "(?i)(weld this|welding project|knifemaking|make a workbench)"
+
+[[pass2]]
+category = "gold_equipment_transport"
+pattern = "(?i)(heavy transports?|being loaded and transported by .{0,40}(?:truck|trailer)|excavator loading trucks?)"
+
+[[pass2]]
+category = "gold_product_forum"
+pattern = "(?i)(dealer testimonial|construction equipment forum)"

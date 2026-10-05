@@ -1,6 +1,6 @@
 # exo_agriculture 配方
-# 机采：quality → [stage0 技术深筛] → sample → text_qc → rules（停在文本边界）→ 再 vision_thumb
-# 勿默认串到 deliver；clean 仅 certain-noise 且须规则依据
+# 机采：quality → sample → text_qc → rules（非农黑名单）→ MiniLM(τ) ；视觉暂不上
+# 文本治理 v2：docs/exo_agriculture_text_governance_v2.md
 
 [meta]
 category = "exo_agriculture"
@@ -9,7 +9,7 @@ deliver_format = "csv"
 default_qc = "text"
 needs_ge720 = false
 layer1_stop = "rules"
-notes = "PDF 五.exo 农业种植采摘；教程口播游戏 certain-noise"
+notes = "黑名单=非农；MiniLM+τ=像T；τ越高越像T；视觉暂跳过"
 
 [[flow.machine]]
 id = "quality"
@@ -36,7 +36,7 @@ hint = "qc/text.py $SAMPLE --category exo_agriculture -w 20 -o $BATCH/03_qc/"
 id = "rules"
 kind = "external"
 depends = ["text_qc"]
-hint = "eval_text_boundary.py propose + 收紧 blacklist（certain-noise only）；本阶段停在 04_rules"
+hint = "blacklist v0.6+ 只扩非农；农内噪声交 MiniLM；本阶段停在 rules + score_exo_agriculture_text"
 
 [[flow.machine]]
 id = "clean"

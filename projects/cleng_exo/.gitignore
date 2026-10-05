@@ -11,6 +11,11 @@ cookies.txt
 qc_thumb_cache/
 .rule_hits_cache.json
 
+# 清洗中间产物（scratch，可随时清空；约定见 work/README.md）
+# 注意用 work/* 而非 work/：排除整个目录时 git 无法再逐文件取消忽略
+work/*
+!work/README.md
+
 # 大数据不入 git（批次产物与嵌入）
 raw/
 data/runs/
@@ -22,3 +27,12 @@ data/assets/models/
 models/**/*.pkl
 models/**/*.joblib
 models/**/*.pth
+
+# Local runtime and atomic operation locks
+.venv/
+.pytest_cache/
+.DS_Store
+.acceptance.lock
+.manifest.lock
+.workflow.lock
+.batches.lock

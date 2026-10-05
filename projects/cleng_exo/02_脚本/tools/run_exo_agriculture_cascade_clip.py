@@ -21,6 +21,7 @@ from categories.exo_agriculture.cascade_clip import run_harvest_clip  # noqa: E4
 from tools.apply_exo_agriculture_metadata_filter import apply_filter  # noqa: E402
 
 DEFAULT_MODEL_DIR = _REPO / "models/exo_agriculture_metadata_filter"
+DEFAULT_EMBEDDING_STORE = _REPO / "data/assets/embeddings/exo_agriculture_0814_semantic_remain"
 
 
 def main() -> int:
@@ -37,6 +38,17 @@ def main() -> int:
     ap.add_argument("--stem", default="harvest_clip")
     ap.add_argument("--overwrite", action="store_true")
     ap.add_argument("--save-embeddings", default=None)
+    ap.add_argument(
+        "--embedding-store",
+        type=Path,
+        default=DEFAULT_EMBEDDING_STORE,
+        help="只读 embedding store；命中则跳过 encode_images（默认 machine_0814 store）",
+    )
+    ap.add_argument(
+        "--no-embedding-store",
+        action="store_true",
+        help="禁用 embedding store，全部现场 encode（调试用）",
+    )
     ap.add_argument(
         "--skip-metadata-filter", action="store_true",
         help="跳过 Stage -1（输入已是 metadata_pass）",
@@ -92,6 +104,7 @@ def main() -> int:
         batch_rows=args.batch_rows,
         overwrite=args.overwrite,
         save_embeddings=args.save_embeddings,
+        embedding_store=None if args.no_embedding_store else args.embedding_store,
     )
     pipeline = {
         "created_at": time.strftime("%Y-%m-%d %H:%M:%S"),

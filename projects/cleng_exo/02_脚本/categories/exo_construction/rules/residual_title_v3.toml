@@ -1,0 +1,39 @@
+[meta]
+version = "0.3.1"
+category = "exo_construction"
+scope = "Expanded title exclusions after residual_title_v2"
+
+[[rules]]
+id = "civil_exam_lecture_career"
+label = "土木考证课程及职业话题"
+pattern = '(?i)\b(?:civil engineer(?:ing)?|structural engineer(?:ing)?|construction management|building materials)\b.{0,65}\b(?:exam|lecture|course|class|syllabus|interview|questions?|notes|degree|career|salary|must know|explained|concepts?|theory|preparation|gate|ssc je|rrb je)\b|\b(?:exam|lecture|course|class|syllabus|interview|questions?|notes|degree|career|salary|must know|explained|concepts?|theory|preparation|gate|ssc je|rrb je)\b.{0,65}\b(?:civil engineer(?:ing)?|structural engineer(?:ing)?|construction management|building materials)\b|\b(?:GATE|SSC JE|RRB JE|ESE|UPSC)\b.{0,55}\b(?:civil|steel|concrete|structure|construction|beam|slab|foundation)\b'
+
+[[rules]]
+id = "engineering_software_schedule"
+label = "工程软件建模与排课"
+pattern = '(?i)\b(?:revit|autocad|sketchup|archicad|lumion|3ds max|grasshopper|primavera|abaqus|spcolumn|mathcad|sap2000|staad|etabs|tekla|bim software)\b|\b(?:CAD lecture|CAD tutorial|FEA of|FEM course|finite element analysis|construction schedule in excel|construction schedule without)\b'
+
+[[rules]]
+id = "structural_design_calculation"
+label = "结构设计计算及读图"
+pattern = '(?i)\b(?:how to (?:read|design|calculate)|design of|calculation of|analysis of|estimation of|estimate of)\b.{0,70}\b(?:drawing|plan|beam|column|slab|footing|concrete|steel|rebar|reinforcement|structure|building)\b|\b(?:RCC|RC|steel|concrete|reinforced concrete)\b.{0,45}\b(?:numerical|design problem|design calculation|theory|formula|analysis|estimation)\b|\b(?:beam|column|slab|footing|foundation|stirrups?)\b.{0,45}\b(?:calculation|design problem|numerical|theory of)\b'
+
+[[rules]]
+id = "miniature_toy_construction"
+label = "微缩玩具及手工模型"
+pattern = '(?i)\b(?:popsicle stick|dollhouse|miniature house|mini house|mini (?:road|construction|site|bricks?)|RC (?:excavator|bulldozer|crane|grader)|lego|toy (?:construction|house|building)|cardboard (?:house|wall|building|column)|(?:house|wall|building) (?:out of|from|with) cardboard)\b|\b(?:miniature|micro)\b.{0,35}\b(?:construction|bricks?|house|building)\b|\b(?:construction|bricks?|house|building)\b.{0,35}\b(?:miniature|micro model)\b'
+
+[[rules]]
+id = "game_cartoon_residual"
+label = "残留游戏及动画剧集"
+pattern = '(?i)\b(?:gameplay|playthrough|speedbuild|speed build|toca boca|FS25|roleplay|simulation game|construction simulation|game development|game engine|the loud house|PUBG|S\.C\.P roleplay)\b|\b(?:minecraft|roblox|bloxburg|sims|medieval castle)\b.{0,55}\b(?:build|construction|house)\b'
+
+[[rules]]
+id = "industry_talk_recruitment"
+label = "行业访谈新闻招聘"
+pattern = '(?i)\b(?:construction|building|roofing|masonry|concrete|steel fixer|scaffold(?:ing|er)?)\b.{0,65}\b(?:news|podcast|interview|recruitment|vacancy|salary|jobs? available|website review)\b|\b(?:news|podcast|interview|recruitment|vacancy|salary|jobs? available|website review)\b.{0,65}\b(?:construction|building|roofing|masonry|concrete|steel fixer|scaffold(?:ing|er)?)\b|\b(?:job talks|construction talks|construction news tracker|worker requirement)\b'
+
+[[rules]]
+id = "structural_animation"
+label = "结构动画演示"
+pattern = '(?i)\b(?:3d animation|animation in hindi|construction animation|beam animation|concrete animation|animated explainer)\b'

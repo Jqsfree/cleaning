@@ -1,0 +1,9 @@
+[meta]
+version = "0.1.0"
+category = "exo_construction"
+scope = "User requested dome title exclusion"
+
+[[rules]]
+id = "dome_title"
+label = "标题含独立词 dome"
+pattern = '(?i)\bdome\b'

@@ -1,0 +1,13 @@
+{
+  "n_channels": 450,
+  "n_f_gold": 551,
+  "n_multi": 66,
+  "n_singleton": 384,
+  "t_hurt": 0,
+  "sources": [
+    "v01",
+    "v05",
+    "v06"
+  ],
+  "policy": "channel with n_t==0 and n_f>=1 across combined human gold"
+}

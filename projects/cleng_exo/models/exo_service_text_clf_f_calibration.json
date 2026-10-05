@@ -1,8 +1,7 @@
 {
   "created_at": "2026-08-14 16:58:50",
   "feature_fields": [
-    "title",
-    "description"
+    "title"
   ],
   "n_train": 537,
   "n_f": 487,
@@ -44,6 +43,7 @@
   "notes": [
     "否决器：F=DROP，U/T=KEEP_FOR_VISUAL；T 不当交付",
     "特征只有 title+description，不含 keyword",
-    "只使用新否决题标签；旧 QC F 不进训练"
+    "只使用新否决题标签；旧 QC F 不进训练",
+    "2026-09-21: 特征改为仅 title；须重训权重后分数才与标定一致"
   ]
 }

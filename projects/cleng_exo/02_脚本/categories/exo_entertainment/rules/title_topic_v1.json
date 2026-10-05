@@ -1,0 +1,50 @@
+{
+  "category": "exo_entertainment",
+  "version": "1.0-candidate",
+  "definition": "真人现场/街头/才艺表演与舞蹈排练实拍（边界以本品类 metadata 人标为准；本文件为人标前规则候选）",
+  "related_patterns": [
+    {
+      "id": "topic_anchor_live_stage",
+      "pattern": "(?i)\\b(busking|street\\s*performance|street\\s*show|street\\s*cover|park\\s*performance|public\\s*space\\s*performance|talent\\s*show|school\\s*talent|plaza\\s*showcase|community\\s*(?:park|center)|live\\s*concert|live\\s*performance|college\\s*band\\s*live|raw\\s*footage\\s*talent|grassroots\\s*music\\s*event)\\b"
+    },
+    {
+      "id": "topic_anchor_dance_rehearsal",
+      "pattern": "(?i)\\b(dance\\s*practice|dance\\s*progress|warehouse\\s*dance|university\\s*dance\\s*studio|school\\s*rehearsal|\\brehearsal\\b|choreograph(?:y|er)?|dance\\s*cover|hip\\s*-?hop\\s*(?:class|battle|workshop)|locking\\s*battle|breaking\\s*battle|waacking|popping\\s*workshop|ballroom\\s*dance|drum\\s*line|marching\\s*band|flash\\s*mob|freestyle\\s*session)\\b"
+    },
+    {
+      "id": "topic_anchor_circus_variety",
+      "pattern": "(?i)\\b(circus|acrobat|clown\\s*street|balloon\\s*sculptor|fire\\s*eater|juggling|human\\s*fly|improv\\s*skit|mime\\s*show|magic\\s*(?:castle|show|trick)|hula\\s*hoop(?:ing)?)\\b"
+    }
+  ],
+  "unrelated_patterns": [
+    {
+      "id": "game",
+      "pattern": "(?i)\\b(gameplay|minecraft|roblox|fortnite|genshin|lets?\\s*play|valorant|\\bgta\\b)\\b"
+    },
+    {
+      "id": "music_release",
+      "pattern": "(?i)\\b(official\\s*(?:music\\s*)?video|official\\s*audio|lyrics?\\s*video|with\\s*lyrics|\\(lyrics\\)|full\\s*album|\\bvevo\\b|\\bvisualizer\\b|type\\s*beat|\\blo-?fi\\b|\\bnightcore\\b)\\b"
+    },
+    {
+      "id": "news_geo",
+      "pattern": "(?i)\\b(breaking\\s*news|current\\s*affairs|bbc\\s*news|fox\\s*news|sky\\s*news|\\bgaza\\b|\\bukraine\\b)\\b|新聞"
+    },
+    {
+      "id": "cartoon_kids",
+      "pattern": "(?i)\\b(anime|cartoon|cocomelon|nursery\\s*rhymes?|kids\\s*zone|peppa\\s*pig|pinkfong|playmobil|\\blego\\b)\\b"
+    },
+    {
+      "id": "drama_film",
+      "pattern": "(?i)\\b(short\\s*drama|movie\\s*reaction|movie\\s*clip|film\\s*reaction|full\\s*episode|ending\\s*explained|fan\\s*theory|(?:movie|film)\\s*review)\\b|短剧"
+    },
+    {
+      "id": "lifestyle_fit",
+      "pattern": "(?i)\\b(makeup\\s*tutorial|\\bgrwm\\b|skincare|gym\\s*trap|workout\\s*mix|\\bhiit\\b|bodybuilding|\\bmukbang\\b|\\brecipe\\b|\\basmr\\b|\\bpodcast\\b|talk\\s*show|what\\s*i\\s*eat)\\b"
+    },
+    {
+      "id": "sports_edu_realty",
+      "pattern": "(?i)\\b(full\\s*match|\\bnba\\b|\\bnfl\\b|\\bmlb\\b|\\bufc\\b|piano\\s*lesson|guitar\\s*lesson|reading\\s*practice|\\bquran\\b|tajweed|davinci\\s*resolve|house\\s*for\\s*sale|gated\\s*community|elevator\\s*tour|days\\s*of\\s*prayer|study\\s*with\\s*me|\\bupsc\\b)\\b"
+    }
+  ],
+  "note": "Bootstrap candidate from qc.toml t/f cues; no entertainment human gold yet. Rules-only run → mostly review. LLM-QC cross-eval is proxy only, not acceptance."
+}

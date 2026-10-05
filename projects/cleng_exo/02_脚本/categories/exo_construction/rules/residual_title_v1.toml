@@ -1,0 +1,19 @@
+[meta]
+version = "0.1.0"
+category = "exo_construction"
+scope = "Residual titles after 0929 machine/safety pass"
+
+[[rules]]
+id = "residual_video_games"
+label = "游戏建造画面"
+pattern = '(?i)\b(7 days to die|7dtd|valheim|terraria|astroneer|planet zoo|prison architect|house flipper|enshrouded|project zomboid|satisfactory|ark survival|medieval dynasty|farming simulator|construction simulator|cities skylines|city skylines|transport fever|the forest game)\b|七日杀|英灵神殿|泰拉瑞亚|城市天际线'
+
+[[rules]]
+id = "pond_aquaculture_landscaping"
+label = "池塘水族及景观建造"
+pattern = '(?i)\b(pond|prawns?|aquaculture|fish tank|aquarium|koi fish|waterfall build|water garden)\b|鱼塘|池塘|锦鲤池|虾塘|水族箱|造景瀑布'
+
+[[rules]]
+id = "structural_theory_course"
+label = "结构力学及设计理论课程"
+pattern = '(?i)\b(moment[ -]rotation|plastic hinge|finite element|stress[ -]strain|moment[ -]curvature|seismic design|seismic response|torsional stiffness|structural mechanics|flexural strength test|load[ -]displacement|beam[ -]column joint|design of (?:a |the )?(?:coupling beams?|reinforced concrete beams?|shear walls?)|simplified .{0,45} relationship|ACI 318|ASCE 7)\b|塑性铰|弯矩转角|有限元分析|应力应变|抗震设计|结构力学课程'
